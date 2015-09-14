@@ -144,7 +144,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="District.cpp" />
+    <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileGround.cpp" />
+    <ClCompile Include="TileMountain.cpp" />
+    <ClCompile Include="TileWater.cpp" />
+    <ClCompile Include="Unit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="District.h" />
+    <ClInclude Include="GameSession.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileGround.h" />
+    <ClInclude Include="TileMountain.h" />
+    <ClInclude Include="TileWater.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
