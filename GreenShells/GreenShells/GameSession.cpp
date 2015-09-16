@@ -1,9 +1,8 @@
 #include "GameSession.h"
-#include "Tile.h"
-#include "Player.h"
+#include "WorldState.h"
 
 GameSession::GameSession()
-:m_tiles(), m_players()
+	:m_worldState()
 {
 }
 

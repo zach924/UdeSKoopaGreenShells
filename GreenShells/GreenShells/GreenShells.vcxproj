@@ -153,6 +153,7 @@
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="District.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="TileMountain.h" />
     <ClInclude Include="TileWater.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

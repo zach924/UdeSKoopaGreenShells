@@ -1,13 +1,10 @@
 #pragma once
-#include <vector>
 
-class Tile;
-class Player;
+class WorldState;
 
 class GameSession
 {
-	std::vector<Player> m_players;
-	std::vector<Tile> m_tiles;
+	WorldState* m_worldState;
 public:
 	GameSession();
 	~GameSession();
