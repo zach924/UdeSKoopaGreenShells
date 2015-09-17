@@ -14,7 +14,22 @@
 #include <iostream>
 #include <iterator>
 #include <algorithm>
-#include "GameSession.h"
+//#include "GameSession.h"
+//
+//int main()
+//{
+//	using namespace boost::lambda;
+//	typedef std::istream_iterator<int> in;
+//
+//	std::for_each(
+//		in(std::cin), in(), std::cout << (_1 * 3) << " ");
+//
+//
+//	GameSession* session = new GameSession;
+//}
+
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
 
 int main()
 {
@@ -23,7 +38,4 @@ int main()
 
 	std::for_each(
 		in(std::cin), in(), std::cout << (_1 * 3) << " ");
-
-
-	GameSession* session = new GameSession;
 }
