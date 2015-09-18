@@ -61,7 +61,6 @@
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
     <ClCompile Include="WorldState.cpp">
-    <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,7 +90,6 @@
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
     <ClInclude Include="WorldState.h">
-    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
