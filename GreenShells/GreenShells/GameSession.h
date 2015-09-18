@@ -12,6 +12,9 @@ class GameSession
 	int m_port;
 
 	GameSession();
+
+	GameSession(GameSession const&) = delete;
+	void operator = (GameSession const&) = delete;
 public:
 	static GameSession &GetGameSession()
 	{

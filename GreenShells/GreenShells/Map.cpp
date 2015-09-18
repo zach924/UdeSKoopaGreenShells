@@ -6,10 +6,16 @@
 
 #include <fstream>
 #include <algorithm>
+#include <vector>
 
 
 Map::Map()
+:m_tiles()
 {
+	for (int i = 0; i < ROWS; i++)
+	{
+		m_tiles.push_back(std::vector<Tile>(COLUMNS));
+	}
 }
 
 
@@ -33,16 +39,16 @@ void Map::GenerateTiles()
 			switch (tileType)
 			{
 			case '0':
-				m_tiles[i][j] = new TileGround();
+				m_tiles[i][j] = TileGround();
 				break;
 
 			case '1':
-				m_tiles[i][j] = new TileMountain();
+				m_tiles[i][j] = TileMountain();
 				break;
 
 			case '2':
 			default:
-				m_tiles[i][j] = new TileWater();
+				m_tiles[i][j] = TileWater();
 				break;
 			}
 		}
