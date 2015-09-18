@@ -1,28 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="District.cpp" />
-    <ClCompile Include="GameSession.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TileGround.cpp" />
-    <ClCompile Include="TileMountain.cpp" />
-    <ClCompile Include="TileWater.cpp" />
-    <ClCompile Include="Unit.cpp" />
-    <ClCompile Include="WorldState.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\District">
+      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tile">
+      <UniqueIdentifier>{3f1a1da7-aaa2-4b1f-8e22-4c4912d8a718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Unit">
+      <UniqueIdentifier>{cfbf9169-955d-4b99-b675-bd97e35aeb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Unit">
+      <UniqueIdentifier>{8ca24469-3c12-4a6a-a945-a88cd250db20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tile">
+      <UniqueIdentifier>{46ece499-ff4a-442a-8250-09b57396b4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\District">
+      <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="District.h" />
-    <ClInclude Include="GameSession.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="TileGround.h" />
-    <ClInclude Include="TileMountain.h" />
-    <ClInclude Include="TileWater.h" />
-    <ClInclude Include="Unit.h" />
-    <ClInclude Include="WorldState.h" />
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="District.cpp">
+      <Filter>Source Files\District</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileGround.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMountain.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileWater.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="District.h">
+      <Filter>Header Files\District</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileGround.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMountain.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileWater.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
