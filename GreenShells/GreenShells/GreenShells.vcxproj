@@ -68,7 +68,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -95,14 +102,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\External\SDL2-2.0.3\include;$(SolutionDir)\..\External\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\Win32\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>
-      </SubSystem>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y $(SolutionDir)CopyToOutput\*.* $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -136,14 +146,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\External\SDL2-2.0.3\include;$(SolutionDir)\..\External\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\Win32\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y $(SolutionDir)CopyToOutput\*.* $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="District.cpp" />
