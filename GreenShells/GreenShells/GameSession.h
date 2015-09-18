@@ -4,9 +4,10 @@ class WorldState;
 class GameSession
 {
 	WorldState* m_worldState;
-public:
-	GameSession();
 
+	bool m_isServer;
+
+	GameSession();
 public:
 	static GameSession &GetGameSession()
 	{
@@ -14,6 +15,8 @@ public:
 		return m_gameSession;
 	}
 	~GameSession();
-private:
+
+	void SetIsServer(bool isServer);
+	bool IsServer();
 };
 

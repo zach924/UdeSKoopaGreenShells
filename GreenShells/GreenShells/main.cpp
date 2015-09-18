@@ -1,41 +1,47 @@
-//#include <iostream>
-//#include <SDL.h>
-//
-//int main(int, char**) {
-//	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-//		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-//		return 1;
-//	}
-//	SDL_Quit();
-//	return 0;
-//}
-
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
 #include <iterator>
 #include <algorithm>
-//#include "GameSession.h"
-//
-//int main()
-//{
-//	using namespace boost::lambda;
-//	typedef std::istream_iterator<int> in;
-//
-//	std::for_each(
-//		in(std::cin), in(), std::cout << (_1 * 3) << " ");
-//
-//
-//	GameSession* session = new GameSession;
-//}
-
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 
-int main()
-{
-	using namespace boost::lambda;
-	typedef std::istream_iterator<int> in;
+#include "GameSession.h"
 
-	std::for_each(
-		in(std::cin), in(), std::cout << (_1 * 3) << " ");
+int main(int argc, char* argv[])
+{
+	if (argc == 1)
+	{
+		// We need to ask user to enter manually the data
+	}
+	else
+	{
+		// User is supposed to have written the values in the command line
+
+		//------- Client or Server -------  
+		if (strcmp(argv[1],"Server"))
+		{
+			// We are Server
+			SetUpServer(argc,argv);
+		} else if(strcmp(argv[1], "Client"))
+		{ 
+			// Wer are Client
+			SetUpClient(argc, argv);
+			
+		} else
+		{
+			std::cout << "Need to know if we are a \"Client\" or a \"Server\" in command line" << std::endl;
+			return 0;
+		}
+	}
+	return 0;
+}
+
+void SetUpServer(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(true);
+}
+
+void SetUpClient(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(false);
 }
