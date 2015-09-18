@@ -1,3 +1,4 @@
+#include "Position.h"
 #pragma once
 
 class Tile;
@@ -14,5 +15,9 @@ public:
 	~Map();
 
 	void GenerateTiles();
+
+	void GetArea(Position position, int distance);
+
+	Tile GetTile(Position);
 };
 

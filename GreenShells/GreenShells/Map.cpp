@@ -47,3 +47,13 @@ void Map::GenerateTiles()
 		}
 	}
 }
+
+void Map::GetArea(Position position, int distance)
+{
+
+}
+
+/*Tile Map::GetTile(Position position)
+{
+	return 
+}*/
