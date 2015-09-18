@@ -1,45 +1,27 @@
-#include "GameSession.h"
-#include "WorldState.h"
+#include "Map.h"
+#include "TileGround.h"
+#include "TileMountain.h"
+#include "TileWater.h"
 
-GameSession::GameSession()
-	:m_worldState()
+#include <fstream>
+#include <algorithm>
+
+
+Map::Map()
 {
 }
 
 
-GameSession::~GameSession()
+Map::~Map()
 {
-	
 }
 
-void GameSession::PrepareGameSession()
-{
-	GenerateTiles();
-	AddPlayer();
-}
-
-void GameSession::Run()
-{
-
-}
-
-void GameSession::AddPlayer(Player * player)
-{
-	if (!player)
-	{
-		player = new Player();
-	}
-	m_players.push_back(player);
-
-	// TODO: Notify all clients that a new player has arrived
-}
-
-void GameSession::GenerateTiles()
+void Map::GenerateTiles()
 {
 	std::ifstream ifs{ "Ressources\\maps\\FirstMap.txt" };
-	
+
 	std::string map((std::istreambuf_iterator<char>(ifs)),
-		             std::istreambuf_iterator<char>());
+		std::istreambuf_iterator<char>());
 
 	map.erase(std::remove(map.begin(), map.end(), '\n'), map.end());
 	for (int i = 0; i < ROWS; ++i)
@@ -64,4 +46,3 @@ void GameSession::GenerateTiles()
 			}
 		}
 	}
-}
