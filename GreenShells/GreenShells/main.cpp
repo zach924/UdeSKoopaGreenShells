@@ -1,11 +1,13 @@
 #include <iostream>
 #include <SDL.h>
 
+#include "GameWindow.h"
+
 int main(int, char**) {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		return 1;
-	}
-	SDL_Quit();
-	return 0;
+    
+    GameWindow::GetInstance().Init();
+    GameWindow::GetInstance().Show(800, 600);
+    GameWindow::GetInstance().Close();
+
+    return 0;
 }
