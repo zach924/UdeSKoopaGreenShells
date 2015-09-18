@@ -5,8 +5,9 @@
 WorldState::WorldState()
 	:m_tiles(), m_players()
 {
+	Player player;
+	m_players.emplace_back(player);
 }
-
 
 WorldState::~WorldState()
 {

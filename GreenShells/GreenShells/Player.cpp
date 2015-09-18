@@ -1,6 +1,5 @@
 #include "Player.h"
-#include "Unit.h"
-#include "District.h"
+
 
 Player::Player()
 :m_isReadyForNewTurn(true),

@@ -1,5 +1,6 @@
+#include "Actor.h"
 #pragma once
-class District
+class District : public Actor
 {
 public:
 	District();

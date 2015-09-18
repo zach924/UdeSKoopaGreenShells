@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
-
-class Unit;
-class District;
+#include "Unit.h"
+#include "District.h"
 
 class Player
 {

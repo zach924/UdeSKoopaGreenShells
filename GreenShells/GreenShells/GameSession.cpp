@@ -6,6 +6,7 @@
 GameSession::GameSession()
 	:m_worldState()
 {
+	Player* player = new Player();
 }
 
 
