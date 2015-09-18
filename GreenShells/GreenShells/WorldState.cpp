@@ -1,13 +1,10 @@
 #include "WorldState.h"
 #include "Player.h"
-#include "Map.h"
-
-
 
 WorldState::WorldState()
 :m_map(), m_players()
 {
-	m_map->GenerateTiles();
+	m_map.GenerateTiles();
 }
 
 

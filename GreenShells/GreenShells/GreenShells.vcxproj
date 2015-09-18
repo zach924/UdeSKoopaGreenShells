@@ -100,6 +100,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\Win32\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>
+      </SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

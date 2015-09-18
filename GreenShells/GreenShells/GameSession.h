@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 class WorldState;
 
 class GameSession
@@ -6,6 +8,8 @@ class GameSession
 	WorldState* m_worldState;
 
 	bool m_isServer;
+	std::string m_serverIP;
+	int m_port;
 
 	GameSession();
 public:
@@ -18,5 +22,11 @@ public:
 
 	void SetIsServer(bool isServer);
 	bool IsServer();
+
+	void SetServerIP(std::string ip);
+	std::string GetServerIP();
+
+	void SetPort(int port);
+	int getPort();
 };
 

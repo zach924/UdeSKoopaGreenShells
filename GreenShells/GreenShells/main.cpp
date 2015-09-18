@@ -7,6 +7,61 @@
 
 #include "GameSession.h"
 
+int CLIENT_SERVER_ARG = 1;
+int PORT_ARG = 2;
+int SERVER_IP_ARG = 3;
+
+// These needs to be before main
+bool SetUpServer(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(true);
+	if (argc == 3)
+	{
+		int port = atoi(argv[PORT_ARG]);
+		if (port != 0)
+		{
+			GameSession::GetGameSession().SetPort(port);
+		}
+		else
+		{
+			std::cout << "Server requires a port number" << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		std::cout << "server requires a port number" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool SetUpClient(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(false);
+	if (argc == 4)
+	{
+		GameSession::GetGameSession().SetServerIP(argv[SERVER_IP_ARG]);
+		int port = atoi(argv[PORT_ARG]);
+		if (port != 0)
+		{
+			GameSession::GetGameSession().SetPort(port);
+		}
+		else
+		{
+			std::cout << "Client requires a port number" << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		std::cout << "client requires a server ip AND port number" << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	if (argc == 1)
@@ -16,16 +71,27 @@ int main(int argc, char* argv[])
 	else
 	{
 		// User is supposed to have written the values in the command line
+		std::cout << "Starting game with arguments : " << std::endl;
+		for (int i = 1; i < argc; ++i)
+		{
+			std::cout << argv[i] << std::endl;
+		}
 
 		//------- Client or Server -------  
-		if (strcmp(argv[1],"Server"))
+		char* gameType = argv[CLIENT_SERVER_ARG];
+
+		if (strcmp(gameType,"Server") == 0)
 		{
-			// We are Server
-			SetUpServer(argc,argv);
-		} else if(strcmp(argv[1], "Client"))
+			if (!SetUpServer(argc, argv))
+			{
+				return 0;
+			}
+		} else if(strcmp(gameType, "Client") == 0)
 		{ 
-			// Wer are Client
-			SetUpClient(argc, argv);
+			if (!SetUpClient(argc, argv))
+			{
+				return 0;
+			}
 			
 		} else
 		{
@@ -36,12 +102,3 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void SetUpServer(int argc, char* argv[])
-{
-	GameSession::GetGameSession().SetIsServer(true);
-}
-
-void SetUpClient(int argc, char* argv[])
-{
-	GameSession::GetGameSession().SetIsServer(false);
-}
