@@ -1,16 +1,18 @@
 #pragma once
-
 #include <vector>
 
-class Tile;
+class Map;
 class Player;
 
 class WorldState
 {
 	std::vector<Player> m_players;
-	std::vector<Tile> m_tiles;
+	
+	Map* m_map;
 public:
 	WorldState();
 	~WorldState();
+
+	void AddPlayer(const Player& player);
 };
 
