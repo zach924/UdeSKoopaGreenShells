@@ -12,7 +12,7 @@ GameWindow::~GameWindow()
 
 }
 
-int GameWindow::Init()
+void GameWindow::Init()
 {
     m_window = NULL;
 
@@ -22,10 +22,9 @@ int GameWindow::Init()
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
     }
 
-    return 0;
 }
 
-int GameWindow::Show(int width, int height)
+void GameWindow::Show(int width, int height)
 {
     bool quit = false;
     //Event handler
@@ -65,7 +64,6 @@ int GameWindow::Show(int width, int height)
         }
     }
 
-    return 0;
 }
 
 void GameWindow::Close()
