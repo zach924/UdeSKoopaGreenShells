@@ -165,6 +165,7 @@
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RPCBase.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileGround.cpp" />
     <ClCompile Include="TileMountain.cpp" />
@@ -176,6 +177,8 @@
     <ClInclude Include="District.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RPCBase.h" />
+    <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileGround.h" />
     <ClInclude Include="TileMountain.h" />

@@ -31,6 +31,12 @@
     <Filter Include="Header Files\District">
       <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{fc5c62e0-a9c5-4372-a035-c9574318444f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Networking">
+      <UniqueIdentifier>{27212317-846d-434f-82c6-250bfef41b6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +69,9 @@
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RPCBase.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -91,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCBase.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCStructs.h">
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
