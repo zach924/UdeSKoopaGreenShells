@@ -1,7 +1,7 @@
 #pragma once
-
-<<<<<<< Updated upstream
 class WorldState;
+class Map;
+class Player;
 
 class GameSession
 {
@@ -9,11 +9,8 @@ class GameSession
 public:
 	GameSession();
 
+	//std::vector<Player*> m_players;
 
-
-	std::vector<Player*> m_players;
-	Map m_map;
-	
 public:
 	static GameSession &GetGameSession()
 	{
@@ -28,8 +25,10 @@ public:
 
 	void AddPlayer(Player * player = nullptr);
 
+	//void AddPlayer(Player * player = nullptr);
+
 private:
-	void GenerateTiles();
+	//void GenerateTiles();
 
 };
 

@@ -46,3 +46,4 @@ void Map::GenerateTiles()
 			}
 		}
 	}
+}
