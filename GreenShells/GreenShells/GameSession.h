@@ -1,16 +1,20 @@
 #pragma once
+#include <string>
+
 class WorldState;
-class Map;
-class Player;
 
 class GameSession
 {
 	WorldState* m_worldState;
-public:
+
+	bool m_isServer;
+	std::string m_serverIP;
+	int m_port;
+
 	GameSession();
 
-	//std::vector<Player*> m_players;
-
+	GameSession(GameSession const&) = delete;
+	void operator = (GameSession const&) = delete;
 public:
 	static GameSession &GetGameSession()
 	{
@@ -19,16 +23,13 @@ public:
 	}
 	~GameSession();
 
-	void PrepareGameSession();
+	void SetIsServer(bool isServer);
+	bool IsServer();
 
-	void Run();
+	void SetServerIP(std::string ip);
+	std::string GetServerIP();
 
-	void AddPlayer(Player * player = nullptr);
-
-	//void AddPlayer(Player * player = nullptr);
-
-private:
-	//void GenerateTiles();
-
+	void SetPort(int port);
+	int getPort();
 };
 

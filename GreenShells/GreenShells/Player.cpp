@@ -1,9 +1,8 @@
 #include "Player.h"
 
-
 Player::Player()
 :m_isReadyForNewTurn(true),
-//m_isAlive(true),
+m_isAlive(true),
 m_units(), m_districts()
 {
 }

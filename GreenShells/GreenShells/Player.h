@@ -10,7 +10,7 @@ class Player
 	std::vector<Unit> m_units;
 	std::vector<District> m_districts;
 
-	//bool m_isAlive;
+	bool m_isAlive;
 
 public:
 	Player();

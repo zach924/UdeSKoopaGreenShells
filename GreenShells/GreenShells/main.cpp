@@ -1,11 +1,103 @@
+#include <boost/lambda/lambda.hpp>
 #include <iostream>
-#include <SDL.h>
+#include <iterator>
+#include <algorithm>
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
 
-int main(int, char**) {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		return 1;
+#include "GameSession.h"
+
+int CLIENT_SERVER_ARG = 1;
+int PORT_ARG = 2;
+int SERVER_IP_ARG = 3;
+
+// These needs to be before main
+bool SetUpServer(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(true);
+	if (argc == 3)
+	{
+		int port = atoi(argv[PORT_ARG]);
+		if (port != 0)
+		{
+			GameSession::GetGameSession().SetPort(port);
+		}
+		else
+		{
+			std::cout << "Server requires a port number" << std::endl;
+			return false;
+		}
 	}
-	SDL_Quit();
+	else
+	{
+		std::cout << "server requires a port number" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool SetUpClient(int argc, char* argv[])
+{
+	GameSession::GetGameSession().SetIsServer(false);
+	if (argc == 4)
+	{
+		GameSession::GetGameSession().SetServerIP(argv[SERVER_IP_ARG]);
+		int port = atoi(argv[PORT_ARG]);
+		if (port != 0)
+		{
+			GameSession::GetGameSession().SetPort(port);
+		}
+		else
+		{
+			std::cout << "Client requires a port number" << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		std::cout << "client requires a server ip AND port number" << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
+int main(int argc, char* argv[])
+{
+	if (argc == 1)
+	{
+		// We need to ask user to enter manually the data
+	}
+	else
+	{
+		// User is supposed to have written the values in the command line
+		std::cout << "Starting game with arguments : " << std::endl;
+		for (int i = 1; i < argc; ++i)
+		{
+			std::cout << argv[i] << std::endl;
+		}
+
+		//------- Client or Server -------  
+		char* gameType = argv[CLIENT_SERVER_ARG];
+
+		if (strcmp(gameType,"Server") == 0)
+		{
+			if (!SetUpServer(argc, argv))
+			{
+				return 0;
+			}
+		} else if(strcmp(gameType, "Client") == 0)
+		{ 
+			if (!SetUpClient(argc, argv))
+			{
+				return 0;
+			}
+			
+		} else
+		{
+			std::cout << "Need to know if we are a \"Client\" or a \"Server\" in command line" << std::endl;
+			return 0;
+		}
+	}
 	return 0;
 }
