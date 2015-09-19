@@ -1,3 +1,4 @@
+#include "Position.h"
 #pragma once
 
 class District;
@@ -11,6 +12,8 @@ class Tile
 	Player* m_owner;
 
 public:
+	Position m_position;
+	Tile(Position position);
 	Tile();
 	~Tile();
 };

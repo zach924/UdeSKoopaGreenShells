@@ -3,7 +3,7 @@
 #pragma once
 class Actor
 {
-	Position m_Position;
+	Position m_position;
 public:
 	Actor();
 	~Actor();

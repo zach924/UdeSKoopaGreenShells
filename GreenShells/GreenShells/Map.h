@@ -16,7 +16,7 @@ public:
 
 	void GenerateTiles();
 
-	void GetArea(Position position, int distance);
+	std::vector<Tile> GetArea(Position position, int distance);
 
 	Tile GetTile(Position);
 };

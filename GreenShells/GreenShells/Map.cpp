@@ -39,28 +39,43 @@ void Map::GenerateTiles()
 			switch (tileType)
 			{
 			case '0':
-				m_tiles[i][j] = TileGround();
+				m_tiles[i][j] = TileGround(Position(i, j));
 				break;
 
 			case '1':
-				m_tiles[i][j] = TileMountain();
+				m_tiles[i][j] = TileMountain(Position(i, j));
 				break;
 
 			case '2':
 			default:
-				m_tiles[i][j] = TileWater();
+				m_tiles[i][j] = TileWater(Position(i, j));
 				break;
 			}
 		}
 	}
 }
 
-void Map::GetArea(Position position, int distance)
+std::vector<Tile> Map::GetArea(Position position, int distance)
 {
+	std::vector<Tile> area;
 
+	//find miminum and maximum
+	int minCol = std::max(position.X - distance, 0);
+	int minRow = std::max(position.Y - distance, 0);
+	int maxCol = std::min(position.X + distance, COLUMNS-1);
+	int maxRow = std::min(position.Y + distance, ROWS-1);
+
+	for (int i = minCol; i <= maxCol; ++i)
+	{
+		for (int j = minRow; j <= maxRow; ++j)
+		{
+			area.push_back(GetTile(Position(i, j)));
+		}
+	}
+	return area;
 }
 
-/*Tile Map::GetTile(Position position)
+Tile Map::GetTile(Position position)
 {
-	return 
-}*/
+	return m_tiles[position.X][position.Y];
+}
