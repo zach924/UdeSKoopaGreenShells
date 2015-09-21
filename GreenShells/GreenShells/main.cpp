@@ -1,16 +1,11 @@
-#include <boost/lambda/lambda.hpp>
 #include <iostream>
-#include <iterator>
-#include <algorithm>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
 
 #include "GameSession.h"
 #include "GameWindow.h"
 
-int CLIENT_SERVER_ARG = 1;
-int PORT_ARG = 2;
-int SERVER_IP_ARG = 3;
+const int CLIENT_SERVER_ARG = 1;
+const int PORT_ARG = 2;
+const int SERVER_IP_ARG = 3;
 
 // These needs to be before main
 bool SetUpServer(int argc, char* argv[])
@@ -106,5 +101,6 @@ int main(int argc, char* argv[])
 	GameWindow::GetInstance().Init();
 	GameWindow::GetInstance().Show(800, 600);
 	GameWindow::GetInstance().Close();
+
 	return 0;
 }
