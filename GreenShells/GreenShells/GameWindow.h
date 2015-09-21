@@ -7,11 +7,15 @@ class GameWindow
 private:
   
     SDL_Window* m_window;
+    SDL_Surface* m_screenSurface;
 
     GameWindow();
     ~GameWindow();
     GameWindow(GameWindow const&) = delete;
     void operator=(GameWindow const&) = delete;
+
+    void Display();
+    void DrawSprite();  // temp, for test
 
 public:
     static GameWindow& GetInstance()
