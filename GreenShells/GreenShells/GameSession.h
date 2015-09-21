@@ -2,8 +2,6 @@
 #include "WorldState.h"
 #include <string>
 
-class WorldState;
-
 class GameSession
 {
 	WorldState m_worldState;

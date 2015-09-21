@@ -1,12 +1,10 @@
 #include "GameSession.h"
-#include "WorldState.h"
 #include "Player.h"
 
 GameSession::GameSession()
 :m_worldState(),
 m_serverIP()
 {
-	Player* player = new Player();
 }
 
 

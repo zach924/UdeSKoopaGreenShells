@@ -1,5 +1,5 @@
-#include "Position.h"
 #pragma once
+#include "Position.h"
 #include <vector>
 #include "Tile.h"
 

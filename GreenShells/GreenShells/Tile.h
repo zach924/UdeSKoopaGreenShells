@@ -1,5 +1,5 @@
-#include "Position.h"
 #pragma once
+#include "Position.h"
 
 class District;
 class Unit;
