@@ -34,6 +34,8 @@ bool SetUpServer(int argc, char* argv[])
 		std::cout << "server requires a port number" << std::endl;
 		return false;
 	}
+
+	GameSession::GetGameSession().PrepareGame();
 	return true;
 }
 

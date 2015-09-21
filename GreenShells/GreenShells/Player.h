@@ -8,16 +8,22 @@ class District;
 
 class Player
 {
+	static int playerIDCounter;
+
+	int m_playerID;
 	bool m_isReadyForNewTurn;
+
+	bool m_isAlive;
 
 	std::vector<Unit> m_units;
 	std::vector<District> m_districts;
 
-	bool m_isAlive;
 
 public:
 	Player();
 	~Player();
+
+	int GetPlayerID();
 
 	void NotifyNewTurn();
 
