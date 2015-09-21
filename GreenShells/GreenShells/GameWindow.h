@@ -1,21 +1,21 @@
 #pragma once
-
 #include <SDL.h>
 
 class GameWindow
 {
 private:
-  
     SDL_Window* m_window;
     SDL_Surface* m_screenSurface;
+	SDL_Renderer* m_renderer;
+
+	int m_height;
+	int m_width;
 
     GameWindow();
     ~GameWindow();
+
     GameWindow(GameWindow const&) = delete;
     void operator=(GameWindow const&) = delete;
-
-    void Display();
-    void DrawSprite();  // temp, for test
 
 public:
     static GameWindow& GetInstance()
@@ -24,8 +24,8 @@ public:
         return m_instance;
     }
 
-    void Init();
-    void Show(int width, int height);
+    void Init(int width = 600, int heigth = 800);
+    void Show();
     void Close();
 
 };

@@ -13,23 +13,41 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\District">
-      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{04a8e34d-2a22-49b1-9307-9854dfa7e7a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tile">
-      <UniqueIdentifier>{3f1a1da7-aaa2-4b1f-8e22-4c4912d8a718}</UniqueIdentifier>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{feacc0f0-9528-4e02-aa38-6535af31e00c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Unit">
-      <UniqueIdentifier>{cfbf9169-955d-4b99-b675-bd97e35aeb9a}</UniqueIdentifier>
+    <Filter Include="Header Files\Actor">
+      <UniqueIdentifier>{346f38a9-4752-499a-8d41-d25401fa02db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Unit">
+    <Filter Include="Header Files\Actor\District">
+      <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor\Unit">
       <UniqueIdentifier>{8ca24469-3c12-4a6a-a945-a88cd250db20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tile">
+    <Filter Include="Source Files\Actor">
+      <UniqueIdentifier>{c2471c0c-0d7c-4eaf-a238-395d86be8ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\District">
+      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\Unit">
+      <UniqueIdentifier>{cfbf9169-955d-4b99-b675-bd97e35aeb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{895f32f2-1daf-4903-95a3-83c46006bd61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map\Tile">
       <UniqueIdentifier>{46ece499-ff4a-442a-8250-09b57396b4e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\District">
-      <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{978625a9-ffa5-4687-a271-926406f2bcf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map\Tile">
+      <UniqueIdentifier>{3f1a1da7-aaa2-4b1f-8e22-4c4912d8a718}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,37 +61,40 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="District.cpp">
-      <Filter>Source Files\District</Filter>
+      <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Tile</Filter>
+      <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
     <ClCompile Include="TileGround.cpp">
-      <Filter>Source Files\Tile</Filter>
+      <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
     <ClCompile Include="TileMountain.cpp">
-      <Filter>Source Files\Tile</Filter>
+      <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
     <ClCompile Include="TileWater.cpp">
-      <Filter>Source Files\Tile</Filter>
+      <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
     <ClCompile Include="Unit.cpp">
-      <Filter>Source Files\Unit</Filter>
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Position.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Actor</Filter>
     </ClCompile>
     <ClCompile Include="GameWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,34 +105,40 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="District.h">
-      <Filter>Header Files\District</Filter>
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
-      <Filter>Header Files\Tile</Filter>
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
     <ClInclude Include="TileGround.h">
-      <Filter>Header Files\Tile</Filter>
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
     <ClInclude Include="TileMountain.h">
-      <Filter>Header Files\Tile</Filter>
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
     <ClInclude Include="TileWater.h">
-      <Filter>Header Files\Tile</Filter>
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
-      <Filter>Header Files\Unit</Filter>
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Position.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameWindow.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
