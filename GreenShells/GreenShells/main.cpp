@@ -5,8 +5,8 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 
-#include "GameWindow.h"
 #include "GameSession.h"
+#include "GameWindow.h"
 
 int CLIENT_SERVER_ARG = 1;
 int PORT_ARG = 2;
@@ -81,13 +81,13 @@ int main(int argc, char* argv[])
 		//------- Client or Server -------  
 		char* gameType = argv[CLIENT_SERVER_ARG];
 
-		if (strcmp(gameType,"Server") == 0)
+		if (strcmp(gameType,"server") == 0)
 		{
 			if (!SetUpServer(argc, argv))
 			{
 				return 0;
 			}
-		} else if(strcmp(gameType, "Client") == 0)
+		} else if(strcmp(gameType, "client") == 0)
 		{ 
 			if (!SetUpClient(argc, argv))
 			{
@@ -99,9 +99,10 @@ int main(int argc, char* argv[])
 			std::cout << "Need to know if we are a \"Client\" or a \"Server\" in command line" << std::endl;
 			return 0;
 		}
-		GameWindow::GetInstance().Init();
-        GameWindow::GetInstance().Show(800, 600);
-	    GameWindow::GetInstance().Close();
 	}
+
+	GameWindow::GetInstance().Init();
+	GameWindow::GetInstance().Show(800, 600);
+	GameWindow::GetInstance().Close();
 	return 0;
 }

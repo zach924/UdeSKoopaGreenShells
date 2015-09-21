@@ -180,8 +180,8 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="GameSession.h" />
-    <ClInclude Include="Map.h" />
     <ClInclude Include="GameWindow.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Tile.h" />
