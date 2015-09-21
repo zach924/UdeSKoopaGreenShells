@@ -33,7 +33,7 @@ void Map::GenerateTiles()
 	map.erase(std::remove(map.begin(), map.end(), '\n'), map.end());
 	for (int i = 0; i < ROWS; ++i)
 	{
-		for (int j = 0; j < ROWS; ++j)
+		for (int j = 0; j < COLUMNS; ++j)
 		{
 			char tileType = map.at((i * ROWS) + j);
 			switch (tileType)

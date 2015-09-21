@@ -80,13 +80,13 @@ int main(int argc, char* argv[])
 		//------- Client or Server -------  
 		char* gameType = argv[CLIENT_SERVER_ARG];
 
-		if (strcmp(gameType,"Server") == 0)
+		if (strcmp(gameType,"server") == 0)
 		{
 			if (!SetUpServer(argc, argv))
 			{
 				return 0;
 			}
-		} else if(strcmp(gameType, "Client") == 0)
+		} else if(strcmp(gameType, "client") == 0)
 		{ 
 			if (!SetUpClient(argc, argv))
 			{
