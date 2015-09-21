@@ -26,5 +26,7 @@ public:
 
 	void SetPlayerReadyForNextTurn();
 	bool IsPlayerReadyForNextTurn();
+
+	void SetPlayerDead();
 };
 

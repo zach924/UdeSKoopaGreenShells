@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 			
 		} else
 		{
-			std::cout << "Need to know if we are a \"Client\" or a \"Server\" in command line" << std::endl;
+			std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
 			return 0;
 		}
 	}

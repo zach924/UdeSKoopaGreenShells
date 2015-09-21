@@ -34,3 +34,8 @@ bool Player::IsPlayerReadyForNextTurn()
 {
 	return m_isReadyForNewTurn;
 }
+
+void Player::SetPlayerDead()
+{
+	m_isAlive = false;
+}

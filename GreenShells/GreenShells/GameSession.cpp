@@ -45,5 +45,5 @@ int GameSession::getPort()
 
 void GameSession::PrepareGame()
 {
-	m_worldState->PrepareGame();
+	m_worldState.PrepareGame();
 }
