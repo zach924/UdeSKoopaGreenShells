@@ -4,7 +4,7 @@ class TileWater :
 	public Tile
 {
 public:
-	TileWater();
+	TileWater(Position position);
 	~TileWater();
 };
 

@@ -1,8 +1,8 @@
 #include "TileGround.h"
 
 
-TileGround::TileGround()
-:Tile()
+TileGround::TileGround(Position position)
+:Tile(position)
 {
 }
 
