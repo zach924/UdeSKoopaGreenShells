@@ -3,30 +3,19 @@
 #include "GameSession.h"
 #include "GameWindow.h"
 
-const int CLIENT_SERVER_ARG = 1;
-const int PORT_ARG = 2;
-const int SERVER_IP_ARG = 3;
+
 
 // These needs to be before main
-bool SetUpServer(int argc, char* argv[])
+bool SetUpServer(int port)
 {
 	GameSession::GetGameSession().SetIsServer(true);
-	if (argc == 3)
+	if (port != 0)
 	{
-		int port = atoi(argv[PORT_ARG]);
-		if (port != 0)
-		{
-			GameSession::GetGameSession().SetPort(port);
-		}
-		else
-		{
-			std::cout << "Server requires a port number" << std::endl;
-			return false;
-		}
+		GameSession::GetGameSession().SetPort(port);
 	}
 	else
 	{
-		std::cout << "server requires a port number" << std::endl;
+		std::cout << "Server requires a port number" << std::endl;
 		return false;
 	}
 
@@ -34,34 +23,28 @@ bool SetUpServer(int argc, char* argv[])
 	return true;
 }
 
-bool SetUpClient(int argc, char* argv[])
+bool SetUpClient(char* ip,int port)
 {
 	GameSession::GetGameSession().SetIsServer(false);
-	if (argc == 4)
+	GameSession::GetGameSession().SetServerIP(ip);
+	if (port != 0)
 	{
-		GameSession::GetGameSession().SetServerIP(argv[SERVER_IP_ARG]);
-		int port = atoi(argv[PORT_ARG]);
-		if (port != 0)
-		{
-			GameSession::GetGameSession().SetPort(port);
-		}
-		else
-		{
-			std::cout << "Client requires a port number" << std::endl;
-			return false;
-		}
+		GameSession::GetGameSession().SetPort(port);
 	}
 	else
 	{
-		std::cout << "client requires a server ip AND port number" << std::endl;
+		std::cout << "Client requires a port number" << std::endl;
 		return false;
 	}
-
 	return true;
 }
 
 int main(int argc, char* argv[])
 {
+	const int CLIENT_SERVER_ARG = 1;
+	const int PORT_ARG = 2;
+	const int SERVER_IP_ARG = 3;
+
 	if (argc == 1)
 	{
 		// We need to ask user to enter manually the data
@@ -78,29 +61,47 @@ int main(int argc, char* argv[])
 		//------- Client or Server -------  
 		char* gameType = argv[CLIENT_SERVER_ARG];
 
-		if (strcmp(gameType,"server") == 0)
+		if (strcmp(gameType, "server") == 0)
 		{
-			if (!SetUpServer(argc, argv))
+			if (argc == 3)
 			{
+				if (!SetUpServer(atoi(argv[PORT_ARG])))
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				std::cout << "server requires a port number" << std::endl;
 				return 0;
 			}
-		} else if(strcmp(gameType, "client") == 0)
-		{ 
-			if (!SetUpClient(argc, argv))
-			{
-				return 0;
-			}
-			
-		} else
-		{
-			std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
-			return 0;
 		}
+		else if (strcmp(gameType, "client") == 0)
+		{
+			if (argc == 4)
+			{
+				if (!SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
+				{
+					return 0;
+				}
+				else
+				{
+					std::cout << "client requires a server ip AND port number" << std::endl;
+					return 0;
+				}
+
+			}
+			else
+			{
+				std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
+				return 0;
+			}
+		}
+
+		GameWindow::GetInstance().Init();
+		GameWindow::GetInstance().Show(800, 600);
+		GameWindow::GetInstance().Close();
+
+		return 0;
 	}
-
-	GameWindow::GetInstance().Init();
-	GameWindow::GetInstance().Show(800, 600);
-	GameWindow::GetInstance().Close();
-
-	return 0;
 }
