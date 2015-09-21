@@ -12,6 +12,8 @@ class Player
 
 	bool m_isAlive;
 
+	//TODO : Remove those list and replace them with 
+	// downtown counters and units counters?
 	std::vector<Unit> m_units;
 	std::vector<District> m_districts;
 
@@ -24,7 +26,7 @@ public:
 
 	void NotifyNewTurn();
 
-	void SetPlayerReadyForNextTurn();
+	void SetPlayerReadyForNextTurn(bool isReady = true);
 	bool IsPlayerReadyForNextTurn();
 
 	void SetPlayerDead();

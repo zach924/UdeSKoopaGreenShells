@@ -16,6 +16,8 @@ WorldState::~WorldState()
 void WorldState::PrepareGame()
 {
 	Player firstPlayer = Player();
+	firstPlayer.SetPlayerReadyForNextTurn(false);
+	AddPlayer(firstPlayer);
 }
 
 void WorldState::AddPlayer(const Player& player)
