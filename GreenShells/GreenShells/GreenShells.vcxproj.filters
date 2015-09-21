@@ -69,8 +69,17 @@
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPCBase.cpp">
-      <Filter>Source Files\Networking</Filter>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +110,14 @@
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPCBase.h">
-      <Filter>Header Files\Networking</Filter>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPCStructs.h">
-      <Filter>Header Files\Networking</Filter>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWindow.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

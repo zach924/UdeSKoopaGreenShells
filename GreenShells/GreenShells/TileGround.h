@@ -4,7 +4,7 @@ class TileGround :
 	public Tile
 {
 public:
-	TileGround();
+	TileGround(Position position);
 	~TileGround();
 };
 

@@ -4,7 +4,7 @@ class TileMountain :
 	public Tile
 {
 public:
-	TileMountain();
+	TileMountain(Position position);
 	~TileMountain();
 };
 
