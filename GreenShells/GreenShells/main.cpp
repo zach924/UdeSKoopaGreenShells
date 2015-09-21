@@ -5,6 +5,7 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 
+#include "GameWindow.h"
 #include "GameSession.h"
 
 int CLIENT_SERVER_ARG = 1;
@@ -98,6 +99,9 @@ int main(int argc, char* argv[])
 			std::cout << "Need to know if we are a \"Client\" or a \"Server\" in command line" << std::endl;
 			return 0;
 		}
+		GameWindow::GetInstance().Init();
+        GameWindow::GetInstance().Show(800, 600);
+	    GameWindow::GetInstance().Close();
 	}
 	return 0;
 }
