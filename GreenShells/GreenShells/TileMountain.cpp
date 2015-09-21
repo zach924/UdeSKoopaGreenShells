@@ -1,8 +1,8 @@
 #include "TileMountain.h"
 
 
-TileMountain::TileMountain()
-:Tile()
+TileMountain::TileMountain(Position position)
+:Tile(position)
 {
 }
 

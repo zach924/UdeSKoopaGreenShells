@@ -1,4 +1,5 @@
 #pragma once
+#include "Position.h"
 #include <vector>
 #include "Tile.h"
 
@@ -14,5 +15,9 @@ public:
 	~Map();
 
 	void GenerateTiles();
+
+	std::vector<Tile> GetArea(Position position, int distance);
+
+	Tile GetTile(Position);
 };
 

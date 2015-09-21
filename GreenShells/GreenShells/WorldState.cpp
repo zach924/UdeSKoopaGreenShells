@@ -9,7 +9,6 @@ WorldState::WorldState()
 	m_map.GenerateTiles();
 }
 
-
 WorldState::~WorldState()
 {
 }

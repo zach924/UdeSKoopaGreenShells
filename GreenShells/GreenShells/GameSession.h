@@ -1,11 +1,10 @@
 #pragma once
+#include "WorldState.h"
 #include <string>
-
-class WorldState;
 
 class GameSession
 {
-	WorldState* m_worldState;
+	WorldState m_worldState;
 
 	bool m_isServer;
 	std::string m_serverIP;

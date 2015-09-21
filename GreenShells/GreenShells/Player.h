@@ -3,9 +3,6 @@
 #include "Unit.h"
 #include "District.h"
 
-class Unit;
-class District;
-
 class Player
 {
 	static int playerIDCounter;
