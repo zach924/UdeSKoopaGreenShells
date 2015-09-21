@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="District.cpp" />
     <ClCompile Include="GameSession.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="District.h" />
     <ClInclude Include="GameSession.h" />
+    <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />

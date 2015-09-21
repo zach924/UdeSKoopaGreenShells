@@ -6,6 +6,7 @@
 #include <boost/asio.hpp>
 
 #include "GameSession.h"
+#include "GameWindow.h"
 
 int CLIENT_SERVER_ARG = 1;
 int PORT_ARG = 2;
@@ -99,5 +100,9 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 	}
+
+	GameWindow::GetInstance().Init();
+	GameWindow::GetInstance().Show(800, 600);
+	GameWindow::GetInstance().Close();
 	return 0;
 }

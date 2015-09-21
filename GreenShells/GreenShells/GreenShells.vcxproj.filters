@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\District">
+      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Tile">
       <UniqueIdentifier>{3f1a1da7-aaa2-4b1f-8e22-4c4912d8a718}</UniqueIdentifier>
     </Filter>
@@ -28,9 +31,6 @@
     <Filter Include="Header Files\District">
       <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tile\District">
-      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,7 +43,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="District.cpp">
-      <Filter>Source Files\Tile\District</Filter>
+      <Filter>Source Files\District</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Tile</Filter>
@@ -63,7 +63,7 @@
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,7 +95,7 @@
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
