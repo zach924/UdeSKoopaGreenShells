@@ -1,9 +1,11 @@
+#include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 
 GameSession::GameSession()
 :m_worldState(),
-m_serverIP()
+m_serverIP(),
+m_allPLayerReady(false)
 {
 }
 
@@ -62,14 +64,31 @@ void GameSession::RunGame()
 
 void GameSession::Run()
 {
+	std::unique_lock<std::mutex> lock(m_allPlayerReadyMutex);
 	while (true)
 	{
 		// Notify world sate of a new turn
 		m_worldState.NotifyNewTurn();
+
+		//End of turn when every player is ready
+		while (!m_worldState.IsAllPlayerReady())
+		{
+			m_cv.wait(lock);
+			//std::cout << "Unlocking" << std::endl;
+		}
+
 	}
+}
+
+void GameSession::NotifyPlayerReadyForNewTurn()
+{
+	std::unique_lock<std::mutex> lock(m_allPlayerReadyMutex);
+	m_cv.notify_one();
 }
 
 void GameSession::QuitGame()
 {
 	m_gameSessionThread.join();
 }
+
+

@@ -49,3 +49,18 @@ void WorldState::RemovePlayer(int id)
 		}
 	}
 }
+
+bool WorldState::IsAllPlayerReady()
+{
+	bool result = true;
+
+	for (Player& player : m_players)
+	{
+		if (player.IsAlive())
+		{
+			result &= player.IsPlayerReadyForNextTurn();
+		}
+	}
+
+	return result;
+}

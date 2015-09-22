@@ -1,12 +1,19 @@
 #pragma once
 #include <string>
 #include <thread>
+#include <condition_variable>
+
 #include "WorldState.h"
 
 
 class GameSession
 {
 	std::thread m_gameSessionThread;
+	std::condition_variable m_cv;
+	std::mutex m_allPlayerReadyMutex;
+
+	bool m_allPLayerReady;
+
 	WorldState m_worldState;
 
 	bool m_isServer;
@@ -41,5 +48,7 @@ public:
 
 	void RunGame();
 	void QuitGame();
+
+	void NotifyPlayerReadyForNewTurn();
 };
 

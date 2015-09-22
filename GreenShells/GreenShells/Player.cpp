@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameSession.h"
 
 int Player::playerIDCounter = 0;
 
@@ -28,6 +29,11 @@ void Player::NotifyNewTurn()
 void Player::SetPlayerReadyForNextTurn(bool isReady)
 {
 	m_isReadyForNewTurn = isReady;
+	if (m_isReadyForNewTurn)
+	{
+		GameSession::GetInstance().NotifyPlayerReadyForNewTurn();
+	}
+
 }
 
 bool Player::IsPlayerReadyForNextTurn()

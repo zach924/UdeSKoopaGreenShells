@@ -19,5 +19,7 @@ public:
 	void AddPlayer(const Player& player);
 
 	void RemovePlayer(int id);
+
+	bool IsAllPlayerReady();
 };
 
