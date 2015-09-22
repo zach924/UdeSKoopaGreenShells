@@ -6,5 +6,7 @@ class Unit : public Actor
 public:
 	Unit();
 	~Unit();
+
+	void NotifyNewTurn();
 };
 

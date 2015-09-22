@@ -17,3 +17,16 @@ Tile::Tile()
 Tile::~Tile()
 {
 }
+
+void Tile::NotifyNewTurn()
+{
+	if (m_district != nullptr)
+	{
+		m_district->NotifyNewTurn();
+	}
+
+	if (m_unit != nullptr)
+	{
+		m_unit->NotifyNewTurn();
+	}
+}

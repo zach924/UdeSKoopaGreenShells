@@ -8,6 +8,8 @@ m_serverIP()
 }
 
 
+
+
 GameSession::~GameSession()
 {
 	
@@ -38,7 +40,7 @@ void GameSession::SetPort(int port)
 	m_port = port;
 }
 
-int GameSession::getPort()
+int GameSession::GetPort()
 {
 	return m_port;
 }
@@ -46,4 +48,23 @@ int GameSession::getPort()
 void GameSession::PrepareGame()
 {
 	m_worldState.PrepareGame();
+}
+
+void GameSession::RunGame()
+{
+	m_gameSessionThread = std::thread(&GameSession::Run, this);
+}
+
+void GameSession::Run()
+{
+	while (true)
+	{
+		// Notify world sate of a new turn
+		m_worldState.NotifyNewTurn();
+	}
+}
+
+void GameSession::QuitGame()
+{
+	m_gameSessionThread.join();
 }

@@ -97,11 +97,13 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
+		GameSession::GetGameSession().RunGame();
 
 		GameWindow::GetInstance().Init();
 		GameWindow::GetInstance().Show(800, 600);
 		GameWindow::GetInstance().Close();
 
+		GameSession::GetGameSession().QuitGame();
 		return 0;
 	}
 }

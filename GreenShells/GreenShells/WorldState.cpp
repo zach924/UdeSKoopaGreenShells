@@ -18,6 +18,21 @@ void WorldState::PrepareGame()
 	AddPlayer(Player());
 }
 
+void WorldState::NotifyNewTurn()
+{
+	//Notify map of a new turn
+	m_map.NotifyNewturn();
+
+	//Notify players of a new turn
+	for (Player& player : m_players)
+	{
+		if(player.IsAlive())
+		{
+			player.NotifyNewTurn();
+		}
+	}
+}
+
 void WorldState::AddPlayer(const Player& player)
 {
 	m_players.push_back(player);
@@ -29,7 +44,7 @@ void WorldState::RemovePlayer(int id)
 	{
 		if (player.GetPlayerID() == id)
 		{
-			player.SetPlayerDead();
+			player.SetDead();
 			break;
 		}
 	}

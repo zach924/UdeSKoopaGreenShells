@@ -8,3 +8,7 @@ Unit::Unit()
 Unit::~Unit()
 {
 }
+
+void Unit::NotifyNewTurn()
+{
+}

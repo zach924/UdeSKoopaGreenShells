@@ -7,5 +7,7 @@ class Actor
 public:
 	Actor();
 	~Actor();
+
+	virtual void NotifyNewTurn() = 0;
 };
 

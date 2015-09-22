@@ -8,3 +8,7 @@ District::District()
 District::~District()
 {
 }
+
+void District::NotifyNewTurn()
+{
+}

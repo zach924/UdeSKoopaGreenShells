@@ -5,5 +5,7 @@ class District : public Actor
 public:
 	District();
 	~District();
+
+	void NotifyNewTurn();
 };
 

@@ -1,9 +1,12 @@
 #pragma once
-#include "WorldState.h"
 #include <string>
+#include <thread>
+#include "WorldState.h"
+
 
 class GameSession
 {
+	std::thread m_gameSessionThread;
 	WorldState m_worldState;
 
 	bool m_isServer;
@@ -14,6 +17,7 @@ class GameSession
 
 	GameSession(GameSession const&) = delete;
 	void operator = (GameSession const&) = delete;
+	void Run();
 public:
 	static GameSession &GetGameSession()
 	{
@@ -29,8 +33,11 @@ public:
 	std::string GetServerIP();
 
 	void SetPort(int port);
-	int getPort();
+	int GetPort();
 
 	void PrepareGame();
+
+	void RunGame();
+	void QuitGame();
 };
 

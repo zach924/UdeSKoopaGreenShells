@@ -16,5 +16,7 @@ public:
 	Tile(Position position);
 	Tile();
 	~Tile();
+
+	void NotifyNewTurn();
 };
 

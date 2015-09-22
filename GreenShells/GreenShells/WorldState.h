@@ -14,6 +14,7 @@ public:
 	~WorldState();
 
 	void PrepareGame();
+	void NotifyNewTurn();
 
 	void AddPlayer(const Player& player);
 

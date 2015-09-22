@@ -19,5 +19,7 @@ public:
 	std::vector<Tile> GetArea(Position position, int distance);
 
 	Tile GetTile(Position);
+
+	void NotifyNewturn();
 };
 
