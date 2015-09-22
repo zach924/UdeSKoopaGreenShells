@@ -5,20 +5,30 @@
 
 class Player
 {
+	static int playerIDCounter;
+
+	int m_playerID;
 	bool m_isReadyForNewTurn;
 
+	bool m_isAlive;
+
+	//TODO : Remove those list and replace them with 
+	// downtown counters and units counters?
 	std::vector<Unit> m_units;
 	std::vector<District> m_districts;
 
-	bool m_isAlive;
 
 public:
 	Player();
 	~Player();
 
+	int GetPlayerID();
+
 	void NotifyNewTurn();
 
-	void SetPlayerReadyForNextTurn();
+	void SetPlayerReadyForNextTurn(bool isReady = true);
 	bool IsPlayerReadyForNextTurn();
+
+	void SetPlayerDead();
 };
 

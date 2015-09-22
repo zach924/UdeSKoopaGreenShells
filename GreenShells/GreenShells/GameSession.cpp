@@ -42,3 +42,8 @@ int GameSession::getPort()
 {
 	return m_port;
 }
+
+void GameSession::PrepareGame()
+{
+	m_worldState.PrepareGame();
+}

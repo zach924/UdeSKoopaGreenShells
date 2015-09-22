@@ -30,5 +30,7 @@ public:
 
 	void SetPort(int port);
 	int getPort();
+
+	void PrepareGame();
 };
 

@@ -13,6 +13,10 @@ public:
 	WorldState();
 	~WorldState();
 
+	void PrepareGame();
+
 	void AddPlayer(const Player& player);
+
+	void RemovePlayer(int id);
 };
 

@@ -87,11 +87,8 @@
     <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPCBase.cpp">
-      <Filter>Source Files\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="TCPConnection.cpp">
-      <Filter>Source Files\Networking</Filter>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,18 +130,6 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RPCBase.h">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="RPCStructs.h">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="SynchronizedQueue.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="TCPConnection.h">
-      <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
