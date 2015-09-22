@@ -7,6 +7,9 @@
 
 #include "GameSession.h"
 #include "GameWindow.h"
+#include "RPCBase.h"
+#include "SynchronizedQueue.h"
+#include "TCPConnection.h"
 
 int CLIENT_SERVER_ARG = 1;
 int PORT_ARG = 2;

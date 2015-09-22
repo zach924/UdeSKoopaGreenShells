@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Position.h"
 
 using namespace std;
 
@@ -14,7 +15,6 @@ enum RPCStructType : uint8_t
 
 };
 
-
 struct RPCBasic
 {
 	string m_className;
@@ -23,6 +23,6 @@ struct RPCBasic
 
 struct RPCBasicTwoPositions : RPCBasic
 {
-//position 1
-//position 2
+	Position m_firstPosition;
+	Position m_secondPosition;
 };

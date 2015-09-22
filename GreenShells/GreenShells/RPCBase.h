@@ -1,14 +1,16 @@
 #pragma once
 
 #include <string>
-#include <boost/asio.hpp>
-
+#include "TCPConnection.h"
 
 class RPCBase
 {
-	static boost::asio::ip::tcp::socket s_socket;
-	static void CreateSocket(std::string ip, std::string port);
+private:
+	static TCPConnection* s_connection;
 
+protected:
+	void sendData(std::string data);
 
-	void sendData();
+public:
+	static bool EstablishConnection(std::string ip, std::string port);
 };
