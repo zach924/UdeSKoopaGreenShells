@@ -19,12 +19,14 @@ class GameSession
 	void operator = (GameSession const&) = delete;
 	void Run();
 public:
-	static GameSession &GetGameSession()
+	static GameSession &GetInstance()
 	{
 		static GameSession m_gameSession;
 		return m_gameSession;
 	}
 	~GameSession();
+
+	WorldState* GetWorldState();
 
 	void SetIsServer(bool isServer);
 	bool IsServer();

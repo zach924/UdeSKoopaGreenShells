@@ -15,6 +15,11 @@ GameSession::~GameSession()
 	
 }
 
+WorldState * GameSession::GetWorldState()
+{
+	return &m_worldState;
+}
+
 void GameSession::SetIsServer(bool isServer)
 {
 	m_isServer = isServer;

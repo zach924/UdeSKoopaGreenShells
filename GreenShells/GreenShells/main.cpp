@@ -8,10 +8,10 @@
 // These needs to be before main
 bool SetUpServer(int port)
 {
-	GameSession::GetGameSession().SetIsServer(true);
+	GameSession::GetInstance().SetIsServer(true);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
+		GameSession::GetInstance().SetPort(port);
 	}
 	else
 	{
@@ -19,17 +19,17 @@ bool SetUpServer(int port)
 		return false;
 	}
 
-	GameSession::GetGameSession().PrepareGame();
+	GameSession::GetInstance().PrepareGame();
 	return true;
 }
 
 bool SetUpClient(char* ip,int port)
 {
-	GameSession::GetGameSession().SetIsServer(false);
-	GameSession::GetGameSession().SetServerIP(ip);
+	GameSession::GetInstance().SetIsServer(false);
+	GameSession::GetInstance().SetServerIP(ip);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
+		GameSession::GetInstance().SetPort(port);
 	}
 	else
 	{
@@ -97,13 +97,13 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
-		GameSession::GetGameSession().RunGame();
+		GameSession::GetInstance().RunGame();
 
 		GameWindow::GetInstance().Init();
 		GameWindow::GetInstance().Show(800, 600);
 		GameWindow::GetInstance().Close();
 
-		GameSession::GetGameSession().QuitGame();
+		GameSession::GetInstance().QuitGame();
 		return 0;
 	}
 }
