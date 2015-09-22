@@ -3,24 +3,23 @@
 
 struct SDL_Texture;
 struct SDL_Renderer;
+struct SDL_Surface;
 
 class Texture
 {
 public:
-	Texture(SDL_Renderer* renderer);
+	Texture();
 	~Texture();
 
 	bool LoadFromFile(std::string path);
 	void Free();
 	void SetColor(int red, int green, int blue);
-	void Render(int x, int y);
+	SDL_Texture* GetTexture();
 	int GetWidth();
 	int GetHeight();
-
+	void Render(int x, int y);
 private:
-	static SDL_Surface* m_surface;
 	SDL_Texture* m_texture;
-	SDL_Renderer* m_renderer;
 	int m_height;
 	int m_width;
 };

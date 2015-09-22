@@ -100,8 +100,6 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 	}
-
-	GameWindow::GetInstance().Init(800,600);
-	GameWindow::GetInstance().Show();
+	GameWindow::GetInstance().ShowWindow();
 	return 0;
 }

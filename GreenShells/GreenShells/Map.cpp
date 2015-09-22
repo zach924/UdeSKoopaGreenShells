@@ -6,8 +6,10 @@
 
 #include <fstream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
+Texture Map::m_texture = {};
 
 Map::Map()
 :m_tiles()
@@ -15,6 +17,14 @@ Map::Map()
 	for (int i = 0; i < ROWS; i++)
 	{
 		m_tiles.push_back(std::vector<Tile>(COLUMNS));
+	}
+	try
+	{
+		m_texture.LoadFromFile("..\\Sprite\\townhall.bmp");
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what();
 	}
 }
 

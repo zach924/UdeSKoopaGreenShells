@@ -1,8 +1,10 @@
 #include "Texture.h"
 #include <SDL.h>
+#include <exception>
+#include "GameWindow.h"
 
-Texture::Texture(SDL_Renderer* renderer)
-	:m_texture(), m_width(), m_height(), m_renderer(renderer)
+Texture::Texture()
+	:m_texture(), m_width(), m_height()
 {
 }
 
@@ -18,17 +20,23 @@ bool Texture::LoadFromFile(std::string path)
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
 	if (loadedSurface == NULL)
 	{
-		//std::cout << "Unable to load image TestTile.bmp! SDL Error: " << SDL_GetError() << std::endl;
+		std::string msg("Unable to load image TestTile.bmp! SDL Error: %s", SDL_GetError());
+		SDL_FreeSurface(loadedSurface);
+		throw new std::exception(msg.c_str());
+		return false;
 	}
 	else
 	{
 		//To remove background of a certain color, might be usefull
-		//SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
+		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0, 0));
 
-		newTexture = SDL_CreateTextureFromSurface(m_renderer, loadedSurface);
+		newTexture = SDL_CreateTextureFromSurface(GameWindow::GetInstance().GetRenderer(), loadedSurface);
 		if (newTexture == NULL)
 		{
-			//std::cout << "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError();
+			std::string msg("Unable to create texture from %s! SDL Error: %s\n", SDL_GetError());
+			SDL_FreeSurface(loadedSurface);
+			throw new std::exception(msg.c_str());
+			return false;
 		}
 		else
 		{
@@ -55,12 +63,17 @@ void Texture::Free()
 void Texture::Render(int x, int y)
 {	
 	SDL_Rect renderQuad = { x, y, m_width, m_height };
-	SDL_RenderCopy(m_renderer, m_texture, NULL, &renderQuad);
+	SDL_RenderCopy(GameWindow::GetInstance().GetRenderer(), m_texture, NULL, &renderQuad);
 }
 
 void Texture::SetColor(int red, int green, int blue)
 {
 	SDL_SetTextureColorMod(m_texture, red, green, blue);
+}
+
+SDL_Texture* Texture::GetTexture()
+{
+	return m_texture;
 }
 
 int Texture::GetHeight()

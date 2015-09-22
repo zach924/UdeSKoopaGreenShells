@@ -1,5 +1,7 @@
 #pragma once
 #include <SDL.h>
+#include <thread>
+#include "GameSession.h"
 
 class GameWindow
 {
@@ -11,7 +13,7 @@ private:
 	int m_height;
 	int m_width;
 
-    GameWindow();
+    GameWindow(int width = 800, int height = 600);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -20,12 +22,12 @@ private:
 public:
     static GameWindow& GetInstance()
     {
-        static GameWindow m_instance;
+		static GameWindow m_instance{800,600};
         return m_instance;
     }
 
-    void Init(int width = 600, int heigth = 800);
-    void Show();
+    void ShowWindow();
+	SDL_Renderer* GetRenderer();
     void Close();
 
 };

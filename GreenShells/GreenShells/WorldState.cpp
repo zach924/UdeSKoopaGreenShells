@@ -15,3 +15,8 @@ void WorldState::AddPlayer(const Player& player)
 {
 	m_players.push_back(player);
 }
+
+Map WorldState::GetMap()
+{
+	return m_map;
+}

@@ -1,10 +1,24 @@
 #include <iostream>
+#include <sstream>
 #include "GameWindow.h"
+#include "GameSession.h"
 #include "Texture.h"
+#include "WorldState.h"
+#include <assert.h>
 
-GameWindow::GameWindow()
-	:m_window(), m_screenSurface(), m_renderer(), m_height(), m_width()
+GameWindow::GameWindow(int width, int height)
+	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
 {
+	//Initialize SDL
+	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
+	
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+	assert(m_window != NULL && SDL_GetError());
+
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	assert(m_renderer != NULL && SDL_GetError());
+
+	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
 GameWindow::~GameWindow()
@@ -12,45 +26,9 @@ GameWindow::~GameWindow()
 	Close();
 }
 
-void GameWindow::Init(int width, int height)
+void GameWindow::ShowWindow()
 {
-	m_height = height;
-	m_width = width;
-	//Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return;
-	}
-	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
-	if (m_window == NULL)
-	{
-		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;	
-		return;
-	}
-	
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-	if (m_renderer == NULL)
-	{
-		std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		return;
-	}
-
-	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-}
-
-void GameWindow::Show()
-{
-	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	Texture texture(m_renderer);
-
-	if (!texture.LoadFromFile("..\\Sprite\\TestTile.bmp"))
-	{
-		return;
-	}	
-
 	bool quit = false;
-
 	while (!quit)
 	{
 		SDL_Event e;
@@ -68,22 +46,22 @@ void GameWindow::Show()
 		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(m_renderer);
 
-		//Render map
-		texture.SetColor(255, 0, 0);
-		texture.Render(240, 190);
+		//Render Screen
+		//Texture texture = GameSession::GetGameSession().GetWorldState()->GetMap().m_texture;
+		//SDL_Rect renderQuad = { 200, 200, texture.GetWidth(), texture.GetHeight() };
+		//SDL_RenderCopy(m_renderer, texture.GetTexture(), NULL, &renderQuad);
+		
+		GameSession::GetGameSession().GetWorldState()->GetMap().m_texture.Render(300,300);
 
-		texture.SetColor(0, 255, 0);
-		texture.Render(0, 0);
-
-		texture.SetColor(0, 0, 255);
-		texture.Render(100, 100);
-
-
-		//Update screen
+		//Draw screen
 		SDL_RenderPresent(m_renderer);
 	}
-
 	Close();
+}
+
+SDL_Renderer * GameWindow::GetRenderer()
+{
+	return m_renderer;
 }
 
 void GameWindow::Close()

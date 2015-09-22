@@ -2,6 +2,7 @@
 #include "Position.h"
 #include <vector>
 #include "Tile.h"
+#include "Texture.h"
 
 class Map
 {
@@ -13,6 +14,7 @@ class Map
 public:
 	Map();
 	~Map();
+	static Texture m_texture;
 
 	void GenerateTiles();
 
