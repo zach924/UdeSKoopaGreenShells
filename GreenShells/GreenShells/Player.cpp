@@ -6,7 +6,7 @@ Player::Player()
    :m_playerID(playerIDCounter++),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
-    m_cityHallCount(0),
+    m_cityHallCount(0), // TODO : Be sure we will have one City Hall when game start
     m_unitCount(0), 
     m_food(100), 
     m_science(0),
@@ -132,6 +132,10 @@ void Player::RemoveFoodMultiplier(double multiplier)
     {
         m_foodMultiplier -= multiplier;
     }
+    else
+    {
+        m_foodMultiplier = 0.0;
+    }
 }
 
 void Player::RemoveScienceMultiplier(double multiplier)
@@ -141,6 +145,10 @@ void Player::RemoveScienceMultiplier(double multiplier)
     {
         m_scienceMultiplier -= multiplier;
     }
+    else
+    {
+        m_scienceMultiplier = 0.0;
+    }
 }
 
 void Player::RemoveWeaponMultiplier(double multiplier)
@@ -149,5 +157,9 @@ void Player::RemoveWeaponMultiplier(double multiplier)
     if (m_weaponMultiplier >= multiplier)
     {
         m_weaponMultiplier -= multiplier;
+    }
+    else
+    {
+        m_weaponMultiplier = 0.0;
     }
 }
