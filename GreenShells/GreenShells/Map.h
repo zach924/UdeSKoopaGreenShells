@@ -5,19 +5,21 @@
 
 class Map
 {
-	static const int ROWS = 64;
-	static const int COLUMNS = 64;
+    static const int ROWS = 64;
+    static const int COLUMNS = 64;
 
-	std::vector<std::vector<Tile>> m_tiles;
+    std::vector<std::vector<Tile>> m_tiles;
 
 public:
-	Map();
-	~Map();
+    Map();
+    ~Map();
 
-	void GenerateTiles();
+    void GenerateTiles();
 
-	std::vector<Tile> GetArea(Position position, int distance);
+    std::vector<Tile> GetArea(Position position, int distance);
 
-	Tile GetTile(Position);
+    Tile GetTile(Position);
+
+    void XmlParse();
 };
 

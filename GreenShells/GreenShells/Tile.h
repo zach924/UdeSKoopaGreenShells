@@ -4,6 +4,7 @@
 class District;
 class Unit;
 class Player;
+class ptree;
 
 class Tile
 {
@@ -16,5 +17,7 @@ public:
 	Tile(Position position);
 	Tile();
 	~Tile();
+
+    ptree ParseXml();
 };
 
