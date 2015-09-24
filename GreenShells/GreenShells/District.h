@@ -5,5 +5,7 @@ class District : public Actor
 public:
 	District();
 	~District();
+
+    boost::property_tree::ptree Serialize();
 };
 

@@ -1,10 +1,14 @@
-#include "Actor.h"
 #pragma once
+
+#include "Actor.h"
+
 
 class Unit : public Actor
 {
 public:
-	Unit();
-	~Unit();
+    Unit();
+    ~Unit();
+
+    boost::property_tree::ptree Serialize();
 };
 

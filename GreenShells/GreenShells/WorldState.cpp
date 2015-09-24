@@ -3,6 +3,8 @@
 #include "WorldState.h"
 #include "Player.h"
 
+#include <boost\property_tree\ptree.hpp>
+
 WorldState::WorldState()
 :m_map(), m_players()
 {
@@ -33,4 +35,17 @@ void WorldState::RemovePlayer(int id)
 			break;
 		}
 	}
+}
+
+Map WorldState::GetMap()
+{
+    return m_map;
+}
+
+boost::property_tree::ptree WorldState::Serialize()
+{
+    boost::property_tree::ptree worldStateNode;
+
+    
+    return worldStateNode;
 }

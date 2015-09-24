@@ -82,24 +82,28 @@ Tile Map::GetTile(Position position)
     return m_tiles[position.X][position.Y];
 }
 
-void Map::XmlParse()
+#include <iostream>
+
+boost::property_tree::ptree Map::Serialize()
 {
 
     // Create an empty property tree object
-    boost::property_tree::ptree pt;
+    boost::property_tree::ptree mapXml;
 
-    boost::property_tree::ptree mapNode = pt.add("Map", "");
+    boost::property_tree::ptree& mapNode = mapXml.add("Map", "");
 
     for (int i = 0; i < ROWS; ++i)
     {
-        boost::property_tree::ptree row = mapNode.add("Row", i);
+        boost::property_tree::ptree& rowNode = mapNode.add("Row", "");
+        rowNode.put("<xmlattr>.Number", i);
         for (int j = 0; j < COLUMNS; ++j)
         {
-            for (int j = 0; j < COLUMNS; ++j)
-                boost::property_tree::ptree tile = row.add("Tile", "");
-
+            boost::property_tree::ptree& tile = m_tiles[i][j].Serialize();
+            rowNode.add_child("Tile", tile);            
         }
     }
+
+    return mapXml;
 
 
 }

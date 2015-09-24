@@ -3,6 +3,17 @@
 #include <vector>
 #include "Tile.h"
 
+namespace boost
+{
+    namespace property_tree
+    {
+        template < class Key, class Data, class KeyCompare >
+        class basic_ptree;
+
+        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
+    }
+}
+
 class Map
 {
     static const int ROWS = 64;
@@ -20,6 +31,6 @@ public:
 
     Tile GetTile(Position);
 
-    void XmlParse();
+    boost::property_tree::ptree Serialize();
 };
 

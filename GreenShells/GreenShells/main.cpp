@@ -3,7 +3,7 @@
 #include "GameSession.h"
 #include "GameWindow.h"
 
-
+#include <boost\property_tree\xml_parser.hpp>
 
 // These needs to be before main
 bool SetUpServer(int port)
@@ -97,6 +97,10 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
+
+        GameSession::GetGameSession().GetWorldState().GetMap().GenerateTiles();
+
+        boost::property_tree::write_xml(std::cout, GameSession::GetGameSession().GetWorldState().GetMap().Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
 
 		GameWindow::GetInstance().Init();
 		GameWindow::GetInstance().Show(800, 600);

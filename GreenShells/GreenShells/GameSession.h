@@ -32,5 +32,7 @@ public:
 	int getPort();
 
 	void PrepareGame();
+
+    WorldState GetWorldState();
 };
 

@@ -47,3 +47,8 @@ void GameSession::PrepareGame()
 {
 	m_worldState.PrepareGame();
 }
+
+WorldState GameSession::GetWorldState()
+{
+    return m_worldState;
+}
