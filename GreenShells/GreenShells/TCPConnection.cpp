@@ -4,8 +4,14 @@ using boost::asio::ip::tcp;
 
 boost::asio::io_service TCPConnection::s_ioService{};
 
+TCPConnection::TCPConnection()
+	: m_socket{ s_ioService }
+{
+
+}
+
 TCPConnection::TCPConnection(std::string ip, std::string port)
-	:m_socket {	s_ioService }
+	: m_socket {	s_ioService }
 {
 	tcp::resolver resolver(s_ioService);
 	tcp::resolver::query query(ip, port);
@@ -24,7 +30,7 @@ TCPConnection::TCPConnection(std::string ip, std::string port)
 	}
 }
 
-boost::asio::ip::tcp::socket& TCPConnection::getSocket()
+boost::asio::ip::tcp::socket& TCPConnection::GetSocket()
 {
 	return m_socket;
 }

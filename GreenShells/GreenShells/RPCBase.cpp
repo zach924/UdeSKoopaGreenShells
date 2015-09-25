@@ -1,4 +1,5 @@
 #include "RPCBase.h"
+#include <iostream>
 #include <boost/make_unique.hpp>
 
 TCPConnection* RPCBase::s_connection = nullptr;
@@ -16,7 +17,28 @@ bool RPCBase::EstablishConnection(std::string ip, std::string port)
 	}
 }
 
-void RPCBase::sendData(std::string data)
+bool RPCBase::sendData(std::string data)
 {
-	s_connection->getSocket().send(boost::asio::buffer(data));
+	try
+	{
+		s_connection->GetSocket().send(boost::asio::buffer(data));
+		return true;
+	}
+	catch (std::exception)
+	{
+		return false;
+	}
+}
+
+bool RPCBase::sendData(char* data, int size)
+{
+	try
+	{
+		s_connection->GetSocket().send(boost::asio::buffer(data, size));
+		return true;
+	}
+	catch (std::exception)
+	{
+		return false;
+	}
 }

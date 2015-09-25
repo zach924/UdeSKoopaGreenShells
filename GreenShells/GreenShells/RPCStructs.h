@@ -15,14 +15,34 @@ enum RPCStructType : uint8_t
 
 };
 
-struct RPCBasic
+struct RPCBasicStruct
 {
-	string m_className;
-	string m_methodName;
+	char m_className[100];
+	char m_methodName[100];
+
+	string GetClassNameAsString()
+	{ return m_className; }
+
+	void SetClassName(string name)
+	{ strcpy_s(m_className, name.c_str()); }
+
+	string GetMethodNameAsString()
+	{ return m_methodName; }
+
+	void SetMethodName(string name)
+	{ strcpy_s(m_methodName, name.c_str()); }
 };
 
-struct RPCBasicTwoPositions : RPCBasic
+struct RPCBasicTwoPositionsStruct : RPCBasicStruct
 {
 	Position m_firstPosition;
 	Position m_secondPosition;
+};
+
+
+
+struct RPCEvent
+{
+	RPCStructType structType;
+	RPCBasicStruct* data;
 };

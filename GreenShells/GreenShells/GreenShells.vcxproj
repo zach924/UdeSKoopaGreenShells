@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="District.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="GameWindow.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="RPCBase.cpp" />
+    <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileGround.cpp" />
@@ -180,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameWindow.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="RPCBase.h" />
+    <ClInclude Include="RPCManager.h" />
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />

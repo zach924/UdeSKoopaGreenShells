@@ -9,7 +9,9 @@ private:
 	static TCPConnection* s_connection;
 
 protected:
-	void sendData(std::string data);
+public:
+	bool sendData(std::string data);
+	bool sendData(char* data, int size);
 
 public:
 	static bool EstablishConnection(std::string ip, std::string port);
