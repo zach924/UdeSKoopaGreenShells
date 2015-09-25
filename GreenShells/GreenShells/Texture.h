@@ -14,7 +14,6 @@ public:
 	bool LoadFromFile(std::string path);
 	void Free();
 	void SetColor(int red, int green, int blue);
-	SDL_Texture* GetTexture();
 	int GetWidth();
 	int GetHeight();
 	void Render(int x, int y);

@@ -71,11 +71,6 @@ void Texture::SetColor(int red, int green, int blue)
 	SDL_SetTextureColorMod(m_texture, red, green, blue);
 }
 
-SDL_Texture* Texture::GetTexture()
-{
-	return m_texture;
-}
-
 int Texture::GetHeight()
 {
 	return m_height;

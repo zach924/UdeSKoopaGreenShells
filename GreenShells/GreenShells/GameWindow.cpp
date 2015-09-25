@@ -47,10 +47,7 @@ void GameWindow::ShowWindow()
 		SDL_RenderClear(m_renderer);
 
 		//Render Screen
-		//Texture texture = GameSession::GetGameSession().GetWorldState()->GetMap().m_texture;
-		//SDL_Rect renderQuad = { 200, 200, texture.GetWidth(), texture.GetHeight() };
-		//SDL_RenderCopy(m_renderer, texture.GetTexture(), NULL, &renderQuad);
-		
+		//this is temporary
 		GameSession::GetGameSession().GetWorldState()->GetMap().m_texture.Render(300,300);
 
 		//Draw screen
