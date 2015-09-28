@@ -48,7 +48,14 @@ void GameWindow::ShowWindow()
 
 		//Render Screen
 		//this is temporary
-		GameSession::GetGameSession().GetWorldState()->GetMap().m_texture.Render(300,300);
+		//Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
+		//for (int i = 0; i <= 2; ++i)
+		//{
+		//	for (int j = 0; j <= 2; ++j)
+		//	{
+		//		map.GetTile(Position(i,j))->m_texture.Render(i * 64, j * 64);
+		//	}
+		//}
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

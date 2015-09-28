@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+#include "Texture.h"
 
 class District;
 class Unit;
@@ -12,6 +13,7 @@ class Tile
 	Player* m_owner;
 
 public:
+	//static virtual Texture GetTexture()=0;
 	Position m_position;
 	Tile(Position position);
 	Tile();

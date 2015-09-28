@@ -3,6 +3,8 @@
 #include "Unit.h"
 #include "District.h"
 
+//Texture Tile::m_texture = {};
+
 Tile::Tile(Position position)
 : m_district(nullptr), m_unit(nullptr), m_owner(nullptr), m_position(position)
 {

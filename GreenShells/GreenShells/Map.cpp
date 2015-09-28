@@ -9,23 +9,23 @@
 #include <iostream>
 #include <vector>
 
-Texture Map::m_texture = {};
+//Texture Map::m_texture = {};
 
 Map::Map()
 :m_tiles()
 {
 	for (int i = 0; i < ROWS; i++)
 	{
-		m_tiles.push_back(std::vector<Tile>(COLUMNS));
+		m_tiles.push_back(std::vector<Tile*>(COLUMNS));
 	}
-	try
-	{
-		m_texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\Townhall.bmp");
-	}
-	catch (std::exception e)
-	{
-		std::cout << e.what();
-	}
+	//try
+	//{
+	//	m_texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\Townhall.bmp");
+	//}
+	//catch (std::exception e)
+	//{
+	//	std::cout << e.what();
+	//}
 }
 
 
@@ -49,25 +49,25 @@ void Map::GenerateTiles()
 			switch (tileType)
 			{
 			case '0':
-				m_tiles[i][j] = TileGround(Position(i, j));
+				m_tiles[i][j] = new TileGround(Position(i, j));
 				break;
 
 			case '1':
-				m_tiles[i][j] = TileMountain(Position(i, j));
+				m_tiles[i][j] = new TileMountain(Position(i, j));
 				break;
 
 			case '2':
 			default:
-				m_tiles[i][j] = TileWater(Position(i, j));
+				m_tiles[i][j] = new TileWater(Position(i, j));
 				break;
 			}
 		}
 	}
 }
 
-std::vector<Tile> Map::GetArea(Position position, int distance)
+std::vector<Tile*> Map::GetArea(Position position, int distance)
 {
-	std::vector<Tile> area;
+	std::vector<Tile*> area;
 
 	//find miminum and maximum
 	int minCol = std::max(position.X - distance, 0);
@@ -85,7 +85,7 @@ std::vector<Tile> Map::GetArea(Position position, int distance)
 	return area;
 }
 
-Tile Map::GetTile(Position position)
+Tile* Map::GetTile(Position position)
 {
 	return m_tiles[position.X][position.Y];
 }
