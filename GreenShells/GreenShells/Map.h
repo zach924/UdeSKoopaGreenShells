@@ -32,5 +32,6 @@ public:
     Tile GetTile(Position);
 
     boost::property_tree::ptree Serialize();
+    //void Deserialize(boost::property_tree::ptree mapNode);
 };
 

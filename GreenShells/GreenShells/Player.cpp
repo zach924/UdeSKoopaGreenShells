@@ -173,12 +173,26 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.PlayerName", m_playerName);
     playerNode.put("<xmlattr>.CityHallCount", m_cityHallCount);
     playerNode.put("<xmlattr>.UnitCount", m_unitCount);
-    playerNode.put("<xmlattr>.Food", m_playerID);
-    playerNode.put("<xmlattr>.Science", m_playerID);
-    playerNode.put("<xmlattr>.Weapon", m_playerID);
-    playerNode.put("<xmlattr>.FoodMultiplicator", m_playerID);
-    playerNode.put("<xmlattr>.ScienceMultiplicator", m_playerID);
-    playerNode.put("<xmlattr>.WeaponMultiplicator", m_playerID);
+    playerNode.put("<xmlattr>.Food", m_food);
+    playerNode.put("<xmlattr>.Science", m_science);
+    playerNode.put("<xmlattr>.Weapon", m_weapon);
+    playerNode.put("<xmlattr>.FoodMultiplicator", m_foodMultiplier);
+    playerNode.put("<xmlattr>.ScienceMultiplicator", m_scienceMultiplier);
+    playerNode.put("<xmlattr>.WeaponMultiplicator", m_weaponMultiplier);
 
     return playerNode;
 }
+
+//void Player::Deserialize(boost::property_tree::ptree playerNode)
+//{
+//    m_playerID = playerNode.get<int>("<xmlattr>.PlayerId");
+//    m_playerName = playerNode.get<std::string>("<xmlattr>.PlayerName");
+//    m_cityHallCount = playerNode.get<int>("<xmlattr>.CityHallCount");
+//    m_unitCount = playerNode.get<int>("<xmlattr>.UnitCount");
+//    m_food = playerNode.get<int>("<xmlattr>.Food");
+//    m_science = playerNode.get<int>("<xmlattr>.Science");
+//    m_weapon = playerNode.get<int>("<xmlattr>.Weapon");
+//    m_foodMultiplier = playerNode.get<double>("<xmlattr>.FoodMultiplicator");
+//    m_scienceMultiplier = playerNode.get<double>("<xmlattr>.ScienceMultiplicator");
+//    m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WeaponMultiplicator");
+//}

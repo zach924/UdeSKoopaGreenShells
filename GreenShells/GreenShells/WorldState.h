@@ -33,5 +33,6 @@ public:
     Map GetMap();
 
     boost::property_tree::ptree Serialize();
+    //void Deserialize(boost::property_tree::ptree worldStateXml);
 };
 

@@ -34,5 +34,9 @@ public:
 	void PrepareGame();
 
     WorldState GetWorldState();
+
+    void Save(std::string fileName);
+    void Load(std::string fileName);
+
 };
 

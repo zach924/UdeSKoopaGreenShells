@@ -103,3 +103,31 @@ boost::property_tree::ptree Map::Serialize()
 
 
 }
+
+//void Map::Deserialize(boost::property_tree::ptree mapNode)
+//{
+//    for each (auto rowNode in mapNode)
+//    {
+//        for each(auto tileNode in rowNode.second)
+//        {
+//            Position p;
+//            p.X = tileNode.second.get<char>("<xmlattr>.X");
+//            p.Y = tileNode.second.get<char>("<xmlattr>.Y");
+//
+//            switch (tileNode.second.get<char>("<xmlattr>.Type"))
+//            {
+//            case 0:
+//                
+//                break;
+//            case 1:
+//                break;
+//            case 2:
+//                break;
+//            
+//            case -1:
+//            default:
+//                break;
+//            }
+//        }
+//    }
+//}
