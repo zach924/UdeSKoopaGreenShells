@@ -13,9 +13,11 @@ public:
 	WorldState();
 	~WorldState();
 
+	void PrepareGame();
+
 	void AddPlayer(const Player& player);
-	
-	
+	void RemovePlayer(int id);
+
 	//temporary, will do a manager for UI
 	Map GetMap();
 };
