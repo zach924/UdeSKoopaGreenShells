@@ -20,7 +20,7 @@ Map::Map()
 	}
 	try
 	{
-		m_texture.LoadFromFile("..\\Sprite\\townhall.bmp");
+		m_texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\Townhall.bmp");
 	}
 	catch (std::exception e)
 	{
