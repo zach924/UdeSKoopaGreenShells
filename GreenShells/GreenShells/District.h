@@ -1,9 +1,10 @@
-#include "Actor.h"
 #pragma once
+#include "Actor.h"
+
 class District : public Actor
 {
 public:
-	District();
+	District(Player& owner);
 	~District();
 
 	void NotifyNewTurn();

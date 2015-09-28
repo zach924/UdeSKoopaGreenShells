@@ -1,11 +1,13 @@
-#include "Position.h"
-
 #pragma once
+#include "Position.h"
+#include "Player.h"
+
 class Actor
 {
+	Player m_owner;
 	Position m_position;
 public:
-	Actor();
+	Actor(Player& owner);
 	~Actor();
 
 	virtual void NotifyNewTurn() = 0;

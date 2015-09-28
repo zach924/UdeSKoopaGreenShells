@@ -1,7 +1,8 @@
 #include "Unit.h"
 
 
-Unit::Unit()
+Unit::Unit(Player& owner)
+	:Actor(owner)
 {
 }
 

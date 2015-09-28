@@ -1,7 +1,8 @@
 #include "District.h"
 
 
-District::District()
+District::District(Player& owner)
+	:Actor(owner)
 {
 }
 

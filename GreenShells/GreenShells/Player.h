@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include "Unit.h"
-#include "District.h"
 
 class Player
 {
@@ -36,8 +34,8 @@ public:
 
     void SetPlayerDead();
 
-	  void SetDead();
-	  bool IsAlive();
+	void SetDead();
+	bool IsAlive();
     int GetFood();
     int GetScience();
     int GetWeapon();
