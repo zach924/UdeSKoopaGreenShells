@@ -1,7 +1,7 @@
 #include "Position.h"
 #include <sstream>
 
-Position::Position(int x = -1, int y = -1)
+Position::Position(int x, int y)
 	: X(x), Y(y)
 {
 }

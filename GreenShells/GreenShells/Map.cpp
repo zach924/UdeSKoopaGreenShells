@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include <assert.h>
 
 
 Map::Map()
@@ -26,6 +27,8 @@ Map::~Map()
 void Map::GenerateTiles()
 {
 	std::ifstream ifs{ "Ressources\\maps\\FirstMap.txt" };
+
+	assert(ifs.good() && "Make sure you have the ressources folder beside your exe." );
 
 	std::string map((std::istreambuf_iterator<char>(ifs)),
 		std::istreambuf_iterator<char>());

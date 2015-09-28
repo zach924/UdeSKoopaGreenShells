@@ -2,6 +2,8 @@
 #include "WorldState.h"
 #include <string>
 
+class RPCManager;
+
 class GameSession
 {
 	WorldState m_worldState;
@@ -9,6 +11,8 @@ class GameSession
 	bool m_isServer;
 	std::string m_serverIP;
 	int m_port;
+
+	RPCManager* m_rpcServerManager;
 
 	GameSession();
 
@@ -29,8 +33,9 @@ public:
 	std::string GetServerIP();
 
 	void SetPort(int port);
-	int getPort();
+	int GetPort();
 
+	bool ConnectToServer();
 	void PrepareGame();
 };
 

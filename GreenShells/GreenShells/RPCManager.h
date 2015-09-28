@@ -4,6 +4,7 @@
 #include "SynchronizedQueue.h"
 #include "RPCStructs.h"
 
+
 class ClientConnection;
 
 class RPCManager
@@ -14,9 +15,8 @@ private:
 	vector<ClientConnection*> m_clients;
 	SynchronizedQueue<RPCEvent> m_events;
 	std::thread* m_thread;
-	
 
 public:
 	RPCManager(int port);
-	void startListening();
+	void StartListening();
 };

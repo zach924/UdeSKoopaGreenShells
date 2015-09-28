@@ -6,8 +6,6 @@
 #include "SynchronizedQueue.h"
 #include "TCPConnection.h"
 
-
-
 // These needs to be before main
 bool SetUpServer(int port)
 {
@@ -33,13 +31,21 @@ bool SetUpClient(char* ip,int port)
 	if (port != 0)
 	{
 		GameSession::GetGameSession().SetPort(port);
+		if (GameSession::GetGameSession().ConnectToServer())
+		{
+			std::cout << "Connected to server." << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "Could not connect to server." << std::endl;
+		}
 	}
 	else
 	{
 		std::cout << "Client requires a port number" << std::endl;
-		return false;
 	}
-	return true;
+	return false;
 }
 
 int main(int argc, char* argv[])
@@ -70,12 +76,14 @@ int main(int argc, char* argv[])
 			{
 				if (!SetUpServer(atoi(argv[PORT_ARG])))
 				{
+					cin.get();
 					return 0;
 				}
 			}
 			else
 			{
 				std::cout << "server requires a port number" << std::endl;
+				cin.get();
 				return 0;
 			}
 		}
@@ -83,13 +91,15 @@ int main(int argc, char* argv[])
 		{
 			if (argc == 4)
 			{
-				if (!SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
+				if (SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
 				{
+					cin.get();
 					return 0;
 				}
 				else
 				{
 					std::cout << "client requires a server ip AND port number" << std::endl;
+					cin.get();
 					return 0;
 				}
 
@@ -97,6 +107,7 @@ int main(int argc, char* argv[])
 			else
 			{
 				std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
+				cin.get();
 				return 0;
 			}
 		}
@@ -105,6 +116,10 @@ int main(int argc, char* argv[])
 		GameWindow::GetInstance().Show(800, 600);
 		GameWindow::GetInstance().Close();
 
+		cin.get();
 		return 0;
 	}
+
+	cin.get();
+	return 0;
 }

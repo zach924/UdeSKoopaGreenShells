@@ -17,7 +17,7 @@ bool RPCBase::EstablishConnection(std::string ip, std::string port)
 	}
 }
 
-bool RPCBase::sendData(std::string data)
+bool RPCBase::SendData(std::string data)
 {
 	try
 	{
@@ -30,7 +30,7 @@ bool RPCBase::sendData(std::string data)
 	}
 }
 
-bool RPCBase::sendData(char* data, int size)
+bool RPCBase::SendData(char* data, int size)
 {
 	try
 	{

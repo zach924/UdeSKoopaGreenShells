@@ -11,7 +11,7 @@ RPCManager::RPCManager(int port)
 
 }
 
-void RPCManager::startListening()
+void RPCManager::StartListening()
 {
 	m_thread = new std::thread([&]() {
 		tcp::acceptor acceptor(TCPConnection::s_ioService, tcp::endpoint(tcp::v4(), m_port));
