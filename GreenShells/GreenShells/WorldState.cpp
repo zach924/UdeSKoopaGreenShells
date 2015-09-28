@@ -49,13 +49,14 @@ boost::property_tree::ptree WorldState::Serialize()
     boost::property_tree::ptree& worldStateNode = worldStateXml.add("WorldState", "");
 
     // Get Player XML to add here
+    boost::property_tree::ptree& playerListNode = worldStateNode.add("Players", "");
     for (Player player : m_players)
     {
-        worldStateNode.add_child("Player", player.Serialize());
+        playerListNode.add_child("Player", player.Serialize());
     }
 
     // Get Map XML
     worldStateNode.add_child("Map", m_map.Serialize());
     
-    return worldStateNode;
+    return worldStateXml;
 }

@@ -7,6 +7,6 @@ public:
 	TileGround(Position position);
 	~TileGround();
 
-    boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree Serialize();
 };
 

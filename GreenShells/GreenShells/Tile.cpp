@@ -23,11 +23,10 @@ Tile::~Tile()
 boost::property_tree::ptree Tile::Serialize()
 {
     boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.Type", "???");
+    tileNode.put("<xmlattr>.Type", "0");
     tileNode.put("<xmlattr>.X", m_position.X);
     tileNode.put("<xmlattr>.Y", m_position.Y);
-
-    tileNode.add("Owner", m_owner);
+    tileNode.put("<xmlattr>.Owner", m_owner);
 
     if (m_unit)
     {

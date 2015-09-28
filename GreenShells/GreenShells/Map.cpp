@@ -16,7 +16,7 @@ Map::Map()
 {
     for (int i = 0; i < ROWS; i++)
     {
-        m_tiles.push_back(std::vector<Tile>(COLUMNS));
+        m_tiles.push_back(std::vector<Tile*>(COLUMNS));
     }
 }
 
@@ -41,16 +41,16 @@ void Map::GenerateTiles()
             switch (tileType)
             {
             case '0':
-                m_tiles[i][j] = TileGround(Position(i, j));
+                m_tiles[i][j] = new TileGround(Position(i, j));
                 break;
 
             case '1':
-                m_tiles[i][j] = TileMountain(Position(i, j));
+                m_tiles[i][j] = new TileMountain(Position(i, j));
                 break;
 
             case '2':
             default:
-                m_tiles[i][j] = TileWater(Position(i, j));
+                m_tiles[i][j] = new TileWater(Position(i, j));
                 break;
             }
         }
@@ -79,7 +79,7 @@ std::vector<Tile> Map::GetArea(Position position, int distance)
 
 Tile Map::GetTile(Position position)
 {
-    return m_tiles[position.X][position.Y];
+    return *m_tiles[position.X][position.Y];
 }
 
 #include <iostream>
@@ -92,13 +92,13 @@ boost::property_tree::ptree Map::Serialize()
     {
         boost::property_tree::ptree& rowNode = mapNode.add("Row", "");
         rowNode.put("<xmlattr>.Number", i);
-        for (auto tile: m_tiles[i])
+        for (int j = 0; j < COLUMNS; ++j)
         {
-            boost::property_tree::ptree& tileNode = tile.Serialize();
+            boost::property_tree::ptree& tileNode = m_tiles[i][j]->Serialize();
             rowNode.add_child("Tile", tileNode);            
         }
     }
-
+            
     return mapNode;
 
 

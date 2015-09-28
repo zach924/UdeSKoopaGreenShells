@@ -5,6 +5,7 @@ int Player::playerIDCounter = 0;
 
 Player::Player()
    :m_playerID(playerIDCounter++),
+    m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
     m_cityHallCount(0), // TODO : Be sure we will have one City Hall when game start
@@ -169,6 +170,7 @@ boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;
     playerNode.put("<xmlattr>.PlayerId", m_playerID);
+    playerNode.put("<xmlattr>.PlayerName", m_playerName);
     playerNode.put("<xmlattr>.CityHallCount", m_cityHallCount);
     playerNode.put("<xmlattr>.UnitCount", m_unitCount);
     playerNode.put("<xmlattr>.Food", m_playerID);
