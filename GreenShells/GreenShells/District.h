@@ -6,6 +6,6 @@ public:
 	District();
 	~District();
 
-    boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree Serialize();
 };
 

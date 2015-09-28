@@ -6,5 +6,7 @@ class TileMountain :
 public:
 	TileMountain(Position position);
 	~TileMountain();
+
+    boost::property_tree::ptree Serialize();
 };
 

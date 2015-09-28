@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <boost\property_tree\ptree.hpp>
 
 int Player::playerIDCounter = 0;
 
@@ -162,4 +163,20 @@ void Player::RemoveWeaponMultiplier(double multiplier)
     {
         m_weaponMultiplier = 0.0;
     }
+}
+
+boost::property_tree::ptree Player::Serialize()
+{
+    boost::property_tree::ptree playerNode;
+    playerNode.put("<xmlattr>.PlayerId", m_playerID);
+    playerNode.put("<xmlattr>.CityHallCount", m_cityHallCount);
+    playerNode.put("<xmlattr>.UnitCount", m_unitCount);
+    playerNode.put("<xmlattr>.Food", m_playerID);
+    playerNode.put("<xmlattr>.Science", m_playerID);
+    playerNode.put("<xmlattr>.Weapon", m_playerID);
+    playerNode.put("<xmlattr>.FoodMultiplicator", m_playerID);
+    playerNode.put("<xmlattr>.ScienceMultiplicator", m_playerID);
+    playerNode.put("<xmlattr>.WeaponMultiplicator", m_playerID);
+
+    return playerNode;
 }

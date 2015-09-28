@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 
         GameSession::GetGameSession().GetWorldState().GetMap().GenerateTiles();
 
-        boost::property_tree::write_xml(std::cout, GameSession::GetGameSession().GetWorldState().GetMap().Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
+        boost::property_tree::write_xml(std::cout, GameSession::GetGameSession().GetWorldState().Serialize());
 
 		GameWindow::GetInstance().Init();
 		GameWindow::GetInstance().Show(800, 600);

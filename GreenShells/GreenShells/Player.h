@@ -3,6 +3,18 @@
 #include "Unit.h"
 #include "District.h"
 
+namespace boost
+{
+    namespace property_tree
+    {
+        template < class Key, class Data, class KeyCompare >
+        class basic_ptree;
+
+        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
+    }
+}
+
+
 class Player
 {
     static int playerIDCounter;
@@ -56,6 +68,9 @@ public:
     void RemoveFoodMultiplier(double multiplier);
     void RemoveScienceMultiplier(double multiplier);
     void RemoveWeaponMultiplier(double multiplier);
+
+
+    boost::property_tree::ptree Serialize();
 
 };
 

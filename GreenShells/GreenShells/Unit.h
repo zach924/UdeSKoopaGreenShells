@@ -9,6 +9,6 @@ public:
     Unit();
     ~Unit();
 
-    boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree Serialize();
 };
 

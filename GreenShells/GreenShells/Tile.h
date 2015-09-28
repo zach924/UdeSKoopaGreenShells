@@ -16,8 +16,10 @@ namespace boost
     }
 }
 
-class Tile
+
+class Tile 
 {
+protected:
     District* m_district;
     Unit* m_unit;
     int m_owner;

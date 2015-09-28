@@ -86,24 +86,20 @@ Tile Map::GetTile(Position position)
 
 boost::property_tree::ptree Map::Serialize()
 {
-
-    // Create an empty property tree object
-    boost::property_tree::ptree mapXml;
-
-    boost::property_tree::ptree& mapNode = mapXml.add("Map", "");
+    boost::property_tree::ptree mapNode;
 
     for (int i = 0; i < ROWS; ++i)
     {
         boost::property_tree::ptree& rowNode = mapNode.add("Row", "");
         rowNode.put("<xmlattr>.Number", i);
-        for (int j = 0; j < COLUMNS; ++j)
+        for (auto tile: m_tiles[i])
         {
-            boost::property_tree::ptree& tile = m_tiles[i][j].Serialize();
-            rowNode.add_child("Tile", tile);            
+            boost::property_tree::ptree& tileNode = tile.Serialize();
+            rowNode.add_child("Tile", tileNode);            
         }
     }
 
-    return mapXml;
+    return mapNode;
 
 
 }

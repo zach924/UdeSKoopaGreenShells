@@ -13,7 +13,7 @@ District::~District()
 
 boost::property_tree::ptree District::Serialize()
 {
-    boost::property_tree::ptree districtNode;
-
-    return districtNode;
+    boost::property_tree::ptree districtXml;
+    districtXml.add("District", "");
+    return districtXml;
 }
