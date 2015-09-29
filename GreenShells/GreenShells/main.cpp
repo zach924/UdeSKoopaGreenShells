@@ -108,24 +108,11 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
-		else
-		{
-			std::cout << "Could not determine if user wanted a client or server" << std::endl;
-			system("PAUSE");
-			return 0;
-		}
 
-		GameWindow::GetInstance().Init();
-		GameWindow::GetInstance().Show(800, 600);
+		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
-
 		system("PAUSE");
 		return 0;
 	}
-
-	std::cout << "Usages : " << std::endl;
-	std::cout << "Greenshells.exe client port ip" << std::endl;
-	std::cout << "Greenshells.exe server port" << std::endl;
-	system("PAUSE");
 	return 0;
 }

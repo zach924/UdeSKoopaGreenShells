@@ -26,6 +26,7 @@ public:
 	}
 	~GameSession();
 
+	WorldState* GetWorldState();
 	void SetIsServer(bool isServer);
 	bool IsServer();
 

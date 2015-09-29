@@ -6,9 +6,9 @@ class Player;
 
 class WorldState
 {
-	std::vector<Player> m_players;
-	
+	std::vector<Player> m_players;	
 	Map m_map;
+
 public:
 	WorldState();
 	~WorldState();
@@ -16,7 +16,9 @@ public:
 	void PrepareGame();
 
 	void AddPlayer(const Player& player);
-
 	void RemovePlayer(int id);
+
+	//temporary, will do a manager for UI
+	Map GetMap();
 };
 
