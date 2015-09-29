@@ -30,12 +30,11 @@ GameWindow::~GameWindow()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
-	//bool loaded = false;
-	//Texture* text = new Texture();
+	Map* map = GameSession::GetGameSession().GetWorldState()->GetMap();
 
-	//Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
-	//TileBase* tile = map.GetTile(Position(0, 0));
-	//Texture text = tile->GetTexture();
+	bool loaded = false;
+	Texture* unit = new Texture();
+
 	while (!quit)
 	{
 		SDL_Event e;
@@ -50,34 +49,31 @@ void GameWindow::ShowWindow()
 		}
 
 		//Clear screen
-		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
 		SDL_RenderClear(m_renderer);
 
-		//Render Screen
-		//this is temporary
-		//TileBase* tile= new TileGround(Position(0,0));
-		//tile->GetTexture().Render(0, 0);
-		Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
-		for (int i = 0; i <= 2; ++i)
+		if (!loaded)
 		{
-			for (int j = 0; j <= 2; ++j)
-			{
-				Texture text = map.GetTile(Position(i, j))->GetTexture();;
-				SDL_Rect renderQuad = { i*64, j*64, text.GetWidth(), text.GetHeight() };
-				text.SetColor(200, 100, 100);
-				SDL_RenderCopy(m_renderer, text.GetTexture(), NULL, &renderQuad);
-			}
+			loaded = true;
+			unit->LoadFromFile("..\\Sprite\\Units\\64x64\\mace.bmp");
 		}
 
-		//TileBase* tile = map.GetTile(Position(0, 0));
-		//Texture text = tile->GetTexture();
-
-		//if(!loaded)
-		//{
-		//	text->LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
-		//	loaded = true;
-		//}
-
+		//Render Screen
+		for (int i = 0; i <= 7; ++i)
+		{
+			for (int j = 0; j <= 10; ++j)
+			{
+				Texture* texture = map->GetTile(Position(i, j))->GetTexture();
+				int x = j * 65;
+				int y = i * 65;
+				SDL_Rect renderQuad = { x, y, texture->GetWidth(), texture->GetHeight() };
+				//texture->SetColor(200, 100, 100);
+				SDL_RenderCopy(m_renderer, texture->GetTexture(), NULL, &renderQuad);
+			}
+		}
+		unit->SetColor(210, 125, 125);
+		SDL_Rect renderQuad = { 4*65, 4*65, unit->GetWidth(), unit->GetHeight() };
+		SDL_RenderCopy(m_renderer, unit->GetTexture(), NULL, &renderQuad);
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

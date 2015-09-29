@@ -3,7 +3,7 @@
 class TileBase
 {
 public:
-	virtual Texture GetTexture()=0;
+	virtual Texture* GetTexture()=0;
 	TileBase();
 	~TileBase();
 };

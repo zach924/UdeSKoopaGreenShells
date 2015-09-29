@@ -19,13 +19,13 @@ public:
 
 	void LoadTexture() {};
 
-	Texture GetTexture()
+	Texture* GetTexture()
 	{
 		if (!m_Texture.IsLoaded())
 		{
 			static_cast<T*>(this)->LoadTexture();
 		}
-		return m_Texture;
+		return &m_Texture;
 	}
 
 	Position m_position;
