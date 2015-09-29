@@ -49,6 +49,11 @@ void WorldState::RemovePlayer(int id)
 	}
 }
 
+Player & WorldState::GetPlayer(int playerID)
+{
+	return m_players.at(playerID);
+}
+
 Map WorldState::GetMap()
 {
 	return m_map;

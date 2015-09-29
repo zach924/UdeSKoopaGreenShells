@@ -18,6 +18,7 @@ public:
 
 	void AddPlayer(const Player& player);
 	void RemovePlayer(int id);
+	Player& GetPlayer(int playerID);
 
 	//temporary, will do a manager for UI
 	Map GetMap();

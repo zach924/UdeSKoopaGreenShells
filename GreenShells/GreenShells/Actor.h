@@ -10,6 +10,6 @@ public:
 	Actor(int ownerID, Position position = Position(-1,-1));
 	~Actor();
 
-	virtual void NotifyNewTurn() = 0;
+	virtual void NotifyNewTurn();
 };
 
