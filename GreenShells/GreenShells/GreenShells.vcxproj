@@ -177,6 +177,7 @@
     <ClCompile Include="RPCBase.cpp" />
     <ClCompile Include="RPCDispatcher.cpp" />
     <ClCompile Include="RPCManager.cpp" />
+    <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="RPCDispatcher.h" />
     <ClInclude Include="RPCManager.h" />
     <ClInclude Include="RPCStructs.h" />
+    <ClInclude Include="ServerSession.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />

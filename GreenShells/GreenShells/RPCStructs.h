@@ -17,15 +17,16 @@ enum RPCStructType
 
 enum RPCClassMethodType
 {
+	//Class_Method,
 	Map_Move,
 
 };
 
-
 struct RPCBasicStruct
 {
+	int m_turn;
 	int m_requestingPlayerID;
-	int m_RPCClassMethod;
+	RPCClassMethodType m_RPCClassMethod;
 
 	virtual bool virtualMethodForCompile()
 	{ return false;	}

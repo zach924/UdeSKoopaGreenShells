@@ -28,11 +28,17 @@ void WorldState::PrepareGame()
 {
 	m_map =	new MapLocal();
 	m_map->GenerateTiles();
-	AddPlayer(Player());
+}
+
+int WorldState::GetCurrentTurn()
+{
+	return m_turn;
 }
 
 void WorldState::NotifyNewTurn()
 {
+	m_turn++;
+
 	//Notify map of a new turn
 	m_map->NotifyNewturn();
 
@@ -48,7 +54,7 @@ void WorldState::NotifyNewTurn()
 
 void WorldState::AddPlayer(const Player& player)
 {
-	m_players.push_back(player);
+	m_players.emplace_back(player);
 }
 
 void WorldState::RemovePlayer(int id)
@@ -68,17 +74,20 @@ Player & WorldState::GetPlayer(int playerID)
 	return m_players.at(playerID);
 }
 
-bool WorldState::IsAllPlayerReady()
+bool WorldState::AreAllPlayerReady()
 {
-	bool result = true;
+	if (m_players.empty())
+	{
+		return false;
+	}
 
 	for (Player& player : m_players)
 	{
-		if (player.IsAlive())
+		if (player.IsAlive() && !player.IsPlayerReadyForNextTurn())
 		{
-			result &= player.IsPlayerReadyForNextTurn();
+			return false;
 		}
 	}
 
-	return result;
+	return true;
 }

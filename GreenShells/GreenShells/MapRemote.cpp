@@ -23,6 +23,7 @@ bool MapRemote::MoveUnit(int id, Position unitLocation, Position newLocation)
 
 	RPCBasicTwoPositionsStruct data;
 	data.m_RPCClassMethod = RPCClassMethodType::Map_Move;
+	data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
 	data.m_requestingPlayerID = id;
 	data.m_firstPosition = unitLocation;
 	data.m_secondPosition = newLocation;

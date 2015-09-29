@@ -144,6 +144,9 @@
     <ClCompile Include="UnitRemote.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="ServerSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="UnitRemote.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,6 +13,6 @@ Position::~Position()
 std::string Position::ToString() const
 {
 	std::stringstream ss;
-	ss << "[ " << X << " ][ " << Y << " ]\n";
+	ss << "[ " << X << " ][ " << Y << " ]";
 	return ss.str();
 }

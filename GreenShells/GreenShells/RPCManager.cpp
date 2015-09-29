@@ -1,8 +1,11 @@
 #include <iostream>
 #include <thread>
+
 #include "RPCManager.h"
 #include "ClientConnection.h"
 #include "RPCDispatcher.h"
+#include "WorldState.h"
+#include "Player.h"
 
 using boost::asio::ip::tcp;
 
@@ -21,25 +24,29 @@ void RPCManager::StartListening()
 		{
 			ClientConnection* newClient = new ClientConnection{};
 			acceptor.accept(newClient->GetTCPConnection().GetSocket());
-			newClient->SetQueuePointer(&m_events);
+			newClient->SetQueuePointer(m_events);
 			newClient->StartThread();
 			m_clients.push_back(newClient);
 		}
 	});
 }
 
-void RPCManager::SetRPCDispatcher(RPCDispatcher* dispatcher)
+void RPCManager::SetEventQueue(SynchronizedQueue<RPCEvent>* queue)
 {
-	dispatcher->SetEventQueue(&m_events);
-	m_RPCDispatcher = dispatcher;
+	m_events = queue;
 }
 
-RPCDispatcher* RPCManager::GetRPCDispatcher()
+SynchronizedQueue<RPCEvent>* RPCManager::GetEventQueue()
 {
-	return m_RPCDispatcher;
+	return m_events;
 }
 
-void RPCManager::DispatchEvents()
+void RPCManager::SetWorldState(WorldState* worldState)
 {
-	m_RPCDispatcher->Dispatch();
+	m_worldState = worldState;
+}
+
+WorldState* RPCManager::GetWorldState()
+{
+	return m_worldState;
 }

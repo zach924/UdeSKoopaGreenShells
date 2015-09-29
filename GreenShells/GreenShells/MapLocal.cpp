@@ -27,7 +27,7 @@ bool MapLocal::MoveUnit(int id, Position unitLocation, Position newLocation)
 	}
 
 	//There is a unit be he does not belong to the requester
-	if (firstTile->GetUnit()->GetPlayerOwnerID() != id)
+	if (firstTile->GetUnit()->GetOwnerID() != id)
 	{
 		return false;
 	}
@@ -41,7 +41,7 @@ bool MapLocal::MoveUnit(int id, Position unitLocation, Position newLocation)
 	}
 
 	//New Location is emtpy or there is a district and it's allied. Move him
-	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetPlayerOwnerID() == id))
+	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == id))
 	{
 		secondTile->SetUnit(firstTile->GetUnit());
 		firstTile->SetUnit(nullptr);
