@@ -4,7 +4,7 @@
 class District : public Actor
 {
 public:
-	District(Player& owner);
+	District(int& ownerID);
 	~District();
 
 	void NotifyNewTurn();

@@ -1,76 +1,74 @@
 #include <iostream>
+#include <sstream>
 #include "GameWindow.h"
+#include "GameSession.h"
+#include "Texture.h"
+#include "WorldState.h"
+#include <assert.h>
 
-
-GameWindow::GameWindow()
+GameWindow::GameWindow(int width, int height)
+	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
 {
-    m_window = NULL;
+	//Initialize SDL
+	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
+	
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+	assert(m_window != NULL && SDL_GetError());
+
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	assert(m_renderer != NULL && SDL_GetError());
+
+	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
 GameWindow::~GameWindow()
 {
-
+	Close();
 }
 
-void GameWindow::Init()
+void GameWindow::ShowWindow()
 {
-    m_window = NULL;
+	bool quit = false;
+	while (!quit)
+	{
+		SDL_Event e;
 
-    //Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-    }
+		//Handle events on queue
+		while (SDL_PollEvent(&e) != 0)
+		{
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
+		}
 
+		//Clear screen
+		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderClear(m_renderer);
+
+		//Render Screen
+		//this is temporary
+		GameSession::GetInstance().GetWorldState()->GetMap().m_texture.Render(300,300);
+
+		//Draw screen
+		SDL_RenderPresent(m_renderer);
+	}
+	Close();
 }
 
-void GameWindow::Show(int width, int height)
+SDL_Renderer * GameWindow::GetRenderer()
 {
-    bool quit = false;
-    //Event handler
-    SDL_Event e;
-
-    //The surface contained by the window
-    SDL_Surface* screenSurface = NULL;
-
-    //Create window
-    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
-    if (m_window == NULL)
-    {
-        std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-    }
-    else
-    {
-        while (!quit)
-        {
-            //Get window surface
-            screenSurface = SDL_GetWindowSurface(m_window);
-
-            //Fill the surface white
-            SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-
-            //Update the surface
-            SDL_UpdateWindowSurface(m_window);
-
-            //Handle events on queue
-            while (SDL_PollEvent(&e) != 0)
-            {
-                //User requests quit
-                if (e.type == SDL_QUIT)
-                {
-                    quit = true;
-                }
-            }
-        }
-    }
-
+	return m_renderer;
 }
 
 void GameWindow::Close()
 {
-    //Destroy window
-    SDL_DestroyWindow(m_window);
+	//Destroy window    
+	SDL_DestroyRenderer(m_renderer);
+	SDL_DestroyWindow(m_window);
+	m_window = NULL;
+	m_renderer = NULL;
 
-    //Quit SDL subsystems
-    SDL_Quit();
+	//Quit SDL subsystems
+	SDL_Quit();
 }

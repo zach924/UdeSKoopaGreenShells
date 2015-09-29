@@ -6,7 +6,6 @@ Position::Position(int x, int y)
 {
 }
 
-
 Position::~Position()
 {
 }

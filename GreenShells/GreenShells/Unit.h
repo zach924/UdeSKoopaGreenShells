@@ -4,7 +4,7 @@
 class Unit : public Actor
 {
 public:
-	Unit(Player& owner);
+	Unit(int& ownerID);
 	~Unit();
 
 	void NotifyNewTurn();

@@ -37,7 +37,6 @@ void WorldState::AddPlayer(const Player& player)
 {
 	m_players.push_back(player);
 }
-
 void WorldState::RemovePlayer(int id)
 {
 	for (Player &player : m_players)
@@ -48,6 +47,11 @@ void WorldState::RemovePlayer(int id)
 			break;
 		}
 	}
+}
+
+Map WorldState::GetMap()
+{
+	return m_map;
 }
 
 bool WorldState::IsAllPlayerReady()

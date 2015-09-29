@@ -6,8 +6,11 @@
 
 #include <fstream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
+#include <assert.h>
 
+Texture Map::m_texture = {};
 
 Map::Map()
 :m_tiles()
@@ -15,6 +18,14 @@ Map::Map()
 	for (int i = 0; i < ROWS; i++)
 	{
 		m_tiles.push_back(std::vector<Tile>(COLUMNS));
+	}
+	try
+	{
+		m_texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\Townhall.bmp");
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what();
 	}
 }
 
@@ -26,6 +37,8 @@ Map::~Map()
 void Map::GenerateTiles()
 {
 	std::ifstream ifs{ "Ressources\\maps\\FirstMap.txt" };
+
+	assert(ifs.good() && "Make sure you have the ressources folder beside your exe." );
 
 	std::string map((std::istreambuf_iterator<char>(ifs)),
 		std::istreambuf_iterator<char>());

@@ -1,8 +1,8 @@
 #include "Unit.h"
 
 
-Unit::Unit(Player& owner)
-	:Actor(owner)
+Unit::Unit(int& ownerID)
+	:Actor(ownerID)
 {
 }
 
