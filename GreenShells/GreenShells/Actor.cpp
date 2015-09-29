@@ -1,5 +1,4 @@
 #include "Actor.h"
-#include "GameSession.h"
 
 Actor::Actor(int ownerID,Position position)
 	:m_position(position),
@@ -12,8 +11,12 @@ Actor::~Actor()
 {
 }
 
-void Actor::NotifyNewTurn()
+void Actor::SetOwnerID(int ID)
 {
-	Player player = GameSession::GetInstance().GetWorldState()->GetPlayer(m_ownerID);
-	// TODO: Update all player ressources
+	m_ownerID = ID;
+}
+
+int Actor::GetOwnerID()
+{
+	return m_ownerID;
 }

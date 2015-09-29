@@ -53,7 +53,5 @@ public:
 
 	void RunGame();
 	void QuitGame();
-
-	void NotifyPlayerReadyForNewTurn();
 };
 

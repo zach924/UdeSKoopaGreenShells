@@ -36,11 +36,6 @@ void Player::NotifyNewTurn()
 void Player::SetPlayerReadyForNextTurn(bool isReady)
 {
 	m_isReadyForNewTurn = isReady;
-	if (m_isReadyForNewTurn)
-	{
-		GameSession::GetInstance().NotifyPlayerReadyForNewTurn();
-	}
-
 }
 
 bool Player::IsPlayerReadyForNextTurn()

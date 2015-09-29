@@ -74,7 +74,7 @@ void GameSession::RunGame()
 
 void GameSession::Run()
 {
-	std::unique_lock<std::mutex> lock(m_allPlayerReadyMutex);
+	// Todo: one winner
 	while (true)
 	{
 		// Notify world sate of a new turn
@@ -83,17 +83,11 @@ void GameSession::Run()
 		//End of turn when every player is ready
 		while (!m_worldState.IsAllPlayerReady())
 		{
-			m_cv.wait(lock);
+			// Todo: dispatch stuff
 			//std::cout << "Unlocking" << std::endl;
 		}
 
 	}
-}
-
-void GameSession::NotifyPlayerReadyForNewTurn()
-{
-	std::unique_lock<std::mutex> lock(m_allPlayerReadyMutex);
-	m_cv.notify_one();
 }
 
 void GameSession::QuitGame()
