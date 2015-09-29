@@ -57,9 +57,9 @@ void Map::GenerateTiles()
     }
 }
 
-std::vector<Tile> Map::GetArea(Position position, int distance)
+std::vector<Tile*> Map::GetArea(Position position, int distance)
 {
-    std::vector<Tile> area;
+    std::vector<Tile*> area;
 
     //find miminum and maximum
     int minCol = std::max(position.X - distance, 0);
@@ -77,9 +77,9 @@ std::vector<Tile> Map::GetArea(Position position, int distance)
     return area;
 }
 
-Tile Map::GetTile(Position position)
+Tile* Map::GetTile(Position position)
 {
-    return *m_tiles[position.X][position.Y];
+    return m_tiles[position.X][position.Y];
 }
 
 #include <iostream>
@@ -104,30 +104,34 @@ boost::property_tree::ptree Map::Serialize()
 
 }
 
-//void Map::Deserialize(boost::property_tree::ptree mapNode)
-//{
-//    for each (auto rowNode in mapNode)
-//    {
-//        for each(auto tileNode in rowNode.second)
-//        {
-//            Position p;
-//            p.X = tileNode.second.get<char>("<xmlattr>.X");
-//            p.Y = tileNode.second.get<char>("<xmlattr>.Y");
-//
-//            switch (tileNode.second.get<char>("<xmlattr>.Type"))
-//            {
-//            case 0:
-//                
-//                break;
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            
-//            case -1:
-//            default:
-//                break;
-//            }
-//        }
-//    }
-//}
+Map Map::Deserialize(boost::property_tree::ptree mapNode)
+{
+    Map map;
+    for each (auto rowNode in mapNode)
+    {
+        for each(auto tileNode in rowNode.second)
+        {
+            Position pos{ tileNode.second.get<char>("<xmlattr>.X"), tileNode.second.get<char>("<xmlattr>.Y") };
+
+            switch (tileNode.second.get<char>("<xmlattr>.Type"))
+            {
+            case 0:
+                map.m_tiles[pos.X][pos.Y] = new TileGround(pos);
+                break;
+            case 1:
+                map.m_tiles[pos.X][pos.Y] = new TileMountain(pos);
+                break;
+            case 2:
+                map.m_tiles[pos.X][pos.Y] = new TileWater(pos);
+                break;
+            
+            case -1:
+            default:
+                // Probably throw error for corrupt file
+                break;
+            }
+        }
+    }
+
+    return map;
+}

@@ -61,22 +61,26 @@ boost::property_tree::ptree WorldState::Serialize()
     return worldStateXml;
 }
 
-//void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
-//{
-//    for each (auto worldStateNode in worldStateXml.get_child("WorldState"))
-//    {
-//        if (worldStateNode.first == "Players")
-//        {
-//            int i = 0;
-//            for each (auto playerNode in worldStateNode.second)
-//            {
-//                m_players[i].Deserialize(playerNode.second);
-//            }
-//        }
-//        else if (worldStateNode.first == "Map")
-//        {
-//            m_map.Deserialize(worldStateNode.second);
-//        }
-//
-//    }
-//}
+WorldState WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
+{
+    WorldState worldState;
+
+    for each (auto worldStateNode in worldStateXml.get_child("WorldState"))
+    {
+        if (worldStateNode.first == "Players")
+        {
+            int i = 0;
+            for each (auto playerNode in worldStateNode.second)
+            {
+                worldState.m_players[i++].Deserialize(playerNode.second);
+            }
+        }
+        else if (worldStateNode.first == "Map")
+        {
+            worldState.m_map.Deserialize(worldStateNode.second);
+        }
+
+    }
+
+    return worldState;
+}

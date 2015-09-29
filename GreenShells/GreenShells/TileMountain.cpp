@@ -35,3 +35,8 @@ boost::property_tree::ptree TileMountain::Serialize()
 
     return tileNode;
 }
+
+TileMountain TileMountain::Deserialize(boost::property_tree::ptree tileNode)
+{
+    return TileMountain();
+}

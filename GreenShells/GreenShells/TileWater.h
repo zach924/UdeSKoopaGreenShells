@@ -8,5 +8,6 @@ public:
 	~TileWater();
 
     virtual boost::property_tree::ptree Serialize();
+    TileWater Deserialize(boost::property_tree::ptree tileNode);
 };
 

@@ -23,7 +23,7 @@ Tile::~Tile()
 boost::property_tree::ptree Tile::Serialize()
 {
     boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.Type", "0");
+    tileNode.put("<xmlattr>.Type", "0"); // IF we get here (we should not) we will assume its a ground tile
     tileNode.put("<xmlattr>.X", m_position.X);
     tileNode.put("<xmlattr>.Y", m_position.Y);
     tileNode.put("<xmlattr>.Owner", m_owner);
@@ -40,4 +40,9 @@ boost::property_tree::ptree Tile::Serialize()
     }
 
     return tileNode;
+}
+
+Tile Tile::Deserialize(boost::property_tree::ptree tileNode)
+{
+    return Tile();
 }

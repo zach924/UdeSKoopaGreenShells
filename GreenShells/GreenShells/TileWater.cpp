@@ -37,3 +37,26 @@ boost::property_tree::ptree TileWater::Serialize()
 
     return tileNode;
 }
+
+TileWater TileWater::Deserialize(boost::property_tree::ptree tileNode)
+{
+    TileWater waterTile(Position(0,0));
+    //player.m_cityHallCount = playerNode.get<int>("<xmlattr>.CityHallCount");
+    waterTile.m_position.X = tileNode.get<int>("<xmlattr>.X");
+    waterTile.m_position.Y = tileNode.get<int>("<xmlattr>.Y");
+    waterTile.m_owner = tileNode.get<int>("<xmlattr>.Owner");
+
+    for each(auto child in tileNode.get_child("Tile"))
+    {
+        if (child.first == "Unit")
+        {
+            // TODO : will need to check how exactly, i think a switch case depend on unit type
+        }
+        else if (child.first == "District")
+        {
+            // TODO : will need to check how exactly, i think a switch case depend on district type
+        }
+    }
+
+    return waterTile;
+}

@@ -35,3 +35,8 @@ boost::property_tree::ptree TileGround::Serialize()
 
     return tileNode;
 }
+
+TileGround TileGround::Deserialize(boost::property_tree::ptree tileNode)
+{
+    return TileGround();
+}

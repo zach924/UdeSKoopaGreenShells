@@ -27,11 +27,11 @@ public:
 
     void GenerateTiles();
 
-    std::vector<Tile> GetArea(Position position, int distance);
+    std::vector<Tile*> GetArea(Position position, int distance);
 
-    Tile GetTile(Position);
+    Tile* GetTile(Position);
 
     boost::property_tree::ptree Serialize();
-    //void Deserialize(boost::property_tree::ptree mapNode);
+    Map Deserialize(boost::property_tree::ptree mapNode);
 };
 

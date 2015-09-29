@@ -31,5 +31,6 @@ public:
     ~Tile();
 
     virtual boost::property_tree::ptree Serialize();
+    virtual Tile Deserialize(boost::property_tree::ptree tileNode);
 };
 
