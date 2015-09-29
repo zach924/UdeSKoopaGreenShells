@@ -13,15 +13,11 @@ bool SetUpServer(int port)
 	if (port != 0)
 	{
 		GameSession::GetGameSession().SetPort(port);
-	}
-	else
-	{
-		std::cout << "Server requires a port number" << std::endl;
-		return false;
+		GameSession::GetGameSession().PrepareGame();
+		return true;
 	}
 
-	GameSession::GetGameSession().PrepareGame();
-	return true;
+	return false;
 }
 
 bool SetUpClient(char* ip,int port)
@@ -41,10 +37,7 @@ bool SetUpClient(char* ip,int port)
 			std::cout << "Could not connect to server." << std::endl;
 		}
 	}
-	else
-	{
-		std::cout << "Client requires a port number" << std::endl;
-	}
+
 	return false;
 }
 
@@ -74,16 +67,21 @@ int main(int argc, char* argv[])
 		{
 			if (argc == 3)
 			{
-				if (!SetUpServer(atoi(argv[PORT_ARG])))
+				if (SetUpServer(atoi(argv[PORT_ARG])))
 				{
-					cin.get();
+
+				}
+				else
+				{
+					std::cout << "Could not set up a server." << std::endl;
+					system("PAUSE");
 					return 0;
 				}
 			}
 			else
 			{
-				std::cout << "server requires a port number" << std::endl;
-				cin.get();
+				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
+				system("PAUSE");
 				return 0;
 			}
 		}
@@ -93,33 +91,41 @@ int main(int argc, char* argv[])
 			{
 				if (SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
 				{
-					cin.get();
-					return 0;
+
 				}
 				else
 				{
-					std::cout << "client requires a server ip AND port number" << std::endl;
-					cin.get();
+					std::cout << "Could not set up a client" << std::endl;
+					system("PAUSE");
 					return 0;
 				}
 
 			}
 			else
 			{
-				std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
-				cin.get();
+				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
+				system("PAUSE");
 				return 0;
 			}
+		}
+		else
+		{
+			std::cout << "Could not determine if user wanted a client or server" << std::endl;
+			system("PAUSE");
+			return 0;
 		}
 
 		GameWindow::GetInstance().Init();
 		GameWindow::GetInstance().Show(800, 600);
 		GameWindow::GetInstance().Close();
 
-		cin.get();
+		system("PAUSE");
 		return 0;
 	}
 
-	cin.get();
+	std::cout << "Usages : " << std::endl;
+	std::cout << "Greenshells.exe client port ip" << std::endl;
+	std::cout << "Greenshells.exe server port" << std::endl;
+	system("PAUSE");
 	return 0;
 }
