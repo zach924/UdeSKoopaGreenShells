@@ -13,6 +13,11 @@ Texture::~Texture()
 	Free();
 }
 
+bool Texture::IsLoaded()
+{
+	return m_IsLoaded;
+}
+
 bool Texture::LoadFromFile(std::string path)
 {
 	Free();
@@ -20,7 +25,7 @@ bool Texture::LoadFromFile(std::string path)
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
 	if (loadedSurface == NULL)
 	{
-		std::string msg("Unable to load image TestTile.bmp! SDL Error: %s", SDL_GetError());
+		std::string msg(SDL_GetError());
 		SDL_FreeSurface(loadedSurface);
 		throw new std::exception(msg.c_str());
 		return false;
@@ -33,7 +38,7 @@ bool Texture::LoadFromFile(std::string path)
 		newTexture = SDL_CreateTextureFromSurface(GameWindow::GetInstance().GetRenderer(), loadedSurface);
 		if (newTexture == NULL)
 		{
-			std::string msg("Unable to create texture from %s! SDL Error: %s\n", SDL_GetError());
+			std::string msg(SDL_GetError());
 			SDL_FreeSurface(loadedSurface);
 			throw new std::exception(msg.c_str());
 			return false;
@@ -46,7 +51,8 @@ bool Texture::LoadFromFile(std::string path)
 		SDL_FreeSurface(loadedSurface);
 	}
 	m_texture = newTexture;
-	return m_texture != NULL;
+	m_IsLoaded = m_texture != NULL;
+	return m_IsLoaded;
 }
 
 void Texture::Free()
@@ -79,4 +85,9 @@ int Texture::GetHeight()
 int Texture::GetWidth()
 {
 	return m_width;
+}
+
+SDL_Texture* Texture::GetTexture()
+{
+	return m_texture;
 }

@@ -1,10 +1,11 @@
 #pragma once
 #include "Tile.h"
 class TileGround :
-	public Tile
+	public Tile<TileGround>
 {
 public:
-	static Texture m_texture;
+	typedef Tile<TileGround> tBase;
+	void LoadTexture();
 	TileGround(Position position);
 	~TileGround();
 };

@@ -1,19 +1,22 @@
 #include "TileMountain.h"
 
-Texture TileMountain::m_texture = {};
+
 TileMountain::TileMountain(Position position)
 :Tile(position)
 {
+}
+
+void TileMountain::LoadTexture()
+{
 	try
 	{
-		m_texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Mountain.bmp");
+		TileMountain::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
 	}
 	catch (std::exception e)
 	{
 		//std::cout << e.what();
 	}
 }
-
 
 TileMountain::~TileMountain()
 {

@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "WorldState.h"
 #include <assert.h>
+#include "TileGround.h"
 
 GameWindow::GameWindow(int width, int height)
 	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
@@ -29,6 +30,12 @@ GameWindow::~GameWindow()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
+	//bool loaded = false;
+	//Texture* text = new Texture();
+
+	//Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
+	//TileBase* tile = map.GetTile(Position(0, 0));
+	//Texture text = tile->GetTexture();
 	while (!quit)
 	{
 		SDL_Event e;
@@ -48,14 +55,29 @@ void GameWindow::ShowWindow()
 
 		//Render Screen
 		//this is temporary
-		//Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
-		//for (int i = 0; i <= 2; ++i)
+		//TileBase* tile= new TileGround(Position(0,0));
+		//tile->GetTexture().Render(0, 0);
+		Map map = GameSession::GetGameSession().GetWorldState()->GetMap();
+		for (int i = 0; i <= 2; ++i)
+		{
+			for (int j = 0; j <= 2; ++j)
+			{
+				Texture text = map.GetTile(Position(i, j))->GetTexture();;
+				SDL_Rect renderQuad = { i*64, j*64, text.GetWidth(), text.GetHeight() };
+				text.SetColor(200, 100, 100);
+				SDL_RenderCopy(m_renderer, text.GetTexture(), NULL, &renderQuad);
+			}
+		}
+
+		//TileBase* tile = map.GetTile(Position(0, 0));
+		//Texture text = tile->GetTexture();
+
+		//if(!loaded)
 		//{
-		//	for (int j = 0; j <= 2; ++j)
-		//	{
-		//		map.GetTile(Position(i,j))->m_texture.Render(i * 64, j * 64);
-		//	}
+		//	text->LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
+		//	loaded = true;
 		//}
+
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

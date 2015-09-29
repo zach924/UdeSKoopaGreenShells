@@ -96,6 +96,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="TileBase.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBase.h">
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

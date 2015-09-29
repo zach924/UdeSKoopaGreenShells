@@ -1,13 +1,10 @@
 #include "TileGround.h"
 
-Texture TileGround::m_texture = {};
-
-TileGround::TileGround(Position position)
-:Tile(position)
+void TileGround::LoadTexture()
 {
 	try
 	{
-		m_texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
+		TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
 	}
 	catch (std::exception e)
 	{
@@ -15,6 +12,10 @@ TileGround::TileGround(Position position)
 	}
 }
 
+TileGround::TileGround(Position position)
+:Tile(position)
+{
+}
 
 TileGround::~TileGround()
 {

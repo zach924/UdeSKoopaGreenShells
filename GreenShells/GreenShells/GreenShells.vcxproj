@@ -173,6 +173,7 @@
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileBase.cpp" />
     <ClCompile Include="TileGround.cpp" />
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Position.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileBase.h" />
     <ClInclude Include="TileGround.h" />
     <ClInclude Include="TileMountain.h" />
     <ClInclude Include="TileWater.h" />

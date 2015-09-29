@@ -16,7 +16,7 @@ Map::Map()
 {
 	for (int i = 0; i < ROWS; i++)
 	{
-		m_tiles.push_back(std::vector<Tile*>(COLUMNS));
+		m_tiles.push_back(std::vector<TileBase*>(COLUMNS));
 	}
 	//try
 	//{
@@ -65,9 +65,9 @@ void Map::GenerateTiles()
 	}
 }
 
-std::vector<Tile*> Map::GetArea(Position position, int distance)
+std::vector<TileBase*> Map::GetArea(Position position, int distance)
 {
-	std::vector<Tile*> area;
+	std::vector<TileBase*> area;
 
 	//find miminum and maximum
 	int minCol = std::max(position.X - distance, 0);
@@ -85,7 +85,7 @@ std::vector<Tile*> Map::GetArea(Position position, int distance)
 	return area;
 }
 
-Tile* Map::GetTile(Position position)
+TileBase* Map::GetTile(Position position)
 {
 	return m_tiles[position.X][position.Y];
 }
