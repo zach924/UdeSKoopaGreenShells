@@ -92,3 +92,15 @@ Tile* Map::GetTile(Position position)
 {
 	return m_tiles[position.X][position.Y];
 }
+
+void Map::NotifyNewturn()
+{
+	for (std::vector<Tile*>& tileRow : m_tiles)
+	{
+		for (Tile* tile : tileRow)
+		{
+			tile->NotifyNewTurn();
+		}
+		
+	}
+}

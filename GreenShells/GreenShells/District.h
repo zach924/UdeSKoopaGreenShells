@@ -1,13 +1,15 @@
-#include "Actor.h"
 #pragma once
+#include "Actor.h"
+
 class District : public Actor
 {
 	int m_playerOwner;
 public:
-	District();
+	District(int& ownerID);
 	~District();
 
 	int GetPlayerOwnerID();
+	void NotifyNewTurn();
 	void SetPlayerOwnerID(int ID);
 
 };

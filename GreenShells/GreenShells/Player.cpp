@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameSession.h"
 
 int Player::playerIDCounter = 0;
 
@@ -34,7 +35,7 @@ void Player::NotifyNewTurn()
 
 void Player::SetPlayerReadyForNextTurn(bool isReady)
 {
-    m_isReadyForNewTurn = isReady;
+	m_isReadyForNewTurn = isReady;
 }
 
 bool Player::IsPlayerReadyForNextTurn()
@@ -42,7 +43,7 @@ bool Player::IsPlayerReadyForNextTurn()
     return m_isReadyForNewTurn;
 }
 
-void Player::SetPlayerDead()
+void Player::SetDead()
 {
     m_isAlive = false;
 }
@@ -162,4 +163,9 @@ void Player::RemoveWeaponMultiplier(double multiplier)
     {
         m_weaponMultiplier = 0.0;
     }
+}
+
+bool Player::IsAlive()
+{
+	return m_isAlive;
 }

@@ -129,9 +129,6 @@
     <ClCompile Include="TCPConnection.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="UnitRemote.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="RPCDispatcher.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
@@ -143,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="MapRemote.cpp">
       <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitRemote.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +206,6 @@
     <ClInclude Include="SynchronizedQueue.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="UnitRemote.h">
-      <Filter>Header Files\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="RPCDispatcher.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="MapRemote.h">
       <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitRemote.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

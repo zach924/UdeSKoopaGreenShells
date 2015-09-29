@@ -17,6 +17,8 @@ public:
 	Tile();
 	~Tile();
 
+	void NotifyNewTurn();
+
 	District* GetDistrict();
 	void SetDistrict(District* district);
 

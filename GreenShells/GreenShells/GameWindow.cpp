@@ -49,7 +49,7 @@ void GameWindow::ShowWindow()
 
 		//Render Screen
 		//this is temporary
-		GameSession::GetGameSession().GetWorldState()->GetMap()->m_texture.Render(300,300);
+		GameSession::GetInstance().GetWorldState()->GetMap()->m_texture.Render(300,300);
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

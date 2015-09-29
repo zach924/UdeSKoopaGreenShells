@@ -23,5 +23,6 @@ public:
 
 	Tile* GetTile(Position);
 	virtual bool MoveUnit(int id, Position unitLocation, Position newLocation)=0;
+	void NotifyNewturn();
 };
 

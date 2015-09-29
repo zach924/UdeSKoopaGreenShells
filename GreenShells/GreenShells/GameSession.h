@@ -1,6 +1,10 @@
 #pragma once
-#include "WorldState.h"
 #include <string>
+#include <thread>
+#include <condition_variable>
+
+#include "WorldState.h"
+
 
 class RPCManager;
 class Player;
@@ -8,6 +12,12 @@ class RPCDispatcher;
 
 class GameSession
 {
+	std::thread m_gameSessionThread;
+	std::condition_variable m_cv;
+	std::mutex m_allPlayerReadyMutex;
+
+	bool m_allPLayerReady;
+
 	WorldState m_worldState;
 
 	bool m_isServer;
@@ -23,8 +33,9 @@ class GameSession
 
 	GameSession(GameSession const&) = delete;
 	void operator = (GameSession const&) = delete;
+	void Run();
 public:
-	static GameSession &GetGameSession()
+	static GameSession &GetInstance()
 	{
 		static GameSession m_gameSession;
 		return m_gameSession;
@@ -32,6 +43,7 @@ public:
 	~GameSession();
 
 	WorldState* GetWorldState();
+
 	void SetIsServer(bool isServer);
 	bool IsServer();
 
@@ -46,5 +58,8 @@ public:
 
 	bool ConnectToServer();
 	void PrepareGame();
+
+	void RunGame();
+	void QuitGame();
 };
 

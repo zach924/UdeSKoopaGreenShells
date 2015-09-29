@@ -5,6 +5,6 @@
 
 class UnitRemote : Unit, RPCBase
 {
-	UnitRemote();
+	UnitRemote(int id);
 	~UnitRemote();
 };

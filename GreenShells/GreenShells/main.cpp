@@ -10,11 +10,11 @@
 // These needs to be before main
 bool SetUpServer(int port)
 {
-	GameSession::GetGameSession().SetIsServer(true);
+	GameSession::GetInstance().SetIsServer(true);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
-		GameSession::GetGameSession().PrepareGame();
+		GameSession::GetInstance().SetPort(port);
+		GameSession::GetInstance().PrepareGame();
 		return true;
 	}
 
@@ -23,16 +23,16 @@ bool SetUpServer(int port)
 
 bool SetUpClient(char* ip,int port)
 {
-	GameSession::GetGameSession().SetIsServer(false);
-	GameSession::GetGameSession().SetServerIP(ip);
+	GameSession::GetInstance().SetIsServer(false);
+	GameSession::GetInstance().SetServerIP(ip);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
-		if (GameSession::GetGameSession().ConnectToServer())
+		GameSession::GetInstance().SetPort(port);
+		if (GameSession::GetInstance().ConnectToServer())
 		{
 			std::cout << "Connected to server." << std::endl;
-			GameSession::GetGameSession().GetWorldState()->SetMap(new MapRemote());
-			GameSession::GetGameSession().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
+			GameSession::GetInstance().GetWorldState()->SetMap(new MapRemote());
+			GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
 			return true;
 		}
 		else
@@ -111,9 +111,12 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
+		GameSession::GetInstance().RunGame();
 
 		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
+
+		GameSession::GetInstance().QuitGame();
 		system("PAUSE");
 		return 0;
 	}

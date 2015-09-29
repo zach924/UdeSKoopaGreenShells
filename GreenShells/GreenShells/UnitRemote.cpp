@@ -1,6 +1,7 @@
 #include "UnitRemote.h"
 
-UnitRemote::UnitRemote()
+UnitRemote::UnitRemote(int id)
+	:Unit(id)
 {
 }
 

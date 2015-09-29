@@ -18,6 +18,19 @@ Tile::~Tile()
 {
 }
 
+void Tile::NotifyNewTurn()
+{
+	if (m_district != nullptr)
+	{
+		m_district->NotifyNewTurn();
+	}
+
+	if (m_unit != nullptr)
+	{
+		m_unit->NotifyNewTurn();
+	}
+}
+
 District* Tile::GetDistrict()
 {
 	return m_district;

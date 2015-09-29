@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 #include "RPCManager.h"
@@ -7,9 +8,12 @@
 
 GameSession::GameSession()
 :m_worldState(),
-m_serverIP()
+m_serverIP(),
+m_allPLayerReady(false)
 {
 }
+
+
 
 
 GameSession::~GameSession()
@@ -76,3 +80,33 @@ void GameSession::PrepareGame()
 	temp->SetWorldState(&m_worldState);
 	m_rpcServerManager->SetRPCDispatcher(temp);
 }
+
+void GameSession::RunGame()
+{
+	m_gameSessionThread = std::thread(&GameSession::Run, this);
+}
+
+void GameSession::Run()
+{
+	// Todo: one winner
+	while (true)
+	{
+		// Notify world sate of a new turn
+		m_worldState.NotifyNewTurn();
+
+		//End of turn when every player is ready
+		while (!m_worldState.IsAllPlayerReady())
+		{
+			// Todo: dispatch stuff
+			//std::cout << "Unlocking" << std::endl;
+		}
+
+	}
+}
+
+void GameSession::QuitGame()
+{
+	m_gameSessionThread.join();
+}
+
+
