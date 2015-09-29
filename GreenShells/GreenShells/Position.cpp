@@ -10,7 +10,7 @@ Position::~Position()
 {
 }
 
-std::string Position::ToString()
+std::string Position::ToString() const
 {
 	std::stringstream ss;
 	ss << "[ " << X << " ][ " << Y << " ]\n";

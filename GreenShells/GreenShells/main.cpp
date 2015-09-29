@@ -5,6 +5,7 @@
 #include "RPCBase.h"
 #include "SynchronizedQueue.h"
 #include "TCPConnection.h"
+#include "MapRemote.h"
 
 // These needs to be before main
 bool SetUpServer(int port)
@@ -30,6 +31,8 @@ bool SetUpClient(char* ip,int port)
 		if (GameSession::GetGameSession().ConnectToServer())
 		{
 			std::cout << "Connected to server." << std::endl;
+			GameSession::GetGameSession().GetWorldState()->SetMap(new MapRemote());
+			GameSession::GetGameSession().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
 			return true;
 		}
 		else

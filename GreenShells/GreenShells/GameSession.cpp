@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "RPCManager.h"
 #include "RPCBase.h"
+#include "RPCDispatcher.h"
 
 GameSession::GameSession()
 :m_worldState(),
@@ -51,9 +52,19 @@ int GameSession::GetPort()
 	return m_port;
 }
 
+int GameSession::GetCurrentPlayerID()
+{
+	return m_currentPlayerID;
+}
+
+void GameSession::SetCurrentPlayerID(int player)
+{
+	m_currentPlayerID = player;
+}
+
 bool GameSession::ConnectToServer()
 {
-	return RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));;
+	return RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
 }
 
 void GameSession::PrepareGame()
@@ -61,4 +72,7 @@ void GameSession::PrepareGame()
 	m_worldState.PrepareGame();
 	m_rpcServerManager = new RPCManager(m_port);
 	m_rpcServerManager->StartListening();
+	RPCDispatcher* temp = new RPCDispatcher();
+	temp->SetWorldState(&m_worldState);
+	m_rpcServerManager->SetRPCDispatcher(temp);
 }

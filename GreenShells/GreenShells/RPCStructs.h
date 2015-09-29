@@ -8,38 +8,34 @@ using namespace std;
 /*
 When creating a new struct to send over the network, don't forget to add the corresponding name in the enum 
 */
-enum RPCStructType : uint8_t
+enum RPCStructType
 {
 	RPC_BASIC,
 	RPC_BASIC_TWO_POSITIONS,
 
 };
 
-struct RPCBasicStruct
+enum RPCClassMethodType
 {
-	char m_className[100];
-	char m_methodName[100];
+	Map_Move,
 
-	string GetClassNameAsString()
-	{ return m_className; }
-
-	void SetClassName(string name)
-	{ strcpy_s(m_className, name.c_str()); }
-
-	string GetMethodNameAsString()
-	{ return m_methodName; }
-
-	void SetMethodName(string name)
-	{ strcpy_s(m_methodName, name.c_str()); }
 };
 
-struct RPCBasicTwoPositionsStruct : RPCBasicStruct
+
+struct RPCBasicStruct
+{
+	int m_requestingPlayerID;
+	int m_RPCClassMethod;
+
+	virtual bool virtualMethodForCompile()
+	{ return false;	}
+};
+
+struct RPCBasicTwoPositionsStruct : public RPCBasicStruct
 {
 	Position m_firstPosition;
 	Position m_secondPosition;
 };
-
-
 
 struct RPCEvent
 {

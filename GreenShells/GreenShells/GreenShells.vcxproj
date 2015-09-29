@@ -170,9 +170,12 @@
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapLocal.cpp" />
+    <ClCompile Include="MapRemote.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="RPCBase.cpp" />
+    <ClCompile Include="RPCDispatcher.cpp" />
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -181,6 +184,7 @@
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitRemote.cpp" />
     <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,9 +194,12 @@
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapLocal.h" />
+    <ClInclude Include="MapRemote.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="RPCBase.h" />
+    <ClInclude Include="RPCDispatcher.h" />
     <ClInclude Include="RPCManager.h" />
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SynchronizedQueue.h" />
@@ -203,6 +210,7 @@
     <ClInclude Include="TileMountain.h" />
     <ClInclude Include="TileWater.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitRemote.h" />
     <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,6 +6,7 @@
 
 
 class ClientConnection;
+class RPCDispatcher;
 
 class RPCManager
 {
@@ -16,7 +17,14 @@ private:
 	SynchronizedQueue<RPCEvent> m_events;
 	std::thread* m_thread;
 
+	RPCDispatcher* m_RPCDispatcher;
+
 public:
 	RPCManager(int port);
 	void StartListening();
+
+	void SetRPCDispatcher(RPCDispatcher* dispatcher);
+	RPCDispatcher* GetRPCDispatcher();
+
+	void DispatchEvents();
 };

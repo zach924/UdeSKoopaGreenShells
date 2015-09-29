@@ -3,6 +3,8 @@
 #include <string>
 
 class RPCManager;
+class Player;
+class RPCDispatcher;
 
 class GameSession
 {
@@ -12,6 +14,9 @@ class GameSession
 	std::string m_serverIP;
 	int m_port;
 
+	int m_currentPlayerID;
+
+	//Server classes
 	RPCManager* m_rpcServerManager;
 
 	GameSession();
@@ -35,6 +40,9 @@ public:
 
 	void SetPort(int port);
 	int GetPort();
+
+	int GetCurrentPlayerID();
+	void SetCurrentPlayerID(int player);
 
 	bool ConnectToServer();
 	void PrepareGame();

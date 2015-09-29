@@ -6,5 +6,7 @@ class TileWater :
 public:
 	TileWater(Position position);
 	~TileWater();
+
+	virtual bool CanTraverse();
 };
 

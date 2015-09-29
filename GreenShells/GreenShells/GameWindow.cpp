@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "WorldState.h"
 #include <assert.h>
+#include "Map.h"
 
 GameWindow::GameWindow(int width, int height)
 	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
@@ -48,7 +49,7 @@ void GameWindow::ShowWindow()
 
 		//Render Screen
 		//this is temporary
-		GameSession::GetGameSession().GetWorldState()->GetMap().m_texture.Render(300,300);
+		GameSession::GetGameSession().GetWorldState()->GetMap()->m_texture.Render(300,300);
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

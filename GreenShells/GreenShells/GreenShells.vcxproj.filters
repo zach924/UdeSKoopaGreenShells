@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{6184ac4a-2209-4ffc-8069-7c187adc5921}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{db69d95e-e61a-4c79-a750-b4b969686529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{c399934d-5494-4b3c-b5c6-04505943fd40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,6 +129,21 @@
     <ClCompile Include="TCPConnection.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
+    <ClCompile Include="UnitRemote.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCDispatcher.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLocal.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRemote.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -167,9 +188,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ClientConnection.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
@@ -187,6 +205,21 @@
     </ClInclude>
     <ClInclude Include="SynchronizedQueue.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitRemote.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCDispatcher.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLocal.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRemote.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

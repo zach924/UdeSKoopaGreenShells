@@ -6,5 +6,7 @@ class TileGround :
 public:
 	TileGround(Position position);
 	~TileGround();
+
+	virtual bool CanTraverse();
 };
 

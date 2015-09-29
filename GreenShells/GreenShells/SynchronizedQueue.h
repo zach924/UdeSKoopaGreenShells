@@ -68,4 +68,8 @@ template <class T>
 			auto lock = lockMutex();
 			return const_cast<SynchronizedQueue<T>&>(*this).pop();
 		}
+		bool IsEmtpy()
+		{
+			return data.empty();
+		}
 	};

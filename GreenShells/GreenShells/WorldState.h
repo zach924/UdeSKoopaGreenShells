@@ -1,24 +1,24 @@
 #pragma once
 #include <vector>
-#include "Map.h"
 
 class Player;
+class Map;
 
 class WorldState
 {
 	std::vector<Player> m_players;	
-	Map m_map;
+	Map* m_map;
 
 public:
 	WorldState();
 	~WorldState();
 
+	void SetMap(Map* map);
+	Map* GetMap();
+
 	void PrepareGame();
 
 	void AddPlayer(const Player& player);
 	void RemovePlayer(int id);
-
-	//temporary, will do a manager for UI
-	Map GetMap();
 };
 
