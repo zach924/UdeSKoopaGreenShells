@@ -7,5 +7,5 @@ public:
 	MapLocal();
 	~MapLocal();
 
-	virtual bool MoveUnit(int id, Position unitLocation, Position newLocation);
+	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
 };

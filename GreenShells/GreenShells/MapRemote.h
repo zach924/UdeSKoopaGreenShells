@@ -10,5 +10,5 @@ public:
 	MapRemote();
 	~MapRemote();
 
-	bool MoveUnit(int i, Position unitLocation, Position newLocation);
+	bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
 };

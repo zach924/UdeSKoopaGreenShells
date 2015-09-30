@@ -22,7 +22,7 @@ public:
 	std::vector<Tile*> GetArea(Position position, int distance);
 
 	Tile* GetTile(Position);
-	virtual bool MoveUnit(int id, Position unitLocation, Position newLocation)=0;
+	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation)=0;
 	void NotifyNewturn();
 };
 

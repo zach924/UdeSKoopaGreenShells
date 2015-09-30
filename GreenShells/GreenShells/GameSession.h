@@ -7,8 +7,6 @@
 
 class GameSession
 {
-	bool m_allPLayerReady;
-
 	WorldState m_worldState;
 
 	std::string m_serverIP;

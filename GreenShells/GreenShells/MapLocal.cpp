@@ -15,9 +15,9 @@ MapLocal::~MapLocal()
 
 }
 
-bool MapLocal::MoveUnit(int id, Position unitLocation, Position newLocation)
+bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 {
-	std::cout << "Received a move request by " << id << " from " << unitLocation << " to " << newLocation << std::endl;
+	std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
 	auto firstTile = GetTile(unitLocation);
 	
 	//No unit to select
@@ -27,7 +27,7 @@ bool MapLocal::MoveUnit(int id, Position unitLocation, Position newLocation)
 	}
 
 	//There is a unit be he does not belong to the requester
-	if (firstTile->GetUnit()->GetOwnerID() != id)
+	if (firstTile->GetUnit()->GetOwnerID() != ownerID)
 	{
 		return false;
 	}
@@ -35,13 +35,14 @@ bool MapLocal::MoveUnit(int id, Position unitLocation, Position newLocation)
 	auto secondTile = GetTile(newLocation);
 	
 	//Is second tile some place safe?
+	//TODO : Add abilities that allows mountain & water passage.
 	if (!secondTile->CanTraverse())
 	{
 		return false;
 	}
 
 	//New Location is emtpy or there is a district and it's allied. Move him
-	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == id))
+	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
 	{
 		secondTile->SetUnit(firstTile->GetUnit());
 		firstTile->SetUnit(nullptr);

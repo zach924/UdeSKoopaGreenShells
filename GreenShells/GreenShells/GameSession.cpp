@@ -8,8 +8,7 @@
 
 GameSession::GameSession()
 :m_worldState(),
-m_serverIP(),
-m_allPLayerReady(false)
+m_serverIP()
 {
 }
 

@@ -13,6 +13,5 @@ TileMountain::~TileMountain()
 
 bool TileMountain::CanTraverse()
 {
-	//TODO : Add abilities that allows mountain.
 	return false;
 }

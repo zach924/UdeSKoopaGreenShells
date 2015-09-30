@@ -13,6 +13,5 @@ TileWater::~TileWater()
 
 bool TileWater::CanTraverse()
 {
-	//TODO : Add abilities that allows water
 	return false;
 }
