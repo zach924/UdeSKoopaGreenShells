@@ -19,7 +19,7 @@ TileWater::~TileWater()
 boost::property_tree::ptree TileWater::Serialize()
 {
     boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.Type", Tile::TILEWATER_TYPE);
+    tileNode.put("<xmlattr>.Type", TILE_TYPE);
     tileNode.put("<xmlattr>.X", m_position.X);
     tileNode.put("<xmlattr>.Y", m_position.Y);
     tileNode.put("<xmlattr>.Owner", m_owner);
