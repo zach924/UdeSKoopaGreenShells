@@ -80,11 +80,18 @@ void GameSession::Load(std::string fileName)
 
 	if (fileStream)
 	{
-		boost::property_tree::ptree pt;
-		boost::property_tree::xml_parser::read_xml(fileStream, pt);
-		m_worldState = WorldState::Deserialize(pt);
+		try
+		{
+			boost::property_tree::ptree pt;
+			boost::property_tree::xml_parser::read_xml(fileStream, pt);
+			m_worldState = WorldState::Deserialize(pt);
 
-		fileStream.close();
+			fileStream.close();
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 	else
 	{

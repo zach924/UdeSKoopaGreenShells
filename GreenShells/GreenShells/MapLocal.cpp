@@ -8,6 +8,7 @@
 #include "District.h"
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
+#include <exception>
 
 MapLocal::MapLocal()
 	:Map()
@@ -83,7 +84,8 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 
 				case -1:
 				default:
-					// Probably throw error for corrupt file
+					std::string msg = ("Error while loading the map, a tile is of type unknown.");
+					throw new std::exception(msg.c_str());
 					break;
 				}
 			}

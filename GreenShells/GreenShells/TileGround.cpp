@@ -17,7 +17,7 @@ TileGround::~TileGround()
 boost::property_tree::ptree TileGround::Serialize()
 {
     boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.Type", "0");
+    tileNode.put("<xmlattr>.Type", Tile::TILEGROUND_TYPE);
     tileNode.put("<xmlattr>.X", m_position.X);
     tileNode.put("<xmlattr>.Y", m_position.Y);
     tileNode.put("<xmlattr>.Owner", m_owner);
