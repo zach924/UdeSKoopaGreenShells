@@ -173,7 +173,6 @@
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TileBase.cpp" />
     <ClCompile Include="TileGround.cpp" />
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />

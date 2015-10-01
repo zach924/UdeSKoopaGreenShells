@@ -15,7 +15,6 @@ public:
 
 	void AddPlayer(const Player& player);
 		
-	//temporary, will do a manager for UI
 	Map* GetMap();
 };
 

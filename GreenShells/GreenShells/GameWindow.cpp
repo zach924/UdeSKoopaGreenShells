@@ -7,13 +7,13 @@
 #include <assert.h>
 #include "TileGround.h"
 
-GameWindow::GameWindow(int width, int height)
-	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
+GameWindow::GameWindow(ScreenResolution res)
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 	
-	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
 	assert(m_window != NULL && SDL_GetError());
 
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
@@ -32,9 +32,6 @@ void GameWindow::ShowWindow()
 	bool quit = false;
 	Map* map = GameSession::GetGameSession().GetWorldState()->GetMap();
 
-	bool loaded = false;
-	Texture* unit = new Texture();
-
 	while (!quit)
 	{
 		SDL_Event e;
@@ -52,28 +49,24 @@ void GameWindow::ShowWindow()
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
 		SDL_RenderClear(m_renderer);
 
-		if (!loaded)
+		//Render Screen (Not ready to draw yet)
+		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
 		{
-			loaded = true;
-			unit->LoadFromFile("..\\Sprite\\Units\\64x64\\mace.bmp");
-		}
-
-		//Render Screen
-		for (int i = 0; i <= 7; ++i)
-		{
-			for (int j = 0; j <= 10; ++j)
+			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				Texture* texture = map->GetTile(Position(i, j))->GetTexture();
-				int x = j * 65;
-				int y = i * 65;
-				SDL_Rect renderQuad = { x, y, texture->GetWidth(), texture->GetHeight() };
-				//texture->SetColor(200, 100, 100);
-				SDL_RenderCopy(m_renderer, texture->GetTexture(), NULL, &renderQuad);
+				Texture* tileTexture = map->GetTile(Position(i, j))->GetTexture();
+
+				//Position the tile on the screen
+				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
+				int y = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
+				SDL_Rect renderQuad = { x, y, tileTexture->GetWidth(), tileTexture->GetHeight() };
+
+				//Render the tile
+				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
+
+				//TODO Render the district + unit on the tile
 			}
 		}
-		unit->SetColor(210, 125, 125);
-		SDL_Rect renderQuad = { 4*65, 4*65, unit->GetWidth(), unit->GetHeight() };
-		SDL_RenderCopy(m_renderer, unit->GetTexture(), NULL, &renderQuad);
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

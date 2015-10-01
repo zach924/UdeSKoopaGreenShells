@@ -4,7 +4,5 @@ class TileBase
 {
 public:
 	virtual Texture* GetTexture()=0;
-	TileBase();
-	~TileBase();
 };
 

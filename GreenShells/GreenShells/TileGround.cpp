@@ -1,4 +1,6 @@
 #include "TileGround.h"
+#include <iostream>
+#include <string>
 
 void TileGround::LoadTexture()
 {
@@ -8,7 +10,8 @@ void TileGround::LoadTexture()
 	}
 	catch (std::exception e)
 	{
-		//std::cout << e.what();
+		std::string msg{ e.what() };
+		std::cout << msg << std::endl;
 	}
 }
 

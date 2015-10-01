@@ -32,7 +32,7 @@ bool Texture::LoadFromFile(std::string path)
 	}
 	else
 	{
-		//To remove background of a certain color, might be usefull
+		//Removes the black background to have an alpha, might change in the future but works now
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0, 0));
 
 		newTexture = SDL_CreateTextureFromSurface(GameWindow::GetInstance().GetRenderer(), loadedSurface);

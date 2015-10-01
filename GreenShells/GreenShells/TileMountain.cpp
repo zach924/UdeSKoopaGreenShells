@@ -1,5 +1,6 @@
 #include "TileMountain.h"
-
+#include <string>
+#include <iostream>
 
 TileMountain::TileMountain(Position position)
 :Tile(position)
@@ -14,7 +15,8 @@ void TileMountain::LoadTexture()
 	}
 	catch (std::exception e)
 	{
-		//std::cout << e.what();
+		std::string msg{ e.what() };
+		std::cout << msg << std::endl;
 	}
 }
 
