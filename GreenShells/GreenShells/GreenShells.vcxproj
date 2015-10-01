@@ -184,6 +184,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="Ptree_ForwardDeclaration.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileGround.h" />
     <ClInclude Include="TileMountain.h" />

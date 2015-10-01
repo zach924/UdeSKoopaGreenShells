@@ -42,7 +42,28 @@ boost::property_tree::ptree Tile::Serialize()
     return tileNode;
 }
 
-Tile Tile::Deserialize(boost::property_tree::ptree tileNode)
+Tile* Tile::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    return Tile();
+    Tile* tile = new Tile{ pos };
+
+    if (pos.X == -1)
+    {
+        tile->m_position.X = tileNode.get<int>("<xmlattr>.X");
+        tile->m_position.Y = tileNode.get<int>("<xmlattr>.Y");
+    }
+    tile->m_owner = tileNode.get<int>("<xmlattr>.Owner");
+    
+    for each(auto child in tileNode)
+    {
+        if (child.first == "Unit")
+        {
+            // TODO : will need to check how exactly, i think a switch case depend on unit type
+        }
+        else if (child.first == "District")
+        {
+            // TODO : will need to check how exactly, i think a switch case depend on district type
+        }
+    }
+    
+    return tile;
 }

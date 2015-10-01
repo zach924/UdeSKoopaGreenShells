@@ -2,17 +2,7 @@
 #include "Position.h"
 #include <vector>
 #include "Tile.h"
-
-namespace boost
-{
-    namespace property_tree
-    {
-        template < class Key, class Data, class KeyCompare >
-        class basic_ptree;
-
-        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
-    }
-}
+#include "Ptree_ForwardDeclaration.h"
 
 class Map
 {
@@ -32,6 +22,6 @@ public:
     Tile* GetTile(Position);
 
     boost::property_tree::ptree Serialize();
-    Map Deserialize(boost::property_tree::ptree mapNode);
+    static Map Deserialize(boost::property_tree::ptree mapNode);
 };
 

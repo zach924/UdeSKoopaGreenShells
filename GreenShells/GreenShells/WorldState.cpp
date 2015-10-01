@@ -69,15 +69,14 @@ WorldState WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     {
         if (worldStateNode.first == "Players")
         {
-            int i = 0;
             for each (auto playerNode in worldStateNode.second)
             {
-                worldState.m_players[i++].Deserialize(playerNode.second);
+                worldState.AddPlayer(Player::Deserialize(playerNode.second));
             }
         }
         else if (worldStateNode.first == "Map")
         {
-            worldState.m_map.Deserialize(worldStateNode.second);
+            worldState.m_map = Map::Deserialize(worldStateNode.second);
         }
 
     }

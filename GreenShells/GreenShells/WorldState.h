@@ -1,19 +1,10 @@
 #pragma once
 #include <vector>
 #include "Map.h"
+#include "Ptree_ForwardDeclaration.h"
 
 class Player;
 
-namespace boost
-{
-    namespace property_tree
-    {
-        template < class Key, class Data, class KeyCompare >
-        class basic_ptree;
-
-        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
-    }
-}
 
 class WorldState
 {
@@ -33,6 +24,6 @@ public:
     Map GetMap();
 
     boost::property_tree::ptree Serialize();
-    WorldState Deserialize(boost::property_tree::ptree worldStateXml);
+    static WorldState Deserialize(boost::property_tree::ptree worldStateXml);
 };
 

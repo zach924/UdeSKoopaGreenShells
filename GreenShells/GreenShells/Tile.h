@@ -1,21 +1,10 @@
 #pragma once
 #include "Position.h"
+#include "Ptree_ForwardDeclaration.h"
 
 class District;
 class Unit;
 class Player;
-
-namespace boost
-{
-    namespace property_tree
-    {
-        template < class Key, class Data, class KeyCompare >
-        class basic_ptree;
-
-        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
-    }
-}
-
 
 class Tile 
 {
@@ -31,6 +20,6 @@ public:
     ~Tile();
 
     virtual boost::property_tree::ptree Serialize();
-    virtual Tile Deserialize(boost::property_tree::ptree tileNode);
+    static Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

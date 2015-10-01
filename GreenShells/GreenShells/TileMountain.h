@@ -8,6 +8,6 @@ public:
 	~TileMountain();
 
     virtual boost::property_tree::ptree Serialize();
-    TileMountain Deserialize(boost::property_tree::ptree tileNode);
+    static TileMountain* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

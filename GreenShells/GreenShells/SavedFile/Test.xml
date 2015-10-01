@@ -5,7 +5,7 @@
 	</Players>
 	<Map>
 		<Row Number="0">
-			<Tile Type="2" X="0" Y="0" Owner="-1"/>
+			<Tile Type="1" X="0" Y="0" Owner="-1"/>
 			<Tile Type="2" X="0" Y="1" Owner="-1"/>
 			<Tile Type="2" X="0" Y="2" Owner="-1"/>
 			<Tile Type="2" X="0" Y="3" Owner="-1"/>

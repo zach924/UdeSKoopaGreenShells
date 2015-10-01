@@ -38,15 +38,18 @@ boost::property_tree::ptree TileWater::Serialize()
     return tileNode;
 }
 
-TileWater TileWater::Deserialize(boost::property_tree::ptree tileNode)
+TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    TileWater waterTile(Position(0,0));
-    //player.m_cityHallCount = playerNode.get<int>("<xmlattr>.CityHallCount");
-    waterTile.m_position.X = tileNode.get<int>("<xmlattr>.X");
-    waterTile.m_position.Y = tileNode.get<int>("<xmlattr>.Y");
-    waterTile.m_owner = tileNode.get<int>("<xmlattr>.Owner");
+    TileWater* tile = new TileWater{ pos };
 
-    for each(auto child in tileNode.get_child("Tile"))
+    if (pos.X == -1)
+    {
+        tile->m_position.X = tileNode.get<int>("<xmlattr>.X");
+        tile->m_position.Y = tileNode.get<int>("<xmlattr>.Y");
+    }
+    tile->m_owner = tileNode.get<int>("<xmlattr>.Owner");
+
+    for each(auto child in tileNode)
     {
         if (child.first == "Unit")
         {
@@ -58,5 +61,5 @@ TileWater TileWater::Deserialize(boost::property_tree::ptree tileNode)
         }
     }
 
-    return waterTile;
+    return tile;
 }

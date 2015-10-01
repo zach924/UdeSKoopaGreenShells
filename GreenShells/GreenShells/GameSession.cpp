@@ -58,26 +58,25 @@ WorldState GameSession::GetWorldState()
     return m_worldState;
 }
 
-//void GameSession::Save(std::string fileName)
-//{
-//    std::ofstream fileStream;
-//    fileStream.open(fileName);
-//
-//    boost::property_tree::write_xml(fileStream, m_worldState.Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
-//
-//    fileStream.close();
-//}
-//
-//void GameSession::Load(std::string fileName)
-//{
-//    std::ifstream fileStream;
-//    fileStream.open(fileName);
-//
-//    //do deserialisation
-//    boost::property_tree::ptree pt;
-//    boost::property_tree::xml_parser::read_xml(fileStream, pt);
-//    m_worldState.Deserialize(pt);
-//
-//    fileStream.close();
-//}
+void GameSession::Save(std::string fileName)
+{
+    std::ofstream fileStream;
+    fileStream.open(fileName);
+
+    boost::property_tree::write_xml(fileStream, m_worldState.Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
+
+    fileStream.close();
+}
+
+void GameSession::Load(std::string fileName)
+{
+    std::ifstream fileStream;
+    fileStream.open(fileName);
+
+    boost::property_tree::ptree pt;
+    boost::property_tree::xml_parser::read_xml(fileStream, pt);
+    m_worldState = WorldState::Deserialize(pt);
+
+    fileStream.close();
+}
 

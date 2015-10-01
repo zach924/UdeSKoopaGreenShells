@@ -8,6 +8,6 @@ public:
 	~TileWater();
 
     virtual boost::property_tree::ptree Serialize();
-    TileWater Deserialize(boost::property_tree::ptree tileNode);
+    static TileWater* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

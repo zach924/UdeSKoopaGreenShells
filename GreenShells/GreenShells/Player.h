@@ -2,17 +2,7 @@
 #include <vector>
 #include "Unit.h"
 #include "District.h"
-
-namespace boost
-{
-    namespace property_tree
-    {
-        template < class Key, class Data, class KeyCompare >
-        class basic_ptree;
-
-        typedef basic_ptree< std::string, std::string, std::less<std::string> > ptree;
-    }
-}
+#include "Ptree_ForwardDeclaration.h"
 
 
 class Player
@@ -72,7 +62,7 @@ public:
 
 
     boost::property_tree::ptree Serialize();
-    Player Deserialize(boost::property_tree::ptree playerNode);
+    static Player Deserialize(boost::property_tree::ptree playerNode);
 
 };
 

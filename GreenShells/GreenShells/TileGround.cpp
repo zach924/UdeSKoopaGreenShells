@@ -36,7 +36,28 @@ boost::property_tree::ptree TileGround::Serialize()
     return tileNode;
 }
 
-TileGround TileGround::Deserialize(boost::property_tree::ptree tileNode)
+TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    return TileGround();
+    TileGround* tile = new TileGround{ pos };
+
+    if (pos.X == -1)
+    {
+        tile->m_position.X = tileNode.get<int>("<xmlattr>.X");
+        tile->m_position.Y = tileNode.get<int>("<xmlattr>.Y");
+    }
+    tile->m_owner = tileNode.get<int>("<xmlattr>.Owner");
+
+    for each(auto child in tileNode)
+    {
+        if (child.first == "Unit")
+        {
+            // TODO : When we will have unit to log. Will need to check how exactly, i think a switch case depend on unit type
+        }
+        else if (child.first == "District")
+        {
+            // TODO : When district will be done. Will need to check how exactly, i think a switch case depend on district type
+        }
+    }
+
+    return tile;
 }

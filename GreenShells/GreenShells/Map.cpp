@@ -111,24 +111,27 @@ Map Map::Deserialize(boost::property_tree::ptree mapNode)
     {
         for each(auto tileNode in rowNode.second)
         {
-            Position pos{ tileNode.second.get<char>("<xmlattr>.X"), tileNode.second.get<char>("<xmlattr>.Y") };
-
-            switch (tileNode.second.get<char>("<xmlattr>.Type"))
+            if (tileNode.first == "Tile")
             {
-            case 0:
-                map.m_tiles[pos.X][pos.Y] = new TileGround(pos);
-                break;
-            case 1:
-                map.m_tiles[pos.X][pos.Y] = new TileMountain(pos);
-                break;
-            case 2:
-                map.m_tiles[pos.X][pos.Y] = new TileWater(pos);
-                break;
-            
-            case -1:
-            default:
-                // Probably throw error for corrupt file
-                break;
+                Position pos{ tileNode.second.get<int>("<xmlattr>.X"), tileNode.second.get<int>("<xmlattr>.Y") };
+
+                switch (tileNode.second.get<int>("<xmlattr>.Type"))
+                {
+                case 0:
+                    map.m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
+                    break;
+                case 1:
+                    map.m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second);
+                    break;
+                case 2:
+                    map.m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second);
+                    break;
+
+                case -1:
+                default:
+                    // Probably throw error for corrupt file
+                    break;
+                }
             }
         }
     }
