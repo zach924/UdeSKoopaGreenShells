@@ -3,7 +3,6 @@
 class TileWater :
 	public Tile<TileWater>
 {
-	//static Texture m_texture;
 
 public:
 	typedef Tile<TileWater> tBase;

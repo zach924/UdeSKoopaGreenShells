@@ -1,4 +1,6 @@
 #include "TileWater.h"
+#include <iostream>
+#include <string>
 
 TileWater::TileWater(Position position)
 :Tile(position)
@@ -13,7 +15,8 @@ void TileWater::LoadTexture()
 	}
 	catch (std::exception e)
 	{
-		//std::cout << e.what();
+		std::string msg{ e.what() };
+		std::cout << msg << std::endl;
 	}
 }
 

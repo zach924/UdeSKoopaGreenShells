@@ -6,6 +6,7 @@
 
 class Map
 {
+protected:
 	static const int ROWS = 64;
 	static const int COLUMNS = 64;
 
