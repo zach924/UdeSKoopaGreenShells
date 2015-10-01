@@ -13,7 +13,6 @@
 
 Texture Map::m_texture = {};
 
-
 Map::Map()
 :m_tiles()
 {

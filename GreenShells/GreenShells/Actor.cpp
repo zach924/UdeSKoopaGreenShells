@@ -1,7 +1,7 @@
 #include "Actor.h"
 
 Actor::Actor(int ownerID,Position position)
-   :m_position(position),
+	:m_position(position),
     m_ownerID(ownerID),
     m_foodCost(0),
     m_scienceCost(0),

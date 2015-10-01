@@ -20,7 +20,7 @@ private:
     double m_weaponRatioBonus;
 
 public:
-    Actor(int ownerID, Position position = Position(-1,-1));
+	Actor(int ownerID, Position position = Position(-1,-1));
     ~Actor();
 
 	void SetOwnerID(int ID);
