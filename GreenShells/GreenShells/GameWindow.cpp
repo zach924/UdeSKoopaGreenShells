@@ -1,14 +1,20 @@
 #include <iostream>
 #include <sstream>
+#include <assert.h>
+
 #include "GameWindow.h"
 #include "GameSession.h"
 #include "Texture.h"
 #include "WorldState.h"
-#include <assert.h>
 #include "Map.h"
+#include "ClickManager.h"
 
 GameWindow::GameWindow(int width, int height)
-	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width)
+//TODO :  magic number
+	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width),
+	m_topMenuHeight(64),m_leftMenuWidth(6*64),
+	m_mapHeightEnd(910 + m_topMenuHeight),
+	m_mapWidthEnd(1300 + m_leftMenuWidth)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
@@ -41,6 +47,26 @@ void GameWindow::ShowWindow()
 			{
 				quit = true;
 			}
+			else if (e.type == SDL_MOUSEBUTTONUP)
+			{
+				
+				if (IsClickInMap(e.button.x, e.button.y))
+				{
+					//TODO :  change 65;
+					int posX = (e.button.x - m_leftMenuWidth) / 65;
+					int posY = (e.button.y - m_topMenuHeight) / 65;
+
+					ClickManager::GetInstance().ManageMapClick(Position(posX,posY));
+				}
+				else if (IsClickInLeftMenu(e.button.x, e.button.y))
+				{
+					ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
+				}
+				else
+				{
+					ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+				}
+			}
 		}
 
 		//Clear screen
@@ -72,4 +98,14 @@ void GameWindow::Close()
 
 	//Quit SDL subsystems
 	SDL_Quit();
+}
+
+bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
+{
+	return x < m_leftMenuWidth && m_topMenuHeight < y;
+}
+
+bool GameWindow::IsClickInMap(const int& x, const int& y)
+{
+	return m_leftMenuWidth < x && x < m_mapWidthEnd && m_topMenuHeight < y && y < m_mapHeightEnd;
 }

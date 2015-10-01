@@ -13,7 +13,13 @@ private:
 	int m_height;
 	int m_width;
 
-    GameWindow(int width = 800, int height = 600);
+	int m_topMenuHeight;
+	int m_leftMenuWidth;
+
+	int m_mapHeightEnd;
+	int m_mapWidthEnd;
+
+    GameWindow(int width = 1600, int height = 1024);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -22,12 +28,16 @@ private:
 public:
     static GameWindow& GetInstance()
     {
-		static GameWindow m_instance{800,600};
+		static GameWindow m_instance{1600,1024};
         return m_instance;
     }
 
     void ShowWindow();
 	SDL_Renderer* GetRenderer();
     void Close();
+
+	bool IsClickInMap(const int& x,const int& y);
+	bool IsClickInLeftMenu(const int& x, const int& y);
+
 
 };

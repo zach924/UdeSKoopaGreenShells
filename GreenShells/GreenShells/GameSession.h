@@ -16,13 +16,14 @@ class GameSession
 	GameSession();
 	GameSession(GameSession const&) = delete;
 	void operator = (GameSession const&) = delete;
+	~GameSession();
 public:
 	static GameSession &GetInstance()
 	{
 		static GameSession m_gameSession;
 		return m_gameSession;
 	}
-	~GameSession();
+	
 
 	WorldState* GetWorldState();
 
