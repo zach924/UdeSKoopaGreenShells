@@ -1,8 +1,9 @@
 #include "Unit.h"
 #include "GameSession.h"
 
-Unit::Unit(int& ownerID)
-	:Actor(ownerID)
+Unit::Unit(int& ownerID, int attackRange)
+	:Actor(ownerID),
+	m_attackRange(attackRange)
 {
 }
 
