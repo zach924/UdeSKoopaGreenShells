@@ -4,6 +4,8 @@ class TileMountain :
 	public Tile
 {
 public:
+	static const int TILE_TYPE = 1;
+
 	TileMountain(Position position);
 	~TileMountain();
 

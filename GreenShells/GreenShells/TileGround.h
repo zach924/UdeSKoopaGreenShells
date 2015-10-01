@@ -4,6 +4,8 @@ class TileGround :
 	public Tile
 {
 public:
+	static const int TILE_TYPE = 0;
+
 	TileGround(Position position);
 	~TileGround();
 

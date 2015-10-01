@@ -4,6 +4,8 @@ class TileWater :
 	public Tile
 {
 public:
+	static const int TILE_TYPE = 2;
+
 	TileWater(Position position);
 	~TileWater();
 
