@@ -1,11 +1,13 @@
-#include "Actor.h"
 #pragma once
+#include "Actor.h"
+
 class District : public Actor
 {
 public:
-	District();
+	District(int& ownerID);
 	~District();
 
-    virtual boost::property_tree::ptree Serialize();
+	void NotifyNewTurn();
+	virtual boost::property_tree::ptree Serialize();
 };
 

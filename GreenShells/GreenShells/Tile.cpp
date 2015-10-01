@@ -44,26 +44,45 @@ boost::property_tree::ptree Tile::Serialize()
 
 Tile* Tile::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    Tile* tile = new Tile{ pos };
+    return nullptr;
+}
 
-    if (pos.X == -1)
-    {
-        tile->m_position.X = tileNode.get<int>("<xmlattr>.X");
-        tile->m_position.Y = tileNode.get<int>("<xmlattr>.Y");
-    }
-    tile->m_owner = tileNode.get<int>("<xmlattr>.Owner");
-    
-    for each(auto child in tileNode)
-    {
-        if (child.first == "Unit")
-        {
-            // TODO : will need to check how exactly, i think a switch case depend on unit type
-        }
-        else if (child.first == "District")
-        {
-            // TODO : will need to check how exactly, i think a switch case depend on district type
-        }
-    }
-    
-    return tile;
+void Tile::NotifyNewTurn()
+{
+	if (m_district != nullptr)
+	{
+		m_district->NotifyNewTurn();
+	}
+
+	if (m_unit != nullptr)
+	{
+		m_unit->NotifyNewTurn();
+	}
+}
+
+District* Tile::GetDistrict()
+{
+	return m_district;
+}
+void Tile::SetDistrict(District* district)
+{
+	m_district = district;
+}
+
+Unit * Tile::GetUnit()
+{
+	return m_unit;
+}
+void Tile::SetUnit(Unit* unit)
+{
+	m_unit = unit;
+}
+
+int Tile::GetPlayerOwnerID()
+{
+	return m_owner;
+}
+void Tile::SetPlayerOwnerID(int id)
+{
+	m_owner = id;
 }

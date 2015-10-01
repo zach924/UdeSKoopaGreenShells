@@ -63,3 +63,8 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 
     return tile;
 }
+
+bool TileWater::CanTraverse()
+{
+	return false;
+}

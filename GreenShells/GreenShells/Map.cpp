@@ -6,17 +6,28 @@
 
 #include <fstream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
-
+#include <assert.h>
 #include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\xml_parser.hpp>
+
+Texture Map::m_texture = {};
+
 
 Map::Map()
 :m_tiles()
 {
-    for (int i = 0; i < ROWS; i++)
-    {
-        m_tiles.push_back(std::vector<Tile*>(COLUMNS));
+	for (int i = 0; i < ROWS; i++)
+	{
+		m_tiles.push_back(std::vector<Tile*>(COLUMNS));
+	}
+	try
+	{
+		m_texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\Townhall.bmp");
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what();
     }
 }
 
@@ -28,6 +39,8 @@ Map::~Map()
 void Map::GenerateTiles()
 {
     std::ifstream ifs{ "Ressources\\maps\\FirstMap.txt" };
+
+	assert(ifs.good() && "Make sure you have the ressources folder beside your exe." );
 
     std::string map((std::istreambuf_iterator<char>(ifs)),
         std::istreambuf_iterator<char>());
@@ -41,16 +54,16 @@ void Map::GenerateTiles()
             switch (tileType)
             {
             case '0':
-                m_tiles[i][j] = new TileGround(Position(i, j));
+				m_tiles[i][j] = new TileGround(Position(i, j));
                 break;
 
             case '1':
-                m_tiles[i][j] = new TileMountain(Position(i, j));
+				m_tiles[i][j] = new TileMountain(Position(i, j));
                 break;
 
             case '2':
             default:
-                m_tiles[i][j] = new TileWater(Position(i, j));
+				m_tiles[i][j] = new TileWater(Position(i, j));
                 break;
             }
         }
@@ -59,7 +72,7 @@ void Map::GenerateTiles()
 
 std::vector<Tile*> Map::GetArea(Position position, int distance)
 {
-    std::vector<Tile*> area;
+	std::vector<Tile*> area;
 
     //find miminum and maximum
     int minCol = std::max(position.X - distance, 0);
@@ -82,7 +95,17 @@ Tile* Map::GetTile(Position position)
     return m_tiles[position.X][position.Y];
 }
 
-#include <iostream>
+void Map::NotifyNewturn()
+{
+	for (std::vector<Tile*>& tileRow : m_tiles)
+	{
+		for (Tile* tile : tileRow)
+		{
+			tile->NotifyNewTurn();
+		}
+		
+	}
+}
 
 boost::property_tree::ptree Map::Serialize()
 {
@@ -104,37 +127,3 @@ boost::property_tree::ptree Map::Serialize()
 
 }
 
-Map Map::Deserialize(boost::property_tree::ptree mapNode)
-{
-    Map map;
-    for each (auto rowNode in mapNode)
-    {
-        for each(auto tileNode in rowNode.second)
-        {
-            if (tileNode.first == "Tile")
-            {
-                Position pos{ tileNode.second.get<int>("<xmlattr>.X"), tileNode.second.get<int>("<xmlattr>.Y") };
-
-                switch (tileNode.second.get<int>("<xmlattr>.Type"))
-                {
-                case 0:
-                    map.m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
-                    break;
-                case 1:
-                    map.m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second);
-                    break;
-                case 2:
-                    map.m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second);
-                    break;
-
-                case -1:
-                default:
-                    // Probably throw error for corrupt file
-                    break;
-                }
-            }
-        }
-    }
-
-    return map;
-}

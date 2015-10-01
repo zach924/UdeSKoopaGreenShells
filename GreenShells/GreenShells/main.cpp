@@ -2,41 +2,55 @@
 
 #include "GameSession.h"
 #include "GameWindow.h"
-
-#include <boost\property_tree\xml_parser.hpp>
+#include "RPCBase.h"
+#include "SynchronizedQueue.h"
+#include "TCPConnection.h"
+#include "MapRemote.h"
+#include "ServerSession.h"
 
 // These needs to be before main
 bool SetUpServer(int port)
 {
-	GameSession::GetGameSession().SetIsServer(true);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
-	}
-	else
-	{
-		std::cout << "Server requires a port number" << std::endl;
-		return false;
+		ServerSession::GetInstance().StartServer(port);
+
+
+		GameSession::GetInstance().SetPort(port);
+		GameSession::GetInstance().SetServerIP("127.0.0.1");
+		if (GameSession::GetInstance().ConnectToServer())
+		{
+			std::cout << "Connected to server." << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "Could not connect to server." << std::endl;
+		}
 	}
 
-	GameSession::GetGameSession().PrepareGame();
-	return true;
+	return false;
 }
 
 bool SetUpClient(char* ip,int port)
 {
-	GameSession::GetGameSession().SetIsServer(false);
-	GameSession::GetGameSession().SetServerIP(ip);
+	GameSession::GetInstance().SetServerIP(ip);
 	if (port != 0)
 	{
-		GameSession::GetGameSession().SetPort(port);
+		GameSession::GetInstance().SetPort(port);
+		if (GameSession::GetInstance().ConnectToServer())
+		{
+			GameSession::GetInstance().GetWorldState()->SetMap(new MapRemote());
+			GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
+			return true;
+		}
+		else
+		{
+			std::cout << "Could not connect to server." << std::endl;
+		}
 	}
-	else
-	{
-		std::cout << "Client requires a port number" << std::endl;
-		return false;
-	}
-	return true;
+
+	return false;
 }
 
 int main(int argc, char* argv[])
@@ -65,14 +79,21 @@ int main(int argc, char* argv[])
 		{
 			if (argc == 3)
 			{
-				if (!SetUpServer(atoi(argv[PORT_ARG])))
+				if (SetUpServer(atoi(argv[PORT_ARG])))
 				{
+
+				}
+				else
+				{
+					std::cout << "Could not set up a server." << std::endl;
+					system("PAUSE");
 					return 0;
 				}
 			}
 			else
 			{
-				std::cout << "server requires a port number" << std::endl;
+				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
+				system("PAUSE");
 				return 0;
 			}
 		}
@@ -80,28 +101,31 @@ int main(int argc, char* argv[])
 		{
 			if (argc == 4)
 			{
-				if (!SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
+				if (SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
 				{
-					return 0;
+
 				}
 				else
 				{
-					std::cout << "client requires a server ip AND port number" << std::endl;
+					std::cout << "Could not set up a client" << std::endl;
+					system("PAUSE");
 					return 0;
 				}
 
 			}
 			else
 			{
-				std::cout << "Need to know if we are a \"client\" or a \"server\" in command line" << std::endl;
+				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
+				system("PAUSE");
 				return 0;
 			}
 		}
 
-		GameWindow::GetInstance().Init();
-		GameWindow::GetInstance().Show(800, 600);
+		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
 
+		system("PAUSE");
 		return 0;
 	}
+	return 0;
 }

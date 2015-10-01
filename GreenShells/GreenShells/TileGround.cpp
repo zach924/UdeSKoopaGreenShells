@@ -61,3 +61,8 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
 
     return tile;
 }
+
+bool TileGround::CanTraverse()
+{
+	return true;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+
 class Position
 {
 public:
@@ -7,8 +8,13 @@ public:
 	int X;
 	int Y;
 
-	Position(int x, int y);
+	Position(int x = -1, int y = -1);
 	~Position();
-	std::string ToString();
-};
+	std::string ToString() const;
 
+	friend std::ostream& operator<<(std::ostream& os, const Position& obj)
+	{
+		os << obj.ToString();
+		return os;
+	}
+};

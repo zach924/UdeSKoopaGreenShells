@@ -7,7 +7,9 @@ public:
 	TileMountain(Position position);
 	~TileMountain();
 
-    virtual boost::property_tree::ptree Serialize();
-    static TileMountain* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
+	virtual bool CanTraverse();
+	
+	virtual boost::property_tree::ptree Serialize();
+	static TileMountain* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

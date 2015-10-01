@@ -1,42 +1,44 @@
 #pragma once
-#include "WorldState.h"
 #include <string>
+#include <thread>
+#include <condition_variable>
+
+#include "WorldState.h"
 
 class GameSession
 {
 	WorldState m_worldState;
 
-	bool m_isServer;
 	std::string m_serverIP;
 	int m_port;
+	int m_currentPlayerID;
 
 	GameSession();
-
 	GameSession(GameSession const&) = delete;
 	void operator = (GameSession const&) = delete;
 public:
-	static GameSession &GetGameSession()
+	static GameSession &GetInstance()
 	{
 		static GameSession m_gameSession;
 		return m_gameSession;
 	}
 	~GameSession();
 
-	void SetIsServer(bool isServer);
-	bool IsServer();
+	WorldState* GetWorldState();
 
 	void SetServerIP(std::string ip);
 	std::string GetServerIP();
 
 	void SetPort(int port);
-	int getPort();
+	int GetPort();
 
-	void PrepareGame();
+	int GetCurrentPlayerID();
+	void SetCurrentPlayerID(int player);
 
-    WorldState GetWorldState();
-
-    void Save(std::string fileName);
-    void Load(std::string fileName);
+	bool ConnectToServer();
+	
+	void Save(std::string fileName);
+	void Load(std::string fileName);
 
 };
 

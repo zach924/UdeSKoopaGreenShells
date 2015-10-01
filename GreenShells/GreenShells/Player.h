@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include "Unit.h"
-#include "District.h"
 #include "Ptree_ForwardDeclaration.h"
 
 
@@ -37,8 +35,8 @@ public:
     void SetPlayerReadyForNextTurn(bool isReady = true);
     bool IsPlayerReadyForNextTurn();
 
-    void SetPlayerDead();
-
+	void SetDead();
+	bool IsAlive();
     int GetFood();
     int GetScience();
     int GetWeapon();

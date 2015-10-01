@@ -19,7 +19,20 @@ public:
     Tile();
     ~Tile();
 
-    virtual boost::property_tree::ptree Serialize();
-    static Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
+	void NotifyNewTurn();
+	District* GetDistrict();
+	void SetDistrict(District* district);
+
+	Unit* GetUnit();
+	void SetUnit(Unit* unit);
+
+	int GetPlayerOwnerID();
+	void SetPlayerOwnerID(int id);
+
+	virtual bool CanTraverse()=0;
+	
+	virtual boost::property_tree::ptree Serialize();
+	static Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
+
 };
 

@@ -61,3 +61,8 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 
     return tile;
 }
+
+bool TileMountain::CanTraverse()
+{
+	return false;
+}
