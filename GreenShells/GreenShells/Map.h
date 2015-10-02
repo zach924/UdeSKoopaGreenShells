@@ -3,6 +3,7 @@
 #include <vector>
 #include "TileBase.h"
 #include "Texture.h"
+#include "Ptree_ForwardDeclaration.h"
 
 class Map
 {
@@ -13,14 +14,18 @@ protected:
 	std::vector<std::vector<TileBase*>> m_tiles;
 
 public:
-	Map();
-	~Map();
+    Map();
+    ~Map();
 	static Texture m_texture;
 
-	void GenerateTiles();
+    void GenerateTiles();
 
 	std::vector<TileBase*> GetArea(Position position, int distance);
 
 	TileBase* GetTile(Position);
+  virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation)=0;
+	void NotifyNewturn();
+	
+	virtual boost::property_tree::ptree Serialize();
 };
 

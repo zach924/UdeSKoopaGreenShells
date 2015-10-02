@@ -1,10 +1,12 @@
 #include <iostream>
 #include <sstream>
 #include "GameWindow.h"
+#include "ServerSession.h"
 #include "GameSession.h"
 #include "Texture.h"
 #include "WorldState.h"
 #include <assert.h>
+#include "Map.h"
 #include "TileGround.h"
 
 GameWindow::GameWindow(ScreenResolution res)
@@ -30,7 +32,10 @@ GameWindow::~GameWindow()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
-	Map* map = GameSession::GetGameSession().GetWorldState()->GetMap();
+    Map* map = ServerSession::GetInstance().m_worldState.GetMap();
+
+    //TODO when replication is available, use gamesession
+	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
 
 	while (!quit)
 	{
