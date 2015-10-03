@@ -37,5 +37,9 @@ public:
 	void SetCurrentPlayerID(int player);
 
 	bool ConnectToServer();
+	
+	void Save(std::string fileName);
+	void Load(std::string fileName);
+
 };
 

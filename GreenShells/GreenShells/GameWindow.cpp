@@ -4,26 +4,27 @@
 #include <utility>
 
 #include "GameWindow.h"
+#include "ServerSession.h"
 #include "GameSession.h"
 #include "Texture.h"
 #include "WorldState.h"
 #include "Map.h"
+#include "TileGround.h"
 #include "ClickManager.h"
 
 #include "ButtonUnitAttack.h"
 #include "ButtonUnitMove.h"
 
-GameWindow::GameWindow(int width, int height)
-//TODO :  magic number
-	:m_window(), m_screenSurface(), m_renderer(), m_height(height), m_width(width),
-	m_topMenuHeight(64),m_leftMenuWidth(6*64),
-	m_mapHeightEnd(910 + m_topMenuHeight),
-	m_mapWidthEnd(1300 + m_leftMenuWidth)
+GameWindow::GameWindow(ScreenResolution res)
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res),
+  	m_topMenuHeight(64),m_leftMenuWidth(6*64),
+  	m_mapHeightEnd(910 + m_topMenuHeight),
+    m_mapWidthEnd(1300 + m_leftMenuWidth)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 	
-	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
 	assert(m_window != NULL && SDL_GetError());
 
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
@@ -31,8 +32,8 @@ GameWindow::GameWindow(int width, int height)
 
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_height - 170, m_height - 106, 21, 85), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_height - 170, m_height - 106, 106, 170), LeftMenuPart::UnitPart);
+	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 21, 85), LeftMenuPart::UnitPart);
+	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 106, 170), LeftMenuPart::UnitPart);
 }
 
 GameWindow::~GameWindow()
@@ -43,6 +44,11 @@ GameWindow::~GameWindow()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
+    Map* map = ServerSession::GetInstance().m_worldState.GetMap();
+
+    //TODO when replication is available, use gamesession
+	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
+
 	while (!quit)
 	{
 		SDL_Event e;
@@ -76,6 +82,10 @@ void GameWindow::ShowWindow()
 			}
 		}
 
+		//Clear screen
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+		SDL_RenderClear(m_renderer);
+
 		const std::vector<Button*> unitButton = ClickManager::GetInstance().GetUnitButton();
 
 		for (Button* button : unitButton)
@@ -87,16 +97,27 @@ void GameWindow::ShowWindow()
 			Texture * buttonTexture = button->GetTexture();
 			SDL_Rect renderQuad = { x, y, width, height };
 
-			//SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
+			SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
 		}
 
-		//Clear screen
-		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderClear(m_renderer);
+		//Render Screen (Not ready to draw yet)
+		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
+		{
+			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
+			{
+				Texture* tileTexture = map->GetTile(Position(i, j))->GetTexture();
 
-		//Render Screen
-		//this is temporary
-		GameSession::GetInstance().GetWorldState()->GetMap()->m_texture.Render(300,300);
+				//Position the tile on the screen
+				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
+				int y = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
+				SDL_Rect renderQuad = { x, y, tileTexture->GetWidth(), tileTexture->GetHeight() };
+
+				//Render the tile
+				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
+
+				//TODO Render the district + unit on the tile
+			}
+		}
 
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

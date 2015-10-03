@@ -1,10 +1,13 @@
 #pragma once
 #include <vector>
+#include "Ptree_ForwardDeclaration.h"
+
 
 class Player
 {
     static int playerIDCounter;
 
+    std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;
 
@@ -54,6 +57,10 @@ public:
     void RemoveFoodMultiplier(double multiplier);
     void RemoveScienceMultiplier(double multiplier);
     void RemoveWeaponMultiplier(double multiplier);
+
+
+    boost::property_tree::ptree Serialize();
+    static Player Deserialize(boost::property_tree::ptree playerNode);
 
 };
 

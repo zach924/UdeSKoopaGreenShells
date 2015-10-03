@@ -8,4 +8,6 @@ public:
 	~MapLocal();
 
 	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
+
+    static MapLocal* Deserialize(boost::property_tree::ptree mapNode);
 };

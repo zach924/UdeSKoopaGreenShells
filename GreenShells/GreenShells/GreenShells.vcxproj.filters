@@ -67,11 +67,11 @@
     <Filter Include="Header Files\Map">
       <UniqueIdentifier>{c399934d-5494-4b3c-b5c6-04505943fd40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\UI\Buttons">
-      <UniqueIdentifier>{1d745402-d57e-403b-b371-c893663bf3c9}</UniqueIdentifier>
+    <Filter Include="Header Files\UI\Button">
+      <UniqueIdentifier>{443147af-ca58-457a-9fdd-7677b202a170}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UI\Buttons">
-      <UniqueIdentifier>{fcaf21f2-3ab8-4719-965e-325efea5c58f}</UniqueIdentifier>
+    <Filter Include="Source Files\UI\Button">
+      <UniqueIdentifier>{ba8f27a4-dc9e-44e0-98d7-6ca9c972843a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,20 +153,23 @@
     <ClCompile Include="ServerSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TileBase.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitAttack.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitMove.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
     <ClCompile Include="ClickManager.cpp">
-      <Filter>Source Files\UI</Filter>
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="SelectionManager.cpp">
       <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonUnitAttack.cpp">
-      <Filter>Source Files\UI\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonUnitMove.cpp">
-      <Filter>Source Files\UI\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,20 +251,26 @@
     <ClInclude Include="ServerSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ptree_ForwardDeclaration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBase.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitAttack.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitMove.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
     <ClInclude Include="ClickManager.h">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="SelectionManager.h">
       <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUnitAttack.h">
-      <Filter>Header Files\UI\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUnitMove.h">
-      <Filter>Header Files\UI\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

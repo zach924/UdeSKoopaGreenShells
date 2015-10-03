@@ -186,6 +186,7 @@
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileBase.cpp" />
     <ClCompile Include="TileGround.cpp" />
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="MapRemote.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="Ptree_ForwardDeclaration.h" />
     <ClInclude Include="RPCBase.h" />
     <ClInclude Include="RPCDispatcher.h" />
     <ClInclude Include="RPCManager.h" />
@@ -218,6 +220,7 @@
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileBase.h" />
     <ClInclude Include="TileGround.h" />
     <ClInclude Include="TileMountain.h" />
     <ClInclude Include="TileWater.h" />

@@ -1,8 +1,14 @@
 #include "MapLocal.h"
-#include "Tile.h"
+
+#include "TileGround.h"
+#include "TileMountain.h"
+#include "TileWater.h"
+
 #include "Unit.h"
 #include "District.h"
+#include <boost\property_tree\ptree.hpp>
 #include <iostream>
+#include <exception>
 
 MapLocal::MapLocal()
 	:Map()
@@ -51,4 +57,40 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 	
 	//Other cases are all refused
 	return false;
+}
+
+MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
+{
+	MapLocal* map = new MapLocal();
+	for each (auto rowNode in mapNode)
+	{
+		for each(auto tileNode in rowNode.second)
+		{
+			if (tileNode.first == "Tile")
+			{
+				Position pos{ tileNode.second.get<int>("<xmlattr>.X"), tileNode.second.get<int>("<xmlattr>.Y") };
+
+				switch (tileNode.second.get<int>("<xmlattr>.Type"))
+				{
+				case 0:
+					map->m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
+					break;
+				case 1:
+					map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second);
+					break;
+				case 2:
+					map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second);
+					break;
+
+				case -1:
+				default:
+					std::string msg = ("Error while loading the map, a tile is of type unknown.");
+					throw new std::exception(msg.c_str());
+					break;
+				}
+			}
+		}
+	}
+
+	return map;
 }

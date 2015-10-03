@@ -6,7 +6,6 @@
 ButtonUnitMove::ButtonUnitMove(int topLimit, int botLimit, int leftLimit, int rightLimit)
 	:Button(topLimit, botLimit, leftLimit, rightLimit)
 {
-	LoadTexture();
 }
 
 

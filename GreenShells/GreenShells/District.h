@@ -8,5 +8,6 @@ public:
 	~District();
 
 	void NotifyNewTurn();
+	virtual boost::property_tree::ptree Serialize();
 };
 

@@ -1,33 +1,40 @@
 #pragma once
 #include "Position.h"
+#include <boost\property_tree\ptree.hpp>
+#include "Texture.h"
+#include "TileBase.h"
 
-class District;
-class Unit;
-class Player;
 
-class Tile
+template<class T>
+class Tile : public TileBase
 {
-	District* m_district;
-	Unit* m_unit;
-	int m_owner;
-
 public:
-	Position m_position;
-	Tile(Position position);
-	Tile();
-	~Tile();
+	static Texture m_Texture;
+	void LoadTexture() {};
+    virtual  boost::property_tree::ptree Serialize() = 0;
 
-	void NotifyNewTurn();
+    Tile(Position position = Position(-1, -1))
+        : TileBase(position)
+    {
+    }
 
-	District* GetDistrict();
-	void SetDistrict(District* district);
+    ~Tile()
+    {
+    }
 
-	Unit* GetUnit();
-	void SetUnit(Unit* unit);
+    virtual Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position( -1, 0 ))
+    {
+        return nullptr;
+    }
 
-	int GetPlayerOwnerID();
-	void SetPlayerOwnerID(int id);
-
-	virtual bool CanTraverse()=0;
+    //Every method must be define in header file because of the static polymorphism
+	Texture* GetTexture()
+	{
+		if (!m_Texture.IsLoaded())
+		{
+			static_cast<T*>(this)->LoadTexture();
+		}
+		return &m_Texture;
+	}
 };
 

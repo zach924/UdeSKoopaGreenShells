@@ -39,5 +39,9 @@ int Button::GetHeight()
 
 Texture * Button::GetTexture()
 {
+	if (!m_texture.IsLoaded())
+	{
+		LoadTexture();
+	}
 	return &m_texture;
 }

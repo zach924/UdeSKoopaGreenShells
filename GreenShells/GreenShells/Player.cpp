@@ -1,10 +1,12 @@
 #include "Player.h"
 #include "GameSession.h"
+#include <boost\property_tree\ptree.hpp>
 
 int Player::playerIDCounter = 0;
 
 Player::Player()
    :m_playerID(playerIDCounter++),
+    m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
     m_cityHallCount(0), // TODO : Be sure we will have one City Hall when game start
@@ -168,4 +170,39 @@ void Player::RemoveWeaponMultiplier(double multiplier)
 bool Player::IsAlive()
 {
 	return m_isAlive;
+}
+
+boost::property_tree::ptree Player::Serialize()
+{
+    boost::property_tree::ptree playerNode;
+    playerNode.put("<xmlattr>.PlayerId", m_playerID);
+    playerNode.put("<xmlattr>.PlayerName", m_playerName);
+    playerNode.put("<xmlattr>.CityHallCount", m_cityHallCount);
+    playerNode.put("<xmlattr>.UnitCount", m_unitCount);
+    playerNode.put("<xmlattr>.Food", m_food);
+    playerNode.put("<xmlattr>.Science", m_science);
+    playerNode.put("<xmlattr>.Weapon", m_weapon);
+    playerNode.put("<xmlattr>.FoodMultiplicator", m_foodMultiplier);
+    playerNode.put("<xmlattr>.ScienceMultiplicator", m_scienceMultiplier);
+    playerNode.put("<xmlattr>.WeaponMultiplicator", m_weaponMultiplier);
+
+    return playerNode;
+}
+
+Player Player::Deserialize(boost::property_tree::ptree playerNode)
+{
+    Player player;
+
+    player.m_playerID = playerNode.get<int>("<xmlattr>.PlayerId");
+    player.m_playerName = playerNode.get<std::string>("<xmlattr>.PlayerName");
+    player.m_cityHallCount = playerNode.get<int>("<xmlattr>.CityHallCount");
+    player.m_unitCount = playerNode.get<int>("<xmlattr>.UnitCount");
+    player.m_food = playerNode.get<int>("<xmlattr>.Food");
+    player.m_science = playerNode.get<int>("<xmlattr>.Science");
+    player.m_weapon = playerNode.get<int>("<xmlattr>.Weapon");
+    player.m_foodMultiplier = playerNode.get<double>("<xmlattr>.FoodMultiplicator");
+    player.m_scienceMultiplier = playerNode.get<double>("<xmlattr>.ScienceMultiplicator");
+    player.m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WeaponMultiplicator");
+
+    return player;
 }

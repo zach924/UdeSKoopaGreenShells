@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
+#include "Ptree_ForwardDeclaration.h"
 
 class Player;
 class Map;
+
 
 class WorldState
 {
@@ -26,5 +28,7 @@ public:
 	Player& GetPlayer(int playerID);
 
 	bool AreAllPlayerReady();
+  boost::property_tree::ptree Serialize();
+  static WorldState Deserialize(boost::property_tree::ptree worldStateXml);
 };
 
