@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ClickManager.h"
 #include "SelectionManager.h"
 #include "Position.h"
@@ -40,6 +41,7 @@ const std::vector<Button*>& ClickManager::GetUnitButton()
 
 void ClickManager::ManageMapClick(const Position& position)
 {
+	std::cout << "Map clicked at pos X: " << position.X << " Y: " << position.Y << std::endl;
 	SelectionManager::GetInstance().HandleSelection(position);
 }
 

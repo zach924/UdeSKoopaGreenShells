@@ -17,9 +17,7 @@
 
 GameWindow::GameWindow(ScreenResolution res)
 	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res),
-  	m_topMenuHeight(64),m_leftMenuWidth(6*64),
-  	m_mapHeightEnd(910 + m_topMenuHeight),
-    m_mapWidthEnd(1300 + m_leftMenuWidth)
+  	m_topMenuHeight(res.MAX_HEIGHT - res.MAP_HEIGHT),m_leftMenuWidth(res.MAX_WIDTH - res.MAP_WIDTH)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
@@ -32,8 +30,8 @@ GameWindow::GameWindow(ScreenResolution res)
 
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 21, 85), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 106, 170), LeftMenuPart::UnitPart);
+	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 21, 85), LeftMenuPart::UnitPart); // Magic number here because I can't do struct 
+	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.MAX_HEIGHT - 170, m_CurrentScreen.MAX_HEIGHT - 106, 106, 170), LeftMenuPart::UnitPart); // to reprensent it since it depends on m_currentScreen
 }
 
 GameWindow::~GameWindow()
@@ -65,9 +63,8 @@ void GameWindow::ShowWindow()
 				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
-					//TODO :  change 65;
-					int posX = (e.button.x - m_leftMenuWidth) / 65;
-					int posY = (e.button.y - m_topMenuHeight) / 65;
+					int posX = (e.button.x - m_leftMenuWidth) / m_CurrentScreen.TILE_SIZE;
+					int posY = (e.button.y - m_topMenuHeight) / m_CurrentScreen.TILE_SIZE;
 
 					ClickManager::GetInstance().ManageMapClick(Position(posX,posY));
 				}
@@ -149,5 +146,5 @@ bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-	return m_leftMenuWidth < x && x < m_mapWidthEnd && m_topMenuHeight < y && y < m_mapHeightEnd;
+	return m_leftMenuWidth < x && x < m_CurrentScreen.MAP_WIDTH && m_topMenuHeight < y && y < m_CurrentScreen.MAP_HEIGHT;
 }

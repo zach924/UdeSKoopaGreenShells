@@ -24,7 +24,7 @@ int Button::GetTopY()
 
 int Button::GetLeftX()
 {
-	return m_rightLimit;
+	return m_lefLimit;
 }
 
 int Button::GetWidth()

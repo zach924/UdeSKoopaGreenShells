@@ -29,7 +29,6 @@ static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120 };
 static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114 };
 static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105 };
 
-
 class GameWindow
 {
 private:
@@ -43,8 +42,6 @@ private:
     int m_topMenuHeight;
   	int m_leftMenuWidth;
 
-  	int m_mapHeightEnd;
-	  int m_mapWidthEnd;
     GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();
 
