@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <assert.h>
+#include <utility>
 
 #include "GameWindow.h"
 #include "GameSession.h"
@@ -8,6 +9,9 @@
 #include "WorldState.h"
 #include "Map.h"
 #include "ClickManager.h"
+
+#include "ButtonUnitAttack.h"
+#include "ButtonUnitMove.h"
 
 GameWindow::GameWindow(int width, int height)
 //TODO :  magic number
@@ -26,6 +30,9 @@ GameWindow::GameWindow(int width, int height)
 	assert(m_renderer != NULL && SDL_GetError());
 
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_height - 170, m_height - 106, 21, 85), LeftMenuPart::UnitPart);
+	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_height - 170, m_height - 106, 106, 170), LeftMenuPart::UnitPart);
 }
 
 GameWindow::~GameWindow()
@@ -49,7 +56,7 @@ void GameWindow::ShowWindow()
 			}
 			else if (e.type == SDL_MOUSEBUTTONUP)
 			{
-				
+				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
 					//TODO :  change 65;
@@ -67,6 +74,20 @@ void GameWindow::ShowWindow()
 					ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
 				}
 			}
+		}
+
+		const std::vector<Button*> unitButton = ClickManager::GetInstance().GetUnitButton();
+
+		for (Button* button : unitButton)
+		{
+			int x = button->GetLeftX();
+			int y = button->GetTopY();
+			int width = button->GetWidth();
+			int height = button->GetHeight();
+			Texture * buttonTexture = button->GetTexture();
+			SDL_Rect renderQuad = { x, y, width, height };
+
+			//SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
 		}
 
 		//Clear screen

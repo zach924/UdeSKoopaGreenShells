@@ -16,6 +16,9 @@ public:
 	}
 
 	void HandleSelection(Position pos);
+
+	void UnitAttackPressed();
+	void UnitMovePressed();
 	
 };
 

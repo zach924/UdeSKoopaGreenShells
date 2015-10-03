@@ -164,6 +164,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonUnitAttack.cpp" />
+    <ClCompile Include="ButtonUnitMove.cpp" />
     <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="District.cpp" />
@@ -192,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonUnitAttack.h" />
+    <ClInclude Include="ButtonUnitMove.h" />
     <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="District.h" />
