@@ -146,5 +146,5 @@ bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-	return m_leftMenuWidth < x && x < m_CurrentScreen.MAP_WIDTH && m_topMenuHeight < y && y < m_CurrentScreen.MAP_HEIGHT;
+	return m_leftMenuWidth < x && x < m_CurrentScreen.MAX_WIDTH && m_topMenuHeight < y && y < m_CurrentScreen.MAX_HEIGHT;
 }
