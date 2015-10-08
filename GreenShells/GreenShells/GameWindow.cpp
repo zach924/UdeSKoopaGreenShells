@@ -8,6 +8,7 @@
 #include "GameSession.h"
 #include "Texture.h"
 #include "WorldState.h"
+#include <assert.h>
 #include "Map.h"
 #include "TileGround.h"
 #include "ClickManager.h"
