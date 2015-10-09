@@ -7,7 +7,7 @@ enum LeftMenuPart
 {
 	GeneralPart,
 	UnitPart,
-	Building
+	BuildingPart
 };
 
 class ClickManager
@@ -18,8 +18,8 @@ class ClickManager
 	ClickManager();
 	~ClickManager();
 
-	std::vector<Button*> m_unitButton;
-	std::vector<Button*> m_buildingButton;
+	std::vector<Button*> m_unitButtons;
+	std::vector<Button*> m_buildingButtons;
 
 public:
 	static ClickManager& GetInstance()

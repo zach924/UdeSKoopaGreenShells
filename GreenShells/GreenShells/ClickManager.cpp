@@ -24,10 +24,10 @@ void ClickManager::AddButton(Button* button, LeftMenuPart part)
 	case GeneralPart:
 		break;
 	case UnitPart:
-		m_unitButton.emplace_back(button);
+		m_unitButtons.emplace_back(button);
 		break;
-	case Building:
-		m_buildingButton.emplace_back(button);
+	case BuildingPart:
+		m_buildingButtons.emplace_back(button);
 		break;
 	default:
 		break;
@@ -36,7 +36,7 @@ void ClickManager::AddButton(Button* button, LeftMenuPart part)
 
 const std::vector<Button*>& ClickManager::GetUnitButton()
 {
-	return m_unitButton;
+	return m_unitButtons;
 }
 
 void ClickManager::ManageMapClick(const Position& position)
@@ -47,7 +47,7 @@ void ClickManager::ManageMapClick(const Position& position)
 
 void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 {
-	for (Button* b : m_buildingButton)
+	for (Button* b : m_buildingButtons)
 	{
 		if (b->IsInside(x, y))
 		{
@@ -56,7 +56,7 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 		}
 	}
 
-	for (Button* b : m_unitButton)
+	for (Button* b : m_unitButtons)
 	{
 		if (b->IsInside(x, y))
 		{
