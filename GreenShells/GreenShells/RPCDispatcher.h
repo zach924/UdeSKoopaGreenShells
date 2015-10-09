@@ -24,5 +24,5 @@ public:
 	void SetEventQueue(SynchronizedQueue<RPCEvent>* queue);
 	SynchronizedQueue<RPCEvent>* GetEventQueue();
 
-	void Dispatch();
+	bool Dispatch();
 };

@@ -29,7 +29,9 @@ public:
 	~ServerSession();
 
 	void StartServer(int port);
+	void Replicate();
 
+	int AddPlayer();
 };
 
 

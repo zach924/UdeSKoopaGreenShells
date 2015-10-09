@@ -60,7 +60,19 @@ void GameSession::SetCurrentPlayerID(int player)
 
 bool GameSession::ConnectToServer()
 {
-	return RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
+	bool temp = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
+	RPCStructType newEvent{};
+	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&newEvent), sizeof(RPCStructType)));
+
+	JoinGameStruct* data = new JoinGameStruct;
+	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(JoinGameStruct)));
+	m_currentPlayerID = data->playerID;
+
+	//First Replication
+	FetchReplication();
+
+	m_replicationThread = new std::thread(&GameSession::FetchReplicationThread, this);
+	return temp;
 }
 
 void GameSession::Save(std::string fileName)
@@ -84,7 +96,7 @@ void GameSession::Load(std::string fileName)
 		{
 			boost::property_tree::ptree pt;
 			boost::property_tree::xml_parser::read_xml(fileStream, pt);
-			m_worldState = WorldState::Deserialize(pt);
+			m_worldState.Deserialize(pt);
 
 			fileStream.close();
 		}
@@ -97,6 +109,42 @@ void GameSession::Load(std::string fileName)
 	{
 		std::string msg = ("Unable to load saved file %s!", fileName);
 		throw new std::exception(msg.c_str());
+	}
+}
+
+void GameSession::FetchReplication()
+{
+	int theoreticalSize;
+	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&theoreticalSize), sizeof(int)));
+
+	int actualSize = 0;
+	stringstream dataStream;
+	while (actualSize != theoreticalSize)
+	{
+		char* data = new char[theoreticalSize - actualSize];
+		int receivedSize = static_cast<int>(RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(data, theoreticalSize - actualSize)));
+		dataStream.write(data, receivedSize);
+		actualSize += receivedSize;
+	}
+	boost::property_tree::ptree pt;
+	boost::property_tree::xml_parser::read_xml(dataStream, pt);
+	m_worldState.Deserialize(pt);
+	std::cout << "Replication has occured." << std::endl;
+}
+
+void GameSession::FetchReplicationThread()
+{
+	try
+	{
+		while (true)
+		{
+			FetchReplication();
+		}
+	}
+	catch (std::exception e)
+	{
+		std::cout << "Replication error : Closing replication thread." << endl;
+		std::cout << e.what() << std::endl;
 	}
 }
 

@@ -13,6 +13,8 @@ class GameSession
 	int m_port;
 	int m_currentPlayerID;
 
+	std::thread* m_replicationThread;
+
 	GameSession();
 	GameSession(GameSession const&) = delete;
 	void operator = (GameSession const&) = delete;
@@ -40,5 +42,7 @@ public:
 	void Save(std::string fileName);
 	void Load(std::string fileName);
 
+	void FetchReplication();
+	void FetchReplicationThread();
 };
 

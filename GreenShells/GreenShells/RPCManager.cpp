@@ -1,11 +1,12 @@
 #include <iostream>
 #include <thread>
+#include <sstream>
 
 #include "RPCManager.h"
 #include "ClientConnection.h"
 #include "RPCDispatcher.h"
-#include "WorldState.h"
 #include "Player.h"
+#include "ServerSession.h"
 
 using boost::asio::ip::tcp;
 
@@ -25,8 +26,22 @@ void RPCManager::StartListening()
 			ClientConnection* newClient = new ClientConnection{};
 			acceptor.accept(newClient->GetTCPConnection().GetSocket());
 			newClient->SetQueuePointer(m_events);
+			newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer());
 			newClient->StartThread();
 			m_clients.push_back(newClient);
+
+			//inform client of his id
+			std::stringstream ss;
+			RPCStructType dataType{};
+			dataType = RPCStructType::JOIN_GAME;
+			ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+			JoinGameStruct data;
+			data.playerID = newClient->GetPlayerID();
+			ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+			newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
+
+			//replicate for new client
+			ServerSession::GetInstance().Replicate();
 		}
 	});
 }
@@ -41,12 +56,18 @@ SynchronizedQueue<RPCEvent>* RPCManager::GetEventQueue()
 	return m_events;
 }
 
-void RPCManager::SetWorldState(WorldState* worldState)
+void RPCManager::SendToClients(std::string data)
 {
-	m_worldState = worldState;
-}
-
-WorldState* RPCManager::GetWorldState()
-{
-	return m_worldState;
+	try
+	{
+		for (auto client : m_clients)
+		{
+			client->GetTCPConnection().GetSocket().send(boost::asio::buffer(data));
+		}
+	}
+	catch (std::exception)
+	{
+		//return false;
+	}
+	
 }

@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
 #include <thread>
+#include <string>
 #include "SynchronizedQueue.h"
 #include "RPCStructs.h"
 
 class ClientConnection;
 class RPCDispatcher;
-class WorldState;
+class ServerSession;
 
 class RPCManager
 {
@@ -15,10 +16,6 @@ private:
 	vector<ClientConnection*> m_clients;
 	SynchronizedQueue<RPCEvent>* m_events;
 	std::thread* m_thread;
-	WorldState* m_worldState;
-
-
-
 	RPCDispatcher* m_RPCDispatcher;
 
 public:
@@ -28,6 +25,5 @@ public:
 	void SetEventQueue(SynchronizedQueue<RPCEvent>* queue);
 	SynchronizedQueue<RPCEvent>* GetEventQueue();
 
-	void SetWorldState(WorldState* worldState);
-	WorldState* GetWorldState();
+	void SendToClients(std::string data);
 };

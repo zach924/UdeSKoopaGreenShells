@@ -32,8 +32,7 @@ GameWindow::~GameWindow()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
-    Map* map = ServerSession::GetInstance().m_worldState.GetMap();
-
+    
     //TODO when replication is available, use gamesession
 	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
 
@@ -54,12 +53,13 @@ void GameWindow::ShowWindow()
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
 		SDL_RenderClear(m_renderer);
 
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 		//Render Screen (Not ready to draw yet)
 		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
 		{
 			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				Texture* tileTexture = map->GetTile(Position(i, j))->GetTexture();
+				Texture* tileTexture = map.GetTile(Position(i, j))->GetTexture();
 
 				//Position the tile on the screen
 				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);

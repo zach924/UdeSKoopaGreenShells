@@ -5,11 +5,8 @@
 
 class RPCBase
 {
-private:
-	static TCPConnection* s_connection;
-
-protected:
 public:
+	static TCPConnection* s_connection;
 	bool SendData(std::string data);
 	bool SendData(char* data, int size);
 
