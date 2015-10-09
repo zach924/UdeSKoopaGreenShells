@@ -3,8 +3,8 @@
 #include "SelectionManager.h"
 
 
-ButtonUnitAttack::ButtonUnitAttack(int topLimit, int botLimit, int leftLimit, int rightLimit)
-	:Button(topLimit, botLimit, leftLimit, rightLimit)
+ButtonUnitAttack::ButtonUnitAttack(int sectionOffset, int columnIndex, int rowIndex)
+	:Button(sectionOffset, columnIndex, rowIndex)
 {
 }
 

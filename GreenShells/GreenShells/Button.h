@@ -8,6 +8,11 @@ protected:
 	// because we do not need since only one button of each will exist;
 	Texture m_texture;
 
+    static const int VERTICAL_OFFSET = 38;
+    static const int HORIZONTAL_OFFSET = 25;
+    static const int BUTTON_HEIGHT = 50;
+    static const int BUTTON_WIDTH = 90;
+
 private:
 	int m_topLimit;
 	int m_botLimit;
@@ -16,7 +21,7 @@ private:
 
 	virtual void LoadTexture() = 0;
 public:
-	Button(int topLimit, int botLimit, int leftLimit, int rightLimit);
+	Button(int sectionOffset, int columnIndex, int rowIndex);
 	~Button();
 
 	bool IsInside(int xPos, int yPos);

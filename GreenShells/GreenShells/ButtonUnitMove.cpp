@@ -3,8 +3,8 @@
 #include "SelectionManager.h"
 
 
-ButtonUnitMove::ButtonUnitMove(int topLimit, int botLimit, int leftLimit, int rightLimit)
-	:Button(topLimit, botLimit, leftLimit, rightLimit)
+ButtonUnitMove::ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex)
+	:Button(sectionOffset, columnIndex, rowIndex)
 {
 }
 

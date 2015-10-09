@@ -7,7 +7,7 @@ enum LeftMenuPart
 {
 	GeneralPart,
 	UnitPart,
-	BuildingPart
+	DistrictPart
 };
 
 class ClickManager
@@ -19,7 +19,8 @@ class ClickManager
 	~ClickManager();
 
 	std::vector<Button*> m_unitButtons;
-	std::vector<Button*> m_buildingButtons;
+	std::vector<Button*> m_districtButtons;
+    std::vector<Button*> m_generalButtons;
 
 public:
 	static ClickManager& GetInstance()
@@ -29,7 +30,9 @@ public:
 	}
 
 	void AddButton(Button* button, LeftMenuPart part);
-	const std::vector<Button*>& GetUnitButton();
+	const std::vector<Button*>& GetUnitButtons();
+    const std::vector<Button*>& GetDistrictButtons();
+    const std::vector<Button*>& GetGeneralButtons();
 
 	void ManageMapClick(const Position& position);
 	void ManageLeftMenuClick(const int& x, const int& y);

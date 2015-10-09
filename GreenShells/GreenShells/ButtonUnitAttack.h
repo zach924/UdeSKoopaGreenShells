@@ -5,7 +5,7 @@ class ButtonUnitAttack : public Button
 {
 	
 public:
-	ButtonUnitAttack(int topLimit, int botLimit, int leftLimit, int rightLimit);
+	ButtonUnitAttack(int sectionOffset, int columnIndex, int rowIndex);
 	~ButtonUnitAttack();
 
 	void DoAction();

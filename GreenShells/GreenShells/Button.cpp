@@ -1,9 +1,11 @@
 #include "Button.h"
 #include <iostream>
 
-Button::Button(int topLimit, int botLimit, int leftLimit, int rightLimit)
-	:m_topLimit(topLimit), m_botLimit(botLimit),
-	m_lefLimit(leftLimit), m_rightLimit(rightLimit)
+Button::Button(int sectionOffset, int columnIndex, int rowIndex)
+	:m_topLimit(sectionOffset + (VERTICAL_OFFSET * rowIndex) + ((rowIndex - 1) * BUTTON_HEIGHT))
+    , m_botLimit(sectionOffset + (VERTICAL_OFFSET * rowIndex) +(BUTTON_HEIGHT* rowIndex))
+    , m_lefLimit((HORIZONTAL_OFFSET * columnIndex ) + ((columnIndex - 1) * BUTTON_WIDTH))
+    , m_rightLimit((HORIZONTAL_OFFSET * columnIndex )+ (BUTTON_WIDTH * columnIndex))
 {
 	std::cout << "Button at : " << m_topLimit << " " << m_botLimit << " and " << m_lefLimit << " " << m_rightLimit << std::endl;
 }
