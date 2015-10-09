@@ -2,7 +2,7 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 
-District::District(int& ownerID)
+District::District(const int& ownerID)
 	:Actor(ownerID)
 {
 }

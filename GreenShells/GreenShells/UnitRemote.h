@@ -5,6 +5,6 @@
 
 class UnitRemote : Unit, RPCBase
 {
-	UnitRemote(int id);
+	UnitRemote(int id, const Position& pos);
 	~UnitRemote();
 };

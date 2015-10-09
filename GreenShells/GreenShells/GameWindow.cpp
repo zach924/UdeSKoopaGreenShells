@@ -16,6 +16,11 @@
 #include "ButtonUnitAttack.h"
 #include "ButtonUnitMove.h"
 
+
+// TODO: Remove BeforePush
+#include "Player.h"
+#include "Unit.h"
+
 GameWindow::GameWindow(ScreenResolution res)
 	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res),
   	m_topMenuHeight(res.MAX_HEIGHT - res.MAP_HEIGHT),m_leftMenuWidth(res.MAX_WIDTH - res.MAP_WIDTH)
@@ -46,7 +51,24 @@ void GameWindow::ShowWindow()
     Map* map = ServerSession::GetInstance().m_worldState.GetMap();
 
     //TODO when replication is available, use gamesession
-	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
+	// ===================================================
+	// TEST DELETE BEFORE PUSH IN MASTER
+	// ===================================================
+
+	//Player p1 = GameSession::GetInstance().GetWorldState()->GetPlayer(0);
+
+	//auto map = GameSession::GetInstance().GetWorldState()->GetMap();
+	auto tile00 = map->GetTile(Position{ 4,2 });
+
+
+	Unit* unit = new Unit(0, Position{ 4,2 });
+
+
+	tile00->SetUnit(unit);
+
+
+	// ===================================================
+
 
 	while (!quit)
 	{
@@ -61,7 +83,7 @@ void GameWindow::ShowWindow()
 			}
 			else if (e.type == SDL_MOUSEBUTTONUP)
 			{
-				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
+				//std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
 					int posX = (e.button.x - m_leftMenuWidth) / m_CurrentScreen.TILE_SIZE;
@@ -103,7 +125,7 @@ void GameWindow::ShowWindow()
 		{
 			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				Texture* tileTexture = map->GetTile(Position(i, j))->GetTexture();
+				Texture* tileTexture = map->GetTile(Position(j, i))->GetTexture();
 
 				//Position the tile on the screen
 				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);

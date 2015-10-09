@@ -26,6 +26,9 @@ public:
 	void SetOwnerID(int ID);
 	int GetOwnerID();
 
+	Position GetPosition();
+	void SetPosition(const Position& pos);
+
 	virtual void NotifyNewTurn() = 0;
 	virtual boost::property_tree::ptree Serialize() = 0;
 

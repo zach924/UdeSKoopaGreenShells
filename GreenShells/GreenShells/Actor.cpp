@@ -26,3 +26,13 @@ int Actor::GetOwnerID()
 {
 	return m_ownerID;
 }
+
+Position Actor::GetPosition()
+{
+	return m_position;
+}
+
+void Actor::SetPosition(const Position & pos)
+{
+	m_position = pos;
+}

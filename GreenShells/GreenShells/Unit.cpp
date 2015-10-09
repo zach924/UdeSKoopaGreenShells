@@ -3,8 +3,8 @@
 
 #include <boost\property_tree\ptree.hpp>
 
-Unit::Unit(int& ownerID)
-	:Actor(ownerID)
+Unit::Unit(const int& ownerID, const Position& pos)
+	:Actor(ownerID,pos)
 {
 }
 

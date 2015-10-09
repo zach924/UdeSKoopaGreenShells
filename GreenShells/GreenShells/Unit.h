@@ -7,11 +7,11 @@
 class Unit : public Actor
 {
 public:
-	Unit(int& ownerID);
+	Unit(const int& ownerID,const Position& pos);
     ~Unit();
 	
 	void NotifyNewTurn();
 
-    virtual boost::property_tree::ptree Serialize();
+   virtual boost::property_tree::ptree Serialize();
 };
 

@@ -8,6 +8,11 @@
 #include "MapRemote.h"
 #include "ServerSession.h"
 
+
+//REMOVE BEFOR PUSH
+#include "Player.h"
+#include "Unit.h"
+
 // These needs to be before main
 bool SetUpServer(int port)
 {
@@ -121,8 +126,12 @@ int main(int argc, char* argv[])
 			}
 		}
 
+		
+
 		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
+
+	
 
 		system("PAUSE");
 		return 0;
