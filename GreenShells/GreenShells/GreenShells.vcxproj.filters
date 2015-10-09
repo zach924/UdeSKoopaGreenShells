@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Map">
       <UniqueIdentifier>{c399934d-5494-4b3c-b5c6-04505943fd40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Button">
+      <UniqueIdentifier>{443147af-ca58-457a-9fdd-7677b202a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button">
+      <UniqueIdentifier>{ba8f27a4-dc9e-44e0-98d7-6ca9c972843a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -149,6 +155,21 @@
     </ClCompile>
     <ClCompile Include="TileBase.cpp">
       <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitAttack.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitMove.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickManager.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionManager.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +256,21 @@
     </ClInclude>
     <ClInclude Include="TileBase.h">
       <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitAttack.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitMove.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickManager.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionManager.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

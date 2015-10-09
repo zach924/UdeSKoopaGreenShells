@@ -164,6 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonUnitAttack.cpp" />
+    <ClCompile Include="ButtonUnitMove.cpp" />
+    <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="District.cpp" />
     <ClCompile Include="GameSession.cpp" />
@@ -177,6 +181,7 @@
     <ClCompile Include="RPCBase.cpp" />
     <ClCompile Include="RPCDispatcher.cpp" />
     <ClCompile Include="RPCManager.cpp" />
+    <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -191,6 +196,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonUnitAttack.h" />
+    <ClInclude Include="ButtonUnitMove.h" />
+    <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="GameSession.h" />
@@ -205,6 +214,7 @@
     <ClInclude Include="RPCDispatcher.h" />
     <ClInclude Include="RPCManager.h" />
     <ClInclude Include="RPCStructs.h" />
+    <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
