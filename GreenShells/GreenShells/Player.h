@@ -58,6 +58,9 @@ public:
     void RemoveScienceMultiplier(double multiplier);
     void RemoveWeaponMultiplier(double multiplier);
 
+	void AddCityCenter();
+	void RemoveCityCenter();
+
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);

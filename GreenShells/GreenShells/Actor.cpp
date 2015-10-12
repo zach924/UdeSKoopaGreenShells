@@ -1,5 +1,7 @@
 #include "Actor.h"
 
+#include <iostream>
+
 Actor::Actor(int ownerID,Position position)
 	:m_position(position),
     m_ownerID(ownerID),
@@ -44,9 +46,17 @@ void Actor::SetAttackDamage(int damage)
 	m_attackDamage = damage;
 }
 
+void Actor::SetPosition(Position position)
+{
+	m_position = position;
+}
+
 AttackNotification Actor::ReceiveDamage(int damage)
 {
 	m_health -= damage;
+
+	if (m_health <= 0)
+		std::cout << "An actor die : Player " << m_ownerID << std::endl;
 
 	return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
 }

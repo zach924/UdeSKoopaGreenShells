@@ -1,7 +1,7 @@
 #include "unitRange.h"
 
 UnitRange::UnitRange(int ownerID, int attackRange)
-	: Unit(ownerID, attackRange)
+	: Unit(ownerID, attackRange, 25)
 {
 }
 

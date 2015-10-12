@@ -24,6 +24,11 @@ District* TileBase::GetDistrict()
 
 void TileBase::SetDistrict(District* district)
 {
+	if (district)
+	{
+		district->SetPosition(m_position);
+	}
+
     m_district = district;
 }
 
@@ -34,6 +39,11 @@ Unit * TileBase::GetUnit()
 
 void TileBase::SetUnit(Unit* unit)
 {
+	if (unit)
+	{
+		unit->SetPosition(m_position);
+	}
+
     m_unit = unit;
 }
 

@@ -12,7 +12,7 @@ private:
 	int m_attackRange;
 
 public:
-	Unit(int ownerID, int attckRange, int attackDamage = 50);
+	Unit(int ownerID, int attckRange, int attackDamage);
     ~Unit();
 
 	virtual AttackNotification Attack(Actor* target)=0;

@@ -49,6 +49,8 @@ public:
 	int GetAttackDamage();
 	void SetAttackDamage(int damage);
 
+	void SetPosition(Position position);
+
 	virtual AttackNotification ReceiveDamage(int damage);
 
 	virtual void NotifyNewTurn() = 0;

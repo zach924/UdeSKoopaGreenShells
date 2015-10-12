@@ -167,6 +167,21 @@ void Player::RemoveWeaponMultiplier(double multiplier)
     }
 }
 
+void Player::AddCityCenter()
+{
+	++m_cityHallCount;
+}
+
+void Player::RemoveCityCenter()
+{
+	--m_cityHallCount;
+
+	if (m_cityHallCount <= 0)
+	{
+		m_isAlive = false;
+	}
+}
+
 bool Player::IsAlive()
 {
 	return m_isAlive;

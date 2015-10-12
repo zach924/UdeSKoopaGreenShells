@@ -68,13 +68,13 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 	auto attacker = attackerTile->GetUnit();
 
 	// No unit on the Attacker tile
-	if (!attacker)
+	if (!attacker) // TODO : might be useless, probably the selection manager that validate that
 	{
 		return false;
 	}
 
 	// Unit doesn't belong to the requester
-	if (attacker->GetOwnerID() != ownerID)
+	if (attacker->GetOwnerID() != ownerID) // TODO : might be useless, probably the selection manager that validate that
 	{
 		return false;
 	}
