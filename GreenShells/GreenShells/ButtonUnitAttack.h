@@ -5,11 +5,11 @@ class ButtonUnitAttack : public Button
 {
 	
 public:
-	ButtonUnitAttack(int sectionOffset, int columnIndex, int rowIndex);
+	ButtonUnitAttack(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
 	~ButtonUnitAttack();
 
 	void DoAction();
 
-	void LoadTexture();
+	void LoadTextTexture();
 };
 

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <thread>
 #include "GameSession.h"
+#include "Texture.h"
 
 //////////////////////////////////
 //Screen Resolution
@@ -49,6 +50,18 @@ private:
 	SDL_Window* m_window;
     SDL_Surface* m_screenSurface;
 	SDL_Renderer* m_renderer;
+
+    const Color PLAYER_COLORS [8] = 
+    {
+        Color{ 255,102,102 },
+        Color{ 255,255,102 },
+        Color{ 102,255,102 },
+        Color{ 102,255,255 },
+        Color{ 102,102,255 },
+        Color{ 255,102,255 },
+        Color{ 192,192,192 },
+        Color{ 255,178,102 }
+    };
 
     GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();

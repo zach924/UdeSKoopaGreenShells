@@ -3,11 +3,10 @@
 #include "SelectionManager.h"
 
 
-ButtonUnitMove::ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex)
-	:Button(sectionOffset, columnIndex, rowIndex)
+ButtonUnitMove::ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
+	:Button(sectionOffset, columnIndex, rowIndex, state)
 {
 }
-
 
 ButtonUnitMove::~ButtonUnitMove()
 {
@@ -18,11 +17,11 @@ void ButtonUnitMove::DoAction()
 	SelectionManager::GetInstance().UnitMovePressed();
 }
 
-void ButtonUnitMove::LoadTexture()
+void ButtonUnitMove::LoadTextTexture()
 {
 	try
 	{
-		m_texture.LoadFromFile("..\\Sprite\\Button\\64x64\\UnitMove.bmp");
+		m_textTexture.LoadFromFile("..\\Sprite\\Button\\Move_text.bmp");
 	}
 	catch (std::exception e)
 	{

@@ -72,6 +72,11 @@ void Texture::Render(int x, int y)
 	SDL_RenderCopy(GameWindow::GetInstance().GetRenderer(), m_texture, NULL, &renderQuad);
 }
 
+void Texture::SetColor(Color color)
+{
+    SetColor(color.m_red, color.m_green, color.m_blue);
+}
+
 void Texture::SetColor(int red, int green, int blue)
 {
 	SDL_SetTextureColorMod(m_texture, red, green, blue);

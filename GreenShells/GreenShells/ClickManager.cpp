@@ -62,7 +62,11 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 	{
 		if (b->IsInside(x, y))
 		{
-			b->DoAction();
+            if (b->IsUnpressed())
+            {
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
 			break;
 		}
 	}
@@ -71,7 +75,11 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 	{
 		if (b->IsInside(x, y))
 		{
-			b->DoAction();
+            if (b->IsUnpressed())
+            {
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
 			break;
 		}
 	}
@@ -80,7 +88,11 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
     {
         if (b->IsInside(x, y))
         {
-            b->DoAction();
+            if (b->IsUnpressed())
+            {
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
             break;
         }
     }

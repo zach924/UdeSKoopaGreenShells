@@ -5,6 +5,11 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Surface;
 
+struct Color
+{
+    int m_red, m_green, m_blue;
+};
+
 class Texture
 {
 public:
@@ -14,6 +19,7 @@ public:
 	bool IsLoaded();
 	bool LoadFromFile(std::string path);
 	void Free();
+    void SetColor(Color color);
 	void SetColor(int red, int green, int blue);
 	int GetWidth();
 	int GetHeight();
