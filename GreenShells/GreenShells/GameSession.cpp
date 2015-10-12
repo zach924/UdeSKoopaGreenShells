@@ -62,10 +62,10 @@ bool GameSession::ConnectToServer()
 {
 	bool temp = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
 	RPCStructType newEvent{};
-	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&newEvent), sizeof(RPCStructType)));
+	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&newEvent), sizeof(RPCStructType)));
 
 	JoinGameStruct* data = new JoinGameStruct;
-	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(JoinGameStruct)));
+	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(JoinGameStruct)));
 	m_currentPlayerID = data->playerID;
 
 	//First Replication
@@ -115,14 +115,14 @@ void GameSession::Load(std::string fileName)
 void GameSession::FetchReplication()
 {
 	int theoreticalSize;
-	RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&theoreticalSize), sizeof(int)));
+	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&theoreticalSize), sizeof(int)));
 
 	int actualSize = 0;
 	stringstream dataStream;
 	while (actualSize != theoreticalSize)
 	{
 		char* data = new char[theoreticalSize - actualSize];
-		int receivedSize = static_cast<int>(RPCBase::s_connection->GetSocket().receive(boost::asio::buffer(data, theoreticalSize - actualSize)));
+		int receivedSize = static_cast<int>(RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(data, theoreticalSize - actualSize)));
 		dataStream.write(data, receivedSize);
 		actualSize += receivedSize;
 	}

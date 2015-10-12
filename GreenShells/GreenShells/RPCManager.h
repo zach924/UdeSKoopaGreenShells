@@ -26,4 +26,5 @@ public:
 	SynchronizedQueue<RPCEvent>* GetEventQueue();
 
 	void SendToClients(std::string data);
+	std::vector<int> GetDisconnectedPlayers();
 };

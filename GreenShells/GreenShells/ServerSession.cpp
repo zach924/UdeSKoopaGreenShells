@@ -22,11 +22,20 @@ void ServerSession::run()
 	{
 		while (!m_worldState.AreAllPlayerReady())
 		{
+			//30 ticks / second
 			auto before = system_clock::now();
+			//Check for disconnects
+			auto players = m_rpcServerManager->GetDisconnectedPlayers();
+			for (auto player : players)
+			{
+				m_worldState.GetPlayer(player).SetDead();
+			}
+
 			if (m_dispatcher->Dispatch())
 			{
 				Replicate();
 			}
+
 			auto after = system_clock::now();
 			std::this_thread::sleep_for(milliseconds(33) - duration_cast<milliseconds>(after - before));
 		}
@@ -72,4 +81,3 @@ int ServerSession::AddPlayer()
 {
 	return m_worldState.AddPlayer(Player{});
 }
-

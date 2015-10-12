@@ -17,10 +17,8 @@ class ServerSession
 	void operator = (ServerSession const&) = delete;
 
 	void run();
-public:
-    //TODO Temporary
     WorldState m_worldState;
-
+public:
 	static ServerSession &GetInstance()
 	{
 		static ServerSession m_serverSession;

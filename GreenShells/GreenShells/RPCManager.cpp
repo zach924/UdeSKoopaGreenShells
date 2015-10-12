@@ -58,16 +58,43 @@ SynchronizedQueue<RPCEvent>* RPCManager::GetEventQueue()
 
 void RPCManager::SendToClients(std::string data)
 {
-	try
+	for (auto client : m_clients)
 	{
-		for (auto client : m_clients)
+		try
 		{
 			client->GetTCPConnection().GetSocket().send(boost::asio::buffer(data));
 		}
+		catch (std::exception)
+		{
+			//Client has diconnected, it should be cleaned up next tick
+		}
 	}
-	catch (std::exception)
-	{
-		//return false;
-	}
-	
 }
+
+std::vector<int> RPCManager::GetDisconnectedPlayers()
+{
+	std::vector<int> playerIDDisconnected;
+	for (auto client : m_clients)
+	{
+		if (!client->GetTCPConnection().GetSocket().is_open())
+		{
+			std::cout << "Player " << client->GetPlayerID() << " has disconnected." << std::endl;
+			playerIDDisconnected.push_back(client->GetPlayerID());
+		}
+	}
+
+	//Clean up disconnected players
+	for (auto playerID : playerIDDisconnected)
+	{
+		for (auto it = m_clients.begin(); it != m_clients.end(); ++it)
+		{
+			if ((*it)->GetPlayerID() == playerID)
+			{
+				m_clients.erase(it);
+				break;
+			}
+		}
+	}
+	return playerIDDisconnected;
+}
+
