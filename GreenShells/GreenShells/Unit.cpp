@@ -1,6 +1,5 @@
 #include "Unit.h"
 #include "GameSession.h"
-#include "Tile.h"
 
 #include <boost\property_tree\ptree.hpp>
 

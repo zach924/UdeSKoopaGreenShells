@@ -40,13 +40,6 @@ GameWindow::~GameWindow()
 	Close();
 }
 
-
-
-#include "Player.h"
-#include "UnitMelee.h"
-#include "unitRange.h"
-#include "DistrictDefensive.h"
-
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
