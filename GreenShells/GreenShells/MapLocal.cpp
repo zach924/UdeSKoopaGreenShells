@@ -88,18 +88,16 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 	Unit* unitTargeted = targetTile->GetUnit();
 	District* districtTargeted = targetTile->GetDistrict();
 
-	std::cout << "Attacker health = " << attacker->GetHealth() << std::endl;
-
 	AttackNotification notification = unitTargeted ? attacker->Attack(unitTargeted) : attacker->Attack(districtTargeted);
 
-	std::cout << "Attacker health = " << attacker->GetHealth() << std::endl;
-
+	// Attacker is dead?
 	if (notification.AttackerIsDead)
 	{
 		attackerTile->SetUnit(nullptr);
 		delete attacker;
 	}
 
+	// Target is dead?
 	if (notification.TargetIsDead)
 	{
 		if (unitTargeted)
@@ -113,6 +111,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 			delete districtTargeted;
 		}
 
+		// Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
 		if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
 		{
 			MoveUnit(ownerID, attackerPosition, targetPosition);

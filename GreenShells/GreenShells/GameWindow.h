@@ -29,7 +29,6 @@ static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120 };
 static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114 };
 static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105 };
 
-
 class GameWindow
 {
 private:
@@ -39,6 +38,9 @@ private:
 	SDL_Window* m_window;
     SDL_Surface* m_screenSurface;
 	SDL_Renderer* m_renderer;
+
+    int m_topMenuHeight;
+  	int m_leftMenuWidth;
 
     GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();
@@ -56,5 +58,9 @@ public:
     void ShowWindow();
 	SDL_Renderer* GetRenderer();
     void Close();
+
+	bool IsClickInMap(const int& x,const int& y);
+	bool IsClickInLeftMenu(const int& x, const int& y);
+
 
 };
