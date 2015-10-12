@@ -105,6 +105,9 @@
     <ClCompile Include="WorldState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
     <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
@@ -153,14 +156,15 @@
     <ClCompile Include="TileBase.cpp">
       <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="UnitMelee.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
     <ClCompile Include="unitRange.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
+=======
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="ButtonUnitAttack.cpp">
       <Filter>Source Files\UI\Button</Filter>
@@ -173,9 +177,7 @@
     </ClCompile>
     <ClCompile Include="SelectionManager.cpp">
       <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Swordsman.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files\Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameWindow.h">
       <Filter>Header Files\UI</Filter>
@@ -263,9 +268,10 @@
     <ClInclude Include="TileBase.h">
       <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="DistrictDefensive.h">
       <Filter>Header Files\Actor\District</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="Button.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
@@ -280,9 +286,7 @@
     </ClInclude>
     <ClInclude Include="SelectionManager.h">
       <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Swordsman.h">
-      <Filter>Header Files\Actor\Unit</Filter>
+>>>>>>> master
     </ClInclude>
   </ItemGroup>
 </Project>

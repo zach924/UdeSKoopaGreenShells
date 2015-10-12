@@ -1,23 +1,40 @@
 #pragma once
-#include "Actor.h"
+#include "UnitBase.h"
 
-class Unit : public Actor
+template<class T>
+class Unit : public UnitBase
 {
 public:
-	static const int MIN_ATTACK_RANGE = 1;
-	static const int MAX_ATTACK_RANGE = 4; // TODO : Balancing on that
-	static const int MELEE_ATTACK_RANGE = 1;
-	
-private:
-	int m_attackRange;
+	static Texture m_Texture;
+	void LoadTexture() {};
+	virtual  boost::property_tree::ptree Serialize() = 0;
 
 public:
-	Unit(int ownerID, int attckRange, int attackDamage);
-    ~Unit();
+	Unit(int ownerID, int attackRange, int attackDamage)
+		: UnitBase(ownerID, attackRange, attackDamage)
+	{
 
-	virtual AttackNotification Attack(Actor* target)=0;
-	
-	void NotifyNewTurn();
-    virtual boost::property_tree::ptree Serialize();
+	}
+
+	~Unit()
+	{
+
+	}
+
+
+	virtual Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
+	{
+		return nullptr;
+	}
+
+	//Every method must be define in header file because of the static polymorphism
+	Texture* GetTexture()
+	{
+		if (!m_Texture.IsLoaded())
+		{
+			static_cast<T*>(this)->LoadTexture();
+		}
+		return &m_Texture;
+	}
 };
 

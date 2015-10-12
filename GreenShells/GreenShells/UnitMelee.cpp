@@ -4,8 +4,8 @@
 #include "GameSession.h"
 #include "MapLocal.h"
 
-UnitMelee::UnitMelee(int ownerID)
-	: Unit(ownerID, Unit::MELEE_ATTACK_RANGE, 50)
+UnitMelee::UnitMelee(int ownerID, int attackDmg)
+	: Unit(ownerID, Unit::MELEE_ATTACK_RANGE, attackDmg)
 	
 {
 

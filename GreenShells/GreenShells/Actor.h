@@ -2,6 +2,7 @@
 #include "Position.h"
 #include "Player.h"
 #include "Ptree_ForwardDeclaration.h"
+#include "Texture.h"
 
 struct AttackNotification 
 {
@@ -40,6 +41,8 @@ private:
 public:
 	Actor(int ownerID, Position position = Position(-1,-1));
     ~Actor();
+
+	void LoadTexture() {};
 
 	void SetOwnerID(int ID);
 	int GetOwnerID();
