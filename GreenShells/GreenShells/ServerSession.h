@@ -9,7 +9,6 @@ class ServerSession
 	RPCDispatcher* m_dispatcher;
 	RPCManager* m_rpcServerManager;
 	SynchronizedQueue<RPCEvent> m_events;
-	WorldState m_worldState;
 
 	std::thread* m_serverSessionThread;
 
@@ -19,6 +18,9 @@ class ServerSession
 
 	void run();
 public:
+    //TODO Temporary
+    WorldState m_worldState;
+
 	static ServerSession &GetInstance()
 	{
 		static ServerSession m_serverSession;

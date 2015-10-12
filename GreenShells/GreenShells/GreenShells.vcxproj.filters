@@ -147,11 +147,14 @@
     <ClCompile Include="DistrictDefensive.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
-    <ClCompile Include="unitRange.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="TileBase.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
     <ClCompile Include="UnitMelee.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="unitRange.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,8 +236,14 @@
     <ClInclude Include="UnitMelee.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="Ptree_ForwardDeclaration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="unitRange.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBase.h">
+      <Filter>Header Files\Map\Tile</Filter>
     </ClInclude>
     <ClInclude Include="DistrictDefensive.h">
       <Filter>Header Files\Actor\District</Filter>

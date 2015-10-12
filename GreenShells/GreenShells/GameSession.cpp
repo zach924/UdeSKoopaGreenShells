@@ -6,6 +6,12 @@
 #include "RPCBase.h"
 #include "RPCDispatcher.h"
 
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
+#include <iostream>
+#include <fstream>
+#include <exception>
+
 GameSession::GameSession()
 :m_worldState(),
 m_serverIP()
@@ -55,5 +61,42 @@ void GameSession::SetCurrentPlayerID(int player)
 bool GameSession::ConnectToServer()
 {
 	return RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
+}
+
+void GameSession::Save(std::string fileName)
+{
+    std::ofstream fileStream;
+    fileStream.open(fileName);
+
+    boost::property_tree::write_xml(fileStream, m_worldState.Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
+
+    fileStream.close();
+}
+
+void GameSession::Load(std::string fileName)
+{
+    std::ifstream fileStream;
+    fileStream.open(fileName);
+
+	if (fileStream)
+	{
+		try
+		{
+			boost::property_tree::ptree pt;
+			boost::property_tree::xml_parser::read_xml(fileStream, pt);
+			m_worldState = WorldState::Deserialize(pt);
+
+			fileStream.close();
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+	}
+	else
+	{
+		std::string msg = ("Unable to load saved file %s!", fileName);
+		throw new std::exception(msg.c_str());
+	}
 }
 

@@ -5,6 +5,8 @@ class UnitRange : public Unit
 {
 
 public :
-	UnitRange(int& ownerID, int attackRange);
+	UnitRange(int ownerID, int attackRange);
 	~UnitRange();
+
+	virtual AttackNotification Attack(Actor* target);
 };

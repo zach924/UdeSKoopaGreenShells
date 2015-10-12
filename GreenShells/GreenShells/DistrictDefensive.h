@@ -3,8 +3,8 @@
 
 class DistrictDefensive : public District
 {
-
 public:
-	DistrictDefensive(int& ownerID);
+	DistrictDefensive(int ownerID, int attackDamage);
 	~DistrictDefensive();
+
 };

@@ -20,6 +20,10 @@ void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 		//go move the unit
 		m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
 		break;
+	case RPCClassMethodType::Map_Attack:
+		// Do the attack
+		m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
+		break;
 	}
 }
 
