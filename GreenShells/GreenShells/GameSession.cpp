@@ -60,7 +60,7 @@ void GameSession::SetCurrentPlayerID(int player)
 
 bool GameSession::ConnectToServer()
 {
-	bool temp = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
+	bool result = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
 	RPCStructType newEvent{};
 	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&newEvent), sizeof(RPCStructType)));
 
@@ -72,7 +72,7 @@ bool GameSession::ConnectToServer()
 	FetchReplication();
 
 	m_replicationThread = new std::thread(&GameSession::FetchReplicationThread, this);
-	return temp;
+	return result;
 }
 
 void GameSession::Save(std::string fileName)
@@ -114,7 +114,7 @@ void GameSession::Load(std::string fileName)
 
 void GameSession::FetchReplication()
 {
-	int theoreticalSize;
+	int theoreticalSize{0};
 	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&theoreticalSize), sizeof(int)));
 
 	int actualSize = 0;

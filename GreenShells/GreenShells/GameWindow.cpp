@@ -83,6 +83,7 @@ void GameWindow::ShowWindow()
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
 		SDL_RenderClear(m_renderer);
 
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 		const std::vector<Button*> unitButton = ClickManager::GetInstance().GetUnitButton();
 
 		for (Button* button : unitButton)
