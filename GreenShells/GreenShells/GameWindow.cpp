@@ -16,11 +16,6 @@
 #include "ButtonUnitAttack.h"
 #include "ButtonUnitMove.h"
 
-
-// TODO: Remove BeforePush
-#include "Player.h"
-#include "Unit.h"
-
 GameWindow::GameWindow(ScreenResolution res)
 	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res),
   	m_topMenuHeight(res.MAX_HEIGHT - res.MAP_HEIGHT),m_leftMenuWidth(res.MAX_WIDTH - res.MAP_WIDTH)
