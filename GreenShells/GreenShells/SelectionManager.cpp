@@ -55,13 +55,9 @@ void SelectionManager::SelectDistrict(District * districtToSelect)
 void SelectionManager::HandleSelection(Position pos)
 {
 	//TODO taskID 8.2 Processus de selection
-	TileBase* tile = ServerSession::GetInstance().m_worldState.GetMap()->GetTile(pos);
-	Map* map = ServerSession::GetInstance().m_worldState.GetMap();
-
-
-	//TODO when replication is available, use gamesession
-	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
-
+	Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+	TileBase* tile = map.GetTile(pos);
+	
 	Unit* unit = tile->GetUnit();
 	District* district = tile->GetDistrict();
 
@@ -74,7 +70,7 @@ void SelectionManager::HandleSelection(Position pos)
 		break;
 	case m_unitMoving:
 		std::cout << "Moving Unit, Deselecting District and Unit Setting to Idle" << std::endl;
-		map->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+		map.MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;

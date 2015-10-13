@@ -49,26 +49,6 @@ void GameWindow::ShowWindow()
 {
 	bool quit = false;
     
-    //TODO when replication is available, use gamesession
-	// ===================================================
-	// TEST DELETE BEFORE PUSH IN MASTER
-	// ===================================================
-
-	//Player p1 = GameSession::GetInstance().GetWorldState()->GetPlayer(0);
-
-	//auto map = GameSession::GetInstance().GetWorldState()->GetMap();
-	auto tile00 = map->GetTile(Position{ 4,2 });
-
-
-	Unit* unit = new Unit(0, Position{ 4,2 });
-
-
-	tile00->SetUnit(unit);
-
-
-	// ===================================================
-
-
 	while (!quit)
 	{
 		SDL_Event e;
@@ -125,7 +105,7 @@ void GameWindow::ShowWindow()
 		{
 			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				Texture* tileTexture = map->GetTile(Position(j, i))->GetTexture();
+				Texture* tileTexture = map.GetTile(Position(i, j))->GetTexture();
 
 				//Position the tile on the screen
 				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);

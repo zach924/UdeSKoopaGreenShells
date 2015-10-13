@@ -11,6 +11,9 @@
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
 
+// TODO :  TO BE REMOVED ONLY  FOR TESTS
+#include "Unit.h"
+
 Map::Map()
 :m_tiles()
 {
@@ -90,6 +93,15 @@ void Map::GenerateTiles()
             }
         }
     }
+
+	// TODO : To BE REMOVED
+	auto tile00 = GetTile(Position{ 4,2 });
+
+
+	Unit* unit = new Unit(0, Position{ 4,2 });
+
+
+	tile00->SetUnit(unit);
 }
 
 std::vector<TileBase*> Map::GetArea(Position position, int distance)
@@ -106,7 +118,7 @@ std::vector<TileBase*> Map::GetArea(Position position, int distance)
     {
         for (int j = minRow; j <= maxRow; ++j)
         {
-            area.push_back(GetTile(Position(i, j)));
+            area.push_back(GetTile(Position(j, i)));
         }
     }
     return area;
