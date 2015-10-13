@@ -45,8 +45,8 @@ bool SetUpClient(char* ip,int port)
 		GameSession::GetInstance().SetPort(port);
 		if (GameSession::GetInstance().ConnectToServer())
 		{
-			GameSession::GetInstance().GetWorldState()->SetMap(new MapRemote());
-			GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
+			GameSession::GetInstance().GetWorldState()->PrepareRemoteGame();
+			//GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
 			return true;
 		}
 		else
@@ -91,14 +91,12 @@ int main(int argc, char* argv[])
 				else
 				{
 					std::cout << "Could not set up a server." << std::endl;
-					system("PAUSE");
 					return 0;
 				}
 			}
 			else
 			{
 				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
-				system("PAUSE");
 				return 0;
 			}
 		}
@@ -113,7 +111,6 @@ int main(int argc, char* argv[])
 				else
 				{
 					std::cout << "Could not set up a client" << std::endl;
-					system("PAUSE");
 					return 0;
 				}
 
@@ -121,7 +118,6 @@ int main(int argc, char* argv[])
 			else
 			{
 				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
-				system("PAUSE");
 				return 0;
 			}
 		}
@@ -130,10 +126,6 @@ int main(int argc, char* argv[])
 
 		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
-
-	
-
-		system("PAUSE");
 		return 0;
 	}
 	return 0;

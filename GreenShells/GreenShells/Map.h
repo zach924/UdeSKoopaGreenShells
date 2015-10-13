@@ -15,6 +15,7 @@ protected:
 
 public:
     Map();
+	Map(const Map& source);
     ~Map();
 	static Texture m_texture;
 
@@ -23,7 +24,7 @@ public:
 	std::vector<TileBase*> GetArea(Position position, int distance);
 
 	TileBase* GetTile(Position);
-  virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation)=0;
+	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
 	void NotifyNewturn();
 	
 	virtual boost::property_tree::ptree Serialize();
