@@ -2,12 +2,16 @@
 
 #include "WorldState.h"
 #include "Player.h"
+#include "Map"
 #include "MapLocal.h"
+#include "MapRemote.h"
 
 #include <boost\property_tree\ptree.hpp>
 
+using namespace std;
+
 WorldState::WorldState()
-:m_map(nullptr), m_players()
+:m_map(nullptr), m_players(), m_mutex(), m_turn(1)
 {
 	
 }
@@ -16,29 +20,40 @@ WorldState::~WorldState()
 {
 }
 
-void WorldState::SetMap(Map* map)
-{
-	m_map = map;
-}
-
 Map* WorldState::GetMap()
 {
 	return m_map;
 }
 
-void WorldState::PrepareGame()
+Map WorldState::GetMapCopy()
 {
-	m_map =	new MapLocal();
+	lock_guard<recursive_mutex> lock{ m_mutex };
+	return *m_map;
+}
+
+void WorldState::PrepareLocalGame()
+{
+	lock_guard<recursive_mutex> lock{ m_mutex };
+	m_map = new MapLocal();
+	m_map->GenerateTiles();
+}
+
+void WorldState::PrepareRemoteGame()
+{
+	lock_guard<recursive_mutex> lock{ m_mutex };
+	m_map = new MapRemote();
 	m_map->GenerateTiles();
 }
 
 int WorldState::GetCurrentTurn()
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
 	return m_turn;
 }
 
 void WorldState::NotifyNewTurn()
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
 	m_turn++;
 
 	//Notify map of a new turn
@@ -54,13 +69,16 @@ void WorldState::NotifyNewTurn()
 	}
 }
 
-void WorldState::AddPlayer(const Player& player)
+int WorldState::AddPlayer(const Player& player)
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
 	m_players.emplace_back(player);
+	return static_cast<int>(m_players.size());
 }
 
 void WorldState::RemovePlayer(int id)
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
     for (Player &player : m_players)
     {
         if (player.GetPlayerID() == id)
@@ -73,6 +91,7 @@ void WorldState::RemovePlayer(int id)
 
 boost::property_tree::ptree WorldState::Serialize()
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
     boost::property_tree::ptree worldStateXml;
 
     boost::property_tree::ptree& worldStateNode = worldStateXml.add("WorldState", "");
@@ -90,9 +109,13 @@ boost::property_tree::ptree WorldState::Serialize()
     return worldStateXml;
 }
 
-WorldState WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
+void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 {
-    WorldState worldState;
+	lock_guard<recursive_mutex> lock{ m_mutex };
+
+	m_turn = 0;
+	m_players.clear();
+	delete m_map;
 
     for each (auto worldStateNode in worldStateXml.get_child("WorldState"))
     {
@@ -100,27 +123,26 @@ WorldState WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
         {
             for each (auto playerNode in worldStateNode.second)
             {
-                worldState.AddPlayer(Player::Deserialize(playerNode.second));
+                AddPlayer(Player::Deserialize(playerNode.second));
             }
         }
         else if (worldStateNode.first == "Map")
         {
-            worldState.m_map = MapLocal::Deserialize(worldStateNode.second);
+            m_map = MapLocal::Deserialize(worldStateNode.second);
 			// TODO :  need to know from wich class we need to Deserialize, cause map is abstract (bool in WorldState)
         }
-
     }
-
-    return worldState;
 }
 
-Player & WorldState::GetPlayer(int playerID)
+Player WorldState::GetPlayer(int playerID)
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
 	return m_players.at(playerID);
 }
 
 bool WorldState::AreAllPlayerReady()
 {
+	lock_guard<recursive_mutex> lock{ m_mutex };
 	if (m_players.empty())
 	{
 		return false;

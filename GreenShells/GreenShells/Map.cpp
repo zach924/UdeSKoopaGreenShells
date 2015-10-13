@@ -20,9 +20,42 @@ Map::Map()
 	}
 }
 
+Map::Map(const Map& source)
+	:m_tiles()
+{
+	for (int i = 0; i < ROWS; i++)
+	{
+		m_tiles.push_back(std::vector<TileBase*>(COLUMNS));
+	}
+	for (int i = 0; i < ROWS; ++i)
+	{
+		for (int j = 0; j < COLUMNS; ++j)
+		{
+			if (TileGround* ptr = dynamic_cast<TileGround*>(source.m_tiles[i][j]))
+			{
+				m_tiles[i][j] = new TileGround{ *ptr };
+			}
+			else if (TileMountain* ptr = dynamic_cast<TileMountain*>(source.m_tiles[i][j]))
+			{
+				m_tiles[i][j] = new TileMountain{ *ptr };
+			}
+			else if (TileWater* ptr = dynamic_cast<TileWater*>(source.m_tiles[i][j]))
+			{
+				m_tiles[i][j] = new TileWater{ *ptr };
+			}
+		}
+	}
+}
 
 Map::~Map()
 {
+	for (auto tileRow : m_tiles)
+	{
+		for (auto tile : tileRow)
+		{
+			delete tile;
+		}
+	}
 }
 
 void Map::GenerateTiles()
@@ -114,5 +147,11 @@ boost::property_tree::ptree Map::Serialize()
     return mapNode;
 
 
+}
+
+bool Map::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+{
+	assert(false && "Virtual method is not implemented");
+	return false;
 }
 

@@ -79,10 +79,6 @@ void GameWindow::CreateUnitButtons()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
-    Map* map = ServerSession::GetInstance().m_worldState.GetMap();
-    
-    //TODO when replication is available, use gamesession
-	//Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
 
 	while (!quit)
 	{
@@ -122,7 +118,7 @@ void GameWindow::ShowWindow()
 
         //Render UI
 		const std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-        for (Button* button : unitButtons)
+		for (Button* button : unitButtons)
 		{
 			int x = button->GetLeftX();
 			int y = button->GetTopY();
@@ -172,12 +168,13 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
         }
 
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 		//Render Map
 		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
 		{
 			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				Texture* tileTexture = map->GetTile(Position(j, i))->GetTexture();
+				Texture* tileTexture = map.GetTile(Position(i, j))->GetTexture();
 
 				//Position the tile on the screen
 				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
