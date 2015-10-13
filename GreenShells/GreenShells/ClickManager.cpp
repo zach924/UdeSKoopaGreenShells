@@ -64,6 +64,7 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 		{
             if (b->IsUnpressed())
             {
+                //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }
@@ -77,6 +78,7 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 		{
             if (b->IsUnpressed())
             {
+                //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }
@@ -90,6 +92,7 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
         {
             if (b->IsUnpressed())
             {
+                //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }

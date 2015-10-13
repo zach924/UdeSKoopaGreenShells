@@ -120,9 +120,9 @@ void GameWindow::ShowWindow()
 		SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
 		SDL_RenderClear(m_renderer);
 
+        //Render UI
 		const std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-
-		for (Button* button : unitButtons)
+        for (Button* button : unitButtons)
 		{
 			int x = button->GetLeftX();
 			int y = button->GetTopY();
@@ -172,7 +172,7 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
         }
 
-		//Render Screen (Not ready to draw yet)
+		//Render Map
 		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
 		{
 			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
