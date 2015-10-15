@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <boost/serialization/access.hpp>
 #include "Ptree_ForwardDeclaration.h"
 
 
@@ -22,6 +23,24 @@ class Player
     double m_scienceMultiplier;
     double m_weaponMultiplier;
 
+	//Serialize
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive & ar, const unsigned int version)
+	{
+		ar & m_playerName;
+		ar & m_playerID;
+		ar & m_isReadyForNewTurn;
+		ar & m_isAlive;
+		ar & m_cityHallCount;
+		ar & m_unitCount;
+		ar & m_food;
+		ar & m_science;
+		ar & m_weapon;
+		ar & m_foodMultiplier;
+		ar & m_scienceMultiplier;
+		ar & m_weaponMultiplier;
+	}
 public:
     Player();
     ~Player();
