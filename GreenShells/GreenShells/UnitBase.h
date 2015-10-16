@@ -36,9 +36,9 @@ public:
 	int GetOwnerID();
 
 	Position GetPosition();
-	void SetPosition(Position pos) = 0;
+	void SetPosition(Position pos);
 
-	void Heal(int health);
+	virtual void Heal(int health) = 0;
 
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);

@@ -8,8 +8,14 @@ using namespace std;
 /*
 When creating a new struct to send over the network, don't forget to add the corresponding name in the enum 
 */
+struct JoinGameStruct
+{
+	int playerID;
+};
+
 enum RPCStructType
 {
+	JOIN_GAME,
 	RPC_BASIC,
 	RPC_BASIC_TWO_POSITIONS,
 

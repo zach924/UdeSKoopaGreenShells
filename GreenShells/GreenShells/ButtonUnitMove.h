@@ -3,11 +3,11 @@
 class ButtonUnitMove : public Button
 {
 public:
-	ButtonUnitMove(int topLimit, int botLimit, int leftLimit, int rightLimit);
+	ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
 	~ButtonUnitMove();
 
 	void DoAction();
 
-	void LoadTexture();
+	void LoadTextTexture();
 };
 

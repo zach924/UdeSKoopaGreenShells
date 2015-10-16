@@ -75,7 +75,7 @@ SynchronizedQueue<RPCEvent>* RPCDispatcher::GetEventQueue()
 	return m_queue;
 }
 
-void RPCDispatcher::Dispatch()
+bool RPCDispatcher::Dispatch()
 {
 	if (!m_queue->IsEmtpy())
 	{
@@ -85,6 +85,8 @@ void RPCDispatcher::Dispatch()
 		{
 			Dispatch(event);
 		}
+		return true;
 	}
+	return false;
 }
 

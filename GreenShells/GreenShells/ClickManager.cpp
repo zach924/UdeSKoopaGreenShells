@@ -22,21 +22,32 @@ void ClickManager::AddButton(Button* button, LeftMenuPart part)
 	switch (part)
 	{
 	case GeneralPart:
+        m_generalButtons.emplace_back(button);
 		break;
 	case UnitPart:
 		m_unitButtons.emplace_back(button);
 		break;
-	case BuildingPart:
-		m_buildingButtons.emplace_back(button);
+	case DistrictPart:
+		m_districtButtons.emplace_back(button);
 		break;
 	default:
 		break;
 	}
 }
 
-const std::vector<Button*>& ClickManager::GetUnitButton()
+const std::vector<Button*>& ClickManager::GetUnitButtons()
 {
 	return m_unitButtons;
+}
+
+const std::vector<Button*>& ClickManager::GetDistrictButtons()
+{
+    return m_districtButtons;
+}
+
+const std::vector<Button*>& ClickManager::GetGeneralButtons()
+{
+    return m_generalButtons;
 }
 
 void ClickManager::ManageMapClick(const Position& position)
@@ -47,11 +58,30 @@ void ClickManager::ManageMapClick(const Position& position)
 
 void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 {
-	for (Button* b : m_buildingButtons)
+    for (Button* b : m_generalButtons)
+    {
+        if (b->IsInside(x, y))
+        {
+            if (b->IsUnpressed())
+            {
+                //TODO put in back to unpressed when appropriate
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
+            break;
+        }
+    }
+
+	for (Button* b : m_districtButtons)
 	{
 		if (b->IsInside(x, y))
 		{
-			b->DoAction();
+            if (b->IsUnpressed())
+            {
+                //TODO put in back to unpressed when appropriate
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
 			break;
 		}
 	}
@@ -60,7 +90,12 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 	{
 		if (b->IsInside(x, y))
 		{
-			b->DoAction();
+            if (b->IsUnpressed())
+            {
+                //TODO put in back to unpressed when appropriate
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
 			break;
 		}
 	}

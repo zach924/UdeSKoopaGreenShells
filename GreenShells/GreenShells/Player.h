@@ -5,8 +5,6 @@
 
 class Player
 {
-    static int playerIDCounter;
-
     std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;

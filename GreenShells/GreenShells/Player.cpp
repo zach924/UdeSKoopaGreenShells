@@ -2,10 +2,8 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 
-int Player::playerIDCounter = 0;
-
 Player::Player()
-   :m_playerID(playerIDCounter++),
+   :m_playerID(),
     m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
