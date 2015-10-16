@@ -1,22 +1,22 @@
 #include <iostream>
-#include "ButtonSell.h"
+#include "ButtonDistrictSell.h"
 #include "SelectionManager.h"
 
-ButtonSell::ButtonSell(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
+ButtonDistrictSell::ButtonDistrictSell(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, state)
 {
 }
 
-ButtonSell::~ButtonSell()
+ButtonDistrictSell::~ButtonDistrictSell()
 {
 }
 
-void ButtonSell::DoAction()
+void ButtonDistrictSell::DoAction()
 {
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonSell::LoadTextTexture()
+void ButtonDistrictSell::LoadTextTexture()
 {
     try
     {

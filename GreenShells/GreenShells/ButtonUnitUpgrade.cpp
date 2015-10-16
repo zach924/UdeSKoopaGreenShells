@@ -1,22 +1,22 @@
 #include <iostream>
-#include "ButtonUpgrade.h"
+#include "ButtonUnitUpgrade.h"
 #include "SelectionManager.h"
 
-ButtonUpgrade::ButtonUpgrade(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
+ButtonUnitUpgrade::ButtonUnitUpgrade(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, state)
 {
 }
 
-ButtonUpgrade::~ButtonUpgrade()
+ButtonUnitUpgrade::~ButtonUnitUpgrade()
 {
 }
 
-void ButtonUpgrade::DoAction()
+void ButtonUnitUpgrade::DoAction()
 {
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonUpgrade::LoadTextTexture()
+void ButtonUnitUpgrade::LoadTextTexture()
 {
     try
     {

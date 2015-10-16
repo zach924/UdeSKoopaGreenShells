@@ -73,6 +73,24 @@
     <Filter Include="Source Files\UI\Button">
       <UniqueIdentifier>{ba8f27a4-dc9e-44e0-98d7-6ca9c972843a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Button\GeneralPart">
+      <UniqueIdentifier>{1c3cb080-59b5-4918-8c8c-04b901d6b2b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Button\DistrictPart">
+      <UniqueIdentifier>{97e52cbc-9216-4528-95a7-558ff15e0070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Button\UnitPart">
+      <UniqueIdentifier>{1af3d7fb-091d-45bb-b26d-5af567f61605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button\GeneralPart">
+      <UniqueIdentifier>{765b0ea0-2803-48d7-bb90-2e2b7a005c63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button\DistrictPart">
+      <UniqueIdentifier>{77b46bb9-39c3-4e73-aa9d-414a46a11d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button\UnitPart">
+      <UniqueIdentifier>{0a8e1de0-2eb4-4752-a0c7-43f448cb253f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -159,44 +177,56 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonUnitAttack.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonUnitMove.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
     <ClCompile Include="ClickManager.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="SelectionManager.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonCancel.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonUnitHeal.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonSell.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonUpgrade.cpp">
-      <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonDistrictRepair.cpp">
-      <Filter>Source Files\UI\Button</Filter>
+    <ClCompile Include="ButtonConstructDistrict.cpp">
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
     <ClCompile Include="ButtonDiplomacy.cpp">
-      <Filter>Source Files\UI\Button</Filter>
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSkillTree.cpp">
-      <Filter>Source Files\UI\Button</Filter>
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSpawnUnit.cpp">
-      <Filter>Source Files\UI\Button</Filter>
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonConstructDistrict.cpp">
-      <Filter>Source Files\UI\Button</Filter>
+    <ClCompile Include="ButtonDistrictRepair.cpp">
+      <Filter>Source Files\UI\Button\DistrictPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitAttack.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitHeal.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitMove.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonGeneralCancel.cpp">
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitCancel.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonDistrictCancel.cpp">
+      <Filter>Source Files\UI\Button\DistrictPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitSell.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitUpgrade.cpp">
+      <Filter>Source Files\UI\Button\UnitPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonDistrictSell.cpp">
+      <Filter>Source Files\UI\Button\DistrictPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonDistrictUpgrade.cpp">
+      <Filter>Source Files\UI\Button\DistrictPart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,44 +317,56 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonUnitAttack.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUnitMove.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
     <ClInclude Include="ClickManager.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="SelectionManager.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonCancel.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUnitHeal.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonSell.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonUpgrade.h">
-      <Filter>Header Files\UI\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonDistrictRepair.h">
-      <Filter>Header Files\UI\Button</Filter>
+    <ClInclude Include="ButtonConstructDistrict.h">
+      <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
     <ClInclude Include="ButtonDiplomacy.h">
-      <Filter>Header Files\UI\Button</Filter>
+      <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
     <ClInclude Include="ButtonSkillTree.h">
-      <Filter>Header Files\UI\Button</Filter>
+      <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
     <ClInclude Include="ButtonSpawnUnit.h">
-      <Filter>Header Files\UI\Button</Filter>
+      <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonConstructDistrict.h">
-      <Filter>Header Files\UI\Button</Filter>
+    <ClInclude Include="ButtonDistrictRepair.h">
+      <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitAttack.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitHeal.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitMove.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonGeneralCancel.h">
+      <Filter>Header Files\UI\Button\GeneralPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonDistrictCancel.h">
+      <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitCancel.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitSell.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonDistrictSell.h">
+      <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitUpgrade.h">
+      <Filter>Header Files\UI\Button\UnitPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonDistrictUpgrade.h">
+      <Filter>Header Files\UI\Button\DistrictPart</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

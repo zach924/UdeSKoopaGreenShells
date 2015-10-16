@@ -1,22 +1,22 @@
 #include <iostream>
-#include "ButtonCancel.h"
+#include "ButtonUnitCancel.h"
 #include "SelectionManager.h"
 
-ButtonCancel::ButtonCancel(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
+ButtonUnitCancel::ButtonUnitCancel(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, state)
 {
 }
 
-ButtonCancel::~ButtonCancel()
+ButtonUnitCancel::~ButtonUnitCancel()
 {
 }
 
-void ButtonCancel::DoAction()
+void ButtonUnitCancel::DoAction()
 {
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonCancel::LoadTextTexture()
+void ButtonUnitCancel::LoadTextTexture()
 {
     try
     {

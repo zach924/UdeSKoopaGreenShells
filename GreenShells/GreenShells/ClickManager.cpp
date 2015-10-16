@@ -58,6 +58,20 @@ void ClickManager::ManageMapClick(const Position& position)
 
 void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 {
+    for (Button* b : m_generalButtons)
+    {
+        if (b->IsInside(x, y))
+        {
+            if (b->IsUnpressed())
+            {
+                //TODO put in back to unpressed when appropriate
+                b->SetButtonState(ButtonState::Pressed);
+                b->DoAction();
+            }
+            break;
+        }
+    }
+
 	for (Button* b : m_districtButtons)
 	{
 		if (b->IsInside(x, y))
@@ -85,20 +99,6 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 			break;
 		}
 	}
-
-    for (Button* b : m_generalButtons)
-    {
-        if (b->IsInside(x, y))
-        {
-            if (b->IsUnpressed())
-            {
-                //TODO put in back to unpressed when appropriate
-                b->SetButtonState(ButtonState::Pressed);
-                b->DoAction();
-            }
-            break;
-        }
-    }
 }
 
 void ClickManager::ManageTopMenuClick(const int & x, const int & y)
