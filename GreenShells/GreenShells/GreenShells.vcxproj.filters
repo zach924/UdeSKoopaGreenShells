@@ -147,20 +147,11 @@
     <ClCompile Include="ServerSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DistrictDefensive.cpp">
-      <Filter>Source Files\Actor\District</Filter>
-    </ClCompile>
     <ClCompile Include="TileBase.cpp">
       <Filter>Source Files\Map\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="UnitMelee.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\UI\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="unitRange.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="ButtonUnitAttack.cpp">
       <Filter>Source Files\UI\Button</Filter>
@@ -176,6 +167,21 @@
     </ClCompile>
     <ClCompile Include="Swordsman.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitBase.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictBase.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="CityCenter.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="Farm.cpp">
+      <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="TileWater.h">
       <Filter>Header Files\Map\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="WorldState.h">
       <Filter>Header Files</Filter>
@@ -251,20 +254,8 @@
     <ClInclude Include="ServerSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnitMelee.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Ptree_ForwardDeclaration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unitRange.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="TileBase.h">
       <Filter>Header Files\Map\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="DistrictDefensive.h">
-      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\UI\Button</Filter>
@@ -283,6 +274,30 @@
     </ClInclude>
     <ClInclude Include="Swordsman.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitBase.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackNotification.h">
+      <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictBase.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="Ptree_ForwardDeclaration.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="CityCenter.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="Farm.h">
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

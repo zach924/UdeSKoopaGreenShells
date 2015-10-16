@@ -37,13 +37,13 @@ boost::property_tree::ptree TileGround::Serialize()
 
     if (m_unit)
     {
-        boost::property_tree::ptree unitNode = m_unit->Serialize();
-        tileNode.add_child("Unit", unitNode);
+        //boost::property_tree::ptree unitNode = m_unit->Serialize();
+        //tileNode.add_child("Unit", unitNode);
     }
     if (m_district)
     {
-        boost::property_tree::ptree districtNode = m_district->Serialize();
-        tileNode.add_child("District", districtNode);
+        //boost::property_tree::ptree districtNode = m_district->Serialize();
+        //tileNode.add_child("District", districtNode);
     }
 
     return tileNode;

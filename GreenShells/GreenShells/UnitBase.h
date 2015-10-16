@@ -4,6 +4,8 @@
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
 
+class DistrictBase;
+
 class UnitBase
 {
 public:
@@ -12,10 +14,10 @@ public:
 	static const int MELEE_ATTACK_RANGE = 1;
 
 protected:
-	int m_ownerID;
 	int m_health;
 
 private:
+	int m_ownerID;
 	Position m_position;
 
 	int m_foodCost;
@@ -26,16 +28,27 @@ private:
 	int m_attackRange;
 
 public:
-	UnitBase(int owner, int attackRange, int attackDamage);
+	UnitBase(int owner, int health, int attackRange, int attackDamage);
 	~UnitBase();
 
-	virtual AttackNotification Attack(UnitBase* target) = 0;
-	//virtual AttackNotification Attack(Actor* target) = 0;
+	int GetAttackDamage();
+	int GetHealth();
+	int GetOwnerID();
+
+	Position GetPosition();
+	void SetPosition(Position pos) = 0;
+
+	void Heal(int health);
+
+	virtual AttackNotification Attack(UnitBase* target);
+	virtual AttackNotification Attack(DistrictBase* target);
+	
+	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see Swordsman (you ned exactly the same thing)
 
 
 	virtual void NotifyNewTurn();
 
-	virtual boost::property_tree::ptree Serialize();
-	//virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
+	//virtual boost::property_tree::ptree Serialize();
+	//virtual UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 
 };

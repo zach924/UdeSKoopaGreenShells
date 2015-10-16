@@ -1,5 +1,7 @@
 #pragma once
 #include "UnitBase.h"
+#include "Texture.h"
+#include <boost\property_tree\ptree.hpp>
 
 template<class T>
 class Unit : public UnitBase
@@ -10,8 +12,8 @@ public:
 	virtual  boost::property_tree::ptree Serialize() = 0;
 
 public:
-	Unit(int ownerID, int attackRange, int attackDamage)
-		: UnitBase(ownerID, attackRange, attackDamage)
+	Unit(int ownerID, int health, int attackRange, int attackDamage)
+		: UnitBase(ownerID, health, attackRange, attackDamage)
 	{
 
 	}
@@ -22,7 +24,7 @@ public:
 	}
 
 
-	virtual Tile* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
+	virtual Unit* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
 	{
 		return nullptr;
 	}

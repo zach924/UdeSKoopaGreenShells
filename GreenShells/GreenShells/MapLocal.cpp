@@ -6,6 +6,7 @@
 
 #include "Unit.h"
 #include "District.h"
+#include "CityCenter.h"
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
 #include <exception>
@@ -85,8 +86,8 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 		return false;
 	}
 
-	Unit* unitTargeted = targetTile->GetUnit();
-	District* districtTargeted = targetTile->GetDistrict();
+	UnitBase* unitTargeted = targetTile->GetUnit();
+	DistrictBase* districtTargeted = targetTile->GetDistrict();
 
 	AttackNotification notification = unitTargeted ? attacker->Attack(unitTargeted) : attacker->Attack(districtTargeted);
 
@@ -107,8 +108,16 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 		}
 		else
 		{
-			targetTile->SetDistrict(nullptr);
-			delete districtTargeted;
+			if (typeid(districtTargeted) == typeid(CityCenter::tBase))
+			{
+				static_cast<CityCenter*>(districtTargeted)->ChangeOwner(ownerID);
+				// for now player wont move on the citycenter if they take control of it
+			}
+			else
+			{
+				targetTile->SetDistrict(nullptr);
+				delete districtTargeted;
+			}
 		}
 
 		// Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)

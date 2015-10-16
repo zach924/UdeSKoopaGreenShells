@@ -163,13 +163,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonUnitAttack.cpp" />
     <ClCompile Include="ButtonUnitMove.cpp" />
+    <ClCompile Include="CityCenter.cpp" />
     <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
-    <ClCompile Include="DistrictDefensive.cpp" />
+    <ClCompile Include="DistrictBase.cpp" />
     <ClCompile Include="District.cpp" />
+    <ClCompile Include="Farm.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -192,18 +195,21 @@
     <ClCompile Include="TileMountain.cpp" />
     <ClCompile Include="TileWater.cpp" />
     <ClCompile Include="Unit.cpp" />
-    <ClCompile Include="UnitMelee.cpp" />
-    <ClCompile Include="unitRange.cpp" />
+    <ClCompile Include="UnitBase.cpp" />
     <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer.h" />
+    <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonUnitAttack.h" />
     <ClInclude Include="ButtonUnitMove.h" />
+    <ClInclude Include="CityCenter.h" />
     <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
-    <ClInclude Include="DistrictDefensive.h" />
+    <ClInclude Include="DistrictBase.h" />
     <ClInclude Include="District.h" />
+    <ClInclude Include="Farm.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Map.h" />
@@ -228,8 +234,7 @@
     <ClInclude Include="TileMountain.h" />
     <ClInclude Include="TileWater.h" />
     <ClInclude Include="Unit.h" />
-    <ClInclude Include="UnitMelee.h" />
-    <ClInclude Include="unitRange.h" />
+    <ClInclude Include="UnitBase.h" />
     <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

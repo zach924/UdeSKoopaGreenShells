@@ -3,15 +3,15 @@
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
 
-class District;
-class Unit;
+class DistrictBase;
+class UnitBase;
 class Player;
 
 class TileBase
 {
 protected:
-    District* m_district;
-    Unit* m_unit;
+	DistrictBase* m_district;
+	UnitBase* m_unit;
     int m_owner;    
     Position m_position;
 
@@ -22,10 +22,10 @@ public:
     virtual boost::property_tree::ptree Serialize()=0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
     virtual void NotifyNewTurn();
-    virtual District* GetDistrict();
-    virtual void SetDistrict(District* district);
-    virtual Unit* GetUnit();
-    virtual void SetUnit(Unit* unit);
+    virtual DistrictBase* GetDistrict();
+    virtual void SetDistrict(DistrictBase* district);
+    virtual UnitBase* GetUnit();
+    virtual void SetUnit(UnitBase* unit);
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);
 
