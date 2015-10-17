@@ -20,7 +20,7 @@ private:
 		//ar & m_district;
 		//ar & m_unit;
 		//ar & m_owner;
-		//ar & m_position;
+		ar & m_position;
 	}
 protected:
     District* m_district;
@@ -29,6 +29,7 @@ protected:
     Position m_position;
 
 public:
+	TileBase();
     TileBase(Position position = Position(-1, -1));
 	virtual Texture* GetTexture()=0;
     virtual bool CanTraverse()=0;

@@ -5,12 +5,6 @@
 #include "Unit.h"
 #include <boost\property_tree\ptree.hpp>
 
-
-TileMountain::TileMountain(Position position)
-:Tile(position)
-{
-}
-
 void TileMountain::LoadTexture()
 {
 	try
@@ -22,6 +16,16 @@ void TileMountain::LoadTexture()
 		std::string msg{ e.what() };
 		std::cout << msg << std::endl;
 	}
+}
+
+TileMountain::TileMountain()
+	:Tile(Position(-1,-1))
+{
+}
+
+TileMountain::TileMountain(Position position)
+	: Tile(position)
+{
 }
 
 TileMountain::~TileMountain()

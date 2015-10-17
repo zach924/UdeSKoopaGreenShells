@@ -9,12 +9,14 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int version)
 	{
-		//ar & boost::serialization::base_object<TileBase>(*this);
+		ar & boost::serialization::base_object<TileBase>(*this);
 	}
 public:
 	static const int TILE_TYPE = 0;
 	typedef Tile<TileGround> tBase;
 	void LoadTexture();
+
+	TileGround();
 	TileGround(Position position);
 	~TileGround();
 

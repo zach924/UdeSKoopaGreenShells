@@ -1,8 +1,18 @@
 #pragma once
+#include <boost/serialization/access.hpp>
 #include <string>
 
 class Position
 {
+private:
+	//Serialize
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive & ar, const unsigned int version)
+	{
+		ar & X;
+		ar & Y;
+	}
 public:
 	
 	int X;

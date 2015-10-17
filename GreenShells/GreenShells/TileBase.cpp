@@ -47,6 +47,11 @@ void TileBase::SetPlayerOwnerId(int id)
     m_owner = id;
 }
 
+TileBase::TileBase()
+	:m_position(Position(-1,-1)),m_district(nullptr), m_unit(nullptr), m_owner()
+{
+}
+
 TileBase::TileBase(Position position)
     :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner()
 {

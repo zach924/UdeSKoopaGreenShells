@@ -129,11 +129,28 @@
 #include <fstream>
 
 // include headers that implement a archive in simple text format
-//#include <boost/archive/text_oarchive.hpp>
-//#include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include "WorldState.h"
+#include <boost/serialization/export.hpp>
+#include "MapLocal.h"
+#include "MapRemote.h"
+#include "Tile.h"
+#include "TileGround.h"
+#include "TileMountain.h"
+#include "TileWater.h"
+#include "TileBase.h"
+
+BOOST_CLASS_EXPORT_GUID(MapLocal, "MapLocal")
+BOOST_CLASS_EXPORT_GUID(MapRemote, "MapRemote")
+
+BOOST_CLASS_EXPORT_GUID(Tile<TileGround>, "Tile<TileGround>")
+BOOST_CLASS_EXPORT_GUID(Tile<TileMountain>, "Tile<TileMountain>")
+BOOST_CLASS_EXPORT_GUID(Tile<TileWater>, "Tile<TileWater>")
+
+BOOST_CLASS_EXPORT_GUID(TileGround, "TileGround")
+BOOST_CLASS_EXPORT_GUID(TileMountain, "TileMountain")
+BOOST_CLASS_EXPORT_GUID(TileWater, "TileWater")
 
 int main() {
 	// create and open a character archive for output
@@ -141,10 +158,10 @@ int main() {
 	// create class instance
 	WorldState worldState;
 	worldState.PrepareLocalGame();
-
+	worldState.GetMap()->temp = new TileGround(Position(10,10));
 	// save data to archive
 	{
-		std::ofstream ofs("serializationData");
+		std::ofstream ofs("serializationData.gsd");
 		boost::archive::binary_oarchive oa(ofs);
 		// write class instance to archive
 		oa << worldState;
@@ -155,7 +172,7 @@ int main() {
 	WorldState newWorldState;
 	{
 		// create and open an archive for input
-		std::ifstream ifs("serializationData");
+		std::ifstream ifs("serializationData.gsd");
 		boost::archive::binary_iarchive ia(ifs);
 		// read class state from archive
 		ia >> newWorldState;

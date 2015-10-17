@@ -14,12 +14,18 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int version)
 	{
-		//ar & boost::serialization::base_object<TileBase>(*this);
+		ar & boost::serialization::base_object<TileBase>(*this);
 	}
 public:
 	static Texture m_Texture;
 	void LoadTexture() {};
     virtual  boost::property_tree::ptree Serialize() = 0;
+
+	Tile()
+		: TileBase()
+	{
+
+	}
 
     Tile(Position position = Position(-1, -1))
         : TileBase(position)
