@@ -8,14 +8,6 @@
 template<class T>
 class Tile : public TileBase
 {
-private:
-	//Serialize
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		//ar & boost::serialization::base_object<TileBase>(*this);
-	}
 public:
 	static Texture m_Texture;
 	void LoadTexture() {};

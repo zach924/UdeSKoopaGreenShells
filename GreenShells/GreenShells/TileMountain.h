@@ -3,14 +3,7 @@
 class TileMountain :
 	public Tile<TileMountain>
 {
-private:
-	//Serialize
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		//ar & boost::serialization::base_object<TileBase>(*this);
-	}
+
 public:
 	static const int TILE_TYPE = 1;
 	typedef Tile<TileMountain> tBase;

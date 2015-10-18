@@ -2,7 +2,7 @@
 
 #include "WorldState.h"
 #include "Player.h"
-#include "Map.h"
+#include "Map"
 #include "MapLocal.h"
 #include "MapRemote.h"
 

@@ -1,6 +1,4 @@
 #pragma once
-#include <boost/serialization/access.hpp>
-
 #include "Texture.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
@@ -11,17 +9,6 @@ class Player;
 
 class TileBase
 {
-private:
-	//Serialize
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive & ar, const unsigned int version)
-	{
-		//ar & m_district;
-		//ar & m_unit;
-		//ar & m_owner;
-		//ar & m_position;
-	}
 protected:
     District* m_district;
     Unit* m_unit;
