@@ -15,7 +15,7 @@ Unit::~Unit()
 boost::property_tree::ptree Unit::Serialize()
 {
     boost::property_tree::ptree unitXml;
-    unitXml.add("Unit", "");
+    unitXml.add("U", "");
     return unitXml;
 }
 

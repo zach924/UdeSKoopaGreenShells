@@ -20,6 +20,6 @@ void District::NotifyNewTurn()
 boost::property_tree::ptree District::Serialize()
 {
     boost::property_tree::ptree districtXml;
-    districtXml.add("District", "");
+    districtXml.add("D", "");
     return districtXml;
 }

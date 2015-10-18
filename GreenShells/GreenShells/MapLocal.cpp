@@ -62,24 +62,26 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapLocal* map = new MapLocal();
+	int y = 0;
 	for each (auto rowNode in mapNode)
 	{
+		int x = 0;
 		for each(auto tileNode in rowNode.second)
 		{
-			if (tileNode.first == "Tile")
+			if (tileNode.first == "T")
 			{
-				Position pos{ tileNode.second.get<int>("<xmlattr>.X"), tileNode.second.get<int>("<xmlattr>.Y") };
+				Position pos{ x, y };
 
-				switch (tileNode.second.get<int>("<xmlattr>.Type"))
+				switch (tileNode.second.get<int>("<xmlattr>.TT"))
 				{
 				case 0:
 					map->m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
 					break;
 				case 1:
-					map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second);
+					map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second, pos);
 					break;
 				case 2:
-					map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second);
+					map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second, pos);
 					break;
 
 				case -1:
@@ -89,7 +91,9 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 					break;
 				}
 			}
+			x++;
 		}
+		y++;
 	}
 
 	return map;
