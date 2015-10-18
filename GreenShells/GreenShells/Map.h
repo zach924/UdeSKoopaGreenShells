@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
+#include <boost/serialization/base_object.hpp>
 #include <boost/serialization/access.hpp>
-#include <boost/serialization/vector.hpp>
 
 #include "Position.h"
 #include "TileBase.h"
@@ -16,18 +16,15 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int version)
 	{
-		ar & temp;
-		ar & m_tiles;
+		//ar & m_tiles;
 	}
 protected:
 	static const int ROWS = 64;
 	static const int COLUMNS = 64;
 
-
 	std::vector<std::vector<TileBase*>> m_tiles;
 
 public:
-	TileBase* temp;
     Map();
 	Map(const Map& source);
     ~Map();

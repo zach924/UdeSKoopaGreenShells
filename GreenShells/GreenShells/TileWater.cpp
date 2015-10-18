@@ -6,6 +6,12 @@
 
 #include <boost\property_tree\ptree.hpp>
 
+
+TileWater::TileWater(Position position)
+:Tile(position)
+{
+}
+
 void TileWater::LoadTexture()
 {
 	try
@@ -19,15 +25,6 @@ void TileWater::LoadTexture()
 	}
 }
 
-TileWater::TileWater()
-	:Tile(Position(-1,-1))
-{
-}
-
-TileWater::TileWater(Position position)
-	: Tile(position)
-{
-}
 
 TileWater::~TileWater()
 {

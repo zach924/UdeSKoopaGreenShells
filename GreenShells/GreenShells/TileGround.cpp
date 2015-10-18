@@ -18,12 +18,6 @@ void TileGround::LoadTexture()
 	}
 }
 
-TileGround::TileGround()
-	:Tile(Position(-1,-1))
-{
-
-}
-
 TileGround::TileGround(Position position)
 :Tile(position)
 {

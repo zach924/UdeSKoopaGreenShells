@@ -11,7 +11,7 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int version)
 	{
-		boost::serialization::base_object<Map>(*this);
+		boost::serialization::base_object<MapLocal>(*this)
 	}
 
 public:
