@@ -1,6 +1,7 @@
 #pragma once
-#include "Position.h"
 #include <vector>
+
+#include "Position.h"
 #include "TileBase.h"
 #include "Texture.h"
 #include "Ptree_ForwardDeclaration.h"
@@ -26,6 +27,7 @@ public:
 
 	TileBase* GetTile(Position);
 	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
+	virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
 	void NotifyNewturn();
 	
 	virtual boost::property_tree::ptree Serialize();

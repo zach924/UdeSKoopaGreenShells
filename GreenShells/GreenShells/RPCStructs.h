@@ -25,6 +25,7 @@ enum RPCClassMethodType
 {
 	//Class_Method,
 	Map_Move,
+	Map_Attack
 
 };
 

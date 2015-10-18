@@ -13,14 +13,12 @@
 #include <exception>
 
 GameSession::GameSession()
-:m_worldState(),
-m_serverIP()
+	:m_worldState(), m_serverIP()
 {
 }
 
 GameSession::~GameSession()
 {
-	
 }
 
 WorldState * GameSession::GetWorldState()

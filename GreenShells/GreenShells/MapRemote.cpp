@@ -38,6 +38,27 @@ bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocatio
 	return SendData(ss.str());
 }
 
+bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+{
+	//TODO Add checks on client to make sure that you can attack this Actor.
+	std::stringstream ss;
+
+	RPCStructType dataType{};
+	dataType = RPCStructType::RPC_BASIC_TWO_POSITIONS;
+	ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+	RPCBasicTwoPositionsStruct data;
+	data.m_RPCClassMethod = RPCClassMethodType::Map_Attack;
+	data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+	data.m_requestingPlayerID = ownerID;
+	data.m_firstPosition = attackerPosition;
+	data.m_secondPosition = targetPosition;
+
+	ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+	return SendData(ss.str());
+}
+
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapRemote* map = new MapRemote();
