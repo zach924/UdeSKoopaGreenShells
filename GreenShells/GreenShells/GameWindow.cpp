@@ -33,7 +33,7 @@
 
 
 GameWindow::GameWindow(ScreenResolution res)
-	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res)
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostX(0), m_currentLowestY(0), m_currentlyScrolling(false)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
@@ -103,8 +103,8 @@ void GameWindow::ShowWindow()
 				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
-					int posX = (e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE;
-					int posY = (e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE;
+					int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+					int posY = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
 
 					ClickManager::GetInstance().ManageMapClick(Position(posX,posY));
 				}
@@ -117,7 +117,56 @@ void GameWindow::ShowWindow()
 					ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
 				}
 			}
+            else if (e.type == SDL_KEYDOWN)
+            {
+                switch(e.key.keysym.sym)
+                {
+                case (SDLK_UP) :
+                    if (m_currentLowestY > 0)
+                        m_currentLowestY--;
+                    break;
+                case (SDLK_LEFT) :
+                    if (m_currentLeftmostX > 0)
+                        m_currentLeftmostX--;
+                    break;
+                case (SDLK_RIGHT) :
+                    if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH-1)
+                        m_currentLeftmostX++;
+                    break;
+                case (SDLK_DOWN) :
+                    if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT-1)
+                        m_currentLowestY++;
+                    break;
+                }
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
+                    || (e.button.x < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
+                    || e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
+                    || (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
+            }
 		}
+
+        //mouse scroll
+        if (m_currentlyScrolling)
+        {
+            int mouseX = 0;
+            int mouseY = 0;
+            SDL_GetMouseState(&mouseX, &mouseY);
+
+            if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
+                m_currentLeftmostX++;
+            else if (m_currentLeftmostX > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
+                m_currentLeftmostX--;
+
+            if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
+                m_currentLowestY++;
+            else if (m_currentLowestY > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
+                m_currentLowestY--;
+
+
+        }
 
 		//Clear screen
 		SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
@@ -175,22 +224,25 @@ void GameWindow::ShowWindow()
 
 		//Render Map
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
+
+        int yIndex = 0;
+		for (int i = m_currentLowestY; i <= (m_currentLowestY + m_CurrentScreen.NUM_TILE_HEIGHT); ++i)
 		{
-			for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
+            int xIndex = 0;
+			for (int j = m_currentLeftmostX; j <= (m_currentLeftmostX + m_CurrentScreen.NUM_TILE_WIDTH); ++j )
 			{
 				Texture* tileTexture = map.GetTile(Position(i, j))->GetTexture();
 
 				//Position the tile on the screen
-				int x = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
-				int y = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
-				SDL_Rect renderQuad = { x, y, tileTexture->GetWidth(), tileTexture->GetHeight() };
-
+				int xPos = m_CurrentScreen.HUD_WIDTH + (xIndex * m_CurrentScreen.TILE_SIZE);
+				int yPos = m_CurrentScreen.HUD_HEIGHT + (yIndex * m_CurrentScreen.TILE_SIZE);
+				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 				//Render the tile
 				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
-
+                xIndex++;
 				//TODO Render the district + unit on the tile
 			}
+            yIndex++;
 		}
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

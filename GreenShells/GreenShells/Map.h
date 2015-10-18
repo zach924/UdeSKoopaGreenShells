@@ -8,12 +8,13 @@
 class Map
 {
 protected:
-	static const int ROWS = 64;
-	static const int COLUMNS = 64;
 
 	std::vector<std::vector<TileBase*>> m_tiles;
 
 public:
+    static const int ROWS = 64;
+    static const int COLUMNS = 64;
+
     Map();
 	Map(const Map& source);
     ~Map();

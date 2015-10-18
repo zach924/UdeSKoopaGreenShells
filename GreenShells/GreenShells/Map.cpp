@@ -114,7 +114,7 @@ std::vector<TileBase*> Map::GetArea(Position position, int distance)
 
 TileBase* Map::GetTile(Position position)
 {
-    return m_tiles[position.Y][position.X];
+    return m_tiles[position.X][position.Y];
 }
 
 void Map::NotifyNewturn()
