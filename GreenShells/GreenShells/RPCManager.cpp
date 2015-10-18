@@ -23,25 +23,32 @@ void RPCManager::StartListening()
 
 		while (true)
 		{
-			ClientConnection* newClient = new ClientConnection{};
-			acceptor.accept(newClient->GetTCPConnection().GetSocket());
-			newClient->SetQueuePointer(m_events);
-			newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer());
-			newClient->StartThread();
-			m_clients.push_back(newClient);
+			try
+			{
+				ClientConnection* newClient = new ClientConnection{};
+				acceptor.accept(newClient->GetTCPConnection().GetSocket());
+				newClient->SetQueuePointer(m_events);
+				newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer());
+				newClient->StartThread();
+				m_clients.push_back(newClient);
 
-			//inform client of his id
-			std::stringstream ss;
-			RPCStructType dataType{};
-			dataType = RPCStructType::JOIN_GAME;
-			ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
-			JoinGameStruct data;
-			data.playerID = newClient->GetPlayerID();
-			ss.write(reinterpret_cast<char*>(&data), sizeof(data));
-			newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
+				//inform client of his id
+				std::stringstream ss;
+				RPCStructType dataType{};
+				dataType = RPCStructType::JOIN_GAME;
+				ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+				JoinGameStruct data;
+				data.playerID = newClient->GetPlayerID();
+				ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+				newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
 
-			//replicate for new client
-			ServerSession::GetInstance().Replicate();
+				//replicate for new client
+				ServerSession::GetInstance().Replicate();
+			}
+			catch (std::exception e)
+			{
+				cout << e.what() << endl;
+			}
 		}
 	});
 }

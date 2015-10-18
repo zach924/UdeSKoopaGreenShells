@@ -165,8 +165,21 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonDistrictSell.cpp" />
+    <ClCompile Include="ButtonDistrictUpgrade.cpp" />
+    <ClCompile Include="ButtonGeneralCancel.cpp" />
+    <ClCompile Include="ButtonConstructDistrict.cpp" />
+    <ClCompile Include="ButtonDiplomacy.cpp" />
+    <ClCompile Include="ButtonDistrictCancel.cpp" />
+    <ClCompile Include="ButtonDistrictRepair.cpp" />
+    <ClCompile Include="ButtonUnitSell.cpp" />
+    <ClCompile Include="ButtonSkillTree.cpp" />
+    <ClCompile Include="ButtonSpawnUnit.cpp" />
+    <ClCompile Include="ButtonUnitCancel.cpp" />
+    <ClCompile Include="ButtonUnitHeal.cpp" />
     <ClCompile Include="ButtonUnitAttack.cpp" />
     <ClCompile Include="ButtonUnitMove.cpp" />
+    <ClCompile Include="ButtonUnitUpgrade.cpp" />
     <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="District.cpp" />
@@ -197,8 +210,21 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonDistrictSell.h" />
+    <ClInclude Include="ButtonDistrictUpgrade.h" />
+    <ClInclude Include="ButtonGeneralCancel.h" />
+    <ClInclude Include="ButtonConstructDistrict.h" />
+    <ClInclude Include="ButtonDiplomacy.h" />
+    <ClInclude Include="ButtonDistrictCancel.h" />
+    <ClInclude Include="ButtonDistrictRepair.h" />
+    <ClInclude Include="ButtonUnitSell.h" />
+    <ClInclude Include="ButtonSkillTree.h" />
+    <ClInclude Include="ButtonSpawnUnit.h" />
+    <ClInclude Include="ButtonUnitCancel.h" />
+    <ClInclude Include="ButtonUnitHeal.h" />
     <ClInclude Include="ButtonUnitAttack.h" />
     <ClInclude Include="ButtonUnitMove.h" />
+    <ClInclude Include="ButtonUnitUpgrade.h" />
     <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="District.h" />

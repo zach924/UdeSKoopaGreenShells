@@ -3,11 +3,10 @@
 #include "SelectionManager.h"
 
 
-ButtonUnitAttack::ButtonUnitAttack(int topLimit, int botLimit, int leftLimit, int rightLimit)
-	:Button(topLimit, botLimit, leftLimit, rightLimit)
+ButtonUnitAttack::ButtonUnitAttack(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
+	:Button(sectionOffset, columnIndex, rowIndex, state)
 {
 }
-
 
 ButtonUnitAttack::~ButtonUnitAttack()
 {
@@ -18,11 +17,11 @@ void ButtonUnitAttack::DoAction()
 	SelectionManager::GetInstance().UnitAttackPressed();
 }
 
-void ButtonUnitAttack::LoadTexture()
+void ButtonUnitAttack::LoadTextTexture()
 {
 	try
 	{
-		m_texture.LoadFromFile("..\\Sprite\\Button\\64x64\\UnitAttack.bmp");
+		m_textTexture.LoadFromFile("..\\Sprite\\Button\\attack_text.bmp");
 	}
 	catch (std::exception e)
 	{
