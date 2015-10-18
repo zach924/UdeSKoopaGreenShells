@@ -86,12 +86,14 @@ int main(int argc, char* argv[])
 				else
 				{
 					std::cout << "Could not set up a server." << std::endl;
+
 					return 0;
 				}
 			}
 			else
 			{
 				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
+
 				return 0;
 			}
 		}
@@ -106,6 +108,7 @@ int main(int argc, char* argv[])
 				else
 				{
 					std::cout << "Could not set up a client" << std::endl;
+
 					return 0;
 				}
 
@@ -113,13 +116,17 @@ int main(int argc, char* argv[])
 			else
 			{
 				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
+
 				return 0;
 			}
 		}
 
 		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
+
 		return 0;
 	}
+
+	system("PAUSE");
 	return 0;
 }
