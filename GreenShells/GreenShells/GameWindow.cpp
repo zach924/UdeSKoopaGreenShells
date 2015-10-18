@@ -92,52 +92,6 @@ void GameWindow::CreateUnitButtons()
 void GameWindow::ShowWindow()
 {
 	bool quit = false;
-
-
-	// ===================================================
-	// TEST DELETE BEFORE PUSH IN MASTER
-	// ===================================================
-	//GameSession::GetInstance().GetWorldState()->PrepareGame();
-	//Player p1 = {};
-	//Player p2 = {};
-	//GameSession::GetInstance().GetWorldState()->AddPlayer(p1);
-	//GameSession::GetInstance().GetWorldState()->AddPlayer(p2);
-	//
-	//auto p1Tile53 = map->GetTile(Position{ 5,3 });
-	//auto p1Tile54 = map->GetTile(Position{ 5,4 });
-	//auto p1Tile55 = map->GetTile(Position{ 5,5 });
-	//auto p2Tile63 = map->GetTile(Position{ 6,3 });
-	//auto p2Tile64 = map->GetTile(Position{ 6,4 });
-	//auto p2Tile65 = map->GetTile(Position{ 6,5 });
-	//
-	//Swordsman* p1Swordsman = new Swordsman(p1.GetPlayerID());
-	//Archer* p1Range = new Archer(p1.GetPlayerID());
-	//Farm* p1Farm = new Farm(p1.GetPlayerID());
-	//CityCenter* p1CityCenter = new CityCenter(p1.GetPlayerID());
-	//
-	//Swordsman* p2Swordsman = new Swordsman(p2.GetPlayerID());
-	//Archer* p2Range = new Archer(p2.GetPlayerID());
-	//Farm* p2Farm = new Farm(p2.GetPlayerID());
-	//CityCenter* p2CityCenter = new CityCenter(p2.GetPlayerID());
-	//
-	//p1Tile53->SetUnit(p1Range);
-	//p1Tile54->SetDistrict(p1Farm);
-	//p1Tile55->SetUnit(p1Swordsman);
-	//p1Tile55->SetDistrict(p1CityCenter);
-	//
-	//p2Tile63->SetUnit(p2Range);
-	//p2Tile65->SetUnit(p2Swordsman);
-	//p2Tile64->SetDistrict(p2CityCenter);
-	//p2Tile65->SetDistrict(p2Farm);
-	//
-	//map->Attack(p1.GetPlayerID(), Position(5, 5), Position(6, 4));
-	//map->Attack(p1.GetPlayerID(), Position(5, 5), Position(6, 4));
-	//map->Attack(p1.GetPlayerID(), Position(5, 5), Position(6, 4));
-	//map->Attack(p1.GetPlayerID(), Position(5, 5), Position(6, 4));
-	//map->Attack(p1.GetPlayerID(), Position(5, 3), Position(6, 3));
-
-	// ===================================================
-
 	while (!quit)
 	{
 		SDL_Event e;
