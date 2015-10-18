@@ -76,16 +76,16 @@ void Map::GenerateTiles()
             switch (tileType)
             {
             case '0':
-				m_tiles[i][j] = new TileGround(Position(i, j));
+				m_tiles[i][j] = new TileGround(Position(j, i));
                 break;
 
             case '1':
-				m_tiles[i][j] = new TileMountain(Position(i, j));
+				m_tiles[i][j] = new TileMountain(Position(j, i));
                 break;
 
             case '2':
             default:
-				m_tiles[i][j] = new TileWater(Position(i, j));
+				m_tiles[i][j] = new TileWater(Position(j, i));
                 break;
             }
         }
@@ -106,7 +106,7 @@ std::vector<TileBase*> Map::GetArea(Position position, int distance)
     {
         for (int j = minRow; j <= maxRow; ++j)
         {
-            area.push_back(GetTile(Position(i, j)));
+            area.push_back(GetTile(Position(j, i)));
         }
     }
     return area;
