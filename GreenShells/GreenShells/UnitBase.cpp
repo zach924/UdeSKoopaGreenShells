@@ -77,7 +77,7 @@ void UnitBase::NotifyNewTurn()
 boost::property_tree::ptree UnitBase::Serialize()
 {
 	boost::property_tree::ptree unitNode;
-	unitNode.put("<xmlattr>.UT", GetTypeAsInt());
+	unitNode.put("<xmlattr>.T", GetTypeAsInt());
 	unitNode.put("<xmlattr>.O", m_ownerID);
 	unitNode.put("<xmlattr>.H", m_health);
 

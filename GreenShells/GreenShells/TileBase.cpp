@@ -80,13 +80,13 @@ boost::property_tree::ptree TileBase::Serialize()
 
 	if (m_unit)
 	{
-		        boost::property_tree::ptree unitNode = m_unit->Serialize();
-		        tileNode.add_child("U", unitNode);
+		boost::property_tree::ptree unitNode = m_unit->Serialize();
+        tileNode.add_child("U", unitNode);
 	}
 	if (m_district)
 	{
-		//        boost::property_tree::ptree districtNode = m_district->Serialize();
-		//        tileNode.add_child("D", districtNode);
+        boost::property_tree::ptree districtNode = m_district->Serialize();
+        tileNode.add_child("D", districtNode);
 	}
 
 	return tileNode;

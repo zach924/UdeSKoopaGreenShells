@@ -61,7 +61,7 @@ void DistrictBase::NotifyNewTurn()
 boost::property_tree::ptree DistrictBase::Serialize()
 {
 	boost::property_tree::ptree districtNode;
-	districtNode.put("<xmlattr>.DT", GetTypeAsInt());
+	districtNode.put("<xmlattr>.T", GetTypeAsInt());
 	districtNode.put("<xmlattr>.O", m_ownerID);
 	districtNode.put("<xmlattr>.H", m_health);
 

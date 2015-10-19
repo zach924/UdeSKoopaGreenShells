@@ -25,3 +25,11 @@ void CityCenter::Repair(int repairValue)
 {
 	m_health = std::min(m_health + repairValue, HEALTH);
 }
+
+CityCenter * CityCenter::Deserialize(boost::property_tree::ptree node)
+{
+	CityCenter* cityCenter = new CityCenter(node.get<int>("<xmlattr>.O"));
+	cityCenter->m_health = node.get<int>("<xmlattr>.H");
+
+	return cityCenter;
+}

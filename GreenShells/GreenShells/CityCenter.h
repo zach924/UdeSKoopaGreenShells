@@ -19,5 +19,7 @@ public:
 	virtual int GetTypeAsInt();
 
 	virtual void Repair(int repairValue);
-	
+
+
+	static CityCenter* Deserialize(boost::property_tree::ptree node);
 };

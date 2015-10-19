@@ -51,6 +51,6 @@ public:
 	virtual void NotifyNewTurn();
 
 	boost::property_tree::ptree Serialize();
-	//virtual UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
+	//static UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 
 };

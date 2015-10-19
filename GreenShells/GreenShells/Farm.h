@@ -17,4 +17,5 @@ public:
 
 	virtual int GetTypeAsInt();
 
+	static Farm* Deserialize(boost::property_tree::ptree node);
 };

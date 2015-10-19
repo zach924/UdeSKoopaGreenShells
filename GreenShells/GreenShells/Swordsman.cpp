@@ -59,7 +59,10 @@ AttackNotification Swordsman::Attack(DistrictBase * target)
 	return targetNotification;
 }
 
-boost::property_tree::ptree Swordsman::Serialize()
+Swordsman * Swordsman::Deserialize(boost::property_tree::ptree node)
 {
-	return boost::property_tree::ptree();
+	Swordsman* swordsman = new Swordsman(node.get<int>("<xmlattr>.O"));
+	swordsman->m_health = node.get<int>("<xmlattr>.H");
+
+	return swordsman;
 }

@@ -91,10 +91,18 @@ void GameWindow::CreateUnitButtons()
 
 void GameWindow::ShowWindow()
 {
+	GameSession::GetInstance().Load("SavedFile\\Test2.xml");
+
+	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(0, 0))->SetUnit(new Swordsman(0));
+	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(1, 0))->SetUnit(new Archer(0));
+	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(0, 0))->SetDistrict(new Farm(0));
+	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(1, 0))->SetDistrict(new CityCenter(0));
+
 	bool quit = false;
 	while (!quit)
 	{
 		SDL_Event e;
+
 
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0)
@@ -252,6 +260,7 @@ void GameWindow::ShowWindow()
 		//Draw screen
 		SDL_RenderPresent(m_renderer);
 	}
+	GameSession::GetInstance().Save("SavedFile\\Test2.xml");
 
 	Close();
 }

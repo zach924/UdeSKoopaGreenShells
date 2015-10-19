@@ -27,26 +27,6 @@ TileGround::~TileGround()
 {
 }
 
-//boost::property_tree::ptree TileGround::Serialize()
-//{
-//    boost::property_tree::ptree tileNode;
-//    tileNode.put("<xmlattr>.TT", TILE_TYPE);
-//    tileNode.put("<xmlattr>.O", m_owner);
-//
-//    if (m_unit)
-//    {
-//        //boost::property_tree::ptree unitNode = m_unit->Serialize();
-//        //tileNode.add_child("U", unitNode);
-//    }
-//    if (m_district)
-//    {
-//        //boost::property_tree::ptree districtNode = m_district->Serialize();
-//        //tileNode.add_child("D", districtNode);
-//    }
-//
-//    return tileNode;
-//}
-
 TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileGround* tile = new TileGround{ pos };

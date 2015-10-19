@@ -3,7 +3,7 @@
 #include <iostream>
 
 Archer::Archer(int owner)
-	: Unit<Archer>(owner, HEALTH, 3, ATTACK_DAMAGE)
+	: Unit<Archer>(owner, HEALTH, ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
@@ -34,8 +34,11 @@ void Archer::Heal(int health)
 	m_health = std::min(m_health + health, HEALTH);
 }
 
-boost::property_tree::ptree Archer::Serialize()
+Archer * Archer::Deserialize(boost::property_tree::ptree node)
 {
-	return boost::property_tree::ptree();
+	Archer* archer = new Archer(node.get<int>("<xmlattr>.O"));
+	archer->m_health = node.get<int>("<xmlattr>.H");
+
+	return archer;
 }
 

@@ -24,5 +24,5 @@ public :
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);
 
-	virtual  boost::property_tree::ptree Serialize();
+	static Swordsman* Deserialize(boost::property_tree::ptree node);
 };

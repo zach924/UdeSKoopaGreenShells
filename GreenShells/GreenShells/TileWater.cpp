@@ -4,6 +4,12 @@
 #include "District.h"
 #include "Unit.h"
 
+#include "Archer.h"
+#include "Swordsman.h"
+
+#include "CityCenter.h"
+#include "Farm.h"
+
 #include <boost\property_tree\ptree.hpp>
 
 
@@ -30,42 +36,36 @@ TileWater::~TileWater()
 {
 }
 
-//boost::property_tree::ptree TileWater::Serialize()
-//{
-//    boost::property_tree::ptree tileNode;
-//    tileNode.put("<xmlattr>.TT", TILE_TYPE);
-//    tileNode.put("<xmlattr>.O", m_owner);
-//
-//    if (m_unit)
-//    {
-////        boost::property_tree::ptree unitNode = m_unit->Serialize();
-////        tileNode.add_child("U", unitNode);
-//    }
-//    if (m_district)
-//    {
-////        boost::property_tree::ptree districtNode = m_district->Serialize();
-////        tileNode.add_child("D", districtNode);
-//    }
-//
-//    return tileNode;
-//}
-
 TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    TileWater* tile = new TileWater{ pos };
-
+    TileWater* tile = new TileWater{ tileNode.get<int>("<xmlattr>.O") };
     tile->m_position = pos;
-    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
     for each(auto child in tileNode)
     {
         if (child.first == "U")
         {
-            // TODO : will need to check how exactly, i think a switch case depend on unit type
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetUnit(Swordsman::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetUnit(Archer::Deserialize(child.second));
+				break;
+			}            
         }
         else if (child.first == "D")
         {
-            // TODO : will need to check how exactly, i think a switch case depend on district type
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetDistrict(CityCenter::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetDistrict(Farm::Deserialize(child.second));
+				break;
+			}
         }
     }
 

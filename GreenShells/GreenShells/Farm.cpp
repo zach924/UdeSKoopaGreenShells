@@ -18,3 +18,11 @@ int Farm::GetTypeAsInt()
 {
 	return DISTRICT_TYPE;
 }
+
+Farm * Farm::Deserialize(boost::property_tree::ptree node)
+{
+	Farm* farm = new Farm(node.get<int>("<xmlattr>.O"));
+	farm->m_health = node.get<int>("<xmlattr>.H");
+
+	return farm;
+}
