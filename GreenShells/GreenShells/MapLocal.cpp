@@ -52,6 +52,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
 	{
 		secondTile->SetUnit(firstTile->GetUnit());
+		firstTile->GetUnit()->SetPosition(newLocation);
 		firstTile->SetUnit(nullptr);
 		return true;
 	}

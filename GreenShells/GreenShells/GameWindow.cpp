@@ -105,7 +105,7 @@ void GameWindow::ShowWindow()
 			}
 			else if (e.type == SDL_MOUSEBUTTONUP)
 			{
-				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
+				//std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
 					int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;

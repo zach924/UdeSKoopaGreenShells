@@ -69,12 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\..\External\SDL2_ttf-2.0.12\lib\x64;$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\..\External\SDL2_ttf-2.0.12\include;$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\..\External\SDL2_ttf-2.0.12\lib\x64;$(SolutionDir)\..\External\boost_1_59_0\stage\lib;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDLmain\x64\Release;$(SolutionDir)\..\External\SDL2-2.0.3\VisualC\SDL\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\..\External\SDL2_ttf-2.0.12\include;$(SolutionDir)\..\External\boost_1_59_0;$(SolutionDir)\..\External\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,7 +109,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /y $(SolutionDir)CopyToOutput\*.* $(OutDir)</Command>
@@ -156,7 +156,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /y $(SolutionDir)CopyToOutput\*.* $(OutDir)</Command>
