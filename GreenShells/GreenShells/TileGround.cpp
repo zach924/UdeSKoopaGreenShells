@@ -50,6 +50,7 @@ boost::property_tree::ptree TileGround::Serialize()
 TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileGround* tile = new TileGround{ pos };
+
 	tile->m_position = pos;
     tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 

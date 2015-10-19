@@ -167,14 +167,14 @@ void Player::RemoveWeaponMultiplier(double multiplier)
 
 void Player::AddCityCenter()
 {
-	++m_cityHallCount;
+	++m_cityCenterCount;
 }
 
 void Player::RemoveCityCenter()
 {
-	--m_cityHallCount;
+	--m_cityCenterCount;
 
-	if (m_cityHallCount <= 0)
+	if (m_cityCenterCount <= 0)
 	{
 		m_isAlive = false;
 	}
@@ -190,7 +190,7 @@ boost::property_tree::ptree Player::Serialize()
     boost::property_tree::ptree playerNode;
     playerNode.put("<xmlattr>.PId", m_playerID);
     playerNode.put("<xmlattr>.PName", m_playerName);
-    playerNode.put("<xmlattr>.CHC", m_cityHallCount);
+    playerNode.put("<xmlattr>.CHC", m_cityCenterCount);
     playerNode.put("<xmlattr>.UC", m_unitCount);
     playerNode.put("<xmlattr>.F", m_food);
     playerNode.put("<xmlattr>.S", m_science);
@@ -208,7 +208,7 @@ Player Player::Deserialize(boost::property_tree::ptree playerNode)
 
     player.m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player.m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
-    player.m_cityHallCount = playerNode.get<int>("<xmlattr>.CHC");
+    player.m_cityCenterCount = playerNode.get<int>("<xmlattr>.CHC");
     player.m_unitCount = playerNode.get<int>("<xmlattr>.UC");
     player.m_food = playerNode.get<int>("<xmlattr>.F");
     player.m_science = playerNode.get<int>("<xmlattr>.S");
