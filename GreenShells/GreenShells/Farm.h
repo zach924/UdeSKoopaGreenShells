@@ -12,6 +12,7 @@ public:
 	Farm(int owner);
 	~Farm();
 
+    void LoadTexture();
 	virtual void Repair(int repairValue);
 
 	virtual  boost::property_tree::ptree Serialize();
