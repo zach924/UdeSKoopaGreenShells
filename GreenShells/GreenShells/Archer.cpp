@@ -24,6 +24,11 @@ void Archer::LoadTexture()
 	}
 }
 
+int Archer::GetTypeAsInt()
+{
+	return UNIT_TYPE;
+}
+
 void Archer::Heal(int health)
 {
 	m_health = std::min(m_health + health, HEALTH);

@@ -28,25 +28,25 @@ TileMountain::~TileMountain()
 {
 }
 
-boost::property_tree::ptree TileMountain::Serialize()
-{
-    boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.TT", TILE_TYPE);
-    tileNode.put("<xmlattr>.O", m_owner);
-
-    if (m_unit)
-    {
-//        boost::property_tree::ptree unitNode = m_unit->Serialize();
-//        tileNode.add_child("U", unitNode);
-    }
-    if (m_district)
-    {
-//        boost::property_tree::ptree districtNode = m_district->Serialize();
-//        tileNode.add_child("D", districtNode);
-    }
-
-    return tileNode;
-}
+//boost::property_tree::ptree TileMountain::Serialize()
+//{
+//    boost::property_tree::ptree tileNode;
+//    tileNode.put("<xmlattr>.TT", TILE_TYPE);
+//    tileNode.put("<xmlattr>.O", m_owner);
+//
+//    if (m_unit)
+//    {
+////        boost::property_tree::ptree unitNode = m_unit->Serialize();
+////        tileNode.add_child("U", unitNode);
+//    }
+//    if (m_district)
+//    {
+////        boost::property_tree::ptree districtNode = m_district->Serialize();
+////        tileNode.add_child("D", districtNode);
+//    }
+//
+//    return tileNode;
+//}
 
 TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
@@ -73,4 +73,9 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 bool TileMountain::CanTraverse()
 {
 	return false;
+}
+
+int TileMountain::GetTypeAsInt()
+{
+	return TILE_TYPE;
 }

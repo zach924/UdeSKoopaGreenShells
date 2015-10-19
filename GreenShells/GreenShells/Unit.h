@@ -9,7 +9,9 @@ class Unit : public UnitBase
 public:
 	static Texture m_Texture;
 	void LoadTexture() {};
+	virtual int GetTypeAsInt() = 0;
 	virtual  boost::property_tree::ptree Serialize() = 0;
+
 
 public:
 	Unit(int ownerID, int health, int attackRange, int attackDamage)

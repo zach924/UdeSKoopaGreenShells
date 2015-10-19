@@ -12,8 +12,9 @@ public:
 	~TileWater();
 
 	virtual bool CanTraverse();
+	virtual int GetTypeAsInt();
 	
-	virtual boost::property_tree::ptree Serialize();
+	//virtual boost::property_tree::ptree Serialize();
     static TileWater* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

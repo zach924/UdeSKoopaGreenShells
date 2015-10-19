@@ -30,25 +30,25 @@ TileWater::~TileWater()
 {
 }
 
-boost::property_tree::ptree TileWater::Serialize()
-{
-    boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.TT", TILE_TYPE);
-    tileNode.put("<xmlattr>.O", m_owner);
-
-    if (m_unit)
-    {
-//        boost::property_tree::ptree unitNode = m_unit->Serialize();
-//        tileNode.add_child("U", unitNode);
-    }
-    if (m_district)
-    {
-//        boost::property_tree::ptree districtNode = m_district->Serialize();
-//        tileNode.add_child("D", districtNode);
-    }
-
-    return tileNode;
-}
+//boost::property_tree::ptree TileWater::Serialize()
+//{
+//    boost::property_tree::ptree tileNode;
+//    tileNode.put("<xmlattr>.TT", TILE_TYPE);
+//    tileNode.put("<xmlattr>.O", m_owner);
+//
+//    if (m_unit)
+//    {
+////        boost::property_tree::ptree unitNode = m_unit->Serialize();
+////        tileNode.add_child("U", unitNode);
+//    }
+//    if (m_district)
+//    {
+////        boost::property_tree::ptree districtNode = m_district->Serialize();
+////        tileNode.add_child("D", districtNode);
+//    }
+//
+//    return tileNode;
+//}
 
 TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
@@ -75,4 +75,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 bool TileWater::CanTraverse()
 {
 	return false;
+}
+
+int TileWater::GetTypeAsInt()
+{
+	return TILE_TYPE;
 }

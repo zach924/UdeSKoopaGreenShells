@@ -23,6 +23,11 @@ void Swordsman::LoadTexture()
 	}
 }
 
+int Swordsman::GetTypeAsInt()
+{
+	return UNIT_TYPE;
+}
+
 void Swordsman::Heal(int health)
 {
 	m_health = std::min(m_health + health, HEALTH);

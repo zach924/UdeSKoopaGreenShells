@@ -71,3 +71,23 @@ bool TileBase::IsFree()
 {
 	return !(m_district || m_unit);
 }
+
+boost::property_tree::ptree TileBase::Serialize()
+{
+	boost::property_tree::ptree tileNode;
+	tileNode.put("<xmlattr>.TT", GetTypeAsInt());
+	tileNode.put("<xmlattr>.O", m_owner);
+
+	if (m_unit)
+	{
+		        boost::property_tree::ptree unitNode = m_unit->Serialize();
+		        tileNode.add_child("U", unitNode);
+	}
+	if (m_district)
+	{
+		//        boost::property_tree::ptree districtNode = m_district->Serialize();
+		//        tileNode.add_child("D", districtNode);
+	}
+
+	return tileNode;
+}

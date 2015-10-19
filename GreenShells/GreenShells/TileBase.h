@@ -19,7 +19,7 @@ public:
     TileBase(Position position = Position(-1, -1));
 	virtual Texture* GetTexture()=0;
     virtual bool CanTraverse()=0;
-    virtual boost::property_tree::ptree Serialize()=0;
+	virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
     virtual void NotifyNewTurn();
     virtual DistrictBase* GetDistrict();
@@ -30,5 +30,6 @@ public:
     virtual void SetPlayerOwnerId(int id);
 
 	bool IsFree();
+    boost::property_tree::ptree Serialize();
 };
 

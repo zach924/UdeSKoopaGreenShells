@@ -252,6 +252,7 @@ void GameWindow::ShowWindow()
 		//Draw screen
 		SDL_RenderPresent(m_renderer);
 	}
+
 	Close();
 }
 

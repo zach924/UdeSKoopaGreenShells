@@ -35,6 +35,8 @@ public:
 	int GetHealth();
 	int GetOwnerID();
 
+	virtual int GetTypeAsInt() = 0;
+
 	Position GetPosition();
 	void SetPosition(Position pos);
 
@@ -48,7 +50,7 @@ public:
 
 	virtual void NotifyNewTurn();
 
-	//virtual boost::property_tree::ptree Serialize();
+	boost::property_tree::ptree Serialize();
 	//virtual UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 
 };
