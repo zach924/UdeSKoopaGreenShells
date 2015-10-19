@@ -7,7 +7,7 @@ Player::Player()
     m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
-    m_cityHallCount(0), // TODO : Be sure we will have one City Hall when game start
+    m_cityCenterCount(0), // TODO : Be sure we will have one City Hall when game start
     m_unitCount(0), 
     m_food(100), 
     m_science(0),
