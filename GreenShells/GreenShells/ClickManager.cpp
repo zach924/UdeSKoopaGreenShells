@@ -52,7 +52,7 @@ const std::vector<Button*>& ClickManager::GetGeneralButtons()
 
 void ClickManager::ManageMapClick(const Position& position)
 {
-	std::cout << "Map clicked at pos X: " << position.X << " Y: " << position.Y << std::endl;
+	//std::cout << "Map clicked at pos X: " << position.X << " Y: " << position.Y << std::endl;
 	SelectionManager::GetInstance().HandleSelection(position);
 }
 

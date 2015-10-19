@@ -39,4 +39,3 @@ public:
 		return &m_Texture;
 	}
 };
-

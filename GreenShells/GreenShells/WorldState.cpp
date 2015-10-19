@@ -94,17 +94,17 @@ boost::property_tree::ptree WorldState::Serialize()
 	lock_guard<recursive_mutex> lock{ m_mutex };
     boost::property_tree::ptree worldStateXml;
 
-    boost::property_tree::ptree& worldStateNode = worldStateXml.add("WorldState", "");
+    boost::property_tree::ptree& worldStateNode = worldStateXml.add("WS", "");
 
     // Get Player XML to add here
-    boost::property_tree::ptree& playerListNode = worldStateNode.add("Players", "");
+    boost::property_tree::ptree& playerListNode = worldStateNode.add("Ps", "");
     for (Player player : m_players)
     {
-        playerListNode.add_child("Player", player.Serialize());
+        playerListNode.add_child("P", player.Serialize());
     }
 
     // Get Map XML
-    worldStateNode.add_child("Map", m_map->Serialize());
+    worldStateNode.add_child("M", m_map->Serialize());
     
     return worldStateXml;
 }
@@ -117,16 +117,16 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 	m_players.clear();
 	delete m_map;
 
-    for each (auto worldStateNode in worldStateXml.get_child("WorldState"))
+    for each (auto worldStateNode in worldStateXml.get_child("WS"))
     {
-        if (worldStateNode.first == "Players")
+        if (worldStateNode.first == "Ps")
         {
             for each (auto playerNode in worldStateNode.second)
             {
                 AddPlayer(Player::Deserialize(playerNode.second));
             }
         }
-        else if (worldStateNode.first == "Map")
+        else if (worldStateNode.first == "M")
         {
             m_map = MapLocal::Deserialize(worldStateNode.second);
 			// TODO :  need to know from wich class we need to Deserialize, cause map is abstract (bool in WorldState)
