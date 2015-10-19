@@ -5,6 +5,7 @@ class Farm : public District<Farm>
 {
 public:
 	typedef District<Farm> tBase;
+	static const int DISTRICT_TYPE = 1;
 
 	static const int HEALTH = 75;
 
@@ -14,5 +15,6 @@ public:
 
 	virtual void Repair(int repairValue);
 
-	virtual  boost::property_tree::ptree Serialize();
+	virtual int GetTypeAsInt();
+
 };

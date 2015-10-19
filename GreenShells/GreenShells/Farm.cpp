@@ -14,7 +14,7 @@ void Farm::Repair(int repairValue)
 	m_health = std::min(m_health + repairValue, HEALTH);
 }
 
-boost::property_tree::ptree Farm::Serialize()
+int Farm::GetTypeAsInt()
 {
-	return boost::property_tree::ptree();
+	return DISTRICT_TYPE;
 }
