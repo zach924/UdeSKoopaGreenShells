@@ -17,7 +17,7 @@ public:
 	~Texture();
 
 	bool IsLoaded();
-	bool LoadFromFile(std::string path);
+	bool LoadFromFile(std::string path, SDL_Renderer* rend);
 	void Free();
     void SetColor(Color color);
 	void SetColor(int red, int green, int blue);

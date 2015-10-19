@@ -9,7 +9,7 @@ void TileGround::LoadTexture()
 {
 	try
 	{
-		TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
+		TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp", nullptr);
 	}
 	catch (std::exception e)
 	{

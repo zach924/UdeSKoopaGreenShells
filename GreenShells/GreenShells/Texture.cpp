@@ -18,7 +18,7 @@ bool Texture::IsLoaded()
 	return m_IsLoaded;
 }
 
-bool Texture::LoadFromFile(std::string path)
+bool Texture::LoadFromFile(std::string path, SDL_Renderer* rend)
 {
 	Free();
 	SDL_Texture* newTexture = nullptr;
@@ -34,8 +34,11 @@ bool Texture::LoadFromFile(std::string path)
 	{
 		//Removes the black background to have an alpha, might change in the future but works now
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0, 0));
-
-		newTexture = SDL_CreateTextureFromSurface(GameWindow::GetInstance().GetRenderer(), loadedSurface);
+		if (rend == nullptr)
+		{
+			rend = GameWindow::GetInstance().GetRenderer();
+		}
+		newTexture = SDL_CreateTextureFromSurface(rend, loadedSurface);
 		if (newTexture == NULL)
 		{
 			std::string msg(SDL_GetError());

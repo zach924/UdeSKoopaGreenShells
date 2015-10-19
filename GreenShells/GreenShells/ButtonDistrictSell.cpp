@@ -16,11 +16,11 @@ void ButtonDistrictSell::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonDistrictSell::LoadTextTexture()
+void ButtonDistrictSell::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Sell_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Sell_text.bmp",rend);
     }
     catch (std::exception e)
     {

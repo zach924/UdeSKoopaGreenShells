@@ -16,11 +16,11 @@ void ButtonUnitHeal::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonUnitHeal::LoadTextTexture()
+void ButtonUnitHeal::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Heal_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Heal_text.bmp", rend);
     }
     catch (std::exception e)
     {

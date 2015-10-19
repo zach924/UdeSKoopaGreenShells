@@ -16,11 +16,11 @@ void ButtonSpawnUnit::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonSpawnUnit::LoadTextTexture()
+void ButtonSpawnUnit::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\SpawnUnit_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\SpawnUnit_text.bmp", rend);
     }
     catch (std::exception e)
     {
