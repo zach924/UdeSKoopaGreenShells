@@ -1,17 +1,17 @@
 #pragma once
-#include "Actor.h"
+#include "UnitBase.h"
+#include "Texture.h"
+#include <boost\property_tree\ptree.hpp>
 
-#include "Actor.h"
-
-
-class Unit : public Actor
+template<class T>
+class Unit : public UnitBase
 {
 public:
-	Unit(const int& ownerID,const Position& pos);
+	Unit(int& ownerID);
     ~Unit();
 	
 	void NotifyNewTurn();
 
-   virtual boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree Serialize();
 };
 

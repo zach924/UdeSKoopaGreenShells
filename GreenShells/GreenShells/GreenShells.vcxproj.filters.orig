@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{04a8e34d-2a22-49b1-9307-9854dfa7e7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{feacc0f0-9528-4e02-aa38-6535af31e00c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor">
+      <UniqueIdentifier>{346f38a9-4752-499a-8d41-d25401fa02db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor\District">
+      <UniqueIdentifier>{b396f26c-bcd7-42bd-b3cb-d595abc3d756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor\Unit">
+      <UniqueIdentifier>{8ca24469-3c12-4a6a-a945-a88cd250db20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor">
+      <UniqueIdentifier>{c2471c0c-0d7c-4eaf-a238-395d86be8ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\District">
+      <UniqueIdentifier>{d2a3a37f-b1a2-4a77-a3d2-0704965a32e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\Unit">
+      <UniqueIdentifier>{cfbf9169-955d-4b99-b675-bd97e35aeb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{895f32f2-1daf-4903-95a3-83c46006bd61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map\Tile">
+      <UniqueIdentifier>{46ece499-ff4a-442a-8250-09b57396b4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{978625a9-ffa5-4687-a271-926406f2bcf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map\Tile">
+      <UniqueIdentifier>{3f1a1da7-aaa2-4b1f-8e22-4c4912d8a718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{fc5c62e0-a9c5-4372-a035-c9574318444f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Networking">
+      <UniqueIdentifier>{27212317-846d-434f-82c6-250bfef41b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{8d448c84-47d8-4d88-8724-e0929268b137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{6184ac4a-2209-4ffc-8069-7c187adc5921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{db69d95e-e61a-4c79-a750-b4b969686529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{c399934d-5494-4b3c-b5c6-04505943fd40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Button">
+      <UniqueIdentifier>{443147af-ca58-457a-9fdd-7677b202a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button">
+      <UniqueIdentifier>{ba8f27a4-dc9e-44e0-98d7-6ca9c972843a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="District.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileGround.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMountain.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TileWater.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientConnection.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCBase.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCManager.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPConnection.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCDispatcher.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLocal.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRemote.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictDefensive.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="TileBase.cpp">
+      <Filter>Source Files\Map\Tile</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="UnitMelee.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="unitRange.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+=======
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitAttack.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUnitMove.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickManager.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionManager.cpp">
+      <Filter>Source Files\Utilities</Filter>
+>>>>>>> master
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="District.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileGround.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMountain.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TileWater.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWindow.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientConnection.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCStructs.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPConnection.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCBase.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCManager.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="SynchronizedQueue.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCDispatcher.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLocal.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRemote.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMelee.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Ptree_ForwardDeclaration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unitRange.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBase.h">
+      <Filter>Header Files\Map\Tile</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="DistrictDefensive.h">
+      <Filter>Header Files\Actor\District</Filter>
+=======
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitAttack.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUnitMove.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickManager.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionManager.h">
+      <Filter>Header Files\Utilities</Filter>
+>>>>>>> master
+    </ClInclude>
+  </ItemGroup>
+</Project>

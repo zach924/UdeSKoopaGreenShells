@@ -1,13 +1,23 @@
 #pragma once
-#include "Actor.h"
+#include "DistrictBase.h"
+#include "Texture.h"
+#include <boost\property_tree\ptree.hpp>
 
-class District : public Actor
+template<class T>
+class District : public DistrictBase
 {
 public:
-	District(const int& ownerID);
+	District(int& ownerID);
 	~District();
 
-	void NotifyNewTurn();
-	virtual boost::property_tree::ptree Serialize();
+	//Every method must be define in header file because of the static polymorphism
+	Texture* GetTexture()
+	{
+		if (!m_Texture.IsLoaded())
+		{
+			static_cast<T*>(this)->LoadTexture();
+		}
+		return &m_Texture;
+	}
 };
 

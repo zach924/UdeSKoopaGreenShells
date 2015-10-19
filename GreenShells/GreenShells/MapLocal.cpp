@@ -6,6 +6,7 @@
 
 #include "Unit.h"
 #include "District.h"
+#include "CityCenter.h"
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
 #include <exception>
@@ -58,6 +59,76 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 	
 	//Other cases are all refused
 	return false;
+}
+
+bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+{
+	std::cout << "Received an attack request by " << ownerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
+
+	auto targetTile = GetTile(targetPosition);
+	auto attackerTile = GetTile(attackerPosition);
+	auto attacker = attackerTile->GetUnit();
+
+	// No unit on the Attacker tile
+	if (!attacker) // TODO : might be useless, probably the selection manager that validate that
+	{
+		return false;
+	}
+
+	// Unit doesn't belong to the requester
+	if (attacker->GetOwnerID() != ownerID) // TODO : might be useless, probably the selection manager that validate that
+	{
+		return false;
+	}
+
+	// Nothing to attack on target Tile
+	if (targetTile->IsFree())
+	{
+		return false;
+	}
+
+	UnitBase* unitTargeted = targetTile->GetUnit();
+	DistrictBase* districtTargeted = targetTile->GetDistrict();
+
+	AttackNotification notification = unitTargeted ? attacker->Attack(unitTargeted) : attacker->Attack(districtTargeted);
+
+	// Attacker is dead?
+	if (notification.AttackerIsDead)
+	{
+		attackerTile->SetUnit(nullptr);
+		delete attacker;
+	}
+
+	// Target is dead?
+	if (notification.TargetIsDead)
+	{
+		if (unitTargeted)
+		{
+			targetTile->SetUnit(nullptr);
+			delete unitTargeted;
+		}
+		else
+		{
+			if (typeid(districtTargeted) == typeid(CityCenter::tBase))
+			{
+				static_cast<CityCenter*>(districtTargeted)->ChangeOwner(ownerID);
+				// for now player wont move on the citycenter if they take control of it
+			}
+			else
+			{
+				targetTile->SetDistrict(nullptr);
+				delete districtTargeted;
+			}
+		}
+
+		// Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
+		if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
+		{
+			MoveUnit(ownerID, attackerPosition, targetPosition);
+		}
+	}
+
+	return true;
 }
 
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)

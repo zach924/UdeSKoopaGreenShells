@@ -169,3 +169,9 @@ bool Map::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 	return false;
 }
 
+bool Map::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+{
+	assert(false && "Virtual method is not implemented");
+	return false;
+}
+

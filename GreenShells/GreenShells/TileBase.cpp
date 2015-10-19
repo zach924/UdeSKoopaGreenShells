@@ -17,23 +17,33 @@ void TileBase::NotifyNewTurn()
     }
 }
 
-District* TileBase::GetDistrict()
+DistrictBase* TileBase::GetDistrict()
 {
     return m_district;
 }
 
-void TileBase::SetDistrict(District* district)
+void TileBase::SetDistrict(DistrictBase* district)
 {
+	if (district)
+	{
+		district->SetPosition(m_position);
+	}
+
     m_district = district;
 }
 
-Unit * TileBase::GetUnit()
+UnitBase * TileBase::GetUnit()
 {
     return m_unit;
 }
 
-void TileBase::SetUnit(Unit* unit)
+void TileBase::SetUnit(UnitBase* unit)
 {
+	if (unit)
+	{
+		unit->SetPosition(m_position);
+	}
+
     m_unit = unit;
 }
 
@@ -55,4 +65,9 @@ TileBase::TileBase(Position position)
 TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     return nullptr;
+}
+
+bool TileBase::IsFree()
+{
+	return !(m_district || m_unit);
 }

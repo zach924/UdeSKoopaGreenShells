@@ -1,7 +1,6 @@
 #pragma once
 #include "Position.h"
 #include <boost\property_tree\ptree.hpp>
-#include "Texture.h"
 #include "TileBase.h"
 
 
