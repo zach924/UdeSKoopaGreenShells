@@ -1,10 +1,8 @@
 #include "Unit.h"
 #include "Texture.h"
 
-Unit::Unit(int& ownerID)
-	:Actor(ownerID)
-{
-}
+#include "Archer.h"
+#include "Swordsman.h"
 
 
 

@@ -7,8 +7,27 @@ template<class T>
 class District : public DistrictBase
 {
 public:
-	District(int& ownerID);
-	~District();
+	static Texture m_Texture;
+	void LoadTexture() {};
+	virtual  boost::property_tree::ptree Serialize() = 0;
+
+public:
+	District(int ownerID, int health, int attackDamage)
+		: DistrictBase(ownerID, health, attackDamage)
+	{
+
+	}
+
+	~District()
+	{
+
+	}
+
+
+	virtual District* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
+	{
+		return nullptr;
+	}
 
 	//Every method must be define in header file because of the static polymorphism
 	Texture* GetTexture()

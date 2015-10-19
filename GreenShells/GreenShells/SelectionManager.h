@@ -1,7 +1,7 @@
 #pragma once
 class Position;
-class Unit;
-class District;
+class UnitBase;
+class DistrictBase;
 class SelectionManager
 {
 	enum SelectionManagerState
@@ -13,8 +13,8 @@ class SelectionManager
 
 	SelectionManagerState m_state;
 
-	Unit * m_selectedUnit;
-	District * m_selectedDistrict;
+	UnitBase * m_selectedUnit;
+	DistrictBase * m_selectedDistrict;
 
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
@@ -24,11 +24,11 @@ class SelectionManager
 
 	
 
-	void DeselectUnit(Unit* unit = nullptr);
-	void DeselectDistrict(District* district = nullptr);
+	void DeselectUnit(UnitBase* unit = nullptr);
+	void DeselectDistrict(DistrictBase* district = nullptr);
 
-	void SelectUnit(Unit* unitToSelect);
-	void SelectDistrict(District* districtToSelect);
+	void SelectUnit(UnitBase* unitToSelect);
+	void SelectDistrict(DistrictBase* districtToSelect);
 public:
 
 	static SelectionManager& GetInstance()
@@ -42,7 +42,6 @@ public:
 	void UnitAttackPressed();
 	void UnitMovePressed();
 
-	bool IsAnActorSelected();
 	bool IsAnUnitSelected();
 	bool IsAnDistrictSelected();
 	

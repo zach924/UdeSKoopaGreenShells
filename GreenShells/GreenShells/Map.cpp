@@ -93,17 +93,6 @@ void Map::GenerateTiles()
             }
         }
     }
-
-	// TODO : To BE REMOVED
-	{
-		auto tile00 = GetTile(Position{ 4,2 });
-
-
-		Unit* unit = new Unit(0, Position{ 4,2 });
-
-
-		tile00->SetUnit(unit);
-	}
 }
 
 std::vector<TileBase*> Map::GetArea(Position position, int distance)

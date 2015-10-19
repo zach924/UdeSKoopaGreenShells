@@ -2,14 +2,8 @@
 #include "Texture.h"
 
 
-District::District(int& ownerID)
-	:Actor(ownerID)
-{
-}
-
-District::~District()
-{
-}
+#include "CityCenter.h"
+#include "Farm.h"
 
 
 Texture CityCenter::tBase::m_Texture = {};

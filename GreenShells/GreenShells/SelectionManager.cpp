@@ -6,8 +6,8 @@
 #include "Position.h"
 #include "ServerSession.h"
 #include "Tile.h"
-#include "Unit.h"
-#include "District.h"
+#include "UnitBase.h"
+#include "DistrictBase.h"
 #include "GameSession.h"
 
 
@@ -23,7 +23,7 @@ SelectionManager::~SelectionManager()
 {
 }
 
-void SelectionManager::DeselectUnit(Unit* unit)
+void SelectionManager::DeselectUnit(UnitBase* unit)
 {
 	// TODO: need to be called when Unit dies
 	if (unit == m_selectedUnit || unit == nullptr)
@@ -32,7 +32,7 @@ void SelectionManager::DeselectUnit(Unit* unit)
 		m_state = m_idle;
 	}
 }
-void SelectionManager::DeselectDistrict(District* district)
+void SelectionManager::DeselectDistrict(DistrictBase* district)
 {
 	// TODO: need to be called when District is destroyed
 	if (district == m_selectedDistrict || district == nullptr)
@@ -41,13 +41,13 @@ void SelectionManager::DeselectDistrict(District* district)
 	}
 }
 
-void SelectionManager::SelectUnit(Unit * unitToSelect)
+void SelectionManager::SelectUnit(UnitBase * unitToSelect)
 {
 	m_selectedUnit = unitToSelect;
 	m_state = m_idle;
 }
 
-void SelectionManager::SelectDistrict(District * districtToSelect)
+void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 {
 	m_selectedDistrict = districtToSelect;
 }
@@ -58,8 +58,8 @@ void SelectionManager::HandleSelection(Position pos)
 	Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 	TileBase* tile = map.GetTile(pos);
 	
-	Unit* unit = tile->GetUnit();
-	District* district = tile->GetDistrict();
+	UnitBase* unit = tile->GetUnit();
+	DistrictBase* district = tile->GetDistrict();
 
 	switch (m_state)
 	{
@@ -105,11 +105,6 @@ void SelectionManager::UnitMovePressed()
 
 		m_state = m_unitMoving;
 	}
-}
-
-bool SelectionManager::IsAnActorSelected()
-{
-	return IsAnDistrictSelected() || IsAnActorSelected();
 }
 
 bool SelectionManager::IsAnUnitSelected()
