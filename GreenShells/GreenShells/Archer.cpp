@@ -15,7 +15,7 @@ void Archer::LoadTexture()
 {
 	try
 	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Bow.bmp",nullptr);
+		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Bow.bmp");
 	}
 	catch (std::exception e)
 	{
