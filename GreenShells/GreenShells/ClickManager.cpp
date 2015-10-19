@@ -90,7 +90,7 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
 	{
 		if (b->IsInside(x, y))
 		{
-            if (b->IsUnpressed())
+            if (/*b->IsUnpressed()*/ true) // todo : temp
             {
                 //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);

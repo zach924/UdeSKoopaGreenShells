@@ -172,6 +172,7 @@
     <ClCompile Include="ButtonDiplomacy.cpp" />
     <ClCompile Include="ButtonDistrictCancel.cpp" />
     <ClCompile Include="ButtonDistrictRepair.cpp" />
+    <ClCompile Include="ButtonNo.cpp" />
     <ClCompile Include="ButtonUnitSell.cpp" />
     <ClCompile Include="ButtonSkillTree.cpp" />
     <ClCompile Include="ButtonSpawnUnit.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="ButtonUnitAttack.cpp" />
     <ClCompile Include="ButtonUnitMove.cpp" />
     <ClCompile Include="ButtonUnitUpgrade.cpp" />
+    <ClCompile Include="ButtonYes.cpp" />
     <ClCompile Include="CityCenter.cpp" />
     <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
@@ -193,6 +195,7 @@
     <ClCompile Include="MapLocal.cpp" />
     <ClCompile Include="MapRemote.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PopUpWindow.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="RPCBase.cpp" />
     <ClCompile Include="RPCDispatcher.cpp" />
@@ -210,6 +213,7 @@
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitBase.cpp" />
     <ClCompile Include="WorldState.cpp" />
+    <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer.h" />
@@ -222,6 +226,7 @@
     <ClInclude Include="ButtonDiplomacy.h" />
     <ClInclude Include="ButtonDistrictCancel.h" />
     <ClInclude Include="ButtonDistrictRepair.h" />
+    <ClInclude Include="ButtonNo.h" />
     <ClInclude Include="ButtonUnitSell.h" />
     <ClInclude Include="ButtonSkillTree.h" />
     <ClInclude Include="ButtonSpawnUnit.h" />
@@ -230,6 +235,7 @@
     <ClInclude Include="ButtonUnitAttack.h" />
     <ClInclude Include="ButtonUnitMove.h" />
     <ClInclude Include="ButtonUnitUpgrade.h" />
+    <ClInclude Include="ButtonYes.h" />
     <ClInclude Include="CityCenter.h" />
     <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
@@ -242,6 +248,7 @@
     <ClInclude Include="MapLocal.h" />
     <ClInclude Include="MapRemote.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PopUpWindow.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Ptree_ForwardDeclaration.h" />
     <ClInclude Include="RPCBase.h" />
@@ -262,6 +269,7 @@
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitBase.h" />
     <ClInclude Include="WorldState.h" />
+    <ClInclude Include="YesNoPopUp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

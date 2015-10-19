@@ -106,20 +106,45 @@ void GameWindow::ShowWindow()
 			else if (e.type == SDL_MOUSEBUTTONUP)
 			{
 				//std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
-				if (IsClickInMap(e.button.x, e.button.y))
+				if (SDL_GetWindowID(m_window) == e.button.windowID && m_activePopUpWindow.size() == 0)
 				{
-					int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
-					int posY = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+					if (IsClickInMap(e.button.x, e.button.y))
+					{
+						int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+						int posY = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
 
-					ClickManager::GetInstance().ManageMapClick(Position(posX,posY));
-				}
-				else if (IsClickInLeftMenu(e.button.x, e.button.y))
-				{
-					ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
+						ClickManager::GetInstance().ManageMapClick(Position(posX, posY));
+					}
+					else if (IsClickInLeftMenu(e.button.x, e.button.y))
+					{
+						ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
+					}
+					else
+					{
+						ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+					}
 				}
 				else
 				{
-					ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+					PopUpWindow* popUpToRemove = nullptr;
+					for (PopUpWindow* popUp : m_activePopUpWindow)
+					{
+						if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
+						{
+							if (popUp->handleEvent(e))
+							{
+								popUpToRemove = popUp;
+							}
+							break;
+						}
+					}
+
+					if (popUpToRemove != nullptr)
+					{
+						//Remove it from the vector
+						m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
+						popUpToRemove->Close();
+					}
 				}
 			}
             else if (e.type == SDL_KEYDOWN)
@@ -251,6 +276,12 @@ void GameWindow::ShowWindow()
 		}
 		//Draw screen
 		SDL_RenderPresent(m_renderer);
+
+		//Render the different popUps
+		for (PopUpWindow* popUp : m_activePopUpWindow)
+		{
+			popUp->ShowWindow(m_renderer);
+		}
 	}
 	Close();
 }
@@ -275,6 +306,11 @@ void GameWindow::Close()
 bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
 {
 	return x < m_CurrentScreen.HUD_WIDTH && 0 < y;
+}
+
+void GameWindow::AddPopUpWindow(PopUpWindow * window)
+{
+	m_activePopUpWindow.emplace_back(window);
 }
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)

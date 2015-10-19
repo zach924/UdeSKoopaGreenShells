@@ -3,6 +3,7 @@
 #include <thread>
 #include "GameSession.h"
 #include "Texture.h"
+#include "PopUpWindow.h"
 
 //////////////////////////////////
 //Screen Resolution
@@ -62,6 +63,8 @@ private:
     int m_currentLowestY;
     bool m_currentlyScrolling;
 
+	std::vector<PopUpWindow*> m_activePopUpWindow;
+
     const Color PLAYER_COLORS [8] = 
     {
         Color{ 255,102,102 },
@@ -98,5 +101,5 @@ public:
 	bool IsClickInMap(const int& x,const int& y);
 	bool IsClickInLeftMenu(const int& x, const int& y);
 
-
+	void AddPopUpWindow(PopUpWindow * window);
 };

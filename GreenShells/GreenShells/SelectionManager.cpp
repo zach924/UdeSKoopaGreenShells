@@ -116,3 +116,8 @@ bool SelectionManager::IsAnDistrictSelected()
 {
 	return m_selectedDistrict != nullptr;
 }
+
+void SelectionManager::UnitSell()
+{
+	// TODO: Sell Unit
+}

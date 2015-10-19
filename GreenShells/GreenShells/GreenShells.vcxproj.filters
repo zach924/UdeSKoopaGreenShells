@@ -91,6 +91,12 @@
     <Filter Include="Source Files\UI\Button\UnitPart">
       <UniqueIdentifier>{0a8e1de0-2eb4-4752-a0c7-43f448cb253f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\PopupWindow">
+      <UniqueIdentifier>{8225e251-895f-4a5f-b3f2-5e5e16b52c2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\PopupWindow">
+      <UniqueIdentifier>{af35f9bf-0cc2-4bf4-80da-283f8edd8384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +245,18 @@
     </ClCompile>
     <ClCompile Include="ButtonDistrictUpgrade.cpp">
       <Filter>Source Files\UI\Button\DistrictPart</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonYes.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonNo.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="PopUpWindow.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="YesNoPopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +412,18 @@
     </ClInclude>
     <ClInclude Include="ButtonDistrictUpgrade.h">
       <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonYes.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonNo.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="PopUpWindow.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="YesNoPopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
