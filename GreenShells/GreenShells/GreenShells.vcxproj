@@ -185,6 +185,7 @@
     <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="DistrictBase.cpp" />
     <ClCompile Include="District.cpp" />
+    <ClCompile Include="DistrictEmpty.cpp" />
     <ClCompile Include="Farm.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="GameWindow.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="TileWater.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitBase.cpp" />
+    <ClCompile Include="UnitEmpty.cpp" />
     <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +237,7 @@
     <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="DistrictBase.h" />
     <ClInclude Include="District.h" />
+    <ClInclude Include="DistrictEmpty.h" />
     <ClInclude Include="Farm.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameWindow.h" />
@@ -261,6 +264,7 @@
     <ClInclude Include="TileWater.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitBase.h" />
+    <ClInclude Include="UnitEmpty.h" />
     <ClInclude Include="WorldState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

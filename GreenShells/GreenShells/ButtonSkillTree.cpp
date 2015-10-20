@@ -2,8 +2,8 @@
 #include "ButtonSkillTree.h"
 #include "SelectionManager.h"
 
-ButtonSkillTree::ButtonSkillTree(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, state)
+ButtonSkillTree::ButtonSkillTree(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonOffset, state)
 {
 }
 

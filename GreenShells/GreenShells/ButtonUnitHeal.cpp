@@ -2,8 +2,8 @@
 #include "ButtonUnitHeal.h"
 #include "SelectionManager.h"
 
-ButtonUnitHeal::ButtonUnitHeal(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, state)
+ButtonUnitHeal::ButtonUnitHeal(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonOffset, state)
 {
 }
 

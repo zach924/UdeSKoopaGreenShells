@@ -2,15 +2,18 @@
 #include <sstream>
 #include <assert.h>
 #include <utility>
+#include <assert.h>
 
+#include "UnitBase.h"
+#include "DistrictBase.h"
 #include "GameWindow.h"
 #include "ServerSession.h"
 #include "GameSession.h"
 #include "WorldState.h"
-#include <assert.h>
 #include "Map.h"
 #include "TileGround.h"
 #include "ClickManager.h"
+#include "SelectionManager.h"
 
 //Buttons
 #include "ButtonGeneralCancel.h"
@@ -58,36 +61,30 @@ GameWindow::~GameWindow()
 
 void GameWindow::CreateGeneralButtons()
 {
-    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::GeneralPart);
 }
 
 void GameWindow::CreateDistrictButtons()
 {
-    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 1, 1), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 2, 1), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 1, 2), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 2, 2), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
 }
 
 void GameWindow::CreateUnitButtons()
 {
-    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 1), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 1), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 2), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 2), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 3), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 3), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
 }
-
-#include "Player.h"
-#include "Swordsman.h"
-#include "Archer.h"
-#include "Farm.h"
-#include "CityCenter.h"
 
 void GameWindow::ShowWindow()
 {
@@ -108,10 +105,10 @@ void GameWindow::ShowWindow()
                 std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
                 if (IsClickInMap(e.button.x, e.button.y))
                 {
-                    int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
-                    int posY = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+                    int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+                    int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
 
-                    ClickManager::GetInstance().ManageMapClick(Position(posX, posY));
+                    ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
                 }
                 else if (IsClickInLeftMenu(e.button.x, e.button.y))
                 {
@@ -227,6 +224,24 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
         }
 
+            //Render Selected district
+        {
+            Texture* selectedDistrictTexture = SelectionManager::GetInstance().GetSelectedDistrict()->GetTexture();
+            //int xPos = m_CurrentScreen;
+            int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
+            SDL_Rect renderQuad = { 25, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
+            SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
+        }
+
+            //Render Selected unit 
+        {
+            Texture* selectedUnitTexture = SelectionManager::GetInstance().GetSelectedUnit()->GetTexture();
+            //int xPos = m_CurrentScreen;
+            int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
+            SDL_Rect renderQuad = { 25, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
+            SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
+        }
+
         //Render Map
         Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
@@ -250,7 +265,7 @@ void GameWindow::ShowWindow()
                 if (district)
                 {
                     Texture* districtTexture = district->GetTexture();
-                    districtTexture->SetColor(PLAYER_COLORS[tile->GetPlayerOwnerId()]);
+                    districtTexture->SetColor(PLAYER_COLORS[district->GetOwnerID()]);
                     SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
                 }
 
@@ -258,7 +273,7 @@ void GameWindow::ShowWindow()
                 if (unit)
                 {
                     Texture* unitTexture = unit->GetTexture();
-                    unitTexture->SetColor(PLAYER_COLORS[tile->GetPlayerOwnerId()]);
+                    unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
                     SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
                 }
 

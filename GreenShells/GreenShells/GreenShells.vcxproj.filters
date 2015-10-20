@@ -240,6 +240,12 @@
     <ClCompile Include="ButtonDistrictUpgrade.cpp">
       <Filter>Source Files\UI\Button\DistrictPart</Filter>
     </ClCompile>
+    <ClCompile Include="DistrictEmpty.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEmpty.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -394,6 +400,12 @@
     </ClInclude>
     <ClInclude Include="ButtonDistrictUpgrade.h">
       <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictEmpty.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitEmpty.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

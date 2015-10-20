@@ -37,6 +37,9 @@ public:
 		return m_instance;
 	}
 
+    UnitBase* GetSelectedUnit();
+    DistrictBase* GetSelectedDistrict();
+
 	void HandleSelection(Position pos);
 
 	void UnitAttackPressed();

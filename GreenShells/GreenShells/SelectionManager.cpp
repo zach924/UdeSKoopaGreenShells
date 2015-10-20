@@ -7,13 +7,15 @@
 #include "ServerSession.h"
 #include "Tile.h"
 #include "UnitBase.h"
+#include "UnitEmpty.h"
 #include "DistrictBase.h"
+#include "DistrictEmpty.h"
 #include "GameSession.h"
 
 
 SelectionManager::SelectionManager()
-	:m_selectedDistrict(nullptr),
-	m_selectedUnit(nullptr),
+	:m_selectedDistrict(new DistrictEmpty(-1)),
+	m_selectedUnit(new UnitEmpty(-1)),
 	m_state(m_idle)
 {
 }
@@ -23,12 +25,22 @@ SelectionManager::~SelectionManager()
 {
 }
 
+UnitBase* SelectionManager::GetSelectedUnit()
+{
+    return m_selectedUnit;
+}
+
+DistrictBase* SelectionManager::GetSelectedDistrict()
+{
+    return m_selectedDistrict;
+}
+
 void SelectionManager::DeselectUnit(UnitBase* unit)
 {
 	// TODO: need to be called when Unit dies
 	if (unit == m_selectedUnit || unit == nullptr)
 	{
-		m_selectedUnit = nullptr;
+		m_selectedUnit = new UnitEmpty(-1);
 		m_state = m_idle;
 	}
 }
@@ -37,19 +49,19 @@ void SelectionManager::DeselectDistrict(DistrictBase* district)
 	// TODO: need to be called when District is destroyed
 	if (district == m_selectedDistrict || district == nullptr)
 	{
-		m_selectedDistrict = nullptr;
+		m_selectedDistrict = new DistrictEmpty(-1);
 	}
 }
 
 void SelectionManager::SelectUnit(UnitBase * unitToSelect)
 {
-	m_selectedUnit = unitToSelect;
+	m_selectedUnit = unitToSelect ? unitToSelect : new UnitEmpty(-1);
 	m_state = m_idle;
 }
 
 void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 {
-	m_selectedDistrict = districtToSelect;
+	m_selectedDistrict = districtToSelect ? districtToSelect : new DistrictEmpty(-1);
 }
 
 void SelectionManager::HandleSelection(Position pos)
@@ -109,10 +121,10 @@ void SelectionManager::UnitMovePressed()
 
 bool SelectionManager::IsAnUnitSelected()
 {
-	return m_selectedUnit != nullptr;
+	return dynamic_cast<UnitEmpty*>(m_selectedUnit) != nullptr;
 }
 
 bool SelectionManager::IsAnDistrictSelected()
 {
-	return m_selectedDistrict != nullptr;
+	return dynamic_cast<DistrictEmpty*>(m_selectedDistrict) != nullptr;
 }

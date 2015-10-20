@@ -1,9 +1,9 @@
 #include "Button.h"
 #include <iostream>
 
-Button::Button(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
-	:m_topLimit(sectionOffset + (VERTICAL_OFFSET * rowIndex) + ((rowIndex - 1) * BUTTON_HEIGHT))
-    , m_botLimit(sectionOffset + (VERTICAL_OFFSET * rowIndex) +(BUTTON_HEIGHT* rowIndex))
+Button::Button(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
+	:m_topLimit(sectionOffset + (buttonOffset * rowIndex) + ((rowIndex - 1) * BUTTON_HEIGHT))
+    , m_botLimit(sectionOffset + (buttonOffset * rowIndex) +(BUTTON_HEIGHT* rowIndex))
     , m_lefLimit((HORIZONTAL_OFFSET * columnIndex ) + ((columnIndex - 1) * BUTTON_WIDTH))
     , m_rightLimit((HORIZONTAL_OFFSET * columnIndex )+ (BUTTON_WIDTH * columnIndex))
     , m_buttonState(state)

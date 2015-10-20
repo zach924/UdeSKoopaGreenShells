@@ -13,6 +13,10 @@
 
 // TODO :  TO BE REMOVED ONLY  FOR TESTS
 #include "Unit.h"
+#include "Swordsman.h"
+#include "Archer.h"
+#include "CityCenter.h"
+#include "Farm.h"
 
 Map::Map()
 :m_tiles()
@@ -48,6 +52,13 @@ Map::Map(const Map& source)
 			}
 		}
 	}
+
+    m_tiles[7][7]->SetDistrict(new CityCenter(0));
+    m_tiles[7][7]->SetUnit(new Archer(0));
+    m_tiles[7][8]->SetDistrict(new Farm(0));
+    m_tiles[10][10]->SetDistrict(new CityCenter(2));
+    m_tiles[10][11]->SetDistrict(new Farm(2));
+    m_tiles[10][11]->SetUnit(new Swordsman(2));
 }
 
 Map::~Map()

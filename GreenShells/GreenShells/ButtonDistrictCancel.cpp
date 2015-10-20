@@ -2,8 +2,8 @@
 #include "ButtonDistrictCancel.h"
 #include "SelectionManager.h"
 
-ButtonDistrictCancel::ButtonDistrictCancel(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, state)
+ButtonDistrictCancel::ButtonDistrictCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonOffset, state)
 {
 }
 
