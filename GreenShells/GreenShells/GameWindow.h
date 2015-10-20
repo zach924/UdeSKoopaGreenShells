@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <thread>
 #include "GameSession.h"
 #include "Texture.h"

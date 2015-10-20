@@ -37,7 +37,7 @@ GameWindow::GameWindow(ScreenResolution res)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
-	
+	TTF_Init();
 	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
 	assert(m_window != NULL && SDL_GetError());
 
@@ -300,6 +300,7 @@ void GameWindow::Close()
 	m_renderer = NULL;
 
 	//Quit SDL subsystems
+	TTF_Quit();
 	SDL_Quit();
 }
 
