@@ -14,6 +14,8 @@ public:
 	CityCenter(int owner);
 	~CityCenter();
 
+    void LoadTexture();
+
 	void ChangeOwner(int owner);
 
 	virtual int GetTypeAsInt();

@@ -5,6 +5,7 @@
 #include "Ptree_ForwardDeclaration.h"
 
 class DistrictBase;
+class Texture;
 
 class UnitBase
 {
@@ -39,7 +40,7 @@ public:
 
 	Position GetPosition();
 	void SetPosition(Position pos);
-
+    virtual Texture* GetTexture() = 0;
 	virtual void Heal(int health) = 0;
 
 	virtual AttackNotification Attack(UnitBase* target);

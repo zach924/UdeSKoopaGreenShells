@@ -13,6 +13,7 @@ public:
 	Farm(int owner);
 	~Farm();
 
+    void LoadTexture();
 	virtual void Repair(int repairValue);
 
 	virtual int GetTypeAsInt();
