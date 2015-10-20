@@ -7,7 +7,7 @@ Player::Player()
     m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
-    m_cityHallCount(0), // TODO : Be sure we will have one City Hall when game start
+    m_cityCenterCount(0), // TODO : Be sure we will have one City Hall when game start
     m_unitCount(0), 
     m_food(100), 
     m_science(0),
@@ -167,14 +167,14 @@ void Player::RemoveWeaponMultiplier(double multiplier)
 
 void Player::AddCityCenter()
 {
-	++m_cityHallCount;
+	++m_cityCenterCount;
 }
 
 void Player::RemoveCityCenter()
 {
-	--m_cityHallCount;
+	--m_cityCenterCount;
 
-	if (m_cityHallCount <= 0)
+	if (m_cityCenterCount <= 0)
 	{
 		m_isAlive = false;
 	}
@@ -188,16 +188,16 @@ bool Player::IsAlive()
 boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;
-    playerNode.put("<xmlattr>.PlayerId", m_playerID);
-    playerNode.put("<xmlattr>.PlayerName", m_playerName);
-    playerNode.put("<xmlattr>.CityHallCount", m_cityHallCount);
-    playerNode.put("<xmlattr>.UnitCount", m_unitCount);
-    playerNode.put("<xmlattr>.Food", m_food);
-    playerNode.put("<xmlattr>.Science", m_science);
-    playerNode.put("<xmlattr>.Weapon", m_weapon);
-    playerNode.put("<xmlattr>.FoodMultiplicator", m_foodMultiplier);
-    playerNode.put("<xmlattr>.ScienceMultiplicator", m_scienceMultiplier);
-    playerNode.put("<xmlattr>.WeaponMultiplicator", m_weaponMultiplier);
+    playerNode.put("<xmlattr>.PId", m_playerID);
+    playerNode.put("<xmlattr>.PName", m_playerName);
+    playerNode.put("<xmlattr>.CHC", m_cityCenterCount);
+    playerNode.put("<xmlattr>.UC", m_unitCount);
+    playerNode.put("<xmlattr>.F", m_food);
+    playerNode.put("<xmlattr>.S", m_science);
+    playerNode.put("<xmlattr>.W", m_weapon);
+    playerNode.put("<xmlattr>.FM", m_foodMultiplier);
+    playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
+    playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
 
     return playerNode;
 }
@@ -206,16 +206,16 @@ Player Player::Deserialize(boost::property_tree::ptree playerNode)
 {
     Player player;
 
-    player.m_playerID = playerNode.get<int>("<xmlattr>.PlayerId");
-    player.m_playerName = playerNode.get<std::string>("<xmlattr>.PlayerName");
-    player.m_cityHallCount = playerNode.get<int>("<xmlattr>.CityHallCount");
-    player.m_unitCount = playerNode.get<int>("<xmlattr>.UnitCount");
-    player.m_food = playerNode.get<int>("<xmlattr>.Food");
-    player.m_science = playerNode.get<int>("<xmlattr>.Science");
-    player.m_weapon = playerNode.get<int>("<xmlattr>.Weapon");
-    player.m_foodMultiplier = playerNode.get<double>("<xmlattr>.FoodMultiplicator");
-    player.m_scienceMultiplier = playerNode.get<double>("<xmlattr>.ScienceMultiplicator");
-    player.m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WeaponMultiplicator");
+    player.m_playerID = playerNode.get<int>("<xmlattr>.PId");
+    player.m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
+    player.m_cityCenterCount = playerNode.get<int>("<xmlattr>.CHC");
+    player.m_unitCount = playerNode.get<int>("<xmlattr>.UC");
+    player.m_food = playerNode.get<int>("<xmlattr>.F");
+    player.m_science = playerNode.get<int>("<xmlattr>.S");
+    player.m_weapon = playerNode.get<int>("<xmlattr>.W");
+    player.m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
+    player.m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
+    player.m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
 
     return player;
 }

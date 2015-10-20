@@ -13,6 +13,8 @@ public:
 	CityCenter(int owner);
 	~CityCenter();
 
+    void LoadTexture();
+
 	void ChangeOwner(int owner);
 
 	virtual void Repair(int repairValue);

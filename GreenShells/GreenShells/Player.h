@@ -11,7 +11,7 @@ class Player
 
     bool m_isAlive;
     
-    unsigned int m_cityHallCount;
+    unsigned int m_cityCenterCount;
     unsigned int m_unitCount;
 
     unsigned int m_food;

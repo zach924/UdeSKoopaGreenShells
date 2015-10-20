@@ -31,20 +31,18 @@ TileMountain::~TileMountain()
 boost::property_tree::ptree TileMountain::Serialize()
 {
     boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.Type", TILE_TYPE);
-    tileNode.put("<xmlattr>.X", m_position.X);
-    tileNode.put("<xmlattr>.Y", m_position.Y);
-    tileNode.put("<xmlattr>.Owner", m_owner);
+    tileNode.put("<xmlattr>.TT", TILE_TYPE);
+    tileNode.put("<xmlattr>.O", m_owner);
 
     if (m_unit)
     {
 //        boost::property_tree::ptree unitNode = m_unit->Serialize();
-//        tileNode.add_child("Unit", unitNode);
+//        tileNode.add_child("U", unitNode);
     }
     if (m_district)
     {
 //        boost::property_tree::ptree districtNode = m_district->Serialize();
-//        tileNode.add_child("District", districtNode);
+//        tileNode.add_child("D", districtNode);
     }
 
     return tileNode;
@@ -54,20 +52,16 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 {
     TileMountain* tile = new TileMountain{ pos };
 
-    if (pos.X == -1)
-    {
-        tile->m_position.X = tileNode.get<int>("<xmlattr>.X");
-        tile->m_position.Y = tileNode.get<int>("<xmlattr>.Y");
-    }
-    tile->m_owner = tileNode.get<int>("<xmlattr>.Owner");
+    tile->m_position = pos;
+    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
     for each(auto child in tileNode)
     {
-        if (child.first == "Unit")
+        if (child.first == "U")
         {
             // TODO : will need to check how exactly, i think a switch case depend on unit type
         }
-        else if (child.first == "District")
+        else if (child.first == "D")
         {
             // TODO : will need to check how exactly, i think a switch case depend on district type
         }

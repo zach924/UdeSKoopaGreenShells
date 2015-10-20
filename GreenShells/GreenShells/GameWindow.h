@@ -103,4 +103,6 @@ public:
 	bool IsClickInLeftMenu(const int& x, const int& y);
 
 	void AddPopUpWindow(PopUpWindow * window);
+
+	bool IsGameWindowInBackground();
 };

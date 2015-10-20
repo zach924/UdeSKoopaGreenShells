@@ -138,12 +138,12 @@ boost::property_tree::ptree Map::Serialize()
 
     for (int i = 0; i < ROWS; ++i)
     {
-        boost::property_tree::ptree& rowNode = mapNode.add("Row", "");
-        rowNode.put("<xmlattr>.Number", i);
+        boost::property_tree::ptree& rowNode = mapNode.add("R", "");
+        //rowNode.put("<xmlattr>.N", i);
         for (int j = 0; j < COLUMNS; ++j)
         {
             boost::property_tree::ptree& tileNode = m_tiles[i][j]->Serialize();
-            rowNode.add_child("Tile", tileNode);            
+            rowNode.add_child("T", tileNode);            
         }
     }
             
