@@ -1,9 +1,24 @@
 #include "CityCenter.h"
 #include <algorithm>
+#include <iostream>
 
 CityCenter::CityCenter(int owner)
 	: District<CityCenter>(owner, HEALTH, ATTACK_DAMAGE)
 {
+}
+
+
+void CityCenter::LoadTexture()
+{
+    try
+    {
+        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\City.bmp");
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
 }
 
 CityCenter::~CityCenter()

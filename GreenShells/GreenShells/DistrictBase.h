@@ -3,6 +3,8 @@
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
 
+class Texture;
+
 class DistrictBase
 {
 public :
@@ -32,7 +34,7 @@ public:
 	int GetAttackDamage();
 	int GetHealth();
 	int GetOwnerID();
-
+    virtual Texture* GetTexture() = 0;
 	Position GetPosition();
 	void SetPosition(Position pos);
 
