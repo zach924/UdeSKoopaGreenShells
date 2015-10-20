@@ -240,6 +240,9 @@
     <ClCompile Include="ButtonDistrictUpgrade.cpp">
       <Filter>Source Files\UI\Button\DistrictPart</Filter>
     </ClCompile>
+    <ClCompile Include="Settler.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="ButtonDistrictUpgrade.h">
       <Filter>Header Files\UI\Button\DistrictPart</Filter>
+    </ClInclude>
+    <ClInclude Include="Settler.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -56,7 +56,10 @@ int ClientConnection::GetPlayerID()
 {
 	return m_playerID;
 }
-
+void ClientConnection::SetIsSocketClosed(bool value)
+{
+	m_isSocketClosed = value;
+}
 bool ClientConnection::IsSocketClosed()
 {
 	return m_isSocketClosed;

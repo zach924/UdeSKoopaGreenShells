@@ -29,7 +29,7 @@ public:
 	void StartServer(int port);
 	void Replicate();
 
-	int AddPlayer();
+	int AddPlayer(std::string playerName);
 };
 
 

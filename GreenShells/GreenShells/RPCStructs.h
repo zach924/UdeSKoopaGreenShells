@@ -8,14 +8,26 @@ using namespace std;
 /*
 When creating a new struct to send over the network, don't forget to add the corresponding name in the enum 
 */
-struct JoinGameStruct
+struct PlayerInfoStruct
 {
 	int playerID;
+	char playerName[50];
+
+	void setPlayerName(std::string name)
+	{
+		strncpy_s(playerName, name.c_str(), sizeof(playerName));
+		playerName[sizeof(playerName) - 1] = 0;
+	}
+
+	std::string getPlayerName()
+	{
+		return string(playerName);
+	}
 };
+
 
 enum RPCStructType
 {
-	JOIN_GAME,
 	RPC_BASIC,
 	RPC_BASIC_TWO_POSITIONS,
 

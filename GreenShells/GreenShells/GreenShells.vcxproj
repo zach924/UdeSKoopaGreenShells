@@ -199,6 +199,7 @@
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
+    <ClCompile Include="Settler.cpp" />
     <ClCompile Include="Swordsman.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
+    <ClInclude Include="Settler.h" />
     <ClInclude Include="Swordsman.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />

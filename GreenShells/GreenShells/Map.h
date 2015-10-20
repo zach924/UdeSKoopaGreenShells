@@ -11,6 +11,7 @@ class Map
 protected:
 
 	std::vector<std::vector<TileBase*>> m_tiles;
+	std::vector<Position> m_spawnPositions;
 
 public:
     static const int ROWS = 64;
@@ -22,6 +23,7 @@ public:
 	static Texture m_texture;
 
     void GenerateTiles();
+	std::vector<Position> GetSpawnPositions();
 
 	std::vector<TileBase*> GetArea(Position position, int distance);
 
