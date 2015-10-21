@@ -17,7 +17,6 @@ protected:
 
     ButtonState m_buttonState;
 
-    //static const int HORIZONTAL_OFFSET = 25;
     static const int BUTTON_HEIGHT = 50;
     static const int BUTTON_WIDTH = 90;
 
