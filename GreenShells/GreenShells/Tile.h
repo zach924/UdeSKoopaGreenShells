@@ -11,7 +11,6 @@ public:
 	static Texture m_Texture;
 	void LoadTexture() {};
 	virtual int GetTypeAsInt() = 0;
-    //virtual  boost::property_tree::ptree Serialize() = 0;
 
     Tile(Position position = Position(-1, -1))
         : TileBase(position)

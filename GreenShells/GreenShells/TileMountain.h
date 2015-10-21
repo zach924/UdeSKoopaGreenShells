@@ -12,7 +12,6 @@ public:
 	~TileMountain();
 	virtual bool CanTraverse();	
 	virtual int GetTypeAsInt();
-	//virtual boost::property_tree::ptree Serialize();
 	static TileMountain* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };
 

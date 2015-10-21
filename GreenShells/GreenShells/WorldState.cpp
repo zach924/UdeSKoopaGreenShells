@@ -130,11 +130,11 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
         {
 			if (m_remote)
 			{
-				m_map = MapLocal::Deserialize(worldStateNode.second);
+				m_map = MapRemote::Deserialize(worldStateNode.second);
 			}
 			else
 			{
-				m_map = MapRemote::Deserialize(worldStateNode.second);
+				m_map = MapLocal::Deserialize(worldStateNode.second);
 			}
         }
     }
