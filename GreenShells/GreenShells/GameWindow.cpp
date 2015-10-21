@@ -106,7 +106,15 @@ void GameWindow::ShowWindow()
                 if (IsClickInMap(e.button.x, e.button.y))
                 {
                     int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+                    if (posCol > Map::COLUMNS - 1)
+                    {
+                        posCol = posCol - Map::COLUMNS;
+                    }
                     int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+                    if (posRow > Map::ROWS - 1)
+                    {
+                        posRow = posRow - Map::ROWS;
+                    }
 
                     ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
                 }
@@ -125,19 +133,43 @@ void GameWindow::ShowWindow()
                 {
                 case (SDLK_UP) :
                     if (m_currentLowestY > 0)
+                    {
                         m_currentLowestY--;
+                    }
+                    else
+                    {
+                        m_currentLowestY = Map::ROWS - 1;
+                    }
                     break;
                 case (SDLK_LEFT) :
                     if (m_currentLeftmostX > 0)
+                    {
                         m_currentLeftmostX--;
+                    }
+                    else
+                    {
+                        m_currentLeftmostX = Map::COLUMNS - 1;
+                    }
                     break;
                 case (SDLK_RIGHT) :
-                    if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1)
+                    if (m_currentLeftmostX < Map::COLUMNS - 1)
+                    {
                         m_currentLeftmostX++;
+                    }
+                    else
+                    {
+                        m_currentLeftmostX = 0;
+                    }
                     break;
                 case (SDLK_DOWN) :
-                    if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1)
+                    if (m_currentLowestY < Map::ROWS - 1)
+                    {
                         m_currentLowestY++;
+                    }
+                    else
+                    {
+                        m_currentLowestY = 0;
+                    }
                     break;
                 }
             }
@@ -249,7 +281,7 @@ void GameWindow::ShowWindow()
             int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
             SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
-            
+
             //Remove Color and render
             selectedUnitTexture->SetColor(255, 255, 255);
             SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
@@ -258,18 +290,18 @@ void GameWindow::ShowWindow()
         //Render Map
         Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
-        int yIndex = 0;
-        for (int i = m_currentLowestY; i <= (m_currentLowestY + m_CurrentScreen.NUM_TILE_HEIGHT); ++i)
+        int yIndex = m_currentLowestY;
+        for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
         {
-            int xIndex = 0;
-            for (int j = m_currentLeftmostX; j <= (m_currentLeftmostX + m_CurrentScreen.NUM_TILE_WIDTH); ++j)
+            int xIndex = m_currentLeftmostX;
+            for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
             {
-                TileBase* tile = map.GetTile(Position(i, j));
+                TileBase* tile = map.GetTile(Position(yIndex, xIndex));
                 Texture* tileTexture = tile->GetTexture();
 
                 //Position the tile on the screen
-                int xPos = m_CurrentScreen.HUD_WIDTH + (xIndex * m_CurrentScreen.TILE_SIZE);
-                int yPos = m_CurrentScreen.HUD_HEIGHT + (yIndex * m_CurrentScreen.TILE_SIZE);
+                int xPos = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
+                int yPos = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
                 //Render the tile
                 SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
@@ -289,10 +321,23 @@ void GameWindow::ShowWindow()
                     unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
                     SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
                 }
-
-                xIndex++;
+                if (xIndex < Map::COLUMNS - 1)
+                {
+                    xIndex++;
+                }
+                else
+                {
+                    xIndex = 0;
+                }
             }
-            yIndex++;
+            if (yIndex < Map::ROWS - 1)
+            {
+                yIndex++;
+            }
+            else
+            {
+                yIndex = 0;
+            }
         }
         //Draw screen
         SDL_RenderPresent(m_renderer);
