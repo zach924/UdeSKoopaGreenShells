@@ -3,7 +3,7 @@
 class ButtonUnitMove : public Button
 {
 public:
-	ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState = ButtonState::Disabled);
+	ButtonUnitMove(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
 	~ButtonUnitMove();
 
 	void DoAction();

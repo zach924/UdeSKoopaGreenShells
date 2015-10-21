@@ -4,7 +4,7 @@ class ButtonDistrictSell :
     public Button
 {
 public:
-    ButtonDistrictSell(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState = ButtonState::Disabled);
+    ButtonDistrictSell(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonDistrictSell();
 
     void DoAction();

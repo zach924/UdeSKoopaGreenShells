@@ -4,7 +4,7 @@ class ButtonDistrictCancel :
     public Button
 {
 public:
-    ButtonDistrictCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState = ButtonState::Disabled);
+    ButtonDistrictCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonDistrictCancel();
 
     void DoAction();

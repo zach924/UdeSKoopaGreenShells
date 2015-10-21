@@ -11,6 +11,7 @@ struct ScreenResolution
 {
     const int TILE_SIZE = 65;
     const int SELECTED_SPRITES_SIZE = 70;
+    const int BUTTON_HORIZONTAL_OFFSET = 25;
 
     int HUD_WIDTH;
     int HUD_HEIGHT;

@@ -2,8 +2,8 @@
 #include "ButtonConstructDistrict.h"
 #include "SelectionManager.h"
 
-ButtonConstructDistrict::ButtonConstructDistrict(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, buttonOffset, state)
+ButtonConstructDistrict::ButtonConstructDistrict(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
 {
 }
 

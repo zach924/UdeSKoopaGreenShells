@@ -2,8 +2,8 @@
 #include "ButtonUnitCancel.h"
 #include "SelectionManager.h"
 
-ButtonUnitCancel::ButtonUnitCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonOffset, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, buttonOffset, state)
+ButtonUnitCancel::ButtonUnitCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
 {
 }
 
