@@ -12,14 +12,14 @@
 #include "DistrictEmpty.h"
 #include "GameSession.h"
 
-
 SelectionManager::SelectionManager()
-	:m_selectedDistrict(new DistrictEmpty(-1)),
-	m_selectedUnit(new UnitEmpty(-1)),
-	m_state(m_idle)
+    :m_selectedDistrict(new DistrictEmpty(-1))
+    , m_selectedUnit(new UnitEmpty(-1))
+    , m_state(m_idle)
+    , m_unitEmpty(new UnitEmpty(-1))
+    , m_districtEmpty(new DistrictEmpty(-1))
 {
 }
-
 
 SelectionManager::~SelectionManager()
 {
@@ -40,28 +40,29 @@ void SelectionManager::DeselectUnit(UnitBase* unit)
 	// TODO: need to be called when Unit dies
 	if (unit == m_selectedUnit || unit == nullptr)
 	{
-		m_selectedUnit = new UnitEmpty(-1);
+		m_selectedUnit = m_unitEmpty;
 		m_state = m_idle;
 	}
 }
+
 void SelectionManager::DeselectDistrict(DistrictBase* district)
 {
 	// TODO: need to be called when District is destroyed
 	if (district == m_selectedDistrict || district == nullptr)
 	{
-		m_selectedDistrict = new DistrictEmpty(-1);
+		m_selectedDistrict = m_districtEmpty;
 	}
 }
 
 void SelectionManager::SelectUnit(UnitBase * unitToSelect)
 {
-	m_selectedUnit = unitToSelect ? unitToSelect : new UnitEmpty(-1);
+	m_selectedUnit = unitToSelect ? unitToSelect : m_unitEmpty;
 	m_state = m_idle;
 }
 
 void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 {
-	m_selectedDistrict = districtToSelect ? districtToSelect : new DistrictEmpty(-1);
+	m_selectedDistrict = districtToSelect ? districtToSelect : m_districtEmpty;
 }
 
 void SelectionManager::HandleSelection(Position pos)

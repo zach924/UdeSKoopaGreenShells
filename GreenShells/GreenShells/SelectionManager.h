@@ -2,6 +2,7 @@
 class Position;
 class UnitBase;
 class DistrictBase;
+
 class SelectionManager
 {
 	enum SelectionManagerState
@@ -10,6 +11,9 @@ class SelectionManager
 		m_unitMoving,
 		m_unitAttacking
 	};
+
+    UnitBase* m_unitEmpty;
+    DistrictBase* m_districtEmpty;
 
 	SelectionManagerState m_state;
 
