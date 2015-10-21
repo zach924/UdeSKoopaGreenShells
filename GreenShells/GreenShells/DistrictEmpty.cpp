@@ -19,6 +19,12 @@ void DistrictEmpty::LoadTexture()
     }
 }
 
+int DistrictEmpty::GetTypeAsInt()
+{
+    assert(false && "Should no try to serialize an empty district. It cannot be placed on the map");
+    return -1;
+}
+
 DistrictEmpty::~DistrictEmpty()
 {
 }

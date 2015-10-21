@@ -62,15 +62,15 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapRemote* map = new MapRemote();
-	int y = 0;
+	int row = 0;
 	for each (auto rowNode in mapNode)
 	{
-		int x = 0;
+		int column = 0;
 		for each(auto tileNode in rowNode.second)
 		{
 			if (tileNode.first == "T")
 			{
-				Position pos{ x, y };
+				Position pos{ row, column };
 
 				switch (tileNode.second.get<int>("<xmlattr>.TT"))
 				{
@@ -91,9 +91,9 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 					break;
 				}
 			}
-			x++;
+			column++;
 		}
-		y++;
+		row++;
 	}
 
 	return map;

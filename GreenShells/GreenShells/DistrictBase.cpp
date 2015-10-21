@@ -1,5 +1,6 @@
 #include "DistrictBase.h"
 #include <iostream>
+#include <boost\property_tree\ptree.hpp>
 
 DistrictBase::DistrictBase(int owner, int health, int attackDamage)
 	: m_ownerID(owner),
@@ -55,4 +56,14 @@ AttackNotification DistrictBase::ReceiveDamage(int damage)
 
 void DistrictBase::NotifyNewTurn()
 {
+}
+
+boost::property_tree::ptree DistrictBase::Serialize()
+{
+	boost::property_tree::ptree districtNode;
+	districtNode.put("<xmlattr>.T", GetTypeAsInt());
+	districtNode.put("<xmlattr>.O", m_ownerID);
+	districtNode.put("<xmlattr>.H", m_health);
+
+	return districtNode;
 }

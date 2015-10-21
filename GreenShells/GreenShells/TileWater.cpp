@@ -4,6 +4,12 @@
 #include "District.h"
 #include "Unit.h"
 
+#include "UnitArcher.h"
+#include "UnitSwordsman.h"
+
+#include "DistrictCityCenter.h"
+#include "DistrictFarm.h"
+
 #include <boost\property_tree\ptree.hpp>
 
 
@@ -30,42 +36,36 @@ TileWater::~TileWater()
 {
 }
 
-boost::property_tree::ptree TileWater::Serialize()
-{
-    boost::property_tree::ptree tileNode;
-    tileNode.put("<xmlattr>.TT", TILE_TYPE);
-    tileNode.put("<xmlattr>.O", m_owner);
-
-    if (m_unit)
-    {
-//        boost::property_tree::ptree unitNode = m_unit->Serialize();
-//        tileNode.add_child("U", unitNode);
-    }
-    if (m_district)
-    {
-//        boost::property_tree::ptree districtNode = m_district->Serialize();
-//        tileNode.add_child("D", districtNode);
-    }
-
-    return tileNode;
-}
-
 TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileWater* tile = new TileWater{ pos };
-
-    tile->m_position = pos;
-    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+	tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
     for each(auto child in tileNode)
     {
         if (child.first == "U")
         {
-            // TODO : will need to check how exactly, i think a switch case depend on unit type
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetUnit(UnitArcher::Deserialize(child.second));
+				break;
+			}            
         }
         else if (child.first == "D")
         {
-            // TODO : will need to check how exactly, i think a switch case depend on district type
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
+				break;
+			}
         }
     }
 
@@ -75,4 +75,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 bool TileWater::CanTraverse()
 {
 	return false;
+}
+
+int TileWater::GetTypeAsInt()
+{
+	return TILE_TYPE;
 }

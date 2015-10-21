@@ -11,6 +11,12 @@ UnitEmpty::~UnitEmpty()
 {
 }
 
+int UnitEmpty::GetTypeAsInt()
+{
+    assert(false && "Should no try to serialize an empty unit. It cannot be placed on the map");
+    return -1;
+}
+
 void UnitEmpty::LoadTexture()
 {
     try

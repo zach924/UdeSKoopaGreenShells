@@ -13,6 +13,7 @@ public:
 
     void LoadTexture();
     virtual void Repair(int repairValue);
+    virtual int GetTypeAsInt();
 
     virtual  boost::property_tree::ptree Serialize();
 };

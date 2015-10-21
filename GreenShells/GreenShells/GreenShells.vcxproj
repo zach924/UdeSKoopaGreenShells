@@ -163,7 +163,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonDistrictSell.cpp" />
     <ClCompile Include="ButtonDistrictUpgrade.cpp" />
@@ -180,13 +180,13 @@
     <ClCompile Include="ButtonUnitAttack.cpp" />
     <ClCompile Include="ButtonUnitMove.cpp" />
     <ClCompile Include="ButtonUnitUpgrade.cpp" />
-    <ClCompile Include="CityCenter.cpp" />
+    <ClCompile Include="DistrictCityCenter.cpp" />
     <ClCompile Include="ClickManager.cpp" />
     <ClCompile Include="ClientConnection.cpp" />
     <ClCompile Include="DistrictBase.cpp" />
     <ClCompile Include="District.cpp" />
     <ClCompile Include="DistrictEmpty.cpp" />
-    <ClCompile Include="Farm.cpp" />
+    <ClCompile Include="DistrictFarm.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -200,7 +200,7 @@
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
-    <ClCompile Include="Swordsman.cpp" />
+    <ClCompile Include="UnitSwordsman.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -214,7 +214,7 @@
     <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Archer.h" />
+    <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonDistrictSell.h" />
@@ -232,13 +232,13 @@
     <ClInclude Include="ButtonUnitAttack.h" />
     <ClInclude Include="ButtonUnitMove.h" />
     <ClInclude Include="ButtonUnitUpgrade.h" />
-    <ClInclude Include="CityCenter.h" />
+    <ClInclude Include="DistrictCityCenter.h" />
     <ClInclude Include="ClickManager.h" />
     <ClInclude Include="ClientConnection.h" />
     <ClInclude Include="DistrictBase.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictEmpty.h" />
-    <ClInclude Include="Farm.h" />
+    <ClInclude Include="DistrictFarm.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Map.h" />
@@ -253,7 +253,7 @@
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
-    <ClInclude Include="Swordsman.h" />
+    <ClInclude Include="UnitSwordsman.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />

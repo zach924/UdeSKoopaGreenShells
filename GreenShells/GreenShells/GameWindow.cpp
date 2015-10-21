@@ -34,29 +34,37 @@
 #include "ButtonDistrictSell.h"
 #include "ButtonDistrictUpgrade.h"
 
+// Unit
+#include "UnitArcher.h"
+#include "UnitSwordsman.h"
+
+// District 
+#include "DistrictFarm.h"
+#include "DistrictCityCenter.h"
+
 
 GameWindow::GameWindow(ScreenResolution res)
-    :m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostX(0), m_currentLowestY(0), m_currentlyScrolling(false)
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostX(0), m_currentLowestY(0), m_currentlyScrolling(false)
 {
-    //Initialize SDL
-    assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
+	//Initialize SDL
+	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 
-    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
-    assert(m_window != NULL && SDL_GetError());
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
+	assert(m_window != NULL && SDL_GetError());
 
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-    assert(m_renderer != NULL && SDL_GetError());
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	assert(m_renderer != NULL && SDL_GetError());
 
-    SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-    CreateGeneralButtons();
-    CreateDistrictButtons();
-    CreateUnitButtons();
+	CreateGeneralButtons();
+	CreateDistrictButtons();
+	CreateUnitButtons();
 }
 
 GameWindow::~GameWindow()
 {
-    Close();
+	Close();
 }
 
 void GameWindow::CreateGeneralButtons()
@@ -88,23 +96,23 @@ void GameWindow::CreateUnitButtons()
 
 void GameWindow::ShowWindow()
 {
-    bool quit = false;
-    while (!quit)
-    {
-        SDL_Event e;
+	bool quit = false;
+	while (!quit)
+	{
+		SDL_Event e;
 
-        //Handle events on queue
-        while (SDL_PollEvent(&e) != 0)
-        {
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
-            else if (e.type == SDL_MOUSEBUTTONUP)
-            {
-                std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
-                if (IsClickInMap(e.button.x, e.button.y))
-                {
+		//Handle events on queue
+		while (SDL_PollEvent(&e) != 0)
+		{
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
+			else if (e.type == SDL_MOUSEBUTTONUP)
+			{
+				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
+				if (IsClickInMap(e.button.x, e.button.y))
+				{
                     int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
                     posCol %= (Map::COLUMNS -1);
 
@@ -112,137 +120,137 @@ void GameWindow::ShowWindow()
                     posRow %= (Map::ROWS -1);
 
                     ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
-                }
-                else if (IsClickInLeftMenu(e.button.x, e.button.y))
-                {
-                    ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
-                }
-                else
-                {
-                    ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
-                }
-            }
-            else if (e.type == SDL_KEYDOWN)
-            {
-                switch (e.key.keysym.sym)
-                {
-                case (SDLK_UP) :
-                    if (m_currentLowestY > 0)
+				}
+				else if (IsClickInLeftMenu(e.button.x, e.button.y))
+				{
+					ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
+				}
+				else
+				{
+					ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+				}
+			}
+			else if (e.type == SDL_KEYDOWN)
+			{
+				switch (e.key.keysym.sym)
+				{
+				case (SDLK_UP) :
+					if (m_currentLowestY > 0)
                     {
-                        m_currentLowestY--;
+						m_currentLowestY--;
                     }
                     else
                     {
                         m_currentLowestY = Map::ROWS - 1;
                     }
-                    break;
-                case (SDLK_LEFT) :
-                    if (m_currentLeftmostX > 0)
+					break;
+				case (SDLK_LEFT) :
+					if (m_currentLeftmostX > 0)
                     {
-                        m_currentLeftmostX--;
+						m_currentLeftmostX--;
                     }
                     else
                     {
                         m_currentLeftmostX = Map::COLUMNS - 1;
                     }
-                    break;
-                case (SDLK_RIGHT) :
+					break;
+				case (SDLK_RIGHT) :
                         m_currentLeftmostX = (m_currentLeftmostX + 1) % (Map::COLUMNS -1);
-                    break;
-                case (SDLK_DOWN) :
+					break;
+				case (SDLK_DOWN) :
                         m_currentLowestY = (m_currentLowestY + 1) % (Map::ROWS - 1);
-                    break;
-                }
-            }
+					break;
+				}
+			}
             /*
             TODO Remove comment when the speed for scroll is reduced
 
-            else if (e.type == SDL_MOUSEMOTION)
-            {
-                m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
-                    || (e.button.x < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                    || e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
-                    || (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
-            }
+			else if (e.type == SDL_MOUSEMOTION)
+			{
+				m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
+					|| (e.button.x < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
+					|| e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
+					|| (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
+			}
             */
-        }
+		}
 
         /*
         TODO Remove comment when the speed for scroll is reduced
-        //mouse scroll
-        if (m_currentlyScrolling)
-        {
-            int mouseX = 0;
-            int mouseY = 0;
-            SDL_GetMouseState(&mouseX, &mouseY);
+		//mouse scroll
+		if (m_currentlyScrolling)
+		{
+			int mouseX = 0;
+			int mouseY = 0;
+			SDL_GetMouseState(&mouseX, &mouseY);
 
-            if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
-                m_currentLeftmostX++;
-            else if (m_currentLeftmostX > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                m_currentLeftmostX--;
+			if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
+				m_currentLeftmostX++;
+			else if (m_currentLeftmostX > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
+				m_currentLeftmostX--;
 
-            if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
-                m_currentLowestY++;
-            else if (m_currentLowestY > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
-                m_currentLowestY--;
+			if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
+				m_currentLowestY++;
+			else if (m_currentLowestY > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
+				m_currentLowestY--;
 
 
-        }
+		}
         */
 
-        //Clear screen
-        SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
-        SDL_RenderClear(m_renderer);
+		//Clear screen
+		SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
+		SDL_RenderClear(m_renderer);
 
-        //Render UI
-        //Render Buttons
-        const std::vector<Button*> generalButtons = ClickManager::GetInstance().GetGeneralButtons();
-        for (Button* button : generalButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
+		//Render UI
+		//Render Buttons
+		const std::vector<Button*> generalButtons = ClickManager::GetInstance().GetGeneralButtons();
+		for (Button* button : generalButtons)
+		{
+			int x = button->GetLeftX();
+			int y = button->GetTopY();
+			int width = button->GetWidth();
+			int height = button->GetHeight();
+			SDL_Rect renderQuad = { x, y, width, height };
 
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
+			Texture* buttonTexture = button->GetButtonTexture();
+			Texture * textTexture = button->GetTextTexture();
 
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
+			SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
+			SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
+		}
 
-        const std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
-        for (Button* button : districtButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
+		const std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
+		for (Button* button : districtButtons)
+		{
+			int x = button->GetLeftX();
+			int y = button->GetTopY();
+			int width = button->GetWidth();
+			int height = button->GetHeight();
+			SDL_Rect renderQuad = { x, y, width, height };
 
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
+			Texture* buttonTexture = button->GetButtonTexture();
+			Texture * textTexture = button->GetTextTexture();
 
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
+			SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
+			SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
+		}
 
-        const std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-        for (Button* button : unitButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
+		const std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
+		for (Button* button : unitButtons)
+		{
+			int x = button->GetLeftX();
+			int y = button->GetTopY();
+			int width = button->GetWidth();
+			int height = button->GetHeight();
+			SDL_Rect renderQuad = { x, y, width, height };
 
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
+			Texture* buttonTexture = button->GetButtonTexture();
+			Texture * textTexture = button->GetTextTexture();
 
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
+			SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
+			SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
+		}
 
         //Render Selected district
         {
@@ -268,75 +276,76 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
         }
 
-        //Render Map
-        Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+		//Render Map
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
         int yIndex = m_currentLowestY;
         for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
-        {
+		{
             int xIndex = m_currentLeftmostX;
             for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
-            {
+			{
                 TileBase* tile = map.GetTile(Position(yIndex, xIndex));
-                Texture* tileTexture = tile->GetTexture();
+				Texture* tileTexture = tile->GetTexture();
 
-                //Position the tile on the screen
+				//Position the tile on the screen
                 int xPos = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
                 int yPos = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
-                SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
+				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                //Render the tile
-                SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
+				//Render the tile
+				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
-                DistrictBase* district = tile->GetDistrict();
-                if (district)
-                {
-                    Texture* districtTexture = district->GetTexture();
+				DistrictBase* district = tile->GetDistrict();
+				if (district)
+				{
+					Texture* districtTexture = district->GetTexture();
                     districtTexture->SetColor(PLAYER_COLORS[district->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
-                }
+					SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
+				}
 
-                UnitBase* unit = tile->GetUnit();
-                if (unit)
-                {
-                    Texture* unitTexture = unit->GetTexture();
+				UnitBase* unit = tile->GetUnit();
+				if (unit)
+				{
+					Texture* unitTexture = unit->GetTexture();
                     unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
-                }
+					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+				}
                 xIndex = (xIndex + 1) % (Map::COLUMNS - 1);
 
-            }
+			}
             yIndex = (yIndex + 1) % (Map::ROWS - 1);
-        }
-        //Draw screen
-        SDL_RenderPresent(m_renderer);
-    }
-    Close();
+		}
+		//Draw screen
+		SDL_RenderPresent(m_renderer);
+	}
+
+	Close();
 }
 
 SDL_Renderer * GameWindow::GetRenderer()
 {
-    return m_renderer;
+	return m_renderer;
 }
 
 void GameWindow::Close()
 {
-    //Destroy window    
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
-    m_window = NULL;
-    m_renderer = NULL;
+	//Destroy window    
+	SDL_DestroyRenderer(m_renderer);
+	SDL_DestroyWindow(m_window);
+	m_window = NULL;
+	m_renderer = NULL;
 
-    //Quit SDL subsystems
-    SDL_Quit();
+	//Quit SDL subsystems
+	SDL_Quit();
 }
 
 bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
 {
-    return x < m_CurrentScreen.HUD_WIDTH && 0 < y;
+	return x < m_CurrentScreen.HUD_WIDTH && 0 < y;
 }
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-    return m_CurrentScreen.HUD_WIDTH < x && x < m_CurrentScreen.MAX_WIDTH && m_CurrentScreen.HUD_HEIGHT < y && y < m_CurrentScreen.MAX_HEIGHT;
+	return m_CurrentScreen.HUD_WIDTH < x && x < m_CurrentScreen.MAX_WIDTH && m_CurrentScreen.HUD_HEIGHT < y && y < m_CurrentScreen.MAX_HEIGHT;
 }

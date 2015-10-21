@@ -15,6 +15,7 @@ public:
     void LoadTexture();
 
     virtual void Heal(int health);
+    virtual int GetTypeAsInt();
 
     virtual  boost::property_tree::ptree Serialize();
 };

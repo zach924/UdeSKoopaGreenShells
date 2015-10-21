@@ -36,6 +36,8 @@ public:
 	int GetHealth();
 	int GetOwnerID();
 
+	virtual int GetTypeAsInt() = 0;
+
 	Position GetPosition();
 	void SetPosition(Position pos);
     virtual Texture* GetTexture() = 0;
@@ -44,12 +46,12 @@ public:
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);
 	
-	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see Swordsman (you ned exactly the same thing)
+	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see UnitSwordsman (you ned exactly the same thing)
 
 
 	virtual void NotifyNewTurn();
 
-	//virtual boost::property_tree::ptree Serialize();
-	//virtual UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
+	boost::property_tree::ptree Serialize();
+	//static UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 
 };
