@@ -1,10 +1,10 @@
 #pragma once
 #include "Unit.h"
 
-class Archer : public Unit<Archer>
+class UnitArcher : public Unit<UnitArcher>
 {
 public:
-	typedef Unit<Archer> tBase;
+	typedef Unit<UnitArcher> tBase;
 
 	static int const ATTACK_DAMAGE = 50;
 	static int const ATTACK_RANGE = 3;
@@ -14,13 +14,13 @@ public:
 
 
 public:
-	Archer(int owner);
-	~Archer();
+	UnitArcher(int owner);
+	~UnitArcher();
 
 	void LoadTexture();
 
 	virtual int GetTypeAsInt();
 	virtual void Heal(int health);
 
-	static Archer* Deserialize(boost::property_tree::ptree node);
+	static UnitArcher* Deserialize(boost::property_tree::ptree node);
 };

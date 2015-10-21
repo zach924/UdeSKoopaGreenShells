@@ -3,6 +3,12 @@
 #include <iostream>
 #include "District.h"
 #include "Unit.h"
+#include "UnitArcher.h"
+#include "UnitSwordsman.h"
+
+#include "DistrictCityCenter.h"
+#include "DistrictFarm.h"
+
 #include <boost\property_tree\ptree.hpp>
 
 
@@ -31,23 +37,37 @@ TileMountain::~TileMountain()
 TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileMountain* tile = new TileMountain{ pos };
+	tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
-    tile->m_position = pos;
-    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+	for each(auto child in tileNode)
+	{
+		if (child.first == "U")
+		{
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetUnit(UnitArcher::Deserialize(child.second));
+				break;
+			}
+		}
+		else if (child.first == "D")
+		{
+			switch (child.second.get<int>("<xmlattr>.T"))
+			{
+			case 0:
+				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
+				break;
+			case 1:
+				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
+				break;
+			}
+		}
+	}
 
-    for each(auto child in tileNode)
-    {
-        if (child.first == "U")
-        {
-            // TODO : will need to check how exactly, i think a switch case depend on unit type
-        }
-        else if (child.first == "D")
-        {
-            // TODO : will need to check how exactly, i think a switch case depend on district type
-        }
-    }
-
-    return tile;
+	return tile;
 }
 
 bool TileMountain::CanTraverse()

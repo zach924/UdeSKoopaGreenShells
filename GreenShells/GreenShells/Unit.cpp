@@ -1,10 +1,10 @@
 #include "Unit.h"
 #include "Texture.h"
 
-#include "Archer.h"
-#include "Swordsman.h"
+#include "UnitArcher.h"
+#include "UnitSwordsman.h"
 
 
 
-Texture Swordsman::tBase::m_Texture = {};
-Texture Archer::tBase::m_Texture = {};
+Texture UnitSwordsman::tBase::m_Texture = {};
+Texture UnitArcher::tBase::m_Texture = {};

@@ -46,7 +46,7 @@ public:
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);
 	
-	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see Swordsman (you ned exactly the same thing)
+	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see UnitSwordsman (you ned exactly the same thing)
 
 
 	virtual void NotifyNewTurn();

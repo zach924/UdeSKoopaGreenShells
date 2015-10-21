@@ -4,11 +4,11 @@
 #include "District.h"
 #include "Unit.h"
 
-#include "Archer.h"
-#include "Swordsman.h"
+#include "UnitArcher.h"
+#include "UnitSwordsman.h"
 
-#include "CityCenter.h"
-#include "Farm.h"
+#include "DistrictCityCenter.h"
+#include "DistrictFarm.h"
 
 #include <boost\property_tree\ptree.hpp>
 
@@ -38,8 +38,8 @@ TileWater::~TileWater()
 
 TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
-    TileWater* tile = new TileWater{ tileNode.get<int>("<xmlattr>.O") };
-    tile->m_position = pos;
+    TileWater* tile = new TileWater{ pos };
+	tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
     for each(auto child in tileNode)
     {
@@ -48,10 +48,10 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 			switch (child.second.get<int>("<xmlattr>.T"))
 			{
 			case 0:
-				tile->SetUnit(Swordsman::Deserialize(child.second));
+				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
 				break;
 			case 1:
-				tile->SetUnit(Archer::Deserialize(child.second));
+				tile->SetUnit(UnitArcher::Deserialize(child.second));
 				break;
 			}            
         }
@@ -60,10 +60,10 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 			switch (child.second.get<int>("<xmlattr>.T"))
 			{
 			case 0:
-				tile->SetDistrict(CityCenter::Deserialize(child.second));
+				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
 				break;
 			case 1:
-				tile->SetDistrict(Farm::Deserialize(child.second));
+				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
 				break;
 			}
         }

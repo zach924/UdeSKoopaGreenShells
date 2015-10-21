@@ -1,16 +1,16 @@
-#include "Swordsman.h"
+#include "UnitSwordsman.h"
 #include <iostream>
 
-Swordsman::Swordsman(int owner)
-	: Unit<Swordsman>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+UnitSwordsman::UnitSwordsman(int owner)
+	: Unit<UnitSwordsman>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-Swordsman::~Swordsman()
+UnitSwordsman::~UnitSwordsman()
 {
 }
 
-void Swordsman::LoadTexture()
+void UnitSwordsman::LoadTexture()
 {
 	try
 	{
@@ -23,18 +23,18 @@ void Swordsman::LoadTexture()
 	}
 }
 
-int Swordsman::GetTypeAsInt()
+int UnitSwordsman::GetTypeAsInt()
 {
 	return UNIT_TYPE;
 }
 
-void Swordsman::Heal(int health)
+void UnitSwordsman::Heal(int health)
 {
 	m_health = std::min(m_health + health, HEALTH);
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING 
-AttackNotification Swordsman::Attack(UnitBase * target)
+AttackNotification UnitSwordsman::Attack(UnitBase * target)
 {
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -45,7 +45,7 @@ AttackNotification Swordsman::Attack(UnitBase * target)
 	return targetNotification;
 }
 
-AttackNotification Swordsman::Attack(DistrictBase * target)
+AttackNotification UnitSwordsman::Attack(DistrictBase * target)
 {
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -59,9 +59,9 @@ AttackNotification Swordsman::Attack(DistrictBase * target)
 	return targetNotification;
 }
 
-Swordsman * Swordsman::Deserialize(boost::property_tree::ptree node)
+UnitSwordsman * UnitSwordsman::Deserialize(boost::property_tree::ptree node)
 {
-	Swordsman* swordsman = new Swordsman(node.get<int>("<xmlattr>.O"));
+	UnitSwordsman* swordsman = new UnitSwordsman(node.get<int>("<xmlattr>.O"));
 	swordsman->m_health = node.get<int>("<xmlattr>.H");
 
 	return swordsman;
