@@ -4,8 +4,8 @@
 #include "YesNoPopUp.h"
 #include "GameWindow.h"
 
-ButtonUnitSell::ButtonUnitSell(int sectionOffset, int columnIndex, int rowIndex, ButtonState state)
-    :Button(sectionOffset, columnIndex, rowIndex, state)
+ButtonUnitSell::ButtonUnitSell(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
+    :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
 {
 }
 
@@ -17,7 +17,7 @@ void ButtonUnitSell::DoAction()
 {
 	std::function<void()> yesFunction = []() {SelectionManager::GetInstance().UnitSell(); }; // TODO call sell function in selection manager (wich sell it is?)
 
-	YesNoPopUp* popUp = new YesNoPopUp("Sell", 700, 700, yesFunction);
+	YesNoPopUp* popUp = new YesNoPopUp("Are you sure you want to sell that unit?", 350, 350, yesFunction);
 
 	GameWindow::GetInstance().AddPopUpWindow(popUp);
 }

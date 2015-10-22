@@ -9,7 +9,8 @@ class District : public DistrictBase
 public:
 	static Texture m_Texture;
 	void LoadTexture() {};
-	virtual  boost::property_tree::ptree Serialize() = 0;
+
+	virtual int GetTypeAsInt() = 0;
 
 public:
 	District(int ownerID, int health, int attackDamage)

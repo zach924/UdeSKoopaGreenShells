@@ -4,7 +4,7 @@ class ButtonDiplomacy :
     public Button
 {
 public:
-    ButtonDiplomacy(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
+    ButtonDiplomacy(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonDiplomacy();
 
     void DoAction();

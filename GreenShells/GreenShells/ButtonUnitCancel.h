@@ -4,7 +4,7 @@ class ButtonUnitCancel :
     public Button
 {
 public:
-    ButtonUnitCancel(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
+    ButtonUnitCancel(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonUnitCancel();
 
     void DoAction();

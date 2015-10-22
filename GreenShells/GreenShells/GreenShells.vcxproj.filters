@@ -186,9 +186,6 @@
     <ClCompile Include="ButtonConstructDistrict.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
-    <ClCompile Include="Swordsman.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonDiplomacy.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
@@ -197,9 +194,6 @@
     </ClCompile>
     <ClCompile Include="ButtonSkillTree.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
-    </ClCompile>
-    <ClCompile Include="Archer.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSpawnUnit.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
@@ -210,14 +204,8 @@
     <ClCompile Include="ButtonDistrictRepair.cpp">
       <Filter>Source Files\UI\Button\DistrictPart</Filter>
     </ClCompile>
-    <ClCompile Include="CityCenter.cpp">
-      <Filter>Source Files\Actor\District</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonUnitAttack.cpp">
       <Filter>Source Files\UI\Button\UnitPart</Filter>
-    </ClCompile>
-    <ClCompile Include="Farm.cpp">
-      <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
     <ClCompile Include="ButtonUnitHeal.cpp">
       <Filter>Source Files\UI\Button\UnitPart</Filter>
@@ -248,15 +236,33 @@
     </ClCompile>
     <ClCompile Include="ButtonYes.cpp">
       <Filter>Source Files\UI\Button</Filter>
+	</ClCompile>
+    <ClCompile Include="UnitArcher.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="ButtonNo.cpp">
       <Filter>Source Files\UI\Button</Filter>
+	</ClCompile>
+    <ClCompile Include="DistrictEmpty.cpp">
+      <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
     <ClCompile Include="PopUpWindow.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
+	</ClCompile>
+    <ClCompile Include="UnitEmpty.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="YesNoPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
+	</ClCompile>
+    <ClCompile Include="UnitSwordsman.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictCityCenter.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictFarm.cpp">
+      <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +350,6 @@
     <ClInclude Include="ButtonConstructDistrict.h">
       <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
-    <ClInclude Include="Swordsman.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonDiplomacy.h">
       <Filter>Header Files\UI\Button\GeneralPart</Filter>
     </ClInclude>
@@ -361,9 +364,6 @@
     </ClInclude>
     <ClInclude Include="ButtonSpawnUnit.h">
       <Filter>Header Files\UI\Button\GeneralPart</Filter>
-    </ClInclude>
-    <ClInclude Include="Archer.h">
-      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="ButtonDistrictRepair.h">
       <Filter>Header Files\UI\Button\DistrictPart</Filter>
@@ -386,14 +386,8 @@
     <ClInclude Include="ButtonUnitMove.h">
       <Filter>Header Files\UI\Button\UnitPart</Filter>
     </ClInclude>
-    <ClInclude Include="CityCenter.h">
-      <Filter>Header Files\Actor\District</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonGeneralCancel.h">
       <Filter>Header Files\UI\Button\GeneralPart</Filter>
-    </ClInclude>
-    <ClInclude Include="Farm.h">
-      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="ButtonDistrictCancel.h">
       <Filter>Header Files\UI\Button\DistrictPart</Filter>
@@ -415,15 +409,33 @@
     </ClInclude>
     <ClInclude Include="ButtonYes.h">
       <Filter>Header Files\UI\Button</Filter>
+	</ClInclude>
+    <ClInclude Include="UnitSwordsman.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="ButtonNo.h">
       <Filter>Header Files\UI\Button</Filter>
+	</ClInclude>
+    <ClInclude Include="DistrictEmpty.h">
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="PopUpWindow.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
+	</ClInclude>
+    <ClInclude Include="UnitArcher.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="YesNoPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
+	</ClInclude>
+    <ClInclude Include="UnitEmpty.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictCityCenter.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictFarm.h">
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
