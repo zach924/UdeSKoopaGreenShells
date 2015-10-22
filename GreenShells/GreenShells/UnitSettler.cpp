@@ -2,7 +2,7 @@
 #include <iostream>
 
 UnitSettler::UnitSettler(int owner)
-	: Unit<UnitSettler>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+	: Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 

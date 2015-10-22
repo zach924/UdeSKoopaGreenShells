@@ -97,10 +97,10 @@ void GameWindow::CreateUnitButtons()
 
 void GameWindow::ShowWindow()
 {
-	GameSession::GetInstance().Load("SavedFile\\Test2.xml");
-	std::cout << GameSession::GetInstance().GetCurrentPlayerID() << std::endl;
-	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(2, 4))->SetUnit(new UnitSwordsman(0));
-	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(3, 4))->SetUnit(new UnitSwordsman(1));
+	//GameSession::GetInstance().Load("SavedFile\\Test2.xml");
+	//std::cout << GameSession::GetInstance().GetCurrentPlayerID() << std::endl;
+	//GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(2, 4))->SetUnit(new UnitSwordsman(0));
+	//GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(3, 4))->SetUnit(new UnitSwordsman(1));
 
 	bool quit = false;
 	while (!quit)
