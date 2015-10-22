@@ -65,35 +65,48 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 	int row = 0;
 	for each (auto rowNode in mapNode)
 	{
-		int column = 0;
-		for each(auto tileNode in rowNode.second)
+		if (rowNode.first == "SPS")
 		{
-			if (tileNode.first == "T")
+			for each(auto spawnNode in rowNode.second)
 			{
-				Position pos{ row, column };
-
-				switch (tileNode.second.get<int>("<xmlattr>.TT"))
+				if (spawnNode.first == "SP")
 				{
-				case 0:
-					map->m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
-					break;
-				case 1:
-					map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second, pos);
-					break;
-				case 2:
-					map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second, pos);
-					break;
-
-				case -1:
-				default:
-					std::string msg = ("Error while loading the map, a tile is of type unknown.");
-					throw new std::exception(msg.c_str());
-					break;
+					map->m_spawnPositions.emplace_back(spawnNode.second.get<int>("<xmlattr>.X"), spawnNode.second.get<int>("<xmlattr>.Y"));
 				}
 			}
-			column++;
 		}
-		row++;
+		else
+		{
+			int column = 0;
+			for each(auto tileNode in rowNode.second)
+			{
+				if (tileNode.first == "T")
+				{
+					Position pos{ row, column };
+
+					switch (tileNode.second.get<int>("<xmlattr>.TT"))
+					{
+					case 0:
+						map->m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
+						break;
+					case 1:
+						map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second, pos);
+						break;
+					case 2:
+						map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second, pos);
+						break;
+
+					case -1:
+					default:
+						std::string msg = ("Error while loading the map, a tile is of type unknown.");
+						throw new std::exception(msg.c_str());
+						break;
+					}
+				}
+				column++;
+			}
+			row++;
+		}
 	}
 
 	return map;

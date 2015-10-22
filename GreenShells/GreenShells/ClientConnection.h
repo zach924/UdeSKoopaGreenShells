@@ -20,9 +20,10 @@ public:
 	ClientConnection();
 	void StartThread();
 
-	int GetPlayerID();
 	TCPConnection& GetTCPConnection();
-	bool IsSocketClosed();
+	int GetPlayerID();
 	void SetPlayerID(int id);
+	void SetIsSocketClosed(bool value=true);
+	bool IsSocketClosed();
 	void SetQueuePointer(SynchronizedQueue<RPCEvent>* queue);
 };

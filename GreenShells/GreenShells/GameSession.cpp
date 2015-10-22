@@ -13,7 +13,7 @@
 #include <exception>
 
 GameSession::GameSession()
-	:m_worldState(), m_serverIP()
+	:m_worldState(true), m_serverIP(), m_currentPlayerID(-1)
 {
 }
 
@@ -56,14 +56,18 @@ void GameSession::SetCurrentPlayerID(int player)
 	m_currentPlayerID = player;
 }
 
-bool GameSession::ConnectToServer()
+bool GameSession::ConnectToServer(char* playerName)
 {
 	bool result = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));
-	RPCStructType newEvent{};
-	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&newEvent), sizeof(RPCStructType)));
 
-	JoinGameStruct* data = new JoinGameStruct;
-	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(JoinGameStruct)));
+	std::stringstream ss;
+	PlayerInfoStruct nameToSend;
+	nameToSend.setPlayerName(playerName);
+	ss.write(reinterpret_cast<char*>(&nameToSend), sizeof(nameToSend));
+	RPCBase::GetConnection()->GetSocket().send(boost::asio::buffer(ss.str()));
+
+	PlayerInfoStruct* data = new PlayerInfoStruct();
+	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(PlayerInfoStruct)));
 	m_currentPlayerID = data->playerID;
 
 	//First Replication

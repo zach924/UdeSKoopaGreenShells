@@ -14,13 +14,29 @@ Player::Player()
     m_weapon(0),
     m_foodMultiplier(1), 
     m_scienceMultiplier(1), 
-    m_weaponMultiplier(1)
+    m_weaponMultiplier(1),
+	m_isDisconnected(false)
 {
 }
 
 
 Player::~Player()
 {
+}
+
+void Player::SetPlayerName(std::string name)
+{
+	m_playerName = name;
+}
+
+std::string Player::GetPlayerName()
+{
+	return m_playerName;
+}
+
+void Player::SetPlayerID(int ID)
+{
+	m_playerID = ID;
 }
 
 int Player::GetPlayerID()
@@ -31,6 +47,11 @@ int Player::GetPlayerID()
 void Player::NotifyNewTurn()
 {
     m_isReadyForNewTurn = false;
+
+	if (m_isAlive)
+	{
+		//Do stuff
+	}
 }
 
 void Player::SetPlayerReadyForNextTurn(bool isReady)
@@ -40,12 +61,12 @@ void Player::SetPlayerReadyForNextTurn(bool isReady)
 
 bool Player::IsPlayerReadyForNextTurn()
 {
-    return m_isReadyForNewTurn;
+    return m_isDisconnected || m_isReadyForNewTurn;
 }
 
-void Player::SetDead()
+void Player::SetIsAlive(bool value)
 {
-    m_isAlive = false;
+    m_isAlive = value;
 }
 
 int Player::GetFood()
@@ -185,6 +206,16 @@ bool Player::IsAlive()
 	return m_isAlive;
 }
 
+void Player::SetIsDisconnected(bool value)
+{
+	m_isDisconnected = true;
+}
+
+bool Player::IsDisconnected()
+{
+	return m_isDisconnected;
+}
+
 boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;
@@ -198,6 +229,9 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
+	playerNode.put("<xmlattr>.IA", m_isAlive);
+	playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
+	playerNode.put("<xmlattr>.ID", m_isDisconnected);
 
     return playerNode;
 }
@@ -216,6 +250,9 @@ Player Player::Deserialize(boost::property_tree::ptree playerNode)
     player.m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player.m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player.m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
+	player.m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
+	player.m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
+	player.m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");
 
     return player;
 }

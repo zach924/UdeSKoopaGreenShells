@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <mutex>
+#include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
 
 class Player;
@@ -14,7 +15,7 @@ class WorldState
 	Map* m_map;
 	bool m_remote;
 public:
-	WorldState();
+	WorldState(bool isRemote);
 	~WorldState();
 
 	//Temp Hack
@@ -27,7 +28,7 @@ public:
 	int GetCurrentTurn();
 	void NotifyNewTurn();
 
-	int AddPlayer(const Player& player);
+	int AddPlayer(std::string playerName);
 	void RemovePlayer(int id);
 	Player GetPlayer(int playerID);
 
