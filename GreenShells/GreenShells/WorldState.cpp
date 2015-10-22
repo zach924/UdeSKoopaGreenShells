@@ -8,7 +8,6 @@
 #include "MapLocal.h"
 #include "MapRemote.h"
 #include "UnitSettler.h"
-#include "UnitSwordsman.h"
 #include "TileBase.h"
 
 using namespace std;
@@ -90,7 +89,7 @@ int WorldState::AddPlayer(std::string playerName)
 	newPlayer.SetPlayerName(playerName);
 	Position spawnPosition = m_map->GetSpawnPositions()[playerID];
 	TileBase* tile = m_map->GetTile(spawnPosition);
-	tile->SetUnit(new UnitSwordsman(playerID));
+	tile->SetUnit(new UnitSettler(playerID));
 	m_players.push_back(newPlayer);
 	return playerID;
 }
