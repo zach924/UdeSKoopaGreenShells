@@ -1,19 +1,20 @@
 #include <algorithm>
+#include <iostream>
+#include <boost\property_tree\ptree.hpp>
 
 #include "WorldState.h"
 #include "Player.h"
 #include "Map"
 #include "MapLocal.h"
 #include "MapRemote.h"
-
-#include <boost\property_tree\ptree.hpp>
+#include "UnitSettler.h"
+#include "TileBase.h"
 
 using namespace std;
 
-WorldState::WorldState()
-	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(false)
+WorldState::WorldState(bool isRemote)
+	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(isRemote)
 {
-	
 }
 
 WorldState::~WorldState()
@@ -62,18 +63,35 @@ void WorldState::NotifyNewTurn()
 	//Notify players of a new turn
 	for (Player& player : m_players)
 	{
-		if(player.IsAlive())
-		{
-			player.NotifyNewTurn();
-		}
+		player.NotifyNewTurn();
 	}
 }
 
-int WorldState::AddPlayer(const Player& player)
+int WorldState::AddPlayer(std::string playerName)
 {
 	lock_guard<recursive_mutex> lock{ m_mutex };
-	m_players.emplace_back(player);
-	return static_cast<int>(m_players.size());
+
+	for (auto player: m_players)
+	{
+		if (playerName == player.GetPlayerName())
+		{
+			//it's a reconnect
+			std::cout << playerName << " has reconnected!" << endl;
+			player.SetIsDisconnected(false);
+			return player.GetPlayerID();
+		}
+	}
+
+	int playerID = static_cast<int>(m_players.size());
+	std::cout << playerName << " has joined and his id is " << playerID << endl;
+	Player newPlayer;
+	newPlayer.SetPlayerID(playerID);
+	newPlayer.SetPlayerName(playerName);
+	Position spawnPosition = m_map->GetSpawnPositions()[playerID];
+	TileBase* tile = m_map->GetTile(spawnPosition);
+	tile->SetUnit(new UnitSettler(playerID));
+	m_players.push_back(newPlayer);
+	return playerID;
 }
 
 void WorldState::RemovePlayer(int id)
@@ -83,7 +101,7 @@ void WorldState::RemovePlayer(int id)
     {
         if (player.GetPlayerID() == id)
         {
-			player.SetDead();
+			player.SetIsAlive(false);
             break;
         }
     }
@@ -123,7 +141,8 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
         {
             for each (auto playerNode in worldStateNode.second)
             {
-                AddPlayer(Player::Deserialize(playerNode.second));
+				m_players.push_back(Player::Deserialize(playerNode.second));
+                //AddPlayer();
             }
         }
         else if (worldStateNode.first == "M")

@@ -11,7 +11,7 @@
 using namespace std::chrono;
 
 ServerSession::ServerSession()
-	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState()
+	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState(false)
 {
 
 }
@@ -28,7 +28,7 @@ void ServerSession::run()
 			auto players = m_rpcServerManager->GetDisconnectedPlayers();
 			for (auto player : players)
 			{
-				m_worldState.GetPlayer(player).SetDead();
+				m_worldState.GetPlayer(player).SetIsDisconnected();
 			}
 
 			if (m_dispatcher->Dispatch())
@@ -41,6 +41,7 @@ void ServerSession::run()
 		}
 
 		m_worldState.NotifyNewTurn();
+		Replicate();
 	}
 }
 
@@ -77,7 +78,7 @@ void ServerSession::Replicate()
 	m_rpcServerManager->SendToClients(data.str());
 }
 
-int ServerSession::AddPlayer()
+int ServerSession::AddPlayer(std::string playerName)
 {
-	return m_worldState.AddPlayer(Player{});
+	return m_worldState.AddPlayer(playerName);
 }

@@ -28,16 +28,17 @@ void RPCManager::StartListening()
 				ClientConnection* newClient = new ClientConnection{};
 				acceptor.accept(newClient->GetTCPConnection().GetSocket());
 				newClient->SetQueuePointer(m_events);
-				newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer());
+
+				//Get his name;
+				PlayerInfoStruct* playerName = new PlayerInfoStruct();
+				newClient->GetTCPConnection().GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(playerName), sizeof(PlayerInfoStruct)));
+				newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer(playerName->getPlayerName()));
 				newClient->StartThread();
 				m_clients.push_back(newClient);
 
 				//inform client of his id
 				std::stringstream ss;
-				RPCStructType dataType{};
-				dataType = RPCStructType::JOIN_GAME;
-				ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
-				JoinGameStruct data;
+				PlayerInfoStruct data;
 				data.playerID = newClient->GetPlayerID();
 				ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 				newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
@@ -74,6 +75,7 @@ void RPCManager::SendToClients(std::string data)
 		catch (std::exception)
 		{
 			//Client has diconnected, it should be cleaned up next tick
+			client->SetIsSocketClosed();
 		}
 	}
 }
@@ -83,7 +85,7 @@ std::vector<int> RPCManager::GetDisconnectedPlayers()
 	std::vector<int> playerIDDisconnected;
 	for (auto client : m_clients)
 	{
-		if (!client->GetTCPConnection().GetSocket().is_open())
+		if (client->IsSocketClosed())
 		{
 			std::cout << "Player " << client->GetPlayerID() << " has disconnected." << std::endl;
 			playerIDDisconnected.push_back(client->GetPlayerID());
