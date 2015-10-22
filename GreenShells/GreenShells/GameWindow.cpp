@@ -101,7 +101,6 @@ void GameWindow::ShowWindow()
 	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(2, 4))->SetUnit(new UnitSwordsman(0));
 	GameSession::GetInstance().GetWorldState()->GetMap()->GetTile(Position(3, 4))->SetUnit(new UnitSwordsman(1));
 
-
 	bool quit = false;
 	while (!quit)
 	{

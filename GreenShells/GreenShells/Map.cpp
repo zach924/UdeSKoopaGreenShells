@@ -97,16 +97,16 @@ std::vector<TileBase*> Map::GetArea(Position position, int distance)
 	std::vector<TileBase*> area;
 
 	//find miminum and maximum
-	int minCol = std::max(position.X - distance, 0);
-	int minRow = std::max(position.Y - distance, 0);
-	int maxCol = std::min(position.X + distance, COLUMNS - 1);
-	int maxRow = std::min(position.Y + distance, ROWS - 1);
+	int minRow = std::max(position.X - distance, 0);
+	int maxRow = std::min(position.X + distance, ROWS - 1);
+	int minCol = std::max(position.Y - distance, 0);
+	int maxCol = std::min(position.Y + distance, COLUMNS - 1);
 
-	for (int i = minCol; i <= maxCol; ++i)
+	for (int i = minRow; i <= maxRow; ++i)
 	{
-		for (int j = minRow; j <= maxRow; ++j)
+		for (int j = minCol; j <= maxCol; ++j)
 		{
-			area.push_back(GetTile(Position(j, i)));
+			area.push_back(GetTile(Position(i, j)));
 		}
 	}
 	return area;

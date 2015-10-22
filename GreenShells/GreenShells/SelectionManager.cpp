@@ -82,6 +82,7 @@ void SelectionManager::HandleSelection(Position pos)
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;
+		m_actionPossibleTile.clear();
 	}
 
 	switch (m_state)
@@ -164,10 +165,10 @@ void SelectionManager::UnitMovePressed()
 
 bool SelectionManager::IsAnUnitSelected()
 {
-	return dynamic_cast<UnitEmpty*>(m_selectedUnit) != nullptr;
+	return dynamic_cast<UnitEmpty*>(m_selectedUnit) == nullptr;
 }
 
 bool SelectionManager::IsAnDistrictSelected()
 {
-	return dynamic_cast<DistrictEmpty*>(m_selectedDistrict) != nullptr;
+	return dynamic_cast<DistrictEmpty*>(m_selectedDistrict) == nullptr;
 }
