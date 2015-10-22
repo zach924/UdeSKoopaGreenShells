@@ -11,7 +11,7 @@
 using namespace std::chrono;
 
 ServerSession::ServerSession()
-	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState()
+	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState(false)
 {
 
 }

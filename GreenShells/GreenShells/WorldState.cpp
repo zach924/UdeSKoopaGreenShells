@@ -8,12 +8,13 @@
 #include "MapLocal.h"
 #include "MapRemote.h"
 #include "UnitSettler.h"
+#include "UnitSwordsman.h"
 #include "TileBase.h"
 
 using namespace std;
 
-WorldState::WorldState()
-	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(false)
+WorldState::WorldState(bool isRemote)
+	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(isRemote)
 {
 }
 
@@ -82,14 +83,14 @@ int WorldState::AddPlayer(std::string playerName)
 		}
 	}
 
-	std::cout << playerName << " has joined." << endl;
 	int playerID = static_cast<int>(m_players.size());
+	std::cout << playerName << " has joined and his id is " << playerID << endl;
 	Player newPlayer;
 	newPlayer.SetPlayerID(playerID);
 	newPlayer.SetPlayerName(playerName);
 	Position spawnPosition = m_map->GetSpawnPositions()[playerID];
 	TileBase* tile = m_map->GetTile(spawnPosition);
-	tile->SetUnit(new UnitSettler(playerID));
+	tile->SetUnit(new UnitSwordsman(playerID));
 	m_players.push_back(newPlayer);
 	return playerID;
 }

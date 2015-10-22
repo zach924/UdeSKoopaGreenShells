@@ -13,7 +13,7 @@
 #include <exception>
 
 GameSession::GameSession()
-	:m_worldState(), m_serverIP()
+	:m_worldState(true), m_serverIP(), m_currentPlayerID(-1)
 {
 }
 

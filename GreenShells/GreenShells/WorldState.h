@@ -15,7 +15,7 @@ class WorldState
 	Map* m_map;
 	bool m_remote;
 public:
-	WorldState();
+	WorldState(bool isRemote);
 	~WorldState();
 
 	//Temp Hack
