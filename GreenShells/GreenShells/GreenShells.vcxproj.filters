@@ -231,6 +231,12 @@
     <ClCompile Include="UnitArcher.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="DistrictEmpty.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEmpty.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
     <ClCompile Include="UnitSwordsman.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
@@ -389,7 +395,13 @@
     <ClInclude Include="UnitSwordsman.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="DistrictEmpty.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
     <ClInclude Include="UnitArcher.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitEmpty.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="DistrictCityCenter.h">

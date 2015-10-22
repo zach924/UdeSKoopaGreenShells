@@ -40,7 +40,6 @@ bool SetUpClient(char* playerName, char* ip, int port)
 		GameSession::GetInstance().SetPort(port);
 		if (GameSession::GetInstance().ConnectToServer(playerName))
 		{
-			GameSession::GetInstance().GetWorldState()->PrepareRemoteGame();
 			return true;
 		}
 		else

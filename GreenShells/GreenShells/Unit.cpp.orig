@@ -3,8 +3,11 @@
 
 #include "UnitArcher.h"
 #include "UnitSwordsman.h"
+<<<<<<< HEAD
 #include "UnitSettler.h"
+=======
 #include "UnitEmpty.h"
+>>>>>>> master
 
 Texture UnitEmpty::tBase::m_Texture = {};
 Texture UnitSwordsman::tBase::m_Texture = {};

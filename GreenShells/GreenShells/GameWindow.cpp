@@ -2,15 +2,18 @@
 #include <sstream>
 #include <assert.h>
 #include <utility>
+#include <assert.h>
 
+#include "UnitBase.h"
+#include "DistrictBase.h"
 #include "GameWindow.h"
 #include "ServerSession.h"
 #include "GameSession.h"
 #include "WorldState.h"
-#include <assert.h>
 #include "Map.h"
 #include "TileGround.h"
 #include "ClickManager.h"
+#include "SelectionManager.h"
 
 //Buttons
 #include "ButtonGeneralCancel.h"
@@ -67,29 +70,29 @@ GameWindow::~GameWindow()
 
 void GameWindow::CreateGeneralButtons()
 {
-	ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::GeneralPart);
 }
 
 void GameWindow::CreateDistrictButtons()
 {
-	ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 1, 1), LeftMenuPart::DistrictPart);
-	ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 2, 1), LeftMenuPart::DistrictPart);
-	ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 1, 2), LeftMenuPart::DistrictPart);
-	ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_HEIGHT, 2, 2), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
+    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
 }
 
 void GameWindow::CreateUnitButtons()
 {
-	ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 1), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 1), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 2), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 2), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_HEIGHT, 1, 3), LeftMenuPart::UnitPart);
-	ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_HEIGHT, 2, 3), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
 }
 
 void GameWindow::ShowWindow()
@@ -111,10 +114,13 @@ void GameWindow::ShowWindow()
 				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
 				if (IsClickInMap(e.button.x, e.button.y))
 				{
-					int posX = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
-					int posY = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+                    int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+                    posCol %= (Map::COLUMNS -1);
 
-					ClickManager::GetInstance().ManageMapClick(Position(posX, posY));
+                    int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+                    posRow %= (Map::ROWS -1);
+
+                    ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
 				}
 				else if (IsClickInLeftMenu(e.button.x, e.button.y))
 				{
@@ -131,22 +137,35 @@ void GameWindow::ShowWindow()
 				{
 				case (SDLK_UP) :
 					if (m_currentLowestY > 0)
+                    {
 						m_currentLowestY--;
+                    }
+                    else
+                    {
+                        m_currentLowestY = Map::ROWS - 1;
+                    }
 					break;
 				case (SDLK_LEFT) :
 					if (m_currentLeftmostX > 0)
+                    {
 						m_currentLeftmostX--;
+                    }
+                    else
+                    {
+                        m_currentLeftmostX = Map::COLUMNS - 1;
+                    }
 					break;
 				case (SDLK_RIGHT) :
-					if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1)
-						m_currentLeftmostX++;
+                        m_currentLeftmostX = (m_currentLeftmostX + 1) % (Map::COLUMNS -1);
 					break;
 				case (SDLK_DOWN) :
-					if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1)
-						m_currentLowestY++;
+                        m_currentLowestY = (m_currentLowestY + 1) % (Map::ROWS - 1);
 					break;
 				}
 			}
+            /*
+            TODO Remove comment when the speed for scroll is reduced
+
 			else if (e.type == SDL_MOUSEMOTION)
 			{
 				m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
@@ -154,8 +173,11 @@ void GameWindow::ShowWindow()
 					|| e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
 					|| (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
 			}
+            */
 		}
 
+        /*
+        TODO Remove comment when the speed for scroll is reduced
 		//mouse scroll
 		if (m_currentlyScrolling)
 		{
@@ -175,6 +197,7 @@ void GameWindow::ShowWindow()
 
 
 		}
+        */
 
 		//Clear screen
 		SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
@@ -230,22 +253,47 @@ void GameWindow::ShowWindow()
 			SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
 		}
 
+        //Render Selected district
+        {
+            Texture* selectedDistrictTexture = SelectionManager::GetInstance().GetSelectedDistrict()->GetTexture();
+            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
+            SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
+
+            //Remove Color and render
+            selectedDistrictTexture->SetColor(255, 255, 255);
+            SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
+        }
+
+        //Render Selected unit 
+        {
+            Texture* selectedUnitTexture = SelectionManager::GetInstance().GetSelectedUnit()->GetTexture();
+            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
+            SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
+
+            //Remove Color and render
+            selectedUnitTexture->SetColor(255, 255, 255);
+            SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
+        }
+
 		//Render Map
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
-		int yIndex = 0;
-		for (int i = m_currentLowestY; i <= (m_currentLowestY + m_CurrentScreen.NUM_TILE_HEIGHT); ++i)
+        int yIndex = m_currentLowestY;
+        for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
 		{
-			int xIndex = 0;
-			for (int j = m_currentLeftmostX; j <= (m_currentLeftmostX + m_CurrentScreen.NUM_TILE_WIDTH); ++j)
+            int xIndex = m_currentLeftmostX;
+            for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
 			{
-				TileBase* tile = map.GetTile(Position(i, j));
+                TileBase* tile = map.GetTile(Position(yIndex, xIndex));
 				Texture* tileTexture = tile->GetTexture();
 
 				//Position the tile on the screen
-				int xPos = m_CurrentScreen.HUD_WIDTH + (xIndex * m_CurrentScreen.TILE_SIZE);
-				int yPos = m_CurrentScreen.HUD_HEIGHT + (yIndex * m_CurrentScreen.TILE_SIZE);
+                int xPos = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
+                int yPos = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
 				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
+
 				//Render the tile
 				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
@@ -253,7 +301,7 @@ void GameWindow::ShowWindow()
 				if (district)
 				{
 					Texture* districtTexture = district->GetTexture();
-					districtTexture->SetColor(PLAYER_COLORS[tile->GetPlayerOwnerId()]);
+                    districtTexture->SetColor(PLAYER_COLORS[district->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
 				}
 
@@ -261,13 +309,13 @@ void GameWindow::ShowWindow()
 				if (unit)
 				{
 					Texture* unitTexture = unit->GetTexture();
-					unitTexture->SetColor(PLAYER_COLORS[tile->GetPlayerOwnerId()]);
+                    unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
 				}
+                xIndex = (xIndex + 1) % (Map::COLUMNS - 1);
 
-				xIndex++;
 			}
-			yIndex++;
+            yIndex = (yIndex + 1) % (Map::ROWS - 1);
 		}
 		//Draw screen
 		SDL_RenderPresent(m_renderer);

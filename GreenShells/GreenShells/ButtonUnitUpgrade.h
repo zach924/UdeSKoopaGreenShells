@@ -4,7 +4,7 @@ class ButtonUnitUpgrade :
     public Button
 {
 public:
-    ButtonUnitUpgrade(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
+    ButtonUnitUpgrade(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonUnitUpgrade();
 
     void DoAction();

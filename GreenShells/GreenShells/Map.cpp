@@ -11,9 +11,6 @@
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
 
-// TODO :  TO BE REMOVED ONLY  FOR TESTS
-#include "Unit.h"
-
 Map::Map()
 	:m_tiles()
 {

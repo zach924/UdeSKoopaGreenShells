@@ -4,7 +4,7 @@ class ButtonDistrictUpgrade :
     public Button
 {
 public:
-    ButtonDistrictUpgrade(int sectionOffset, int columnIndex, int rowIndex, ButtonState = ButtonState::Disabled);
+    ButtonDistrictUpgrade(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState = ButtonState::Disabled);
     ~ButtonDistrictUpgrade();
 
     void DoAction();
