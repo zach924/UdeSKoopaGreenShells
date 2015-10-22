@@ -10,15 +10,16 @@ enum ButtonState
 
 class Button
 {
+public:
+	static const int BUTTON_HEIGHT = 50;
+	static const int BUTTON_WIDTH = 90;
+
 protected:
 	// Not static (no curiously recurring template pattern like tile) 
 	// because we do not need since only one button of each will exist;
 	Texture m_textTexture;
 
     ButtonState m_buttonState;
-
-    static const int BUTTON_HEIGHT = 50;
-    static const int BUTTON_WIDTH = 90;
 
 private:
 
