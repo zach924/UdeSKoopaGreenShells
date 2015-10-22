@@ -163,6 +163,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonDistrictSell.cpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />

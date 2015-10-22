@@ -3,9 +3,9 @@
 #include <string>
 #include "District.h"
 #include "Unit.h"
-
 #include "UnitArcher.h"
 #include "UnitSwordsman.h"
+#include "UnitSettler.h"
 
 #include "DistrictCityCenter.h"
 #include "DistrictFarm.h"
@@ -52,6 +52,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 				break;
 			case 1:
 				tile->SetUnit(UnitArcher::Deserialize(child.second));
+				break;
+			case 2:
+				tile->SetUnit(UnitSettler::Deserialize(child.second));
 				break;
 			}            
         }

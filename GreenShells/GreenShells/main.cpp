@@ -9,7 +9,7 @@
 #include "ServerSession.h"
 
 // These needs to be before main
-bool SetUpServer(int port)
+bool SetUpServer(char* playerName, int port)
 {
 	if (port != 0)
 	{
@@ -18,7 +18,7 @@ bool SetUpServer(int port)
 
 		GameSession::GetInstance().SetPort(port);
 		GameSession::GetInstance().SetServerIP("127.0.0.1");
-		if (GameSession::GetInstance().ConnectToServer())
+		if (GameSession::GetInstance().ConnectToServer(playerName))
 		{
 			std::cout << "Connected to server." << std::endl;
 			return true;
@@ -32,16 +32,14 @@ bool SetUpServer(int port)
 	return false;
 }
 
-bool SetUpClient(char* ip,int port)
+bool SetUpClient(char* playerName, char* ip, int port)
 {
 	GameSession::GetInstance().SetServerIP(ip);
 	if (port != 0)
 	{
 		GameSession::GetInstance().SetPort(port);
-		if (GameSession::GetInstance().ConnectToServer())
+		if (GameSession::GetInstance().ConnectToServer(playerName))
 		{
-			GameSession::GetInstance().GetWorldState()->PrepareRemoteGame();
-			//GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
 			return true;
 		}
 		else
@@ -55,9 +53,10 @@ bool SetUpClient(char* ip,int port)
 
 int main(int argc, char* argv[])
 {
-	const int CLIENT_SERVER_ARG = 1;
-	const int PORT_ARG = 2;
-	const int SERVER_IP_ARG = 3;
+	const int PLAYER_NAME_ARG = 1;
+	const int CLIENT_SERVER_ARG = 2;
+	const int PORT_ARG = 3;
+	const int SERVER_IP_ARG = 4;
 
 	if (argc == 1)
 	{
@@ -72,14 +71,17 @@ int main(int argc, char* argv[])
 			std::cout << argv[i] << std::endl;
 		}
 
+		//------- Player name -------  
+		char* playerName = argv[PLAYER_NAME_ARG];
+
 		//------- Client or Server -------  
 		char* gameType = argv[CLIENT_SERVER_ARG];
 
 		if (strcmp(gameType, "server") == 0)
 		{
-			if (argc == 3)
+			if (argc == 4)
 			{
-				if (SetUpServer(atoi(argv[PORT_ARG])))
+				if (SetUpServer(playerName, atoi(argv[PORT_ARG])))
 				{
 
 				}
@@ -92,16 +94,16 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
+				std::cout << "Server usage : GreenShells.exe playerName server port" << std::endl;
 
 				return 0;
 			}
 		}
 		else if (strcmp(gameType, "client") == 0)
 		{
-			if (argc == 4)
+			if (argc == 5)
 			{
-				if (SetUpClient(argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
+				if (SetUpClient(playerName, argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
 				{
 
 				}
@@ -115,7 +117,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
+				std::cout << "Client usage : GreenShells.exe playerName client port ip" << std::endl;
 
 				return 0;
 			}

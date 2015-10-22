@@ -75,6 +75,7 @@ void Map::GenerateTiles()
 			char tileType = map.at((i * ROWS) + j);
 			switch (tileType)
 			{
+            default:
 			case '0':
 				m_tiles[i][j] = new TileGround(Position(j, i));
 				break;
@@ -84,12 +85,22 @@ void Map::GenerateTiles()
 				break;
 
 			case '2':
-			default:
 				m_tiles[i][j] = new TileWater(Position(j, i));
 				break;
+
+			case '3':
+				Position position(j, i);
+				m_tiles[i][j] = new TileGround(position);
+				m_spawnPositions.push_back(position);
+				break;
+            }
 			}
 		}
 	}
+
+std::vector<Position> Map::GetSpawnPositions()
+{
+	return m_spawnPositions;
 }
 
 std::vector<TileBase*> Map::GetArea(Position position, int distance)
@@ -125,7 +136,6 @@ void Map::NotifyNewturn()
 		{
 			tile->NotifyNewTurn();
 		}
-
 	}
 }
 
@@ -133,10 +143,17 @@ boost::property_tree::ptree Map::Serialize()
 {
 	boost::property_tree::ptree mapNode;
 
+	boost::property_tree::ptree& spawnListNode = mapNode.add("SPS", "");
+	for (int i = 0; i < m_spawnPositions.size(); ++i)
+	{
+		boost::property_tree::ptree& spawnNode = spawnListNode.add("SP", "");
+		spawnNode.put("<xmlattr>.X", m_spawnPositions[i].X);
+		spawnNode.put("<xmlattr>.Y", m_spawnPositions[i].Y);
+	}
+
 	for (int i = 0; i < ROWS; ++i)
 	{
 		boost::property_tree::ptree& rowNode = mapNode.add("R", "");
-		//rowNode.put("<xmlattr>.N", i);
 		for (int j = 0; j < COLUMNS; ++j)
 		{
 			boost::property_tree::ptree& tileNode = m_tiles[i][j]->Serialize();

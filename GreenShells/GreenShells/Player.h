@@ -10,6 +10,7 @@ class Player
     bool m_isReadyForNewTurn;
 
     bool m_isAlive;
+	bool m_isDisconnected;
     
     unsigned int m_cityCenterCount;
     unsigned int m_unitCount;
@@ -26,6 +27,10 @@ public:
     Player();
     ~Player();
 
+	void SetPlayerName(std::string name);
+	std::string GetPlayerName();
+
+	void SetPlayerID(int ID);
     int GetPlayerID();
 
     void NotifyNewTurn();
@@ -33,7 +38,7 @@ public:
     void SetPlayerReadyForNextTurn(bool isReady = true);
     bool IsPlayerReadyForNextTurn();
 
-	void SetDead();
+	void SetIsAlive(bool value);
 	bool IsAlive();
     int GetFood();
     int GetScience();
@@ -59,6 +64,8 @@ public:
 	void AddCityCenter();
 	void RemoveCityCenter();
 
+	void SetIsDisconnected(bool value=true);
+	bool IsDisconnected();
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);
