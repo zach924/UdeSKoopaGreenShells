@@ -82,7 +82,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 	}
 
 	// Nothing to attack on target Tile
-	if (targetTile->IsFree())
+	if (targetTile->IsFree()) // TODO : might be useless, probably the selection manager that validate that (with GetArea giving only attackable tile)
 	{
 		return false;
 	}

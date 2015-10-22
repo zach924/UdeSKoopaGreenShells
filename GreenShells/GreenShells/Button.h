@@ -24,7 +24,8 @@ private:
 
     Texture m_unpressedButton;
     Texture m_pressedButton;
-    const Color DISABLED_BUTTON_COLOR{ 192,192,192 };
+	const Color DISABLED_BUTTON_COLOR{ 192,192,192 };
+	const Color DEFAULT_BUTTON_COLOR{ 255,255,255 };
 
 	int m_topLimit;
 	int m_botLimit;

@@ -10,8 +10,6 @@ class Texture;
 class UnitBase
 {
 public:
-	static const int MIN_ATTACK_RANGE = 1;
-	static const int MAX_ATTACK_RANGE = 4; // TODO : Balancing on that
 	static const int MELEE_ATTACK_RANGE = 1;
 
 protected:
@@ -25,15 +23,19 @@ private:
 	int m_scienceCost;
 	int m_weaponCost;
 
+	int m_moveRange;
+
 	int m_attackDamage;
 	int m_attackRange;
 
 public:
-	UnitBase(int owner, int health, int attackRange, int attackDamage);
+	UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
 	~UnitBase();
 
 	int GetAttackDamage();
+	int GetAttackRange();
 	int GetHealth();
+	int GetMoveRange();
 	int GetOwnerID();
 
 	virtual int GetTypeAsInt() = 0;
@@ -46,7 +48,7 @@ public:
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);
 	
-	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see UnitSwordsman (you ned exactly the same thing)
+	AttackNotification ReceiveDamage(int damage); // NEED TO REDEFINE THE RECEIVE DAMAGE IN MELEE UNIT - see UnitSwordsman (you need exactly the same thing)
 
 
 	virtual void NotifyNewTurn();

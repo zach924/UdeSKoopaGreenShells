@@ -11,13 +11,15 @@
 #include "DistrictBase.h"
 #include "DistrictEmpty.h"
 #include "GameSession.h"
+#include "ClickManager.h"
 
 SelectionManager::SelectionManager()
-    :m_selectedDistrict(new DistrictEmpty(-1))
-    , m_selectedUnit(new UnitEmpty(-1))
-    , m_state(m_idle)
-    , m_unitEmpty(new UnitEmpty(-1))
-    , m_districtEmpty(new DistrictEmpty(-1))
+	:m_selectedDistrict(new DistrictEmpty(-1))
+	, m_selectedUnit(new UnitEmpty(-1))
+	, m_state(m_idle)
+	, m_unitEmpty(new UnitEmpty(-1))
+	, m_districtEmpty(new DistrictEmpty(-1))
+	, m_actionPossibleTile()
 {
 }
 
@@ -74,26 +76,60 @@ void SelectionManager::HandleSelection(Position pos)
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
 
+	// If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
+	if (m_state != m_idle && std::find(m_actionPossibleTile.begin(), m_actionPossibleTile.end(), tile) == m_actionPossibleTile.end())
+	{
+		DeselectUnit();
+		DeselectDistrict();
+		m_state = m_idle;
+	}
+
 	switch (m_state)
 	{
 	case m_idle:
+	{ // NEEDED {} because Switch Case statement doesn't like declaration in the CASE statement
 		std::cout << "Selecting Unit and district at pos " << pos.X << " " << pos.Y << std::endl;
 		SelectUnit(unit);
 		SelectDistrict(district);
+
+		// Without that {} it doesnt compile....
+		ButtonState btnUnitState = unit && unit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() ? ButtonState::Unpressed : ButtonState::Disabled;
+		std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
+		for (auto btn : unitButtons)
+		{
+			btn->SetButtonState(btnUnitState);
+		}
+
+
+
+		ButtonState btnDistrictState = district && district->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() ? ButtonState::Unpressed : ButtonState::Disabled;
+		std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
+		for (auto btn : districtButtons)
+		{
+			btn->SetButtonState(btnDistrictState);
+		}
+
+
 		break;
+	}
 	case m_unitMoving:
 		std::cout << "Moving Unit, Deselecting District and Unit Setting to Idle" << std::endl;
 		map.MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;
+		m_actionPossibleTile.clear();
 		break;
 	case m_unitAttacking:
 		std::cout << "Attacking Unit, Deselecting District and Unit Setting to Idle" << std::endl;
-		// TODO: attack
+		
+		// Consider that GetArea give me only the tile attackable.
+		map.Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;
+		m_actionPossibleTile.clear();
 		break;
 	default:
 		break;
@@ -107,6 +143,9 @@ void SelectionManager::UnitAttackPressed()
 		std::cout << "Selection Manager attack State" << std::endl;
 
 		m_state = m_unitAttacking;
+
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+		m_actionPossibleTile = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
 	}
 }
 
@@ -117,6 +156,9 @@ void SelectionManager::UnitMovePressed()
 		std::cout << "Selection Manager Move State" << std::endl;
 
 		m_state = m_unitMoving;
+
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+		m_actionPossibleTile = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
 	}
 }
 

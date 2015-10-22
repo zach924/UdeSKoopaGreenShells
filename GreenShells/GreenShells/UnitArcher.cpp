@@ -3,7 +3,7 @@
 #include <iostream>
 
 UnitArcher::UnitArcher(int owner)
-	: Unit<UnitArcher>(owner, HEALTH, ATTACK_RANGE, ATTACK_DAMAGE)
+	: Unit<UnitArcher>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 

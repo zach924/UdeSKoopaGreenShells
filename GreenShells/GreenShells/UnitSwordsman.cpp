@@ -2,7 +2,7 @@
 #include <iostream>
 
 UnitSwordsman::UnitSwordsman(int owner)
-	: Unit<UnitSwordsman>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+	: Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 

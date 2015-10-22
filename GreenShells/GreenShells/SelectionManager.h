@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include "TileBase.h"
+
 class Position;
 class UnitBase;
 class DistrictBase;
@@ -19,6 +22,8 @@ class SelectionManager
 
 	UnitBase * m_selectedUnit;
 	DistrictBase * m_selectedDistrict;
+
+	std::vector<TileBase*> m_actionPossibleTile;
 
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;

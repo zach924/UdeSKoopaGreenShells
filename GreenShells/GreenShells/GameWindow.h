@@ -82,7 +82,7 @@ private:
         Color{ 255,178,102 }
     };
 
-    GameWindow(ScreenResolution = RES_1600_1024);
+    GameWindow(ScreenResolution = RES_1280_720);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
