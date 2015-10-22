@@ -23,7 +23,7 @@ public:
 
     void GenerateTiles();
 
-	std::vector<TileBase*> GetArea(Position position, int distance);
+	std::vector<Position> GetArea(Position position, int distance);
 
 	TileBase* GetTile(Position);
 	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);

@@ -1,10 +1,8 @@
 #pragma once
 
-#include<vector>
 class Position;
 class UnitBase;
 class DistrictBase;
-class TileBase;
 
 class SelectionManager
 {
@@ -22,7 +20,6 @@ class SelectionManager
 
 	UnitBase * m_selectedUnit;
 	DistrictBase * m_selectedDistrict;
-    std::vector<TileBase*> m_selectionArea;
 
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
@@ -47,7 +44,6 @@ public:
 
     UnitBase* GetSelectedUnit();
     DistrictBase* GetSelectedDistrict();
-    std::vector<TileBase*> GetSelectionArea();
 
 	void HandleSelection(Position pos);
 

@@ -92,9 +92,9 @@ void Map::GenerateTiles()
 	}
 }
 
-std::vector<TileBase*> Map::GetArea(Position position, int distance)
+std::vector<Position> Map::GetArea(Position position, int distance)
 {
-	std::vector<TileBase*> area;
+	std::vector<Position> area;
 
 	//find miminum and maximum
 	int maxCol = position.X + distance;
@@ -117,7 +117,7 @@ std::vector<TileBase*> Map::GetArea(Position position, int distance)
 	{
 		for (int j = minRow; j <= maxRow; ++j)
 		{
-			area.push_back(GetTile(Position(j % ROWS, i % COLUMNS)));
+			area.push_back(Position(i % COLUMNS, j % ROWS));
 		}
 	}
 	return area;

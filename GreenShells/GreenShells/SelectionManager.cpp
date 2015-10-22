@@ -18,7 +18,6 @@ SelectionManager::SelectionManager()
     , m_state(m_idle)
     , m_unitEmpty(new UnitEmpty(-1))
     , m_districtEmpty(new DistrictEmpty(-1))
-    , m_selectionArea()
 {
 }
 
@@ -34,11 +33,6 @@ UnitBase* SelectionManager::GetSelectedUnit()
 DistrictBase* SelectionManager::GetSelectedDistrict()
 {
     return m_selectedDistrict;
-}
-
-std::vector<TileBase*> SelectionManager::GetSelectionArea()
-{
-    return m_selectionArea;
 }
 
 void SelectionManager::DeselectUnit(UnitBase* unit)
@@ -76,7 +70,6 @@ void SelectionManager::HandleSelection(Position pos)
 	//TODO taskID 8.2 Processus de selection
 	Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 	TileBase* tile = map.GetTile(pos);
-    m_selectionArea = map.GetArea(pos, 2);
 
 
 	UnitBase* unit = tile->GetUnit();
