@@ -125,8 +125,6 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		
-
 		GameWindow::GetInstance().ShowWindow();
 		GameWindow::GetInstance().Close();
 

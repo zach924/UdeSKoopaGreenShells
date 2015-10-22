@@ -1,6 +1,7 @@
 #include "UnitBase.h"
 #include <iostream>
 #include <algorithm>
+#include <boost\property_tree\ptree.hpp>
 #include "DistrictBase.h"
 
 
@@ -71,4 +72,14 @@ AttackNotification UnitBase::Attack(DistrictBase * target)
 
 void UnitBase::NotifyNewTurn()
 {
+}
+
+boost::property_tree::ptree UnitBase::Serialize()
+{
+	boost::property_tree::ptree unitNode;
+	unitNode.put("<xmlattr>.T", GetTypeAsInt());
+	unitNode.put("<xmlattr>.O", m_ownerID);
+	unitNode.put("<xmlattr>.H", m_health);
+
+	return unitNode;
 }

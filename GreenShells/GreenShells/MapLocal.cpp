@@ -6,7 +6,7 @@
 
 #include "Unit.h"
 #include "District.h"
-#include "CityCenter.h"
+#include "DistrictCityCenter.h"
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
 #include <exception>
@@ -26,7 +26,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 {
 	std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
 	auto firstTile = GetTile(unitLocation);
-	
+
 	//No unit to select
 	if (!firstTile->GetUnit())
 	{
@@ -38,9 +38,9 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 	{
 		return false;
 	}
-	
+
 	auto secondTile = GetTile(newLocation);
-	
+
 	//Is second tile some place safe?
 	//TODO : Add abilities that allows mountain & water passage.
 	if (!secondTile->CanTraverse())
@@ -56,7 +56,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 		firstTile->SetUnit(nullptr);
 		return true;
 	}
-	
+
 	//Other cases are all refused
 	return false;
 }
@@ -109,9 +109,9 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 		}
 		else
 		{
-			if (typeid(districtTargeted) == typeid(CityCenter::tBase))
+			if (typeid(districtTargeted) == typeid(DistrictCityCenter::tBase))
 			{
-				static_cast<CityCenter*>(districtTargeted)->ChangeOwner(ownerID);
+				static_cast<DistrictCityCenter*>(districtTargeted)->ChangeOwner(ownerID);
 				// for now player wont move on the citycenter if they take control of it
 			}
 			else
@@ -134,11 +134,10 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapLocal* map = new MapLocal();
-
-	int y = 0;
+	int row = 0;
 	for each (auto rowNode in mapNode)
 	{
-		if (rowNode.first == "SPS")
+		int column = 0;
 		{
 			for each(auto spawnNode in rowNode.second)
 			{
@@ -150,12 +149,11 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 		}
 		else
 		{
-			int x = 0;
 			for each(auto tileNode in rowNode.second)
 			{
 				if (tileNode.first == "T")
 				{
-					Position pos{ x, y };
+				Position pos{ row, column };
 
 					switch (tileNode.second.get<int>("<xmlattr>.TT"))
 					{
@@ -176,11 +174,12 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 						break;
 					}
 				}
-				x++;
+			column++;
 			}
-			y++;
+		row++;
 		}
 	}
 
 	return map;
 }
+

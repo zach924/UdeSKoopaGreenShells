@@ -58,7 +58,7 @@ void TileBase::SetPlayerOwnerId(int id)
 }
 
 TileBase::TileBase(Position position)
-    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner()
+    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1)
 {
 }
 
@@ -70,4 +70,24 @@ TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position p
 bool TileBase::IsFree()
 {
 	return !(m_district || m_unit);
+}
+
+boost::property_tree::ptree TileBase::Serialize()
+{
+	boost::property_tree::ptree tileNode;
+	tileNode.put("<xmlattr>.TT", GetTypeAsInt());
+	tileNode.put("<xmlattr>.O", m_owner);
+
+	if (m_unit)
+	{
+		boost::property_tree::ptree unitNode = m_unit->Serialize();
+        tileNode.add_child("U", unitNode);
+	}
+	if (m_district)
+	{
+        boost::property_tree::ptree districtNode = m_district->Serialize();
+        tileNode.add_child("D", districtNode);
+	}
+
+	return tileNode;
 }

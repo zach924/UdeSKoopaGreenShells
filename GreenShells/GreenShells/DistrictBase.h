@@ -37,6 +37,7 @@ public:
     virtual Texture* GetTexture() = 0;
 	Position GetPosition();
 	void SetPosition(Position pos);
+	virtual int GetTypeAsInt() = 0;
 
 	virtual void Repair(int repairValue) = 0;
 	virtual AttackNotification ReceiveDamage(int damage);
@@ -44,5 +45,5 @@ public:
 
 	virtual void NotifyNewTurn();
 
-	//virtual boost::property_tree::ptree Serialize();
+	boost::property_tree::ptree Serialize();
 };

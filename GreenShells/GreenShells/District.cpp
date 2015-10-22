@@ -2,9 +2,9 @@
 #include "Texture.h"
 
 
-#include "CityCenter.h"
-#include "Farm.h"
+#include "DistrictCityCenter.h"
+#include "DistrictFarm.h"
 
 
-Texture CityCenter::tBase::m_Texture = {};
-Texture Farm::tBase::m_Texture = {};
+Texture DistrictCityCenter::tBase::m_Texture = {};
+Texture DistrictFarm::tBase::m_Texture = {};

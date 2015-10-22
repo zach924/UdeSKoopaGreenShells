@@ -13,7 +13,7 @@
 using namespace std;
 
 WorldState::WorldState()
-:m_map(nullptr), m_players(), m_mutex(), m_turn(1)
+	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(false)
 {
 }
 
@@ -147,8 +147,14 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
         }
         else if (worldStateNode.first == "M")
         {
-            m_map = MapLocal::Deserialize(worldStateNode.second);
-			// TODO :  need to know from wich class we need to Deserialize, cause map is abstract (bool in WorldState)
+			if (m_remote)
+			{
+				m_map = MapRemote::Deserialize(worldStateNode.second);
+			}
+			else
+			{
+				m_map = MapLocal::Deserialize(worldStateNode.second);
+			}
         }
     }
 }

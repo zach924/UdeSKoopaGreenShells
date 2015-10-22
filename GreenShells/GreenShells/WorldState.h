@@ -13,6 +13,7 @@ class WorldState
 	int m_turn;
 	std::vector<Player> m_players;
 	Map* m_map;
+	bool m_remote;
 public:
 	WorldState();
 	~WorldState();
