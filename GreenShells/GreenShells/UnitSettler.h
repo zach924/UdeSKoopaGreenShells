@@ -1,24 +1,28 @@
 #pragma once
 #include "Unit.h"
 
-class Settler : public Unit<Settler>
+class UnitSettler : public Unit<UnitSettler>
 {
 public:
-	typedef Unit<Settler> tBase;
+	typedef Unit<UnitSettler> tBase;
 
 	static int const ATTACK_DAMAGE = 5;
 	static int const HEALTH = 100;
 
+private:
+	static int const UNIT_TYPE = 2;
+
 public:
-	Settler(int owner);
-	~Settler();
+	UnitSettler(int owner);
+	~UnitSettler();
 
 	void LoadTexture();
 
+	virtual int GetTypeAsInt();
 	virtual void Heal(int health);
 
 	virtual AttackNotification Attack(UnitBase* target);
 	virtual AttackNotification Attack(DistrictBase* target);
 
-	virtual  boost::property_tree::ptree Serialize();
+	static UnitSettler* Deserialize(boost::property_tree::ptree node);
 };

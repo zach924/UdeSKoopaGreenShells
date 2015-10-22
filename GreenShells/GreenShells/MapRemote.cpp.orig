@@ -62,13 +62,23 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapRemote* map = new MapRemote();
-	int row = 0;
+<<<<<<< HEAD
+
+	int y = 0;
 	for each (auto rowNode in mapNode)
 	{
 		if (rowNode.first == "SPS")
+=======
+	int row = 0;
+	for each (auto rowNode in mapNode)
+	{
+		int column = 0;
+		for each(auto tileNode in rowNode.second)
+>>>>>>> master
 		{
 			for each(auto spawnNode in rowNode.second)
 			{
+<<<<<<< HEAD
 				if (spawnNode.first == "SP")
 				{
 					map->m_spawnPositions.emplace_back(spawnNode.second.get<int>("<xmlattr>.X"), spawnNode.second.get<int>("<xmlattr>.Y"));
@@ -77,12 +87,17 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 		}
 		else
 		{
-			int column = 0;
+			int x = 0;
 			for each(auto tileNode in rowNode.second)
 			{
 				if (tileNode.first == "T")
+=======
+				Position pos{ row, column };
+
+				switch (tileNode.second.get<int>("<xmlattr>.TT"))
+>>>>>>> master
 				{
-					Position pos{ row, column };
+					Position pos{ x, y };
 
 					switch (tileNode.second.get<int>("<xmlattr>.TT"))
 					{
@@ -103,10 +118,16 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 						break;
 					}
 				}
-				column++;
+				x++;
 			}
-			row++;
+<<<<<<< HEAD
+			y++;
 		}
+=======
+			column++;
+		}
+		row++;
+>>>>>>> master
 	}
 
 	return map;

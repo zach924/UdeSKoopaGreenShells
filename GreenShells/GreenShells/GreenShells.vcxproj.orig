@@ -163,7 +163,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonDistrictSell.cpp" />
@@ -200,7 +199,12 @@
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="Settler.cpp" />
+    <ClCompile Include="Swordsman.cpp" />
+=======
     <ClCompile Include="UnitSwordsman.cpp" />
+>>>>>>> master
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -213,7 +217,6 @@
     <ClCompile Include="WorldState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />
@@ -252,7 +255,12 @@
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
+<<<<<<< HEAD
+    <ClInclude Include="Settler.h" />
+    <ClInclude Include="Swordsman.h" />
+=======
     <ClInclude Include="UnitSwordsman.h" />
+>>>>>>> master
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />

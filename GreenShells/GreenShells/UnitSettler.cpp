@@ -1,20 +1,20 @@
-#include "Settler.h"
+#include "UnitSettler.h"
 #include <iostream>
 
-Settler::Settler(int owner)
-	: Unit<Settler>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+UnitSettler::UnitSettler(int owner)
+	: Unit<UnitSettler>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-Settler::~Settler()
+UnitSettler::~UnitSettler()
 {
 }
 
-void Settler::LoadTexture()
+void UnitSettler::LoadTexture()
 {
 	try
 	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Cannon.bmp"); //TODO Change to settler icon
+		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Mace.bmp");
 	}
 	catch (std::exception e)
 	{
@@ -23,13 +23,18 @@ void Settler::LoadTexture()
 	}
 }
 
-void Settler::Heal(int health)
+int UnitSettler::GetTypeAsInt()
+{
+	return UNIT_TYPE;
+}
+
+void UnitSettler::Heal(int health)
 {
 	m_health = std::min(m_health + health, HEALTH);
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING 
-AttackNotification Settler::Attack(UnitBase * target)
+AttackNotification UnitSettler::Attack(UnitBase * target)
 {
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -40,7 +45,7 @@ AttackNotification Settler::Attack(UnitBase * target)
 	return targetNotification;
 }
 
-AttackNotification Settler::Attack(DistrictBase * target)
+AttackNotification UnitSettler::Attack(DistrictBase * target)
 {
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -54,7 +59,10 @@ AttackNotification Settler::Attack(DistrictBase * target)
 	return targetNotification;
 }
 
-boost::property_tree::ptree Settler::Serialize()
+UnitSettler * UnitSettler::Deserialize(boost::property_tree::ptree node)
 {
-	return boost::property_tree::ptree();
+	UnitSettler* swordsman = new UnitSettler(node.get<int>("<xmlattr>.O"));
+	swordsman->m_health = node.get<int>("<xmlattr>.H");
+
+	return swordsman;
 }

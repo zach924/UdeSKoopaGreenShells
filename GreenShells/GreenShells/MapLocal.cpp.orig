@@ -134,13 +134,23 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 {
 	MapLocal* map = new MapLocal();
-	int row = 0;
+<<<<<<< HEAD
+
+	int y = 0;
 	for each (auto rowNode in mapNode)
 	{
 		if (rowNode.first == "SPS")
+=======
+	int row = 0;
+	for each (auto rowNode in mapNode)
+	{
+		int column = 0;
+		for each(auto tileNode in rowNode.second)
+>>>>>>> master
 		{
 			for each(auto spawnNode in rowNode.second)
 			{
+<<<<<<< HEAD
 				if (spawnNode.first == "SP")
 				{
 					map->m_spawnPositions.emplace_back(spawnNode.second.get<int>("<xmlattr>.X"), spawnNode.second.get<int>("<xmlattr>.Y"));
@@ -149,12 +159,17 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 		}
 		else
 		{
-			int column = 0;
+			int x = 0;
 			for each(auto tileNode in rowNode.second)
 			{
 				if (tileNode.first == "T")
-				{
+=======
 				Position pos{ row, column };
+
+				switch (tileNode.second.get<int>("<xmlattr>.TT"))
+>>>>>>> master
+				{
+					Position pos{ x, y };
 
 					switch (tileNode.second.get<int>("<xmlattr>.TT"))
 					{
@@ -175,10 +190,16 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 						break;
 					}
 				}
-				column++;
+				x++;
 			}
-			row++;
+<<<<<<< HEAD
+			y++;
 		}
+=======
+			column++;
+		}
+		row++;
+>>>>>>> master
 	}
 
 	return map;

@@ -240,6 +240,9 @@
     <ClCompile Include="DistrictFarm.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
+    <ClCompile Include="UnitSettler.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="DistrictFarm.h">
       <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSettler.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

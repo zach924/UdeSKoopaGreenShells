@@ -41,7 +41,6 @@ bool SetUpClient(char* playerName, char* ip, int port)
 		if (GameSession::GetInstance().ConnectToServer(playerName))
 		{
 			GameSession::GetInstance().GetWorldState()->PrepareRemoteGame();
-			//GameSession::GetInstance().GetWorldState()->GetMap()->MoveUnit(1, Position(2, 3), Position(3, 3));
 			return true;
 		}
 		else
@@ -96,7 +95,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				std::cout << "Server usage : GreenShells.exe server port" << std::endl;
+				std::cout << "Server usage : GreenShells.exe playerName server port" << std::endl;
 
 				return 0;
 			}
@@ -119,7 +118,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				std::cout << "Client usage : GreenShells.exe client port ip" << std::endl;
+				std::cout << "Client usage : GreenShells.exe playerName client port ip" << std::endl;
 
 				return 0;
 			}

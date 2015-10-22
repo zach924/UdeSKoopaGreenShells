@@ -34,6 +34,7 @@
 // Unit
 #include "UnitArcher.h"
 #include "UnitSwordsman.h"
+#include "UnitSettler.h"
 
 // District 
 #include "DistrictFarm.h"
