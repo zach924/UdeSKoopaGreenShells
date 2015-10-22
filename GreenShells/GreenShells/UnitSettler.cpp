@@ -61,8 +61,8 @@ AttackNotification UnitSettler::Attack(DistrictBase * target)
 
 UnitSettler * UnitSettler::Deserialize(boost::property_tree::ptree node)
 {
-	UnitSettler* swordsman = new UnitSettler(node.get<int>("<xmlattr>.O"));
-	swordsman->m_health = node.get<int>("<xmlattr>.H");
+	UnitSettler* settler = new UnitSettler(node.get<int>("<xmlattr>.O"));
+	settler->m_health = node.get<int>("<xmlattr>.H");
 
-	return swordsman;
+	return settler;
 }
