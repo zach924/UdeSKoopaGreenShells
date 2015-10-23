@@ -117,13 +117,13 @@ void GameWindow::ShowWindow()
 				{
 					if (IsClickInMap(e.button.x, e.button.y))
 					{
-                    int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
-                    posCol %= (Map::COLUMNS -1);
+						int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+						posCol %= (Map::COLUMNS -1);
 
-                    int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
-                    posRow %= (Map::ROWS -1);
+						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+						posRow %= (Map::ROWS -1);
 
-                    ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
+						ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
 					}
 					else if (IsClickInLeftMenu(e.button.x, e.button.y))
 					{

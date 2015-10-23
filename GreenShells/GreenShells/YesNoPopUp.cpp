@@ -33,7 +33,7 @@ void YesNoPopUp::ShowWindow(SDL_Renderer* rend)
 	//Show Text
 	SDL_RenderClear(m_rend);
 	int x = 25;
-	int y;
+	int y = 0;
 	int width = m_width - 50;
 	int height = m_fontSize;
 
