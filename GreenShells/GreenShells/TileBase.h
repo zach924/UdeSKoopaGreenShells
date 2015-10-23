@@ -29,6 +29,8 @@ public:
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);
 
+	Position GetPosition();
+
 	bool IsFree();
     boost::property_tree::ptree Serialize();
 };

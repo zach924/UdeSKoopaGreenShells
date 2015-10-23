@@ -154,18 +154,18 @@ MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 			{
 				if (tileNode.first == "T")
 				{
-				Position pos{ row, column };
+				Position pos{ column, row };
 
 					switch (tileNode.second.get<int>("<xmlattr>.TT"))
 					{
 					case 0:
-						map->m_tiles[pos.X][pos.Y] = TileGround::Deserialize(tileNode.second, pos);
+						map->m_tiles[pos.Row][pos.Column] = TileGround::Deserialize(tileNode.second, pos);
 						break;
 					case 1:
-						map->m_tiles[pos.X][pos.Y] = TileMountain::Deserialize(tileNode.second, pos);
+						map->m_tiles[pos.Row][pos.Column] = TileMountain::Deserialize(tileNode.second, pos);
 						break;
 					case 2:
-						map->m_tiles[pos.X][pos.Y] = TileWater::Deserialize(tileNode.second, pos);
+						map->m_tiles[pos.Row][pos.Column] = TileWater::Deserialize(tileNode.second, pos);
 						break;
 
 					case -1:

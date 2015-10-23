@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Map.h"
+#include "MapLocal.h"
 #include "Position.h"
 #include "ServerSession.h"
 #include "Tile.h"
@@ -70,14 +70,15 @@ void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 void SelectionManager::HandleSelection(Position pos)
 {
 	//TODO taskID 8.2 Processus de selection
-	Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-	TileBase* tile = map.GetTile(pos);
+	Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
+	//Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+	TileBase* tile = map->GetTile(pos);
 	
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
 
 	// If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-	if (m_state != m_idle && std::find(m_actionPossibleTile.begin(), m_actionPossibleTile.end(), tile) == m_actionPossibleTile.end())
+	if (m_state != m_idle && std::find(m_actionPossibleTile.begin(), m_actionPossibleTile.end(), tile->GetPosition()) == m_actionPossibleTile.end())
 	{
 		DeselectUnit();
 		DeselectDistrict();
@@ -89,7 +90,7 @@ void SelectionManager::HandleSelection(Position pos)
 	{
 	case m_idle:
 	{ // NEEDED {} because Switch Case statement doesn't like declaration in the CASE statement
-		std::cout << "Selecting Unit and district at pos " << pos.X << " " << pos.Y << std::endl;
+		std::cout << "Selecting Unit and district at pos " << pos.Column << " " << pos.Row << std::endl;
 		SelectUnit(unit);
 		SelectDistrict(district);
 
@@ -115,7 +116,7 @@ void SelectionManager::HandleSelection(Position pos)
 	}
 	case m_unitMoving:
 		std::cout << "Moving Unit, Deselecting District and Unit Setting to Idle" << std::endl;
-		map.MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+		map->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;
@@ -125,7 +126,7 @@ void SelectionManager::HandleSelection(Position pos)
 		std::cout << "Attacking Unit, Deselecting District and Unit Setting to Idle" << std::endl;
 		
 		// Consider that GetArea give me only the tile attackable.
-		map.Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+		map->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
 
 		DeselectUnit();
 		DeselectDistrict();

@@ -5,12 +5,17 @@ class Position
 {
 public:
 	
-	int X;
-	int Y;
+	int Column;
+	int Row;
 
-	Position(int x = -1, int y = -1);
+	Position(int column = -1, int row = -1);
 	~Position();
 	std::string ToString() const;
+
+	friend bool operator==(const Position& obj1, const Position& obj2)
+	{
+		return obj1.Column == obj2.Column && obj1.Row == obj2.Row;
+	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Position& obj)
 	{

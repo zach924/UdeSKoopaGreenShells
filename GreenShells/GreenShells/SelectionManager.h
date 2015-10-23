@@ -23,15 +23,13 @@ class SelectionManager
 	UnitBase * m_selectedUnit;
 	DistrictBase * m_selectedDistrict;
 
-	std::vector<TileBase*> m_actionPossibleTile;
+	std::vector<Position> m_actionPossibleTile;
 
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
 
 	SelectionManager();
 	~SelectionManager();
-
-	
 
 	void DeselectUnit(UnitBase* unit = nullptr);
 	void DeselectDistrict(DistrictBase* district = nullptr);

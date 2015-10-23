@@ -112,7 +112,7 @@ void GameWindow::ShowWindow()
 			}
 			else if (e.type == SDL_MOUSEBUTTONUP)
 			{
-				std::cout << "clicked at X: " << e.button.x << " Y: " << e.button.y << std::endl;
+				std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
 				if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
 				{
 					if (IsClickInMap(e.button.x, e.button.y))
@@ -123,7 +123,7 @@ void GameWindow::ShowWindow()
 						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
 						posRow %= (Map::ROWS -1);
 
-						ClickManager::GetInstance().ManageMapClick(Position(posRow, posCol));
+						ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
 					}
 					else if (IsClickInLeftMenu(e.button.x, e.button.y))
 					{
@@ -307,18 +307,18 @@ void GameWindow::ShowWindow()
 		//Render Map
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
-        int yIndex = m_currentLowestY;
-        for (int i = 0; i <= m_CurrentScreen.NUM_TILE_HEIGHT; ++i)
+        int rowIndex = m_currentLowestY;
+        for (int row = 0; row <= m_CurrentScreen.NUM_TILE_HEIGHT; ++row)
 		{
-            int xIndex = m_currentLeftmostX;
-            for (int j = 0; j <= m_CurrentScreen.NUM_TILE_WIDTH; ++j)
+            int columnIndex = m_currentLeftmostX;
+            for (int column = 0; column <= m_CurrentScreen.NUM_TILE_WIDTH; ++column)
 			{
-                TileBase* tile = map.GetTile(Position(yIndex, xIndex));
+                TileBase* tile = map.GetTile(Position(columnIndex, rowIndex));
 				Texture* tileTexture = tile->GetTexture();
 
 				//Position the tile on the screen
-                int xPos = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
-                int yPos = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
+                int xPos = m_CurrentScreen.HUD_WIDTH + (column * m_CurrentScreen.TILE_SIZE);
+                int yPos = m_CurrentScreen.HUD_HEIGHT + (row * m_CurrentScreen.TILE_SIZE);
 				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
 				//Render the tile
@@ -339,10 +339,10 @@ void GameWindow::ShowWindow()
                     unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
 				}
-                xIndex = (xIndex + 1) % (Map::COLUMNS - 1);
+                columnIndex = (columnIndex + 1) % (Map::COLUMNS - 1);
 
 			}
-            yIndex = (yIndex + 1) % (Map::ROWS - 1);
+            rowIndex = (rowIndex + 1) % (Map::ROWS - 1);
 
 		}
 		//Draw screen
