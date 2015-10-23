@@ -12,7 +12,7 @@ class RPCDispatcher
 
 	void Dispatch(RPCBasicStruct* data);
 	void Dispatch(RPCBasicTwoPositionsStruct* data);
-	void Dispatch(RPCEvent);
+	void Dispatch(RPCEvent*);
 
 public:
 	RPCDispatcher();

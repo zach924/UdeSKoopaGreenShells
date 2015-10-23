@@ -50,12 +50,9 @@ AttackNotification UnitSwordsman::Attack(DistrictBase * target)
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
-	if (attackerNotification.TargetIsDead)
-	{
-		targetNotification.AttackerIsDead = true;
-	}
-
+	targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
 	targetNotification.CanMove = true;
+
 	return targetNotification;
 }
 
