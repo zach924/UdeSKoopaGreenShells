@@ -14,7 +14,7 @@ void UnitSettler::LoadTexture()
 {
 	try
 	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Mace.bmp");
+		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\settler.bmp");
 	}
 	catch (std::exception e)
 	{
