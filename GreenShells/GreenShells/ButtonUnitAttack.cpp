@@ -17,11 +17,11 @@ void ButtonUnitAttack::DoAction()
 	SelectionManager::GetInstance().UnitAttackPressed();
 }
 
-void ButtonUnitAttack::LoadTextTexture()
+void ButtonUnitAttack::LoadTextTexture(SDL_Renderer* rend)
 {
 	try
 	{
-		m_textTexture.LoadFromFile("..\\Sprite\\Button\\attack_text.bmp");
+		m_textTexture.LoadFromFile("..\\Sprite\\Button\\attack_text.bmp", rend);
 	}
 	catch (std::exception e)
 	{
