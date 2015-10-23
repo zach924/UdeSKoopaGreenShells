@@ -264,13 +264,15 @@ void GameWindow::ShowWindow()
 		SDL_RenderClear(m_renderer);
 
 		//Render UI
-		//Render ressources
+		//Render ressources and turns
 		{
 			SDL_Color textColor = { 255, 255, 255 };
 
 			Player currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayer(GameSession::GetInstance().GetCurrentPlayerID());
 
-			// food
+			/************
+			    FOOD
+			*************/
 			int iconTextSpacing = 5;
 			int x = m_CurrentScreen.HUD_WIDTH;
 			int yIcon = 10;
@@ -289,7 +291,7 @@ void GameWindow::ShowWindow()
 			SDL_Texture* foodTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodSurf);
 			assert(foodTextTexture != NULL && TTF_GetError());
 
-			x += widthIcon;
+			x += widthIcon + iconTextSpacing;
 			widthText = foodSurf->w;
 			heightText = foodSurf->h;
 			yText = yIcon + heightIcon - heightText;
@@ -298,7 +300,9 @@ void GameWindow::ShowWindow()
 			SDL_RenderCopy(m_renderer, foodTextTexture, NULL, &renderQuadFoodValue);
 
 
-			// weapon
+			/************
+			   WEAPON
+			*************/
 			x += widthIcon + widthText + iconTextSpacing;
 
 			SDL_Rect renderQuadWeapon = { x, yIcon, widthIcon, heightIcon };
@@ -310,16 +314,17 @@ void GameWindow::ShowWindow()
 			SDL_Texture* weaponTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponSurf);
 			assert(weaponTextTexture != NULL && TTF_GetError());
 
-			x += widthIcon;
+			x += widthIcon + iconTextSpacing;
 			widthText = weaponSurf->w;
 			heightText = weaponSurf->h;
-			yText = yIcon + heightIcon - heightText;
 
 			SDL_Rect renderQuadWeaponValue = { x, yText, widthText, heightText };
 			SDL_RenderCopy(m_renderer, weaponTextTexture, NULL, &renderQuadWeaponValue);
 
-			// science
-			x = x += widthIcon + widthText;
+			/************
+			   SCIENCE
+			*************/
+			x += widthIcon + widthText + iconTextSpacing;
 
 			SDL_Rect renderQuadScience = { x, yIcon, widthIcon, heightIcon };
 			SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
@@ -330,13 +335,32 @@ void GameWindow::ShowWindow()
 			SDL_Texture* scienceTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceSurf);
 			assert(scienceTextTexture != NULL && TTF_GetError());
 
-			x += widthIcon;
+			x += widthIcon + iconTextSpacing;
 			widthText = scienceSurf->w;
 			heightText = scienceSurf->h;
-			yText = yIcon + heightIcon - heightText;
 
 			SDL_Rect renderQuadScienceValue = { x, yText, widthText, heightText };
 			SDL_RenderCopy(m_renderer, scienceTextTexture, NULL, &renderQuadScienceValue);
+
+			/************
+			    TURN
+			*************/
+			x += widthIcon + widthText + iconTextSpacing;
+			std::string turnText = "Turn : ";
+			turnText.append(std::to_string(GameSession::GetInstance().GetWorldState()->GetCurrentTurn()));
+
+			SDL_Surface* turnSurf = TTF_RenderText_Solid(m_ressourcesFont, turnText.c_str(), textColor);
+			assert(turnSurf != NULL && TTF_GetError());
+
+			SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
+			assert(turnTextTexture != NULL && TTF_GetError());
+
+			widthText = turnSurf->w;
+			heightText = turnSurf->h;
+
+			SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
+			SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
+
 		}
 
 		//Render Buttons
