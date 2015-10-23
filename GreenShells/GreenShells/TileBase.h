@@ -13,11 +13,13 @@ protected:
 	DistrictBase* m_district;
 	UnitBase* m_unit;
     int m_owner;    
+    Position m_position;
 
 public:
-    Position m_position;
+
     TileBase(Position position = Position(-1, -1));
-	virtual Texture* GetTexture()=0;
+    virtual Position GetPosition();
+    virtual Texture* GetTexture()=0;
     virtual bool CanTraverse()=0;
 	virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);

@@ -17,6 +17,11 @@ void TileBase::NotifyNewTurn()
     }
 }
 
+Position TileBase::GetPosition()
+{
+    return m_position;
+}
+
 DistrictBase* TileBase::GetDistrict()
 {
     return m_district;
