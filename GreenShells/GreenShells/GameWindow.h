@@ -32,8 +32,9 @@ struct ScreenResolution
     int UP_SCROLL_POSITION;
     int RIGHT_SCROLL_POSITION;
     int LEFT_SCROLL_POSITION;
+	bool FULLSCREEN;
 
-    ScreenResolution(int maxW, int maxH, int mapW, int mapH, int hudW, int hudH, int vOffset, int DistrictH, int UnitH)
+    ScreenResolution(int maxW, int maxH, int mapW, int mapH, int hudW, int hudH, int vOffset, int DistrictH, int UnitH, bool fullScreen)
         :MAX_WIDTH(maxW)
         , MAX_HEIGHT(maxH)
         , MAP_WIDTH(mapW)
@@ -51,13 +52,15 @@ struct ScreenResolution
         , RIGHT_SCROLL_POSITION(maxW - 15)
         , LEFT_SCROLL_POSITION(hudW + 15)
         , UP_SCROLL_POSITION(hudH + 15)
+		, FULLSCREEN(fullScreen)
     {}
 };
-static ScreenResolution RES_800_600{ 800,600,520,520,280,80,5,240,425 };
-static ScreenResolution RES_1280_720{ 1280,720,975,650,305,70,12,292,498 };
-static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120,25,362,650 };
-static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114,35,410,735 };
-static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,319,664 };
+static ScreenResolution RES_800_600{ 800,600,520,520,280,80,5,240,425,false };
+static ScreenResolution RES_1280_720{ 1280,720,975,650,305,70,12,292,498,false };
+static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120,25,362,650,false };
+static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114,35,410,735,false };
+static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,319,664,false };
+static ScreenResolution RES_1920_1080_FullScreen{ 1920,1080,1625,975,295,105,38,319,664,true };
 
 class GameWindow
 {
