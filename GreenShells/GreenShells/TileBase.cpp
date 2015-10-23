@@ -17,6 +17,11 @@ void TileBase::NotifyNewTurn()
     }
 }
 
+Position TileBase::GetPosition()
+{
+    return m_position;
+}
+
 DistrictBase* TileBase::GetDistrict()
 {
     return m_district;
@@ -55,11 +60,6 @@ int TileBase::GetPlayerOwnerId()
 void TileBase::SetPlayerOwnerId(int id)
 {
     m_owner = id;
-}
-
-Position TileBase::GetPosition()
-{
-	return m_position;
 }
 
 TileBase::TileBase(Position position)

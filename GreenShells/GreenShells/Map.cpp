@@ -108,16 +108,27 @@ std::vector<Position> Map::GetArea(Position position, int distance)
 	std::vector<Position> area;
 
 	//find miminum and maximum
-	int minRow = std::max(position.Row - distance, 0);
-	int maxRow = std::min(position.Row + distance, ROWS - 1);
-	int minCol = std::max(position.Column - distance, 0);
-	int maxCol = std::min(position.Column + distance, COLUMNS - 1);
+	int maxCol = position.Column + distance;
+    int maxRow = position.Row + distance;
+
+	int minCol = position.Column - distance;
+    if (minCol < 0)
+    {
+        minCol += COLUMNS;
+        maxCol += COLUMNS;
+    }
+    int minRow = position.Row - distance;
+    if (minRow < 0)
+    {
+        minRow += ROWS;
+        maxRow += ROWS;
+    }
 
 	for (int row = minRow; row <= maxRow; ++row)
 	{
 		for (int column = minCol; column <= maxCol; ++column)
 		{
-			area.push_back(Position(column, row));
+			area.push_back(Position(column % COLUMNS, row % ROWS));
 		}
 	}
 	return area;

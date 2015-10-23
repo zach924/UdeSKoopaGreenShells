@@ -73,7 +73,8 @@ void SelectionManager::HandleSelection(Position pos)
 	Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
 	//Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 	TileBase* tile = map->GetTile(pos);
-	
+
+
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
 
