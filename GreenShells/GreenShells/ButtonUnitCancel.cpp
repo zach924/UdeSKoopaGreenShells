@@ -16,11 +16,11 @@ void ButtonUnitCancel::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonUnitCancel::LoadTextTexture()
+void ButtonUnitCancel::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Cancel_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Cancel_text.bmp", rend);
     }
     catch (std::exception e)
     {

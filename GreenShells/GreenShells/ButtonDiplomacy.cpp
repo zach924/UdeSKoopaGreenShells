@@ -16,11 +16,11 @@ void ButtonDiplomacy::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonDiplomacy::LoadTextTexture()
+void ButtonDiplomacy::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Diplomacy_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Diplomacy_text.bmp", rend);
     }
     catch (std::exception e)
     {

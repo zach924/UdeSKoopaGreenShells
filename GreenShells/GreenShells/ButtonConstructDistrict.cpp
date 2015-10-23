@@ -16,11 +16,11 @@ void ButtonConstructDistrict::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonConstructDistrict::LoadTextTexture()
+void ButtonConstructDistrict::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Upgrade_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Upgrade_text.bmp", rend);
     }
     catch (std::exception e)
     {
