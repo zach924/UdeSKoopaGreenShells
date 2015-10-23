@@ -16,7 +16,7 @@ void ButtonConstructDistrict::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonConstructDistrict::LoadTextTexture()
+void ButtonConstructDistrict::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {

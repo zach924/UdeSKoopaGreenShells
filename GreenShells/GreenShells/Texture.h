@@ -17,7 +17,10 @@ public:
 	~Texture();
 
 	bool IsLoaded();
-	bool LoadFromFile(std::string path);
+	/*
+	* Omitting rend and it will get rendered on the main game window
+	*/
+	bool LoadFromFile(std::string path, SDL_Renderer* rend = nullptr);
 	void Free();
     void SetColor(Color color);
 	void SetColor(int red, int green, int blue);

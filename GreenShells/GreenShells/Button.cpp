@@ -17,12 +17,12 @@ Button::~Button()
 {
 }
 
-void Button::LoadButtonTextures()
+void Button::LoadButtonTextures(SDL_Renderer* rend)
 {
     try
     {
-        m_pressedButton.LoadFromFile("..\\Sprite\\Button\\button_pressed.bmp");
-        m_unpressedButton.LoadFromFile("..\\Sprite\\Button\\button_unpressed.bmp");
+        m_pressedButton.LoadFromFile("..\\Sprite\\Button\\button_pressed.bmp", rend);
+        m_unpressedButton.LoadFromFile("..\\Sprite\\Button\\button_unpressed.bmp", rend);
     }
     catch (std::exception e)
     {
@@ -66,11 +66,11 @@ int Button::GetHeight()
 	return m_botLimit - m_topLimit;
 }
 
-Texture* Button::GetTextTexture()
+Texture* Button::GetTextTexture(SDL_Renderer* rend)
 {
 	if (!m_textTexture.IsLoaded())
 	{
-		LoadTextTexture();
+		LoadTextTexture(rend);
 	}
     switch (m_buttonState)
     {
@@ -82,11 +82,11 @@ Texture* Button::GetTextTexture()
 	return &m_textTexture;
 }
 
-Texture* Button::GetButtonTexture()
+Texture* Button::GetButtonTexture(SDL_Renderer* rend)
 {
     if (!m_pressedButton.IsLoaded() || !m_unpressedButton.IsLoaded())
     {
-        LoadButtonTextures();
+        LoadButtonTextures(rend);
     }
     switch (m_buttonState)
     {

@@ -16,11 +16,11 @@ void ButtonSkillTree::DoAction()
     //TODO NOT IMPLEMENTED
 }
 
-void ButtonSkillTree::LoadTextTexture()
+void ButtonSkillTree::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\SkillTree_text.bmp");
+        m_textTexture.LoadFromFile("..\\Sprite\\Button\\SkillTree_text.bmp", rend);
     }
     catch (std::exception e)
     {

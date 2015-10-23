@@ -130,3 +130,8 @@ bool SelectionManager::IsAnDistrictSelected()
 {
 	return dynamic_cast<DistrictEmpty*>(m_selectedDistrict) != nullptr;
 }
+
+void SelectionManager::UnitSell()
+{
+	// TODO: Sell Unit
+}

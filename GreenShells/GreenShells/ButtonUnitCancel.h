@@ -9,5 +9,5 @@ public:
 
     void DoAction();
 
-    void LoadTextTexture();
+    void LoadTextTexture(SDL_Renderer* rend);
 };

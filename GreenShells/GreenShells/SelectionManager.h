@@ -53,5 +53,6 @@ public:
 	bool IsAnUnitSelected();
 	bool IsAnDistrictSelected();
 	
+	void UnitSell();
 };
 
