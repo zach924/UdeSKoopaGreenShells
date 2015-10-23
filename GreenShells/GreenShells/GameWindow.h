@@ -74,6 +74,11 @@ private:
 
 	std::vector<PopUpWindow*> m_activePopUpWindow;
 
+	TTF_Font* m_ressourcesFont;
+	Texture* m_foodTexture;
+	Texture* m_weaponTexture;
+	Texture* m_scienceTexture;
+
     const Color PLAYER_COLORS[8] =
     {
         Color{ 255,102,102 },
@@ -95,11 +100,13 @@ private:
     void CreateGeneralButtons();
     void CreateDistrictButtons();
     void CreateUnitButtons();
+	void CreateRessourcesTextures();
 
 public:
     static GameWindow& GetInstance()
     {
-        static GameWindow m_instance{ };
+
+		static GameWindow m_instance{ };
         return m_instance;
     }
 
