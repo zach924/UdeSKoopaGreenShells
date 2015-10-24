@@ -16,8 +16,10 @@ protected:
     Position m_position;
 
 public:
+
     TileBase(Position position = Position(-1, -1));
-	virtual Texture* GetTexture()=0;
+    virtual Position GetPosition();
+    virtual Texture* GetTexture()=0;
     virtual bool CanTraverse()=0;
 	virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);

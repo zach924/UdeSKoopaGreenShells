@@ -1,4 +1,5 @@
 #pragma once
+
 class Position;
 class UnitBase;
 class DistrictBase;

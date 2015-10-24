@@ -70,7 +70,8 @@ void SelectionManager::HandleSelection(Position pos)
 	//TODO taskID 8.2 Processus de selection
 	Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 	TileBase* tile = map.GetTile(pos);
-	
+
+
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
 
