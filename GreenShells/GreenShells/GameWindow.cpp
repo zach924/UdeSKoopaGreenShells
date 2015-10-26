@@ -471,10 +471,10 @@ void GameWindow::ShowWindow()
                     unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
 				}
-                xIndex = (xIndex + 1) % (Map::COLUMNS - 1);
+                xIndex = (xIndex + 1) % (Map::COLUMNS);
 
 			}
-            yIndex = (yIndex + 1) % (Map::ROWS - 1);
+            yIndex = (yIndex + 1) % (Map::ROWS);
 
 		}
 		//Draw screen
