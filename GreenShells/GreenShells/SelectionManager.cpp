@@ -122,7 +122,7 @@ void SelectionManager::Attack(Map * map, Position pos)
 	DeselectUnit();
 	DeselectDistrict();
 	m_state = m_idle;
-	m_actionPossibleTile.clear();
+	m_actionPossibleTiles.clear();
 
 	ChangeButtonState(ButtonState::Disabled, ButtonState::Disabled);
 }
@@ -133,7 +133,7 @@ void SelectionManager::Move(Map * map, Position pos)
 	DeselectUnit();
 	DeselectDistrict();
 	m_state = m_idle;
-	m_actionPossibleTile.clear();
+	m_actionPossibleTiles.clear();
 
 	ChangeButtonState(ButtonState::Disabled, ButtonState::Disabled);
 }
@@ -149,12 +149,12 @@ void SelectionManager::HandleSelection(Position pos)
 	DistrictBase* district = tile->GetDistrict();
     
 	// If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-	if (m_state != m_idle && std::find(m_actionPossibleTile.begin(), m_actionPossibleTile.end(), tile->GetPosition()) == m_actionPossibleTile.end())
+	if (m_state != m_idle && std::find(m_actionPossibleTiles.begin(), m_actionPossibleTiles.end(), tile->GetPosition()) == m_actionPossibleTiles.end())
 	{
 		DeselectUnit();
 		DeselectDistrict();
 		m_state = m_idle;
-		m_actionPossibleTile.clear();
+		m_actionPossibleTiles.clear();
 	}
 
 	switch (m_state)
@@ -186,7 +186,7 @@ void SelectionManager::UnitAttackPressed()
 		m_state = m_unitAttacking;
 
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTile = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
+		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
 	}
 }
 
@@ -199,7 +199,7 @@ void SelectionManager::UnitMovePressed()
 		m_state = m_unitMoving;
 
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTile = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
+		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
 	}
 }
 
