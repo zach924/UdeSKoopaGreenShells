@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "MapLocal.h"
+#include "MapRemote.h"
 #include "Position.h"
 #include "ServerSession.h"
 #include "Tile.h"
@@ -67,11 +67,76 @@ void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 	m_selectedDistrict = districtToSelect ? districtToSelect : m_districtEmpty;
 }
 
+void SelectionManager::ChangeButtonState(ButtonState unitState, ButtonState districtState)
+{
+	std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
+	for (auto btn : unitButtons)
+	{
+		btn->SetButtonState(unitState);
+	}
+	
+	std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
+	for (auto btn : districtButtons)
+	{
+		btn->SetButtonState(districtState);
+	}
+}
+
+void SelectionManager::Idle(UnitBase* unit, DistrictBase* district)
+{
+	SelectUnit(unit);
+	SelectDistrict(district);
+
+	// Without that {} it doesnt compile....
+	ButtonState btnUnitState;
+	if (unit && unit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
+	{
+		btnUnitState = ButtonState::Unpressed;
+	}
+	else
+	{
+		btnUnitState = ButtonState::Disabled;
+	}
+
+	ButtonState btnDistrictState;
+	if (district && district->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
+	{
+		btnDistrictState = ButtonState::Unpressed;
+	}
+	else
+	{
+		btnDistrictState = ButtonState::Disabled;
+	}
+
+	ChangeButtonState(btnUnitState, btnDistrictState);
+}
+
+void SelectionManager::Attack(Map * map, Position pos)
+{
+	map->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+	DeselectUnit();
+	DeselectDistrict();
+	m_state = m_idle;
+	m_actionPossibleTile.clear();
+
+	ChangeButtonState(ButtonState::Disabled, ButtonState::Disabled);
+}
+
+void SelectionManager::Move(Map * map, Position pos)
+{
+	map->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
+	DeselectUnit();
+	DeselectDistrict();
+	m_state = m_idle;
+	m_actionPossibleTile.clear();
+
+	ChangeButtonState(ButtonState::Disabled, ButtonState::Disabled);
+}
+
 void SelectionManager::HandleSelection(Position pos)
 {
 	//TODO taskID 8.2 Processus de selection
 	Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
-	//Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 	TileBase* tile = map->GetTile(pos);
 
 
@@ -90,49 +155,17 @@ void SelectionManager::HandleSelection(Position pos)
 	switch (m_state)
 	{
 	case m_idle:
-	{ // NEEDED {} because Switch Case statement doesn't like declaration in the CASE statement
 		std::cout << "Selecting Unit and district at pos " << pos.Column << " " << pos.Row << std::endl;
-		SelectUnit(unit);
-		SelectDistrict(district);
-
-		// Without that {} it doesnt compile....
-		ButtonState btnUnitState = unit && unit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() ? ButtonState::Unpressed : ButtonState::Disabled;
-		std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-		for (auto btn : unitButtons)
-		{
-			btn->SetButtonState(btnUnitState);
-		}
-
-
-
-		ButtonState btnDistrictState = district && district->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() ? ButtonState::Unpressed : ButtonState::Disabled;
-		std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
-		for (auto btn : districtButtons)
-		{
-			btn->SetButtonState(btnDistrictState);
-		}
-
-
+		Idle(unit, district);
 		break;
-	}
 	case m_unitMoving:
 		std::cout << "Moving Unit, Deselecting District and Unit Setting to Idle" << std::endl;
-		map->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
-		DeselectUnit();
-		DeselectDistrict();
-		m_state = m_idle;
-		m_actionPossibleTile.clear();
+		Move(map, pos);
 		break;
 	case m_unitAttacking:
 		std::cout << "Attacking Unit, Deselecting District and Unit Setting to Idle" << std::endl;
+		Attack(map, pos);
 		
-		// Consider that GetArea give me only the tile attackable.
-		map->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
-
-		DeselectUnit();
-		DeselectDistrict();
-		m_state = m_idle;
-		m_actionPossibleTile.clear();
 		break;
 	default:
 		break;

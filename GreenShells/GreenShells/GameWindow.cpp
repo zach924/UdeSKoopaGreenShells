@@ -46,7 +46,7 @@
 
 
 GameWindow::GameWindow(ScreenResolution res)
-	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostX(0), m_currentLowestY(0), m_currentlyScrolling(false)
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostColumn(0), m_currentLowestRow(0), m_currentlyScrolling(false)
 {
 	//Initialize SDL
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
@@ -150,10 +150,10 @@ void GameWindow::ShowWindow()
 				{
 					if (IsClickInMap(e.button.x, e.button.y))
 					{
-						int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostX;
+						int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostColumn;
 						posCol %= (Map::COLUMNS -1);
 
-						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestY;
+						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestRow;
 						posRow %= (Map::ROWS -1);
 
 						ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
@@ -196,30 +196,30 @@ void GameWindow::ShowWindow()
 				switch (e.key.keysym.sym)
 				{
 				case (SDLK_UP) :
-					if (m_currentLowestY > 0)
+					if (m_currentLowestRow > 0)
                     {
-						m_currentLowestY--;
+						m_currentLowestRow--;
                     }
                     else
                     {
-                        m_currentLowestY = Map::ROWS - 1;
+                        m_currentLowestRow = Map::ROWS - 1;
                     }
 					break;
 				case (SDLK_LEFT) :
-					if (m_currentLeftmostX > 0)
+					if (m_currentLeftmostColumn > 0)
                     {
-						m_currentLeftmostX--;
+						m_currentLeftmostColumn--;
                     }
                     else
                     {
-                        m_currentLeftmostX = Map::COLUMNS - 1;
+                        m_currentLeftmostColumn = Map::COLUMNS - 1;
                     }
 					break;
 				case (SDLK_RIGHT) :
-                        m_currentLeftmostX = (m_currentLeftmostX + 1) % (Map::COLUMNS -1);
+                        m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS -1);
 					break;
 				case (SDLK_DOWN) :
-                        m_currentLowestY = (m_currentLowestY + 1) % (Map::ROWS - 1);
+                        m_currentLowestRow = (m_currentLowestRow + 1) % (Map::ROWS - 1);
 					break;
 				}
 			}
@@ -245,15 +245,15 @@ void GameWindow::ShowWindow()
 			int mouseY = 0;
 			SDL_GetMouseState(&mouseX, &mouseY);
 
-			if (m_currentLeftmostX < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
-				m_currentLeftmostX++;
-			else if (m_currentLeftmostX > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-				m_currentLeftmostX--;
+			if (m_currentLeftmostColumn < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
+				m_currentLeftmostColumn++;
+			else if (m_currentLeftmostColumn > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
+				m_currentLeftmostColumn--;
 
-			if (m_currentLowestY < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
-				m_currentLowestY++;
-			else if (m_currentLowestY > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
-				m_currentLowestY--;
+			if (m_currentLowestRow < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
+				m_currentLowestRow++;
+			else if (m_currentLowestRow > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
+				m_currentLowestRow--;
 
 
 		}
@@ -439,10 +439,10 @@ void GameWindow::ShowWindow()
 		//Render Map
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
-        int rowIndex = m_currentLowestY;
+        int rowIndex = m_currentLowestRow;
         for (int row = 0; row <= m_CurrentScreen.NUM_TILE_HEIGHT; ++row)
 		{
-            int columnIndex = m_currentLeftmostX;
+            int columnIndex = m_currentLeftmostColumn;
             for (int column = 0; column <= m_CurrentScreen.NUM_TILE_WIDTH; ++column)
 			{
                 TileBase* tile = map.GetTile(Position(columnIndex, rowIndex));

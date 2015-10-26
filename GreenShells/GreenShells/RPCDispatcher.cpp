@@ -27,23 +27,23 @@ void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 	}
 }
 
-void RPCDispatcher::Dispatch(RPCEvent* event)
+void RPCDispatcher::Dispatch(RPCEvent event)
 {
-	if (event->data->m_turn == m_worldState->GetCurrentTurn())
+	if (event.data->m_turn == m_worldState->GetCurrentTurn())
 	{
-		switch (event->structType)
+		switch (event.structType)
 		{
 		case RPCStructType::RPC_BASIC:
-			Dispatch(event->data);
+			Dispatch(event.data);
 			break;
 		case RPCStructType::RPC_BASIC_TWO_POSITIONS:
-			Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event->data));
+			Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
 			break;
 		}
 	}
 	else
 	{
-		std::cout << "Refused an event because it's on the previous turn." << std::endl << "Current turn : " << m_worldState->GetCurrentTurn() << " Event turn : " << event->data->m_turn << std::endl;
+		std::cout << "Refused an event because it's on the previous turn." << std::endl << "Current turn : " << m_worldState->GetCurrentTurn() << " Event turn : " << event.data->m_turn << std::endl;
 	}
 }
 
@@ -83,7 +83,7 @@ bool RPCDispatcher::Dispatch()
 
 		for (RPCEvent event : eventList)
 		{
-			Dispatch(&event);
+			Dispatch(event);
 		}
 
 		return true;

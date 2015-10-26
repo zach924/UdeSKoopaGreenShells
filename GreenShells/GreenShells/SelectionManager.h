@@ -5,6 +5,8 @@
 class Position;
 class UnitBase;
 class DistrictBase;
+class Map;
+enum ButtonState;
 
 class SelectionManager
 {
@@ -36,6 +38,13 @@ class SelectionManager
 
 	void SelectUnit(UnitBase* unitToSelect);
 	void SelectDistrict(DistrictBase* districtToSelect);
+
+	void ChangeButtonState(ButtonState unitState, ButtonState districtState);
+
+	void Idle(UnitBase* unit, DistrictBase* district);
+	void Attack(Map* map, Position pos);
+	void Move(Map* map, Position pos);
+
 public:
 
 	static SelectionManager& GetInstance()

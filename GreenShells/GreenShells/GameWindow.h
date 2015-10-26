@@ -71,8 +71,8 @@ private:
     SDL_Window* m_window;
     SDL_Surface* m_screenSurface;
     SDL_Renderer* m_renderer;
-    int m_currentLeftmostX;
-    int m_currentLowestY;
+    int m_currentLeftmostColumn;
+    int m_currentLowestRow;
     bool m_currentlyScrolling;
 
 	std::vector<PopUpWindow*> m_activePopUpWindow;
@@ -94,7 +94,7 @@ private:
         Color{ 255,178,102 }
     };
 
-    GameWindow(ScreenResolution = RES_1280_720);
+    GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
