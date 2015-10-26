@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "TileBase.h"
-
 class Position;
 class UnitBase;
 class DistrictBase;
@@ -29,7 +28,7 @@ class SelectionManager
 
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
-
+    std::vector<Position> m_actionPossibleTiles;
 	SelectionManager();
 	~SelectionManager();
 
@@ -55,6 +54,7 @@ public:
 
     UnitBase* GetSelectedUnit();
     DistrictBase* GetSelectedDistrict();
+    std::vector<Position> GetOverlayTiles();
 
 	void HandleSelection(Position pos);
 

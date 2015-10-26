@@ -19,7 +19,7 @@ SelectionManager::SelectionManager()
 	, m_state(m_idle)
 	, m_unitEmpty(new UnitEmpty(-1))
 	, m_districtEmpty(new DistrictEmpty(-1))
-	, m_actionPossibleTile()
+    , m_actionPossibleTiles()
 {
 }
 
@@ -35,6 +35,11 @@ UnitBase* SelectionManager::GetSelectedUnit()
 DistrictBase* SelectionManager::GetSelectedDistrict()
 {
     return m_selectedDistrict;
+}
+
+std::vector<Position> SelectionManager::GetOverlayTiles()
+{
+    return m_actionPossibleTiles;
 }
 
 void SelectionManager::DeselectUnit(UnitBase* unit)
@@ -142,7 +147,7 @@ void SelectionManager::HandleSelection(Position pos)
 
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
-
+    
 	// If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
 	if (m_state != m_idle && std::find(m_actionPossibleTile.begin(), m_actionPossibleTile.end(), tile->GetPosition()) == m_actionPossibleTile.end())
 	{

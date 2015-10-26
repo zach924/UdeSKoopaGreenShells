@@ -46,9 +46,9 @@
 
 
 GameWindow::GameWindow(ScreenResolution res)
-	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostColumn(0), m_currentLowestRow(0), m_currentlyScrolling(false)
-{
-	//Initialize SDL
+	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostColumn(0), m_currentLowestRow(0), m_currentlyScrolling(false), m_foodTexture(), m_overlayTexture(), m_scienceTexture(), m_weaponTexture()
+{ 
+//Initialize SDL                                                                                                                            
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 	assert(TTF_Init() >= 0 && TTF_GetError());
 
@@ -62,6 +62,9 @@ GameWindow::GameWindow(ScreenResolution res)
 	SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+    m_overlayTexture = new Texture();
+    m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
 
 	CreateGeneralButtons();
 	CreateDistrictButtons();
@@ -439,6 +442,13 @@ void GameWindow::ShowWindow()
 		//Render Map
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
+        //Set overlay visible to true
+        std::vector<Position> overlayTiles = SelectionManager::GetInstance().GetOverlayTiles();
+        for (Position pos : overlayTiles)
+        {
+            map.GetTile(pos)->SetOverlayVisible(true);
+        }
+
         int rowIndex = m_currentLowestRow;
         for (int row = 0; row <= m_CurrentScreen.NUM_TILE_HEIGHT; ++row)
 		{
@@ -456,6 +466,7 @@ void GameWindow::ShowWindow()
 				//Render the tile
 				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
+                //Render the district
 				DistrictBase* district = tile->GetDistrict();
 				if (district)
 				{
@@ -464,6 +475,7 @@ void GameWindow::ShowWindow()
 					SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
 				}
 
+                //Render the unit
 				UnitBase* unit = tile->GetUnit();
 				if (unit)
 				{
@@ -471,10 +483,17 @@ void GameWindow::ShowWindow()
                     unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
 				}
-                columnIndex = (columnIndex + 1) % (Map::COLUMNS - 1);
+
+                //Render the overlay
+                if (tile->GetOverlayVisible())
+                {
+                    SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                }
+
+				columnIndex = (columnIndex + 1) % (Map::COLUMNS);
 
 			}
-            rowIndex = (rowIndex + 1) % (Map::ROWS - 1);
+			rowIndex = (rowIndex + 1) % (Map::ROWS);
 
 		}
 		//Draw screen
