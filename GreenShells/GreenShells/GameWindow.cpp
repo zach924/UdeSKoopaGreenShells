@@ -14,6 +14,7 @@
 #include "TileGround.h"
 #include "ClickManager.h"
 #include "SelectionManager.h"
+#include "Player.h"
 
 //Buttons
 #include "ButtonGeneralCancel.h"
@@ -51,17 +52,21 @@ GameWindow::GameWindow(ScreenResolution res)
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 	assert(TTF_Init() >= 0 && TTF_GetError());
 
-	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, SDL_WINDOW_SHOWN);
+	auto windowType = m_CurrentScreen.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
+	m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, windowType);
 	assert(m_window != NULL && SDL_GetError());
 
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	assert(m_renderer != NULL && SDL_GetError());
+
+	SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	CreateGeneralButtons();
 	CreateDistrictButtons();
 	CreateUnitButtons();
+	CreateRessourcesTextures();
 }
 
 GameWindow::~GameWindow()
@@ -94,6 +99,34 @@ void GameWindow::CreateUnitButtons()
     ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
     ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
     ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+}
+
+void GameWindow::CreateRessourcesTextures()
+{
+	m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
+	assert(m_ressourcesFont != NULL && TTF_GetError());
+
+	m_foodTexture = new Texture();
+	m_weaponTexture = new Texture();
+	m_scienceTexture = new Texture();
+	try
+	{
+		// Do not remove the renderer from this call otherwise the Load from file will call
+		// GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
+		m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
+
+		m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
+
+		m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
+	}
+	catch (std::exception e)
+	{
+		std::string msg{ e.what() };
+		std::cout << msg << std::endl;
+	}
+	
+	
+
 }
 
 void GameWindow::ShowWindow()
@@ -231,6 +264,105 @@ void GameWindow::ShowWindow()
 		SDL_RenderClear(m_renderer);
 
 		//Render UI
+		//Render ressources and turns
+		{
+			SDL_Color textColor = { 255, 255, 255 };
+
+			Player currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayer(GameSession::GetInstance().GetCurrentPlayerID());
+
+			/************
+			    FOOD
+			*************/
+			int iconTextSpacing = 5;
+			int x = m_CurrentScreen.HUD_WIDTH;
+			int yIcon = 10;
+			int widthIcon = 64;
+			int heightIcon = 64;
+			int widthText = 0;
+			int heightText = 0;
+			int yText = 0;
+
+			SDL_Rect renderQuadFood = { x, yIcon, widthIcon, heightIcon };
+			SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadFood);
+
+			SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont,std::to_string(currentPlayer.GetFood()).c_str() , textColor);
+			assert(foodSurf != NULL && TTF_GetError());
+
+			SDL_Texture* foodTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodSurf);
+			assert(foodTextTexture != NULL && TTF_GetError());
+
+			x += widthIcon + iconTextSpacing;
+			widthText = foodSurf->w;
+			heightText = foodSurf->h;
+			yText = yIcon + heightIcon - heightText;
+
+			SDL_Rect renderQuadFoodValue = { x, yText, widthText, heightText};
+			SDL_RenderCopy(m_renderer, foodTextTexture, NULL, &renderQuadFoodValue);
+
+
+			/************
+			   WEAPON
+			*************/
+			x += widthIcon + widthText + iconTextSpacing;
+
+			SDL_Rect renderQuadWeapon = { x, yIcon, widthIcon, heightIcon };
+			SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadWeapon);
+
+			SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer.GetWeapon()).c_str(), textColor);
+			assert(weaponSurf != NULL && TTF_GetError());
+
+			SDL_Texture* weaponTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponSurf);
+			assert(weaponTextTexture != NULL && TTF_GetError());
+
+			x += widthIcon + iconTextSpacing;
+			widthText = weaponSurf->w;
+			heightText = weaponSurf->h;
+
+			SDL_Rect renderQuadWeaponValue = { x, yText, widthText, heightText };
+			SDL_RenderCopy(m_renderer, weaponTextTexture, NULL, &renderQuadWeaponValue);
+
+			/************
+			   SCIENCE
+			*************/
+			x += widthIcon + widthText + iconTextSpacing;
+
+			SDL_Rect renderQuadScience = { x, yIcon, widthIcon, heightIcon };
+			SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
+
+			SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer.GetScience()).c_str(), textColor);
+			assert(scienceSurf != NULL && TTF_GetError());
+
+			SDL_Texture* scienceTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceSurf);
+			assert(scienceTextTexture != NULL && TTF_GetError());
+
+			x += widthIcon + iconTextSpacing;
+			widthText = scienceSurf->w;
+			heightText = scienceSurf->h;
+
+			SDL_Rect renderQuadScienceValue = { x, yText, widthText, heightText };
+			SDL_RenderCopy(m_renderer, scienceTextTexture, NULL, &renderQuadScienceValue);
+
+			/************
+			    TURN
+			*************/
+			x += widthIcon + widthText + iconTextSpacing;
+			std::string turnText = "Turn : ";
+			turnText.append(std::to_string(GameSession::GetInstance().GetWorldState()->GetCurrentTurn()));
+
+			SDL_Surface* turnSurf = TTF_RenderText_Solid(m_ressourcesFont, turnText.c_str(), textColor);
+			assert(turnSurf != NULL && TTF_GetError());
+
+			SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
+			assert(turnTextTexture != NULL && TTF_GetError());
+
+			widthText = turnSurf->w;
+			heightText = turnSurf->h;
+
+			SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
+			SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
+
+		}
+
 		//Render Buttons
 		const std::vector<Button*> generalButtons = ClickManager::GetInstance().GetGeneralButtons();
 		for (Button* button : generalButtons)
