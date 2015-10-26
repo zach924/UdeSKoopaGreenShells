@@ -9,6 +9,7 @@ class Player;
 
 class TileBase
 {
+    bool m_OverlayVisible;
 protected:
 	DistrictBase* m_district;
 	UnitBase* m_unit;
@@ -18,6 +19,8 @@ protected:
 public:
 
     TileBase(Position position = Position(-1, -1));
+    bool GetOverlayVisible();
+    void SetOverlayVisible(bool visible);
     virtual Position GetPosition();
     virtual Texture* GetTexture()=0;
     virtual bool CanTraverse()=0;

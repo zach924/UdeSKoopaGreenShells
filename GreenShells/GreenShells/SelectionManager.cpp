@@ -18,6 +18,7 @@ SelectionManager::SelectionManager()
     , m_state(m_idle)
     , m_unitEmpty(new UnitEmpty(-1))
     , m_districtEmpty(new DistrictEmpty(-1))
+    , m_actionPossibleTiles()
 {
 }
 
@@ -33,6 +34,11 @@ UnitBase* SelectionManager::GetSelectedUnit()
 DistrictBase* SelectionManager::GetSelectedDistrict()
 {
     return m_selectedDistrict;
+}
+
+std::vector<Position> SelectionManager::GetOverlayTiles()
+{
+    return m_actionPossibleTiles;
 }
 
 void SelectionManager::DeselectUnit(UnitBase* unit)
@@ -74,7 +80,7 @@ void SelectionManager::HandleSelection(Position pos)
 
 	UnitBase* unit = tile->GetUnit();
 	DistrictBase* district = tile->GetDistrict();
-
+    
 	switch (m_state)
 	{
 	case m_idle:
