@@ -15,7 +15,10 @@ Player::Player()
     m_foodMultiplier(1), 
     m_scienceMultiplier(1), 
     m_weaponMultiplier(1),
-	m_isDisconnected(false)
+	m_isDisconnected(false),
+	m_armySkillTree(),
+	m_empireSkillTree(),
+	m_utilitySkillTree()
 {
 }
 
@@ -232,6 +235,9 @@ boost::property_tree::ptree Player::Serialize()
 	playerNode.put("<xmlattr>.IA", m_isAlive);
 	playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
 	playerNode.put("<xmlattr>.ID", m_isDisconnected);
+	playerNode.put("<xmlattr>.UST", m_utilitySkillTree.toString());
+	playerNode.put("<xmlattr>.EST", m_empireSkillTree.toString());
+	playerNode.put("<xmlattr>.AST", m_armySkillTree.toString());
 
     return playerNode;
 }
@@ -253,6 +259,9 @@ Player Player::Deserialize(boost::property_tree::ptree playerNode)
 	player.m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
 	player.m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
 	player.m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");
+	player.m_utilitySkillTree = UtilitySkillTree(playerNode.get<std::string>("<xmlattr>.UST"));
+	player.m_empireSkillTree = EmpireSkillTree(playerNode.get<std::string>("<xmlattr>.EST"));
+	player.m_armySkillTree = ArmySkillTree(playerNode.get<std::string>("<xmlattr>.AST"));
 
     return player;
 }

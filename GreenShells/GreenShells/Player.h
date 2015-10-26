@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include "Ptree_ForwardDeclaration.h"
+#include "UtilitySkillTree.h"
+#include "ArmySkillTree.h"
+#include "EmpireSkillTree.h"
 
 
 class Player
@@ -22,6 +25,10 @@ class Player
     double m_foodMultiplier;
     double m_scienceMultiplier;
     double m_weaponMultiplier;
+
+	UtilitySkillTree m_utilitySkillTree;
+	ArmySkillTree m_armySkillTree;
+	EmpireSkillTree m_empireSkillTree;
 
 public:
     Player();
