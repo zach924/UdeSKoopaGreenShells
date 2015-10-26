@@ -81,6 +81,7 @@ private:
 	Texture* m_foodTexture;
 	Texture* m_weaponTexture;
 	Texture* m_scienceTexture;
+    Texture* m_overlayTexture;
 
     const Color PLAYER_COLORS[8] =
     {
