@@ -423,7 +423,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
 
             //Remove Color and render
-            selectedDistrictTexture->SetColor(255, 255, 255);
+            selectedDistrictTexture->SetColor(EMPTY_COLOR);
             SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
         }
 
@@ -435,7 +435,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
 
             //Remove Color and render
-            selectedUnitTexture->SetColor(255, 255, 255);
+            selectedUnitTexture->SetColor(EMPTY_COLOR);
             SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
         }
 
@@ -462,16 +462,26 @@ void GameWindow::ShowWindow()
                 int xPos = m_CurrentScreen.HUD_WIDTH + (j * m_CurrentScreen.TILE_SIZE);
                 int yPos = m_CurrentScreen.HUD_HEIGHT + (i * m_CurrentScreen.TILE_SIZE);
 				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
+                
+                if (tile->GetPlayerOwnerId() >= 0)
+                {
+                    tileTexture->SetColor(PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()]);
+                }
+                else
+                {
+                    tileTexture->SetColor(EMPTY_COLOR);
+                }
 
 				//Render the tile
 				SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
+
 
                 //Render the district
 				DistrictBase* district = tile->GetDistrict();
 				if (district)
 				{
 					Texture* districtTexture = district->GetTexture();
-                    districtTexture->SetColor(PLAYER_COLORS[district->GetOwnerID()]);
+                    districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
 				}
 
@@ -480,18 +490,16 @@ void GameWindow::ShowWindow()
 				if (unit)
 				{
 					Texture* unitTexture = unit->GetTexture();
-                    unitTexture->SetColor(PLAYER_COLORS[unit->GetOwnerID()]);
+                    unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
 					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
 				}
-
+                
                 //Render the overlay
                 if (tile->GetOverlayVisible())
                 {
                     SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
                 }
-
                 xIndex = (xIndex + 1) % (Map::COLUMNS);
-
 			}
             yIndex = (yIndex + 1) % (Map::ROWS);
 

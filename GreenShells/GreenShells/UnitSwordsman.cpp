@@ -14,7 +14,7 @@ void UnitSwordsman::LoadTexture()
 {
 	try
 	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Sword.bmp");
+		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
 	}
 	catch (std::exception e)
 	{

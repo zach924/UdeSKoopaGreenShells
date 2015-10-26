@@ -12,7 +12,7 @@ void DistrictCityCenter::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\City.bmp");
+        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\city.bmp");
     }
     catch (std::exception e)
     {

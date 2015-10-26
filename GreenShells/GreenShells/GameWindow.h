@@ -83,7 +83,7 @@ private:
 	Texture* m_scienceTexture;
     Texture* m_overlayTexture;
 
-    const Color PLAYER_COLORS[8] =
+    const Color PLAYER_ACTOR_COLORS[8] =
     {
         Color{ 255,102,102 },
         Color{ 255,255,102 },
@@ -92,8 +92,22 @@ private:
         Color{ 102,102,255 },
         Color{ 255,102,255 },
         Color{ 192,192,192 },
-        Color{ 255,178,102 }
+        Color{ 255,180,102 }
     };
+
+    const Color PLAYER_BORDER_COLORS[8] =
+    {
+        Color{ 255,180,180 },
+        Color{ 205,205,000 },
+        Color{ 102,255,102 },
+        Color{ 102,255,255 },
+        Color{ 180,180,255 },
+        Color{ 255,180,255 },
+        Color{ 192,192,192 },
+        Color{ 255,180,102 }
+    };
+
+    const Color EMPTY_COLOR = { 255,255,255 };
 
     GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();
