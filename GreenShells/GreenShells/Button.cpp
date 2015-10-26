@@ -77,6 +77,7 @@ Texture* Button::GetTextTexture(SDL_Renderer* rend)
     case ButtonState::Disabled:
         m_textTexture.SetColor(DISABLED_BUTTON_COLOR);
     default:
+		m_textTexture.SetColor(DEFAULT_BUTTON_COLOR);
         break;
     }
 	return &m_textTexture;
@@ -91,8 +92,10 @@ Texture* Button::GetButtonTexture(SDL_Renderer* rend)
     switch (m_buttonState)
     {
     case ButtonState::Pressed:
+		m_pressedButton.SetColor(DEFAULT_BUTTON_COLOR);
         return &m_pressedButton;
     case ButtonState::Unpressed:
+		m_unpressedButton.SetColor(DEFAULT_BUTTON_COLOR);
         return &m_unpressedButton;
     case ButtonState::Disabled:
         m_unpressedButton.SetColor(DISABLED_BUTTON_COLOR);

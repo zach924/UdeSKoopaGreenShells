@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
+#include "TileBase.h"
 class Position;
 class UnitBase;
 class DistrictBase;
+class Map;
+enum ButtonState;
 
 class SelectionManager
 {
@@ -20,20 +23,25 @@ class SelectionManager
 
 	UnitBase * m_selectedUnit;
 	DistrictBase * m_selectedDistrict;
-
+	
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
     std::vector<Position> m_actionPossibleTiles;
 	SelectionManager();
 	~SelectionManager();
 
-	
-
 	void DeselectUnit(UnitBase* unit = nullptr);
 	void DeselectDistrict(DistrictBase* district = nullptr);
 
 	void SelectUnit(UnitBase* unitToSelect);
 	void SelectDistrict(DistrictBase* districtToSelect);
+
+	void ChangeButtonState(ButtonState unitState, ButtonState districtState);
+
+	void Idle(UnitBase* unit, DistrictBase* district);
+	void Attack(Map* map, Position pos);
+	void Move(Map* map, Position pos);
+
 public:
 
 	static SelectionManager& GetInstance()

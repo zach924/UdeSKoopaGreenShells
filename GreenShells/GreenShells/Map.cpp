@@ -27,21 +27,21 @@ Map::Map(const Map& source)
 	{
 		m_tiles.push_back(std::vector<TileBase*>(COLUMNS));
 	}
-	for (int i = 0; i < ROWS; ++i)
+	for (int row = 0; row < ROWS; ++row)
 	{
-		for (int j = 0; j < COLUMNS; ++j)
+		for (int column = 0; column < COLUMNS; ++column)
 		{
-			if (TileGround* ptr = dynamic_cast<TileGround*>(source.m_tiles[i][j]))
+			if (TileGround* ptr = dynamic_cast<TileGround*>(source.m_tiles[row][column]))
 			{
-				m_tiles[i][j] = new TileGround{ *ptr };
+				m_tiles[row][column] = new TileGround{ *ptr };
 			}
-			else if (TileMountain* ptr = dynamic_cast<TileMountain*>(source.m_tiles[i][j]))
+			else if (TileMountain* ptr = dynamic_cast<TileMountain*>(source.m_tiles[row][column]))
 			{
-				m_tiles[i][j] = new TileMountain{ *ptr };
+				m_tiles[row][column] = new TileMountain{ *ptr };
 			}
-			else if (TileWater* ptr = dynamic_cast<TileWater*>(source.m_tiles[i][j]))
+			else if (TileWater* ptr = dynamic_cast<TileWater*>(source.m_tiles[row][column]))
 			{
-				m_tiles[i][j] = new TileWater{ *ptr };
+				m_tiles[row][column] = new TileWater{ *ptr };
 			}
 		}
 	}
@@ -68,29 +68,29 @@ void Map::GenerateTiles()
 		std::istreambuf_iterator<char>());
 
 	map.erase(std::remove(map.begin(), map.end(), '\n'), map.end());
-	for (int i = 0; i < ROWS; ++i)
+	for (int row = 0; row < ROWS; ++row)
 	{
-		for (int j = 0; j < COLUMNS; ++j)
+		for (int column = 0; column < COLUMNS; ++column)
 		{
-			char tileType = map.at((i * ROWS) + j);
+			char tileType = map.at((row * ROWS) + column);
 			switch (tileType)
 			{
             default:
 			case '0':
-				m_tiles[i][j] = new TileGround(Position(j, i));
+				m_tiles[row][column] = new TileGround(Position(column, row));
 				break;
 
 			case '1':
-				m_tiles[i][j] = new TileMountain(Position(j, i));
+				m_tiles[row][column] = new TileMountain(Position(column, row));
 				break;
 
 			case '2':
-				m_tiles[i][j] = new TileWater(Position(j, i));
+				m_tiles[row][column] = new TileWater(Position(column, row));
 				break;
 
 			case '3':
-				Position position(j, i);
-				m_tiles[i][j] = new TileGround(position);
+				Position position(column, row);
+				m_tiles[row][column] = new TileGround(position);
 				m_spawnPositions.push_back(position);
 				break;
             }
@@ -108,27 +108,27 @@ std::vector<Position> Map::GetArea(Position position, int distance)
 	std::vector<Position> area;
 
 	//find miminum and maximum
-	int maxCol = position.X + distance;
-    int maxRow = position.Y + distance;
+	int maxCol = position.Column + distance;
+    int maxRow = position.Row + distance;
 
-	int minCol = position.X - distance;
+	int minCol = position.Column - distance;
     if (minCol < 0)
     {
         minCol += COLUMNS;
         maxCol += COLUMNS;
     }
-    int minRow = position.Y - distance;
+    int minRow = position.Row - distance;
     if (minRow < 0)
     {
         minRow += ROWS;
         maxRow += ROWS;
     }
 
-	for (int i = minCol; i <= maxCol; ++i)
+	for (int row = minRow; row <= maxRow; ++row)
 	{
-		for (int j = minRow; j <= maxRow; ++j)
+		for (int column = minCol; column <= maxCol; ++column)
 		{
-			area.push_back(Position(i % COLUMNS, j % ROWS));
+			area.push_back(Position(column % COLUMNS, row % ROWS));
 		}
 	}
 	return area;
@@ -136,7 +136,7 @@ std::vector<Position> Map::GetArea(Position position, int distance)
 
 TileBase* Map::GetTile(Position position)
 {
-	return m_tiles[position.X][position.Y];
+	return m_tiles[position.Row][position.Column];
 }
 
 void Map::NotifyNewturn()
@@ -158,16 +158,16 @@ boost::property_tree::ptree Map::Serialize()
 	for (int i = 0; i < m_spawnPositions.size(); ++i)
 	{
 		boost::property_tree::ptree& spawnNode = spawnListNode.add("SP", "");
-		spawnNode.put("<xmlattr>.X", m_spawnPositions[i].X);
-		spawnNode.put("<xmlattr>.Y", m_spawnPositions[i].Y);
+		spawnNode.put("<xmlattr>.X", m_spawnPositions[i].Column);
+		spawnNode.put("<xmlattr>.Y", m_spawnPositions[i].Row);
 	}
 
-	for (int i = 0; i < ROWS; ++i)
+	for (int row = 0; row < ROWS; ++row)
 	{
 		boost::property_tree::ptree& rowNode = mapNode.add("R", "");
-		for (int j = 0; j < COLUMNS; ++j)
+		for (int column = 0; column < COLUMNS; ++column)
 		{
-			boost::property_tree::ptree& tileNode = m_tiles[i][j]->Serialize();
+			boost::property_tree::ptree& tileNode = m_tiles[row][column]->Serialize();
 			rowNode.add_child("T", tileNode);
 		}
 	}

@@ -71,8 +71,8 @@ private:
     SDL_Window* m_window;
     SDL_Surface* m_screenSurface;
     SDL_Renderer* m_renderer;
-    int m_currentLeftmostX;
-    int m_currentLowestY;
+    int m_currentLeftmostColumn;
+    int m_currentLowestRow;
     bool m_currentlyScrolling;
 
 	std::vector<PopUpWindow*> m_activePopUpWindow;

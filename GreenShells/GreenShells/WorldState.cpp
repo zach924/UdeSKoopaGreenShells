@@ -131,7 +131,7 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 {
 	lock_guard<recursive_mutex> lock{ m_mutex };
 
-	m_turn = 0;
+	m_turn = 1;
 	m_players.clear();
 	delete m_map;
 
