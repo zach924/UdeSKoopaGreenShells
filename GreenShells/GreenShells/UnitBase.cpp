@@ -6,14 +6,15 @@
 
 
 
-UnitBase::UnitBase(int owner, int health, int attackRange, int attackDamage)
+UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage)
 	: m_ownerID(owner),
-	m_attackRange(attackRange),
-	m_attackDamage(attackDamage),
+	m_health(health),
 	m_foodCost(0),
 	m_scienceCost(0),
 	m_weaponCost(0),
-	m_health(health)
+	m_moveRange(moveRange),
+	m_attackRange(attackRange),
+	m_attackDamage(attackDamage)
 {
 }
 
@@ -26,9 +27,19 @@ int UnitBase::GetAttackDamage()
 	return m_attackDamage;
 }
 
+int UnitBase::GetAttackRange()
+{
+	return m_attackRange;
+}
+
 int UnitBase::GetHealth()
 {
 	return m_health;
+}
+
+int UnitBase::GetMoveRange()
+{
+	return m_moveRange;
 }
 
 int UnitBase::GetOwnerID()

@@ -2,7 +2,7 @@
 #include <iostream>
 
 UnitSwordsman::UnitSwordsman(int owner)
-	: Unit<UnitSwordsman>(owner, HEALTH, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+	: Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
@@ -50,12 +50,9 @@ AttackNotification UnitSwordsman::Attack(DistrictBase * target)
 	AttackNotification targetNotification = UnitBase::Attack(target);
 	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
-	if (attackerNotification.TargetIsDead)
-	{
-		targetNotification.AttackerIsDead = true;
-	}
-
+	targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
 	targetNotification.CanMove = true;
+
 	return targetNotification;
 }
 

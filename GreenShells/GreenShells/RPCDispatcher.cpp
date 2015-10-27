@@ -43,7 +43,7 @@ void RPCDispatcher::Dispatch(RPCEvent event)
 	}
 	else
 	{
-		std::cout << "Refused an event because it's on the previous turn." << std::endl;
+		std::cout << "Refused an event because it's on the previous turn." << std::endl << "Current turn : " << m_worldState->GetCurrentTurn() << " Event turn : " << event.data->m_turn << std::endl;
 	}
 }
 
@@ -85,6 +85,7 @@ bool RPCDispatcher::Dispatch()
 		{
 			Dispatch(event);
 		}
+
 		return true;
 	}
 	return false;

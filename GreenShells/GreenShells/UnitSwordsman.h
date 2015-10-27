@@ -8,6 +8,7 @@ public :
 
 	static int const ATTACK_DAMAGE = 50;
 	static int const HEALTH = 100;
+	static int const MOVE_RANGE = 1;
 
 private :
 	static int const UNIT_TYPE = 0;

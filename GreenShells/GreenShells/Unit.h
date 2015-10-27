@@ -13,8 +13,8 @@ public:
 
 
 public:
-	Unit(int ownerID, int health, int attackRange, int attackDamage)
-		: UnitBase(ownerID, health, attackRange, attackDamage)
+	Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage)
+		: UnitBase(ownerID, health, moveRange, attackRange, attackDamage)
 	{
 
 	}
