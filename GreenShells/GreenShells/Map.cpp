@@ -3,6 +3,7 @@
 #include "TileGround.h"
 #include "TileMountain.h"
 #include "TileWater.h"
+#include "DistrictCityCenter.h"
 
 #include <fstream>
 #include <algorithm>
@@ -94,9 +95,23 @@ void Map::GenerateTiles()
 				m_spawnPositions.push_back(position);
 				break;
             }
-			}
 		}
 	}
+
+	int playerId = 0;
+	for (Position spawn : m_spawnPositions)
+	{
+		m_tiles[spawn.Row][spawn.Column]->SetDistrict(new DistrictCityCenter(playerId));
+		for (int i = spawn.Row - 3; i < spawn.Row + 4; ++i)
+		{
+			for (int j = spawn.Column - 1; j < spawn.Column + 2; ++j)
+			{
+				m_tiles[i][j]->SetPlayerOwnerId(playerId);
+			}
+		}
+		++playerId;
+	}
+}
 
 std::vector<Position> Map::GetSpawnPositions()
 {

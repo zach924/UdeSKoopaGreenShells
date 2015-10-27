@@ -12,6 +12,7 @@ class SelectionManager
 	enum SelectionManagerState
 	{
 		m_idle,
+		m_createDistrict,
 		m_unitMoving,
 		m_unitAttacking
 	};
@@ -40,6 +41,7 @@ class SelectionManager
 
 	void Idle(UnitBase* unit, DistrictBase* district);
 	void Attack(Map* map, Position pos);
+	void CreateDistrict(Map* map, Position pos);
 	void Move(Map* map, Position pos);
 
 public:
@@ -54,7 +56,11 @@ public:
     DistrictBase* GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
 
+	void Cancel();
+
 	void HandleSelection(Position pos);
+
+	void CreateDistrictPressed();
 
 	void UnitAttackPressed();
 	void UnitMovePressed();

@@ -14,6 +14,7 @@ ButtonSpawnUnit::~ButtonSpawnUnit()
 void ButtonSpawnUnit::DoAction()
 {
     //TODO NOT IMPLEMENTED
+
 }
 
 void ButtonSpawnUnit::LoadTextTexture(SDL_Renderer* rend)

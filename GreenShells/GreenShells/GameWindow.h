@@ -110,7 +110,7 @@ public:
     static GameWindow& GetInstance()
     {
 
-		static GameWindow m_instance{ };
+		static GameWindow m_instance{ RES_1280_720 };
         return m_instance;
     }
 

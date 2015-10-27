@@ -42,6 +42,14 @@ std::vector<Position> SelectionManager::GetOverlayTiles()
     return m_actionPossibleTiles;
 }
 
+void SelectionManager::Cancel()
+{
+	DeselectUnit();
+	DeselectDistrict();
+	m_state = m_idle;
+	m_actionPossibleTiles.clear();
+}
+
 void SelectionManager::DeselectUnit(UnitBase* unit)
 {
 	// TODO: need to be called when Unit dies
@@ -127,6 +135,11 @@ void SelectionManager::Attack(Map * map, Position pos)
 	ChangeButtonState(ButtonState::Disabled, ButtonState::Disabled);
 }
 
+void SelectionManager::CreateDistrict(Map * map, Position pos)
+{
+	// TODO : Implement CreateDistrict
+}
+
 void SelectionManager::Move(Map * map, Position pos)
 {
 	map->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedUnit->GetPosition(), pos);
@@ -151,10 +164,7 @@ void SelectionManager::HandleSelection(Position pos)
 	// If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
 	if (m_state != m_idle && std::find(m_actionPossibleTiles.begin(), m_actionPossibleTiles.end(), tile->GetPosition()) == m_actionPossibleTiles.end())
 	{
-		DeselectUnit();
-		DeselectDistrict();
-		m_state = m_idle;
-		m_actionPossibleTiles.clear();
+		Cancel();
 	}
 
 	switch (m_state)
@@ -162,6 +172,10 @@ void SelectionManager::HandleSelection(Position pos)
 	case m_idle:
 		std::cout << "Selecting Unit and district at pos " << pos.Column << " " << pos.Row << std::endl;
 		Idle(unit, district);
+		break;
+	case  m_createDistrict:
+		std::cout << "Create a district, Deselecting District and Unit Setting to Idle" << std::endl;
+		CreateDistrict(map, pos);
 		break;
 	case m_unitMoving:
 		std::cout << "Moving Unit, Deselecting District and Unit Setting to Idle" << std::endl;
@@ -174,6 +188,19 @@ void SelectionManager::HandleSelection(Position pos)
 		break;
 	default:
 		break;
+	}
+}
+
+void SelectionManager::CreateDistrictPressed()
+{
+	if (IsAnDistrictSelected())
+	{
+		std::cout << "Selection Manager create district State" << std::endl;
+
+		m_state = m_createDistrict;
+
+		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+		m_actionPossibleTiles = map.GetArea(m_selectedDistrict->GetPosition(), 3 /* TODO : Validate where the constant will be */);
 	}
 }
 
