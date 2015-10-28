@@ -13,6 +13,23 @@ ClickManager::ClickManager()
 
 ClickManager::~ClickManager()
 {
+    for (auto button : m_unitButtons)
+    {
+        delete button;
+        button = nullptr;
+    }
+
+    for (auto button : m_districtButtons)
+    {
+        delete button;
+        button = nullptr;
+    }
+
+    for (auto button : m_generalButtons)
+    {
+        delete button;
+        button = nullptr;
+    }
 }
 
 

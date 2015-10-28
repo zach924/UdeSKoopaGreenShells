@@ -11,6 +11,9 @@
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
 
+#include "DistrictCityCenter.h"
+#include "UnitSettler.h"
+
 Map::Map()
 	:m_tiles()
 {
@@ -96,6 +99,21 @@ void Map::GenerateTiles()
             }
 			}
 		}
+
+    int playerId = 0;
+    for (Position spawn : m_spawnPositions)
+    {
+        m_tiles[spawn.Row][spawn.Column]->SetDistrict(new DistrictCityCenter(playerId));
+        m_tiles[spawn.Row][spawn.Column]->SetUnit(new UnitSettler(playerId));
+        for (int i = spawn.Row - 3; i < spawn.Row + 4; ++i)
+        {
+            for (int j = spawn.Column - 1; j < spawn.Column + 2; ++j)
+            {
+                m_tiles[i][j]->SetPlayerOwnerId(playerId);
+            }
+        }
+        ++playerId;
+    }
 	}
 
 std::vector<Position> Map::GetSpawnPositions()

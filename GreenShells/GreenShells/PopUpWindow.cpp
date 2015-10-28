@@ -69,8 +69,20 @@ PopUpWindow::~PopUpWindow()
 void PopUpWindow::Close()
 {
 	//Destroy window    
+    for (auto t : m_texts)
+    {
+        if (t != NULL)
+        {
+            SDL_DestroyTexture(t);
+            t = NULL;
+        }
+    }
+    TTF_CloseFont(m_font);
+    SDL_FreeSurface(m_screenSurface);
 	SDL_DestroyRenderer(m_rend);
 	SDL_DestroyWindow(m_wind);
+    m_font = NULL;
+    m_screenSurface = NULL;
 	m_wind = NULL;
 	m_rend = NULL;
 }

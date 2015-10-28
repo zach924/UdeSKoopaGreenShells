@@ -13,6 +13,10 @@ YesNoPopUp::YesNoPopUp(const char* windowName, int width, int height, std::funct
 
 YesNoPopUp::~YesNoPopUp()
 {
+    delete m_noButton;
+    delete m_yesButton;
+    m_noButton = nullptr;
+    m_yesButton = nullptr;
 }
 
 bool YesNoPopUp::handleEvent(SDL_Event & e)

@@ -12,6 +12,8 @@
 #include "WorldState.h"
 #include "Map.h"
 #include "TileGround.h"
+#include "TileMountain.h"
+#include "TileWater.h"
 #include "ClickManager.h"
 #include "SelectionManager.h"
 #include "Player.h"
@@ -46,9 +48,18 @@
 
 
 GameWindow::GameWindow(ScreenResolution res)
-	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostColumn(0), m_currentLowestRow(0), m_currentlyScrolling(false), m_foodTexture(), m_overlayTexture(), m_scienceTexture(), m_weaponTexture()
+	:m_window()
+    ,m_renderer()
+    ,m_CurrentScreen(res)
+    ,m_currentLeftmostColumn(0)
+    ,m_currentLowestRow(0)
+    ,m_currentlyScrolling(false)
+    ,m_foodTexture()
+    ,m_overlayTexture()
+    ,m_scienceTexture()
+    ,m_weaponTexture()
 { 
-//Initialize SDL                                                                                                                            
+    //Initialize SDL                                                                                                                            
 	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
 	assert(TTF_Init() >= 0 && TTF_GetError());
 
@@ -61,19 +72,26 @@ GameWindow::GameWindow(ScreenResolution res)
 
 	SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
+
+
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
-    m_overlayTexture = new Texture();
-    m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
-
 	CreateGeneralButtons();
 	CreateDistrictButtons();
 	CreateUnitButtons();
-	CreateRessourcesTextures();
+	LoadLocalTextures();
 }
 
 GameWindow::~GameWindow()
 {
+    delete m_foodTexture;
+    delete m_scienceTexture;
+    delete m_weaponTexture;
+    delete m_overlayTexture;
+    m_foodTexture = nullptr;
+    m_scienceTexture = nullptr;
+    m_weaponTexture = nullptr;
+    m_overlayTexture = nullptr;
+
 	Close();
 }
 
@@ -104,7 +122,7 @@ void GameWindow::CreateUnitButtons()
     ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
 }
 
-void GameWindow::CreateRessourcesTextures()
+void GameWindow::LoadLocalTextures()
 {
 	m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
 	assert(m_ressourcesFont != NULL && TTF_GetError());
@@ -112,6 +130,8 @@ void GameWindow::CreateRessourcesTextures()
 	m_foodTexture = new Texture();
 	m_weaponTexture = new Texture();
 	m_scienceTexture = new Texture();
+    m_overlayTexture = new Texture();
+
 	try
 	{
 		// Do not remove the renderer from this call otherwise the Load from file will call
@@ -121,6 +141,8 @@ void GameWindow::CreateRessourcesTextures()
 		m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
 
 		m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
+
+        m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
 	}
 	catch (std::exception e)
 	{
@@ -219,10 +241,10 @@ void GameWindow::ShowWindow()
                     }
 					break;
 				case (SDLK_RIGHT) :
-                        m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS -1);
+                        m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS);
 					break;
 				case (SDLK_DOWN) :
-                        m_currentLowestRow = (m_currentLowestRow + 1) % (Map::ROWS - 1);
+                        m_currentLowestRow = (m_currentLowestRow + 1) % (Map::ROWS);
 					break;
 				}
 			}
@@ -504,6 +526,109 @@ void GameWindow::ShowWindow()
 			rowIndex = (rowIndex + 1) % (Map::ROWS);
 
 		}
+
+        //Draw mini map
+
+        //Draw background
+        SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+
+        SDL_Rect minimapBackgroundQuad = 
+        { 
+            m_CurrentScreen.MINIMAP_BORDER_X,
+            m_CurrentScreen.MINIMAP_BORDER_Y,
+            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::COLUMNS) + m_CurrentScreen.MINIMAP_BORDER,
+            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::ROWS) + m_CurrentScreen.MINIMAP_BORDER 
+        };
+
+        SDL_RenderFillRect(m_renderer, &minimapBackgroundQuad);
+        
+        //Draw minimap
+        int posRow = m_CurrentScreen.MINIMAP_POSY;
+        for (int row = 0; row < Map::ROWS; ++row)
+        {
+            int posColumn = m_CurrentScreen.MINIMAP_POSX;
+            for (int column = 0; column < Map::COLUMNS; ++column)
+            {
+                SDL_Rect tileQuad = { posColumn, posRow, m_CurrentScreen.MINIMAP_TILE_SIZE, m_CurrentScreen.MINIMAP_TILE_SIZE };
+                TileBase* tile = map.GetTile(Position(column, row));
+
+                if (false)//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
+                {
+                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_FOW.m_red, MINIMAP_FOW.m_green, MINIMAP_FOW.m_blue, SDL_ALPHA_OPAQUE);
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                else if (dynamic_cast<TileMountain*>(tile) != nullptr)
+                {
+                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_MOUNTAIN.m_red, MINIMAP_MOUNTAIN.m_green, MINIMAP_MOUNTAIN.m_blue, SDL_ALPHA_OPAQUE);
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                else if (dynamic_cast<TileWater*>(tile) != nullptr)
+                {
+                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_WATER.m_red, MINIMAP_WATER.m_green, MINIMAP_WATER.m_blue, SDL_ALPHA_OPAQUE);
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                else if (tile->GetPlayerOwnerId() < 0)
+                {
+                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_GROUND.m_red, MINIMAP_GROUND.m_green, MINIMAP_GROUND.m_blue, SDL_ALPHA_OPAQUE);
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                else if(tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
+                {                   
+                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_CITY.m_red, MINIMAP_CITY.m_green, MINIMAP_CITY.m_blue, SDL_ALPHA_OPAQUE);
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                else
+                {
+                    SDL_SetRenderDrawColor(m_renderer,
+                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_red,
+                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_green,
+                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_blue,
+                        SDL_ALPHA_OPAQUE);
+
+                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                }
+                posColumn += m_CurrentScreen.MINIMAP_TILE_SIZE;
+            }
+            posRow += m_CurrentScreen.MINIMAP_TILE_SIZE;
+        }
+
+        //Draw current camera rectangle(s)
+        int currentCamRow = m_CurrentScreen.MINIMAP_POSX + m_currentLeftmostColumn * m_CurrentScreen.MINIMAP_TILE_SIZE;
+        int currentCamColumn = m_CurrentScreen.MINIMAP_POSY + m_currentLowestRow * m_CurrentScreen.MINIMAP_TILE_SIZE;
+        int camWidth = currentCamRow + ((m_CurrentScreen.NUM_TILE_WIDTH + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
+        int camHeight = currentCamColumn + ((m_CurrentScreen.NUM_TILE_HEIGHT + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
+        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT - m_CurrentScreen.MINIMAP_BORDER;
+        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH - m_CurrentScreen.MINIMAP_BORDER;
+
+        //white rectangles
+        SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        //leftOverflow
+        if (widthOverflow > 0)
+        {            
+            SDL_Rect minimapLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, currentCamColumn, widthOverflow, camHeight - currentCamColumn };
+            SDL_RenderDrawRect(m_renderer, &minimapLeftOverflow);
+            camWidth = m_CurrentScreen.MAX_WIDTH;
+        }
+        
+        //upOverflow
+        if (heightOverflow > 0)
+        {
+            SDL_Rect minimapUpOverflow = { currentCamRow, m_CurrentScreen.MINIMAP_POSY, camWidth - currentCamRow, heightOverflow};
+            SDL_RenderDrawRect(m_renderer, &minimapUpOverflow);
+            camHeight = m_CurrentScreen.MAX_HEIGHT;
+        }
+
+        //upLeftOverflow
+        if (heightOverflow > 0 && widthOverflow > 0)
+        {
+            SDL_Rect minimapUpLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, m_CurrentScreen.MINIMAP_POSY, widthOverflow, heightOverflow };
+            SDL_RenderDrawRect(m_renderer, &minimapUpLeftOverflow);
+        }
+        
+        //CurrentCamera
+        SDL_Rect minimapCurrentCamera = { currentCamRow, currentCamColumn, camWidth - currentCamRow, camHeight - currentCamColumn};
+        SDL_RenderDrawRect(m_renderer, &minimapCurrentCamera);
+        
 		//Draw screen
 		SDL_RenderPresent(m_renderer);
 
@@ -524,9 +649,11 @@ SDL_Renderer * GameWindow::GetRenderer()
 
 void GameWindow::Close()
 {
-	//Destroy window    
-	SDL_DestroyRenderer(m_renderer);
+	//Destroy window
+    TTF_CloseFont(m_ressourcesFont);
+    SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
+    m_ressourcesFont = NULL;
 	m_window = NULL;
 	m_renderer = NULL;
 

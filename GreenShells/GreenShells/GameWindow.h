@@ -14,6 +14,8 @@ struct ScreenResolution
     const int TILE_SIZE = 65;
     const int SELECTED_SPRITES_SIZE = 70;
     const int BUTTON_HORIZONTAL_OFFSET = 25;
+    const int MINIMAP_BORDER = 4;
+    const int MINIMAP_TILE_SIZE = 4;
 
     int HUD_WIDTH;
     int HUD_HEIGHT;
@@ -32,6 +34,10 @@ struct ScreenResolution
     int UP_SCROLL_POSITION;
     int RIGHT_SCROLL_POSITION;
     int LEFT_SCROLL_POSITION;
+    int MINIMAP_POSY;
+    int MINIMAP_POSX;
+    int MINIMAP_BORDER_X;
+    int MINIMAP_BORDER_Y;
 	bool FULLSCREEN;
 
     ScreenResolution(int maxW, int maxH, int mapW, int mapH, int hudW, int hudH, int vOffset, int DistrictH, int UnitH, bool fullScreen)
@@ -52,6 +58,10 @@ struct ScreenResolution
         , RIGHT_SCROLL_POSITION(maxW - 15)
         , LEFT_SCROLL_POSITION(hudW + 15)
         , UP_SCROLL_POSITION(hudH + 15)
+        , MINIMAP_POSX(maxW - 260)
+        , MINIMAP_POSY(maxH - 260)
+        , MINIMAP_BORDER_X(MINIMAP_POSX - MINIMAP_BORDER/2)
+        , MINIMAP_BORDER_Y(MINIMAP_POSY - MINIMAP_BORDER/2)
 		, FULLSCREEN(fullScreen)
     {}
 };
@@ -69,7 +79,6 @@ private:
     ScreenResolution m_CurrentScreen;
 
     SDL_Window* m_window;
-    SDL_Surface* m_screenSurface;
     SDL_Renderer* m_renderer;
     int m_currentLeftmostColumn;
     int m_currentLowestRow;
@@ -77,6 +86,7 @@ private:
 
 	std::vector<PopUpWindow*> m_activePopUpWindow;
 
+    //Textures for the window
 	TTF_Font* m_ressourcesFont;
 	Texture* m_foodTexture;
 	Texture* m_weaponTexture;
@@ -107,7 +117,13 @@ private:
         Color{ 255,180,102 }
     };
 
+    //Other usefull colors
+    const Color MINIMAP_GROUND = { 0,102,0 };
+    const Color MINIMAP_WATER = { 0,0,255 };
+    const Color MINIMAP_MOUNTAIN = { 100,50,15 };
+    const Color MINIMAP_FOW = { 0,0,0 };
     const Color EMPTY_COLOR = { 255,255,255 };
+    const Color MINIMAP_CITY = {155, 155, 155};
 
     GameWindow(ScreenResolution = RES_1600_1024);
     ~GameWindow();
@@ -118,13 +134,13 @@ private:
     void CreateGeneralButtons();
     void CreateDistrictButtons();
     void CreateUnitButtons();
-	void CreateRessourcesTextures();
+	void LoadLocalTextures();
 
 public:
     static GameWindow& GetInstance()
     {
 
-		static GameWindow m_instance{ };
+		static GameWindow m_instance{ RES_1280_720 };
         return m_instance;
     }
 
