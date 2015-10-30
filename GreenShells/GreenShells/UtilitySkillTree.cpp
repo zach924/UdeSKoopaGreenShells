@@ -21,49 +21,16 @@ UtilitySkillTree UtilitySkillTree::GetReadyForResearch()
     UtilitySkillTree canResearch{};
 
     canResearch.Watchtower = true;
-
-    if (Watchtower)
-    {
-        canResearch.ScienceUpgrade = true;
-    }
-
-    if (ScienceUpgrade)
-    {
-        canResearch.BorderGrowth = true;
-    }
-
-    if (BorderGrowth)
-    {
-        canResearch.MovementUpgrade = true;
-        canResearch.Embark = true;
-    }
-
-    if (MovementUpgrade)
-    {
-        canResearch.MountainWalking = true;
-        canResearch.VisionUpgrade = true;
-    }
-
-    if (MountainWalking)
-    {
-        canResearch.MountainConstruction = true;
-    }
-
-    if (Embark)
-    {
-        canResearch.VisionUpgrade = true;
-    }
-
-    if (VisionUpgrade)
-    {
-        canResearch.ArmorUpgrade = true;
-    }
-
-    if (ArmorUpgrade)
-    {
-        canResearch.NoFogOfWar = true;
-        canResearch.University = true;
-    }
+    canResearch.ScienceUpgrade = Watchtower;
+    canResearch.BorderGrowth = ScienceUpgrade;
+    canResearch.MovementUpgrade = BorderGrowth;
+    canResearch.Embark = BorderGrowth;
+    canResearch.MountainWalking = MovementUpgrade;
+    canResearch.MountainConstruction = MountainWalking;
+    canResearch.VisionUpgrade = Embark || MovementUpgrade;
+    canResearch.ArmorUpgrade = VisionUpgrade;
+    canResearch.NoFogOfWar = ArmorUpgrade;
+    canResearch.University = ArmorUpgrade;
 
     return canResearch;
 }

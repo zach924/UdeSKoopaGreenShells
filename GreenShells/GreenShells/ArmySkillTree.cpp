@@ -22,52 +22,20 @@ ArmySkillTree ArmySkillTree::GetReadyForResearch()
     ArmySkillTree canResearch{};
 
     canResearch.RangerT1 = true;
-
-    if (RangerT1)
-    {
-        canResearch.Militia = true;
-    }
-
-    if (Militia)
-    {
-        canResearch.SwordT2 = true;
-        canResearch.AxeT1 = true;
-    }
-
-    if (AxeT1)
-    {
-        canResearch.AxeT2 = true;
-        canResearch.RangerT2 = true;
-    }
-
-    if (SwordT2)
-    {
-        canResearch.SwordT3 = true;
-        canResearch.RangerT2 = true;
-    }
-
-    if (RangerT2)
-    {
-        canResearch.MaceT1 = true;
-    }
-
-    if (MaceT1)
-    {
-        canResearch.MaceT2 = true;
-        canResearch.RangerT3 = true;
-    }
-
-    if (RangerT3)
-    {
-        canResearch.Fortress = true;
-        canResearch.Shield = true;
-    }
-
-    if (Shield)
-    {
-        canResearch.Canon = true;
-    }
-
+    canResearch.Militia = RangerT1;
+    canResearch.SwordT2 = Militia;
+    canResearch.AxeT1 = Militia;
+    canResearch.AxeT2 = AxeT1;
+    canResearch.RangerT2 = AxeT1;
+    canResearch.SwordT3 = SwordT2;
+    canResearch.RangerT2 = SwordT2;
+    canResearch.MaceT1 = RangerT2;
+    canResearch.MaceT2 = MaceT1;
+    canResearch.RangerT3 = MaceT1;
+    canResearch.Fortress = RangerT3;
+    canResearch.Shield = RangerT3;
+    canResearch.Canon = Shield;
+   
     return canResearch;
 }
 

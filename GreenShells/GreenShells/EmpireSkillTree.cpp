@@ -22,63 +22,17 @@ EmpireSkillTree EmpireSkillTree::GetReadyForResearch()
     EmpireSkillTree canResearch{};
 
     canResearch.Settler = true;
-
-    if (Settler)
-    {
-        canResearch.Monastery = true;
-    }
-
-    if (Monastery)
-    {
-        canResearch.Farm = true;
-        canResearch.Fishery = true;
-        canResearch.Stable = true;
-    }
-
-    if (Farm)
-    {
-        canResearch.Cathedral = true;
-        canResearch.Winmill = true;
-    }
-
-    if (Fishery)
-    {
-        canResearch.Cathedral = true;
-    }
-
-    if (Stable)
-    {
-        canResearch.Cathedral = true;
-        canResearch.Fort = true;
-    }
-
-    if (Cathedral)
-    {
-        canResearch.MilitaryTent = true;
-        canResearch.InnAndTavern = true;
-    }
-
-    if (Winmill)
-    {
-        canResearch.InnAndTavern = true;
-        canResearch.MilitaryTent = true;
-    }
-
-    if (Fort)
-    {
-        canResearch.MilitaryTent = true;
-        canResearch.InnAndTavern = true;
-    }
-
-    if (InnAndTavern)
-    {
-        canResearch.Warehouse = true;
-    }
-
-    if (Warehouse)
-    {
-        canResearch.RessourcesBonus = true;
-    }
+    canResearch.Monastery = Settler;
+    canResearch.Farm = Monastery;
+    canResearch.Fishery = Monastery;
+    canResearch.Stable = Monastery;
+    canResearch.Winmill = Farm;
+    canResearch.Cathedral = Stable || Fishery || Farm;
+    canResearch.Fort = Stable;
+    canResearch.InnAndTavern = Fort || Cathedral || Winmill;
+    canResearch.MilitaryTent = Cathedral || Fort || Winmill;
+    canResearch.Warehouse = InnAndTavern;
+    canResearch.RessourcesBonus = Warehouse;
 
     return canResearch;
 }
