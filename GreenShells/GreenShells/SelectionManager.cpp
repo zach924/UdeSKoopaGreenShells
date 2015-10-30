@@ -14,17 +14,19 @@
 #include "ClickManager.h"
 
 SelectionManager::SelectionManager()
-	:m_selectedDistrict(new DistrictEmpty(-1))
-	, m_selectedUnit(new UnitEmpty(-1))
-	, m_state(m_idle)
+	:m_state(m_idle)
 	, m_unitEmpty(new UnitEmpty(-1))
 	, m_districtEmpty(new DistrictEmpty(-1))
     , m_actionPossibleTiles()
 {
+	m_selectedDistrict = m_districtEmpty;
+	m_selectedUnit = m_unitEmpty;
 }
 
 SelectionManager::~SelectionManager()
 {
+	delete m_unitEmpty;
+	delete m_districtEmpty;
 }
 
 UnitBase* SelectionManager::GetSelectedUnit()

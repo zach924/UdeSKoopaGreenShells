@@ -16,7 +16,6 @@ public:
 	Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage)
 		: UnitBase(ownerID, health, moveRange, attackRange, attackDamage)
 	{
-
 	}
 
 	~Unit()

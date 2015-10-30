@@ -22,4 +22,7 @@ public:
 		os << obj.ToString();
 		return os;
 	}
+
+	inline bool operator == (const Position& other) { return Row == other.Row && Column == other.Column; }
+	inline bool operator!=( const Position& other) { return !(*this == other); }
 };

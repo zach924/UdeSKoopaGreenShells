@@ -42,7 +42,7 @@ PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
 
 		lastPos = (pos == std::string::npos) ? pos : lastPos;
 		std::string aLine = windowText.substr(0, lastPos);
-		int numberOfSpceToFill = numberOfCharPerLine - aLine.length();
+		int numberOfSpceToFill = numberOfCharPerLine - static_cast<int>( aLine.length());
 		aLine.append(numberOfSpceToFill, ' ');
 		allLines.emplace_back(aLine);
 		windowText.erase(0, lastPos + delimiter.length());
