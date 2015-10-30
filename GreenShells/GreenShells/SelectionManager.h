@@ -9,59 +9,58 @@ enum ButtonState;
 
 class SelectionManager
 {
-	enum SelectionManagerState
-	{
-		m_idle,
-		m_unitMoving,
-		m_unitAttacking
-	};
+    enum SelectionManagerState
+    {
+        m_idle,
+        m_unitMoving,
+        m_unitAttacking
+    };
 
     UnitBase* m_unitEmpty;
     DistrictBase* m_districtEmpty;
 
-	SelectionManagerState m_state;
+    SelectionManagerState m_state;
 
-	UnitBase * m_selectedUnit;
-	DistrictBase * m_selectedDistrict;
-	
-	SelectionManager(SelectionManager const&) = delete;
-	void operator=(SelectionManager const&) = delete;
+    UnitBase * m_selectedUnit;
+    DistrictBase * m_selectedDistrict;
+
+    SelectionManager(SelectionManager const&) = delete;
+    void operator=(SelectionManager const&) = delete;
     std::vector<Position> m_actionPossibleTiles;
-	SelectionManager();
-	~SelectionManager();
+    SelectionManager();
+    ~SelectionManager();
 
-	void DeselectUnit(UnitBase* unit = nullptr);
-	void DeselectDistrict(DistrictBase* district = nullptr);
+    void DeselectUnit(UnitBase* unit = nullptr);
+    void DeselectDistrict(DistrictBase* district = nullptr);
 
-	void SelectUnit(UnitBase* unitToSelect);
-	void SelectDistrict(DistrictBase* districtToSelect);
+    void SelectUnit(UnitBase* unitToSelect);
+    void SelectDistrict(DistrictBase* districtToSelect);
 
-	void ChangeButtonState(ButtonState unitState, ButtonState districtState);
+    void ChangeButtonState(ButtonState unitState, ButtonState districtState);
 
-	void Idle(UnitBase* unit, DistrictBase* district);
-	void Attack(Map* map, Position pos);
-	void Move(Map* map, Position pos);
+    void Idle(UnitBase* unit, DistrictBase* district);
+    void Attack(Map* map, Position pos);
+    void Move(Map* map, Position pos);
 
 public:
 
-	static SelectionManager& GetInstance()
-	{
-		static SelectionManager m_instance;
-		return m_instance;
-	}
+    static SelectionManager& GetInstance()
+    {
+        static SelectionManager m_instance;
+        return m_instance;
+    }
 
     UnitBase* GetSelectedUnit();
     DistrictBase* GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
 
-	void HandleSelection(Position pos);
+    void HandleSelection(Position pos);
 
-	void UnitAttackPressed();
-	void UnitMovePressed();
+    void UnitAttackPressed();
+    void UnitMovePressed();
 
-	bool IsAnUnitSelected();
-	bool IsAnDistrictSelected();
-	
-	void UnitSell();
+    bool IsAnUnitSelected();
+    bool IsAnDistrictSelected();
+
+    void UnitSell();
 };
-

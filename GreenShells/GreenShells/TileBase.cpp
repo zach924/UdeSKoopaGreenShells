@@ -3,19 +3,7 @@
 #include "Unit.h"
 #include "Player.h"
 #include <boost\property_tree\ptree.hpp>
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
 
-#ifdef _DEBUG
-#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
-#else
-#define DEBUG_CLIENTBLOCK
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#define new DEBUG_CLIENTBLOCK
-#endif
 TileBase::TileBase(Position position)
     :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible()
 {
@@ -23,8 +11,8 @@ TileBase::TileBase(Position position)
 
 TileBase::~TileBase()
 {
-	delete m_district;
-	delete m_unit;
+    delete m_district;
+    delete m_unit;
 }
 
 bool TileBase::GetOverlayVisible()
@@ -62,10 +50,10 @@ DistrictBase* TileBase::GetDistrict()
 
 void TileBase::SetDistrict(DistrictBase* district)
 {
-	if (district)
-	{
-		district->SetPosition(m_position);
-	}
+    if (district)
+    {
+        district->SetPosition(m_position);
+    }
 
     m_district = district;
 }
@@ -77,10 +65,10 @@ UnitBase * TileBase::GetUnit()
 
 void TileBase::SetUnit(UnitBase* unit)
 {
-	if (unit)
-	{
-		unit->SetPosition(m_position);
-	}
+    if (unit)
+    {
+        unit->SetPosition(m_position);
+    }
 
     m_unit = unit;
 }
@@ -102,25 +90,25 @@ TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position p
 
 bool TileBase::IsFree()
 {
-	return !(m_district || m_unit);
+    return !(m_district || m_unit);
 }
 
 boost::property_tree::ptree TileBase::Serialize()
 {
-	boost::property_tree::ptree tileNode;
-	tileNode.put("<xmlattr>.TT", GetTypeAsInt());
-	tileNode.put("<xmlattr>.O", m_owner);
+    boost::property_tree::ptree tileNode;
+    tileNode.put("<xmlattr>.TT", GetTypeAsInt());
+    tileNode.put("<xmlattr>.O", m_owner);
 
-	if (m_unit)
-	{
-		boost::property_tree::ptree unitNode = m_unit->Serialize();
+    if (m_unit)
+    {
+        boost::property_tree::ptree unitNode = m_unit->Serialize();
         tileNode.add_child("U", unitNode);
-	}
-	if (m_district)
-	{
+    }
+    if (m_district)
+    {
         boost::property_tree::ptree districtNode = m_district->Serialize();
         tileNode.add_child("D", districtNode);
-	}
+    }
 
-	return tileNode;
+    return tileNode;
 }

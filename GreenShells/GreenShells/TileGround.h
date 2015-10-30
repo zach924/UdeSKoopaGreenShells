@@ -1,18 +1,18 @@
 #pragma once
 #include "Tile.h"
-class TileGround : 
-	public Tile<TileGround>
+class TileGround :
+    public Tile<TileGround>
 {
 public:
-	static const int TILE_TYPE = 0;
-	typedef Tile<TileGround> tBase;
-	void LoadTexture();
-	TileGround(Position position);
-	virtual TileBase* Clone();
-	~TileGround();
+    static const int TILE_TYPE = 0;
+    typedef Tile<TileGround> tBase;
+    void LoadTexture();
 
-	virtual bool CanTraverse();	
-	virtual int GetTypeAsInt();
-	static TileGround* Deserialize(boost::property_tree::ptree tileNode, Position pos);
+    TileGround(Position position);
+    ~TileGround();
+    virtual TileBase* Clone();
+
+    virtual bool CanTraverse();
+    virtual int GetTypeAsInt();
+    static TileGround* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 };
-

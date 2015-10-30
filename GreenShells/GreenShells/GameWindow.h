@@ -32,7 +32,7 @@ struct ScreenResolution
     int UP_SCROLL_POSITION;
     int RIGHT_SCROLL_POSITION;
     int LEFT_SCROLL_POSITION;
-	bool FULLSCREEN;
+    bool FULLSCREEN;
 
     ScreenResolution(int maxW, int maxH, int mapW, int mapH, int hudW, int hudH, int vOffset, int DistrictH, int UnitH, bool fullScreen)
         :MAX_WIDTH(maxW)
@@ -52,7 +52,7 @@ struct ScreenResolution
         , RIGHT_SCROLL_POSITION(maxW - 15)
         , LEFT_SCROLL_POSITION(hudW + 15)
         , UP_SCROLL_POSITION(hudH + 15)
-		, FULLSCREEN(fullScreen)
+        , FULLSCREEN(fullScreen)
     {}
 };
 static ScreenResolution RES_800_600{ 800,600,520,520,280,80,5,240,425,false };
@@ -75,12 +75,12 @@ private:
     int m_currentLowestRow;
     bool m_currentlyScrolling;
 
-	std::vector<PopUpWindow*> m_activePopUpWindow;
+    std::vector<PopUpWindow*> m_activePopUpWindow;
 
-	TTF_Font* m_ressourcesFont;
-	Texture* m_foodTexture;
-	Texture* m_weaponTexture;
-	Texture* m_scienceTexture;
+    TTF_Font* m_ressourcesFont;
+    Texture* m_foodTexture;
+    Texture* m_weaponTexture;
+    Texture* m_scienceTexture;
     Texture* m_overlayTexture;
 
     const Color PLAYER_COLORS[8] =
@@ -104,13 +104,12 @@ private:
     void CreateGeneralButtons();
     void CreateDistrictButtons();
     void CreateUnitButtons();
-	void CreateRessourcesTextures();
+    void CreateRessourcesTextures();
 
 public:
     static GameWindow& GetInstance()
     {
-
-		static GameWindow m_instance{ };
+        static GameWindow m_instance{};
         return m_instance;
     }
 
@@ -121,7 +120,7 @@ public:
     bool IsClickInMap(const int& x, const int& y);
     bool IsClickInLeftMenu(const int& x, const int& y);
 
-	void AddPopUpWindow(PopUpWindow * window);
+    void AddPopUpWindow(PopUpWindow * window);
 
-	bool IsGameWindowInBackground();
+    bool IsGameWindowInBackground();
 };

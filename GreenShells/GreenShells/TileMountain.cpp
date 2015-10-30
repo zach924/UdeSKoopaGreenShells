@@ -11,36 +11,23 @@
 #include "DistrictFarm.h"
 
 #include <boost\property_tree\ptree.hpp>
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
-#ifdef _DEBUG
-#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
-#else
-#define DEBUG_CLIENTBLOCK
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#define new DEBUG_CLIENTBLOCK
-#endif
 
 TileMountain::TileMountain(Position position)
-:Tile(position)
+    :Tile(position)
 {
 }
 
 void TileMountain::LoadTexture()
 {
-	try
-	{
-		TileMountain::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Mountain.bmp");
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    try
+    {
+        TileMountain::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Mountain.bmp");
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
 }
 
 TileMountain::~TileMountain()
@@ -49,63 +36,63 @@ TileMountain::~TileMountain()
 
 TileBase* TileMountain::Clone()
 {
-	auto tile = new TileMountain{ *this };
-	if (m_district)
-	{
-		tile->m_district = m_district->Clone();
-	}
-	if (m_unit)
-	{
-		tile->m_unit = m_unit->Clone();
-	}
-	return tile;
+    auto tile = new TileMountain{ *this };
+    if (m_district)
+    {
+        tile->m_district = m_district->Clone();
+    }
+    if (m_unit)
+    {
+        tile->m_unit = m_unit->Clone();
+    }
+    return tile;
 }
 
 TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileMountain* tile = new TileMountain{ pos };
-	tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
-	for each(auto child in tileNode)
-	{
-		if (child.first == "U")
-		{
-			switch (child.second.get<int>("<xmlattr>.T"))
-			{
-			case 0:
-				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
-				break;
-			case 1:
-				tile->SetUnit(UnitArcher::Deserialize(child.second));
-				break;
-			case 2:
-				tile->SetUnit(UnitSettler::Deserialize(child.second));
-				break;
-			}
-		}
-		else if (child.first == "D")
-		{
-			switch (child.second.get<int>("<xmlattr>.T"))
-			{
-			case 0:
-				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
-				break;
-			case 1:
-				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
-				break;
-			}
-		}
-	}
+    for each(auto child in tileNode)
+    {
+        if (child.first == "U")
+        {
+            switch (child.second.get<int>("<xmlattr>.T"))
+            {
+            case 0:
+                tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+                break;
+            case 1:
+                tile->SetUnit(UnitArcher::Deserialize(child.second));
+                break;
+            case 2:
+                tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            }
+        }
+        else if (child.first == "D")
+        {
+            switch (child.second.get<int>("<xmlattr>.T"))
+            {
+            case 0:
+                tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
+                break;
+            case 1:
+                tile->SetDistrict(DistrictFarm::Deserialize(child.second));
+                break;
+            }
+        }
+    }
 
-	return tile;
+    return tile;
 }
 
 bool TileMountain::CanTraverse()
 {
-	return false;
+    return false;
 }
 
 int TileMountain::GetTypeAsInt()
 {
-	return TILE_TYPE;
+    return TILE_TYPE;
 }

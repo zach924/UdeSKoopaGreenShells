@@ -11,4 +11,3 @@ public:
 
     void LoadTextTexture(SDL_Renderer* rend);
 };
-

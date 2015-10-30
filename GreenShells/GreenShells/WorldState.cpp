@@ -12,104 +12,90 @@
 
 using namespace std;
 
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
-#ifdef _DEBUG
-#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
-#else
-#define DEBUG_CLIENTBLOCK
-#endif // _DEBUG
-
-#ifdef _DEBUG
-#define new DEBUG_CLIENTBLOCK
-#endif
-
 WorldState::WorldState(bool isRemote)
-	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(isRemote)
+    :m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(isRemote)
 {
 }
 
 WorldState::~WorldState()
 {
-	delete m_map;
+    delete m_map;
 }
 
 Map* WorldState::GetMap()
 {
-	return m_map;
+    return m_map;
 }
 
 Map* WorldState::GetMapCopy()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_map->Clone();
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->Clone();
 }
 
 void WorldState::PrepareLocalGame()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	m_map = new MapLocal();
-	m_map->GenerateTiles();
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    m_map = new MapLocal();
+    m_map->GenerateTiles();
 }
 
 int WorldState::GetCurrentTurn()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_turn;
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_turn;
 }
 
 void WorldState::NotifyNewTurn()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	m_turn++;
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    m_turn++;
 
-	//Notify map of a new turn
-	m_map->NotifyNewturn();
+    //Notify map of a new turn
+    m_map->NotifyNewturn();
 
-	//Notify players of a new turn
-	for (Player& player : m_players)
-	{
-		player.NotifyNewTurn();
-	}
+    //Notify players of a new turn
+    for (Player& player : m_players)
+    {
+        player.NotifyNewTurn();
+    }
 }
 
 int WorldState::AddPlayer(std::string playerName)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
+    lock_guard<recursive_mutex> lock{ m_mutex };
 
-	for (auto player: m_players)
-	{
-		if (playerName == player.GetPlayerName())
-		{
-			//it's a reconnect
-			std::cout << playerName << " has reconnected!" << endl;
-			player.SetIsDisconnected(false);
-			return player.GetPlayerID();
-		}
-	}
+    for (auto player : m_players)
+    {
+        if (playerName == player.GetPlayerName())
+        {
+            //it's a reconnect
+            std::cout << playerName << " has reconnected!" << endl;
+            player.SetIsDisconnected(false);
+            return player.GetPlayerID();
+        }
+    }
 
-	int playerID = static_cast<int>(m_players.size());
-	std::cout << playerName << " has joined and his id is " << playerID << endl;
-	Player newPlayer;
-	newPlayer.SetPlayerID(playerID);
-	newPlayer.SetPlayerName(playerName);
-	Position spawnPosition = m_map->GetSpawnPositions()[playerID];
-	TileBase* tile = m_map->GetTile(spawnPosition);
-	tile->SetUnit(new UnitSettler(playerID));
-	m_players.push_back(newPlayer);
-	return playerID;
+    int playerID = static_cast<int>(m_players.size());
+    std::cout << playerName << " has joined and his id is " << playerID << endl;
+    Player newPlayer;
+    newPlayer.SetPlayerID(playerID);
+    newPlayer.SetPlayerName(playerName);
+    Position spawnPosition = m_map->GetSpawnPositions()[playerID];
+    TileBase* tile = m_map->GetTile(spawnPosition);
+    tile->SetUnit(new UnitSettler(playerID));
+    m_players.push_back(newPlayer);
+    return playerID;
 }
 
 void WorldState::RemovePlayer(int id)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
+    lock_guard<recursive_mutex> lock{ m_mutex };
     for (Player &player : m_players)
     {
         if (player.GetPlayerID() == id)
         {
-			player.SetIsAlive(false);
+            player.SetIsAlive(false);
             break;
         }
     }
@@ -117,7 +103,7 @@ void WorldState::RemovePlayer(int id)
 
 boost::property_tree::ptree WorldState::Serialize()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
+    lock_guard<recursive_mutex> lock{ m_mutex };
     boost::property_tree::ptree worldStateXml;
 
     boost::property_tree::ptree& worldStateNode = worldStateXml.add("WS", "");
@@ -131,17 +117,17 @@ boost::property_tree::ptree WorldState::Serialize()
 
     // Get Map XML
     worldStateNode.add_child("M", m_map->Serialize());
-    
+
     return worldStateXml;
 }
 
 void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
+    lock_guard<recursive_mutex> lock{ m_mutex };
 
-	m_turn = 1;
-	m_players.clear();
-	delete m_map;
+    m_turn = 1;
+    m_players.clear();
+    delete m_map;
 
     for each (auto worldStateNode in worldStateXml.get_child("WS"))
     {
@@ -149,45 +135,45 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
         {
             for each (auto playerNode in worldStateNode.second)
             {
-				m_players.push_back(Player::Deserialize(playerNode.second));
+                m_players.push_back(Player::Deserialize(playerNode.second));
                 //AddPlayer();
             }
         }
         else if (worldStateNode.first == "M")
         {
-			if (m_remote)
-			{
-				m_map = MapRemote::Deserialize(worldStateNode.second);
-			}
-			else
-			{
-				m_map = MapLocal::Deserialize(worldStateNode.second);
-			}
+            if (m_remote)
+            {
+                m_map = MapRemote::Deserialize(worldStateNode.second);
+            }
+            else
+            {
+                m_map = MapLocal::Deserialize(worldStateNode.second);
+            }
         }
     }
 }
 
 Player WorldState::GetPlayer(int playerID)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_players.at(playerID);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_players.at(playerID);
 }
 
 bool WorldState::AreAllPlayerReady()
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	if (m_players.empty())
-	{
-		return false;
-	}
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    if (m_players.empty())
+    {
+        return false;
+    }
 
-	for (Player& player : m_players)
-	{
-		if (player.IsAlive() && !player.IsPlayerReadyForNextTurn())
-		{
-			return false;
-		}
-	}
+    for (Player& player : m_players)
+    {
+        if (player.IsAlive() && !player.IsPlayerReadyForNextTurn())
+        {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }

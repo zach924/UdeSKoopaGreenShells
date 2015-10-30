@@ -7,37 +7,31 @@
 
 class ServerSession
 {
-public:
-	RPCDispatcher* m_dispatcher;
-	RPCManager* m_rpcServerManager;
-	SynchronizedQueue<RPCEvent> m_events;
+    RPCDispatcher* m_dispatcher;
+    RPCManager* m_rpcServerManager;
+    SynchronizedQueue<RPCEvent> m_events;
 
-	std::thread* m_serverSessionThread;
+    std::thread* m_serverSessionThread;
 
-	atomic<bool> m_isStopped;
+    atomic<bool> m_isStopped;
 
-	ServerSession();
-	ServerSession(ServerSession const&) = delete;
-	void operator = (ServerSession const&) = delete;
+    ServerSession();
+    ServerSession(ServerSession const&) = delete;
+    void operator = (ServerSession const&) = delete;
 
-	void run();
+    void run();
     WorldState m_worldState;
 public:
-	static ServerSession &GetInstance()
-	{
-		static ServerSession m_serverSession;
-		return m_serverSession;
-	}
-	~ServerSession();
+    static ServerSession &GetInstance()
+    {
+        static ServerSession m_serverSession;
+        return m_serverSession;
+    }
+    ~ServerSession();
 
-	void StartServer(int port);
-	void StopServer();
-	void Replicate();
+    void StartServer(int port);
+    void StopServer();
+    void Replicate();
 
-	int AddPlayer(std::string playerName);
+    int AddPlayer(std::string playerName);
 };
-
-
-
-
-
