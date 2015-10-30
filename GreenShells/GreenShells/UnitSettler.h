@@ -6,7 +6,7 @@ class UnitSettler : public Unit<UnitSettler>
 public:
     typedef Unit<UnitSettler> tBase;
 
-    static int const ATTACK_DAMAGE = 50;
+    static int const ATTACK_DAMAGE = 5;
     static int const HEALTH = 100;
     static int const MOVE_RANGE = 1;
 
