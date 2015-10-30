@@ -22,7 +22,7 @@ void ButtonSkillTree::DoAction()
 	//TODO: to be removed
 
 	Map m = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-	std::vector<Position> poss = m.GetArea(Position(1, 1), 2);
+	std::vector<Position> poss = m.GetArea(Position(1, 1), 2, NO_FILTER);
 	std::cout << "Number of tile: " + poss.size() << std::endl;
 }
 

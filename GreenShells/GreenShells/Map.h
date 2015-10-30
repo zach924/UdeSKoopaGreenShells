@@ -1,11 +1,15 @@
 #pragma once
 #include <vector>
 #include <set>
+#include <bitset> 
 
 #include "Position.h"
 #include "TileBase.h"
 #include "Texture.h"
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
+
+
 
 class Map
 {
@@ -26,7 +30,7 @@ public:
     void GenerateTiles();
 	std::vector<Position> GetSpawnPositions();
 
-	std::vector<Position> GetArea(Position position, int distance);
+	std::vector<Position> GetArea(Position position, int distance, Filter filter);
 
 
 	TileBase* GetTile(Position);
@@ -37,7 +41,7 @@ public:
 	virtual boost::property_tree::ptree Serialize();
 
 private:
-	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited);
+	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, Filter filter);
 
 };
 

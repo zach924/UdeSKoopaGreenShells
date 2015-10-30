@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
 
 
 class Player
@@ -66,6 +67,8 @@ public:
 
 	void SetIsDisconnected(bool value=true);
 	bool IsDisconnected();
+
+	Filter GetMoveRestriction();
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);

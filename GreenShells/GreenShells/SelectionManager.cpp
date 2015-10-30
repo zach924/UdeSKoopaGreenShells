@@ -12,6 +12,7 @@
 #include "DistrictEmpty.h"
 #include "GameSession.h"
 #include "ClickManager.h"
+#include "Player.h"
 
 SelectionManager::SelectionManager()
 	:m_state(m_idle)
@@ -188,7 +189,7 @@ void SelectionManager::UnitAttackPressed()
 		m_state = m_unitAttacking;
 
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
+		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange(), NO_FILTER);
 	}
 }
 
@@ -201,7 +202,9 @@ void SelectionManager::UnitMovePressed()
 		m_state = m_unitMoving;
 
 		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
+
+		Player player = GameSession::GetInstance().GetWorldState()->GetPlayer(GameSession::GetInstance().GetCurrentPlayerID());
+		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange(), player.GetMoveRestriction());
 	}
 }
 

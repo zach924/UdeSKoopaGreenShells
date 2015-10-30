@@ -12,6 +12,8 @@
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
 
+
+
 Map::Map()
 	:m_tiles()
 {
@@ -104,12 +106,12 @@ std::vector<Position> Map::GetSpawnPositions()
 	return m_spawnPositions;
 }
 
-std::vector<Position> Map::GetArea(Position position, int distance)
+std::vector<Position> Map::GetArea(Position position, int distance, Filter filter)
 {
 	std::vector<Position> area;
 	std::vector<Position> currentLevel;
 	currentLevel.emplace_back(position);
-	GetAreaIntern(distance, currentLevel, area);
+	GetAreaIntern(distance, currentLevel, area, filter);
 	//std::vector<Position> area;
 	////find miminum and maximum
 	//int maxCol = position.X + distance;
@@ -136,7 +138,7 @@ std::vector<Position> Map::GetArea(Position position, int distance)
 	return area;
 }
 
-void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited)
+void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, Filter filter)
 {
 	if (distance >= 0 )
 	{
@@ -185,7 +187,7 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
 			{
 				if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
 				{
-					if (GetTile(position)->CanTraverse())
+					if (GetTile(position)->CanTraverse(filter))
 					{
 						nextToVisit.emplace_back(position);
 					}
@@ -193,7 +195,7 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
 			}
 
 		} // for()
-		GetAreaIntern(distance - 1, nextToVisit, alreadyVisited);
+		GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter);
 	}
 }
 

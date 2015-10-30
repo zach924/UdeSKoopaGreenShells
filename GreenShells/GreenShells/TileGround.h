@@ -10,7 +10,7 @@ public:
 	TileGround(Position position);
 	~TileGround();
 
-	virtual bool CanTraverse();	
+	virtual bool CanTraverse(Filter filter);	
 	virtual int GetTypeAsInt();
 	static TileGround* Deserialize(boost::property_tree::ptree tileNode, Position pos);
 };

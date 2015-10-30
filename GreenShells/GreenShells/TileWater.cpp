@@ -7,6 +7,9 @@
 #include "UnitSwordsman.h"
 #include "UnitSettler.h"
 
+#include "MapFilter.h"
+#include "GameSession.h"
+
 #include "DistrictCityCenter.h"
 #include "DistrictFarm.h"
 
@@ -75,9 +78,26 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
     return tile;
 }
 
-bool TileWater::CanTraverse()
+bool TileWater::CanTraverse(Filter filter)
 {
-	return false;
+	bool result = (filter & ALLOW_WATER) != 0;
+
+	if ((filter & BLOCK_ENEMIES) != 0)
+	{
+		int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
+
+		if (m_unit != nullptr)
+		{
+			result &= currentPlayerID == m_unit->GetOwnerID();
+		}
+
+		if (m_district != nullptr)
+		{
+			result &= currentPlayerID == m_district->GetOwnerID();
+		}
+
+	}
+	return  result;
 }
 
 int TileWater::GetTypeAsInt()

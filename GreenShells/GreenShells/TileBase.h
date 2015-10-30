@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
 
 class DistrictBase;
 class UnitBase;
@@ -23,7 +24,7 @@ public:
     void SetOverlayVisible(bool visible);
     virtual Position GetPosition();
     virtual Texture* GetTexture()=0;
-    virtual bool CanTraverse()=0;
+    virtual bool CanTraverse(Filter filter)=0;
 	virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
     virtual void NotifyNewTurn();

@@ -236,25 +236,25 @@
     </ClCompile>
     <ClCompile Include="ButtonYes.cpp">
       <Filter>Source Files\UI\Button</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="UnitArcher.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="ButtonNo.cpp">
       <Filter>Source Files\UI\Button</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="DistrictEmpty.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
     <ClCompile Include="PopUpWindow.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="UnitEmpty.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="YesNoPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="UnitSwordsman.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
@@ -412,25 +412,25 @@
     </ClInclude>
     <ClInclude Include="ButtonYes.h">
       <Filter>Header Files\UI\Button</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="UnitSwordsman.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="ButtonNo.h">
       <Filter>Header Files\UI\Button</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="DistrictEmpty.h">
       <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="PopUpWindow.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="UnitArcher.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="YesNoPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="UnitEmpty.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
@@ -442,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="UnitSettler.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFilter.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ public:
 	TileWater(Position position);
 	~TileWater();
 
-	virtual bool CanTraverse();
+	virtual bool CanTraverse(Filter filter);
 	virtual int GetTypeAsInt();
 	
     static TileWater* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });

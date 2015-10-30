@@ -43,10 +43,11 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
 	//Is second tile some place safe?
 	//TODO : Add abilities that allows mountain & water passage.
-	if (!secondTile->CanTraverse())
+	// TODO : Will be check on the get area
+	/*if (!secondTile->CanTraverse(Filter filter)) 
 	{
 		return false;
-	}
+	}*/
 
 	//New Location is emtpy or there is a district and it's allied. Move him
 	if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
