@@ -2,7 +2,7 @@
 
 #include <string>
 
-struct EmpireSkillTree
+class EmpireSkillTree
 {
 	bool Settler : 1;
 	bool Monastery : 1;

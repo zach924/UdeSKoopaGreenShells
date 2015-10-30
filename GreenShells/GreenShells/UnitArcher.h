@@ -15,8 +15,8 @@ public:
 
 public:
 	UnitArcher(int owner);
-	~UnitArcher();
-
+	virtual ~UnitArcher();
+	virtual UnitBase* Clone();
 	void LoadTexture();
 
 	virtual int GetTypeAsInt();

@@ -12,6 +12,20 @@
 
 using namespace std;
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
+
 WorldState::WorldState(bool isRemote)
 	:m_map(nullptr), m_players(), m_mutex(), m_turn(1), m_remote(isRemote)
 {
@@ -19,6 +33,7 @@ WorldState::WorldState(bool isRemote)
 
 WorldState::~WorldState()
 {
+	delete m_map;
 }
 
 Map* WorldState::GetMap()
@@ -26,23 +41,16 @@ Map* WorldState::GetMap()
 	return m_map;
 }
 
-Map WorldState::GetMapCopy()
+Map* WorldState::GetMapCopy()
 {
 	lock_guard<recursive_mutex> lock{ m_mutex };
-	return *m_map;
+	return m_map->Clone();
 }
 
 void WorldState::PrepareLocalGame()
 {
 	lock_guard<recursive_mutex> lock{ m_mutex };
 	m_map = new MapLocal();
-	m_map->GenerateTiles();
-}
-
-void WorldState::PrepareRemoteGame()
-{
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	m_map = new MapRemote();
 	m_map->GenerateTiles();
 }
 

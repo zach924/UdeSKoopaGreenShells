@@ -21,10 +21,9 @@ public:
 	//Temp Hack
 	Map* GetMap();
 	//Returns a copy of the map for drawing
-	Map GetMapCopy();
+	Map* GetMapCopy();
 
 	void PrepareLocalGame();
-	void PrepareRemoteGame();
 	int GetCurrentTurn();
 	void NotifyNewTurn();
 

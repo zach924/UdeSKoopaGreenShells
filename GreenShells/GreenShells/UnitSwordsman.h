@@ -16,7 +16,7 @@ private :
 public :
 	UnitSwordsman(int owner);
 	~UnitSwordsman();
-
+	virtual UnitBase* Clone();
 	void LoadTexture();
 
 	virtual int GetTypeAsInt();

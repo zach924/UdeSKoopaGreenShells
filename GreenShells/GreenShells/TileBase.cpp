@@ -3,10 +3,28 @@
 #include "Unit.h"
 #include "Player.h"
 #include <boost\property_tree\ptree.hpp>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 TileBase::TileBase(Position position)
     :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible()
 {
+}
+
+TileBase::~TileBase()
+{
+	delete m_district;
+	delete m_unit;
 }
 
 bool TileBase::GetOverlayVisible()

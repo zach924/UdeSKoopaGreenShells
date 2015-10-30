@@ -44,6 +44,19 @@
 #include "DistrictFarm.h"
 #include "DistrictCityCenter.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 
 GameWindow::GameWindow(ScreenResolution res)
 	:m_window(), m_screenSurface(), m_renderer(), m_CurrentScreen(res), m_currentLeftmostColumn(0), m_currentLowestRow(0), m_currentlyScrolling(false), m_foodTexture(), m_overlayTexture(), m_scienceTexture(), m_weaponTexture()
@@ -440,13 +453,13 @@ void GameWindow::ShowWindow()
         }
 
 		//Render Map
-		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+		unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
 
         //Set overlay visible to true
         std::vector<Position> overlayTiles = SelectionManager::GetInstance().GetOverlayTiles();
         for (Position pos : overlayTiles)
         {
-            map.GetTile(pos)->SetOverlayVisible(true);
+            map->GetTile(pos)->SetOverlayVisible(true);
         }
 
         int rowIndex = m_currentLowestRow;
@@ -455,7 +468,7 @@ void GameWindow::ShowWindow()
             int columnIndex = m_currentLeftmostColumn;
             for (int column = 0; column <= m_CurrentScreen.NUM_TILE_WIDTH; ++column)
 			{
-                TileBase* tile = map.GetTile(Position(columnIndex, rowIndex));
+                TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
 				Texture* tileTexture = tile->GetTexture();
 
 				//Position the tile on the screen

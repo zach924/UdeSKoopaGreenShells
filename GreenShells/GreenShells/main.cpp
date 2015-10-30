@@ -8,13 +8,26 @@
 #include "MapRemote.h"
 #include "ServerSession.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
+
 // These needs to be before main
 bool SetUpServer(char* playerName, int port)
 {
 	if (port != 0)
 	{
 		ServerSession::GetInstance().StartServer(port);
-
 
 		GameSession::GetInstance().SetPort(port);
 		GameSession::GetInstance().SetServerIP("127.0.0.1");
@@ -83,7 +96,9 @@ int main(int argc, char* argv[])
 			{
 				if (SetUpServer(playerName, atoi(argv[PORT_ARG])))
 				{
-
+					GameWindow::GetInstance().ShowWindow();
+					GameWindow::GetInstance().Close();
+					ServerSession::GetInstance().StopServer();
 				}
 				else
 				{
@@ -105,7 +120,8 @@ int main(int argc, char* argv[])
 			{
 				if (SetUpClient(playerName, argv[SERVER_IP_ARG], atoi(argv[PORT_ARG])))
 				{
-
+					GameWindow::GetInstance().ShowWindow();
+					GameWindow::GetInstance().Close();
 				}
 				else
 				{
@@ -122,9 +138,7 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
-
-		GameWindow::GetInstance().ShowWindow();
-		GameWindow::GetInstance().Close();
+		_CrtDumpMemoryLeaks();
 
 		return 0;
 	}

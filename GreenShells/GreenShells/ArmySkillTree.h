@@ -2,7 +2,7 @@
 
 #include <string>
 
-struct ArmySkillTree
+class ArmySkillTree
 {
 	bool Militia : 1;
 	bool RangerT1 : 1;

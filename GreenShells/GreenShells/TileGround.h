@@ -8,6 +8,7 @@ public:
 	typedef Tile<TileGround> tBase;
 	void LoadTexture();
 	TileGround(Position position);
+	virtual TileBase* Clone();
 	~TileGround();
 
 	virtual bool CanTraverse();	

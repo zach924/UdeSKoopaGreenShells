@@ -30,9 +30,9 @@ void RPCManager::StartListening()
 				newClient->SetQueuePointer(m_events);
 
 				//Get his name;
-				PlayerInfoStruct* playerName = new PlayerInfoStruct();
-				newClient->GetTCPConnection().GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(playerName), sizeof(PlayerInfoStruct)));
-				newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer(playerName->getPlayerName()));
+				PlayerInfoStruct playerName;
+				newClient->GetTCPConnection().GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&playerName), sizeof(PlayerInfoStruct)));
+				newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer(playerName.getPlayerName()));
 				newClient->StartThread();
 				m_clients.push_back(newClient);
 

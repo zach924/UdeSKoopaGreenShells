@@ -9,7 +9,19 @@
 #include <boost\property_tree\ptree.hpp>
 
 #include <iostream>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 MapRemote::MapRemote()
 	:Map()
 {
@@ -17,6 +29,29 @@ MapRemote::MapRemote()
 
 MapRemote::~MapRemote()
 {
+}
+
+Map* MapRemote::Clone()
+{
+	MapRemote* map = new MapRemote{};
+
+	for (auto spawn : m_spawnPositions)
+	{
+		map->m_spawnPositions.push_back(spawn);
+	}
+
+	for (int i = 0; i < ROWS; i++)
+	{
+		map->m_tiles.push_back(std::vector<TileBase*>(COLUMNS));
+	}
+	for (int row = 0; row < ROWS; ++row)
+	{
+		for (int column = 0; column < COLUMNS; ++column)
+		{
+			map->m_tiles[row][column] = m_tiles[row][column]->Clone();
+		}
+	}
+	return map;
 }
 
 bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation)

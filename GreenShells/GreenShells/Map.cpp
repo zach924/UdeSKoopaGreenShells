@@ -10,7 +10,19 @@
 #include <vector>
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 Map::Map()
 	:m_tiles()
 {
@@ -20,38 +32,11 @@ Map::Map()
 	}
 }
 
-Map::Map(const Map& source)
-	:m_tiles()
-{
-	for (int i = 0; i < ROWS; i++)
-	{
-		m_tiles.push_back(std::vector<TileBase*>(COLUMNS));
-	}
-	for (int row = 0; row < ROWS; ++row)
-	{
-		for (int column = 0; column < COLUMNS; ++column)
-		{
-			if (TileGround* ptr = dynamic_cast<TileGround*>(source.m_tiles[row][column]))
-			{
-				m_tiles[row][column] = new TileGround{ *ptr };
-			}
-			else if (TileMountain* ptr = dynamic_cast<TileMountain*>(source.m_tiles[row][column]))
-			{
-				m_tiles[row][column] = new TileMountain{ *ptr };
-			}
-			else if (TileWater* ptr = dynamic_cast<TileWater*>(source.m_tiles[row][column]))
-			{
-				m_tiles[row][column] = new TileWater{ *ptr };
-			}
-		}
-	}
-}
-
 Map::~Map()
 {
-	for (auto tileRow : m_tiles)
+	for (std::vector<TileBase*> tileRow : m_tiles)
 	{
-		for (auto tile : tileRow)
+		for (TileBase* tile : tileRow)
 		{
 			delete tile;
 		}

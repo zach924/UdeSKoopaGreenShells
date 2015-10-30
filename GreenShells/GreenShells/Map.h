@@ -18,8 +18,9 @@ public:
     static const int COLUMNS = 64;
 
     Map();
-	Map(const Map& source);
     ~Map();
+
+	virtual Map* Clone()=0;
 	static Texture m_texture;
 
     void GenerateTiles();

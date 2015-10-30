@@ -11,7 +11,19 @@
 #include <iostream>
 #include <fstream>
 #include <exception>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 GameSession::GameSession()
 	:m_worldState(true), m_serverIP(), m_currentPlayerID(-1)
 {
@@ -69,7 +81,7 @@ bool GameSession::ConnectToServer(char* playerName)
 	PlayerInfoStruct* data = new PlayerInfoStruct();
 	RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(PlayerInfoStruct)));
 	m_currentPlayerID = data->playerID;
-
+	delete data;
 	//First Replication
 	FetchReplication();
 
@@ -126,6 +138,7 @@ void GameSession::FetchReplication()
 		char* data = new char[theoreticalSize - actualSize];
 		int receivedSize = static_cast<int>(RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(data, theoreticalSize - actualSize)));
 		dataStream.write(data, receivedSize);
+		delete data;
 		actualSize += receivedSize;
 	}
 	boost::property_tree::ptree pt;

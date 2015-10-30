@@ -1,6 +1,18 @@
 #include <sstream>
 #include "ArmySkillTree.h"
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 ArmySkillTree::ArmySkillTree():
 	Militia(false), RangerT1(false), RangerT2(false), RangerT3(false), SwordT2(false),
 	SwordT3(false), AxeT1(false), AxeT2(false), MaceT1(false), MaceT2(false),

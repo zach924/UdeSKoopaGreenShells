@@ -6,6 +6,8 @@ class MapLocal : public Map
 public:
 	MapLocal();
 	~MapLocal();
+	Map* Clone();
+
 
 	virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
 	virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);

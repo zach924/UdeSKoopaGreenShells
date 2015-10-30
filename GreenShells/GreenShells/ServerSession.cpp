@@ -7,11 +7,23 @@
 
 #include "ServerSession.h"
 #include "Player.h"
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 using namespace std::chrono;
 
 ServerSession::ServerSession()
-	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState(false)
+	:m_dispatcher(nullptr), m_rpcServerManager(nullptr), m_worldState(false), m_isStopped(false)
 {
 
 }
@@ -24,6 +36,13 @@ void ServerSession::run()
 		{
 			//30 ticks / second
 			auto before = system_clock::now();
+
+			//Server is done.
+			if (m_isStopped)
+			{
+				return;
+			}
+
 			//Check for disconnects
 			auto players = m_rpcServerManager->GetDisconnectedPlayers();
 			for (auto player : players)
@@ -65,6 +84,16 @@ void ServerSession::StartServer(int port)
 	m_dispatcher->SetWorldState(&m_worldState);
 
 	m_serverSessionThread = new std::thread(&ServerSession::run, this);
+}
+
+void ServerSession::StopServer()
+{
+	m_isStopped = true;
+	m_serverSessionThread->join();
+	delete m_rpcServerManager;
+	m_rpcServerManager = nullptr;
+	delete m_dispatcher;
+	m_dispatcher = nullptr;
 }
 
 void ServerSession::Replicate()

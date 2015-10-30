@@ -13,6 +13,20 @@
 #include "GameSession.h"
 #include "ClickManager.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
+
 SelectionManager::SelectionManager()
 	:m_selectedDistrict(new DistrictEmpty(-1))
 	, m_selectedUnit(new UnitEmpty(-1))
@@ -185,8 +199,8 @@ void SelectionManager::UnitAttackPressed()
 
 		m_state = m_unitAttacking;
 
-		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
+		unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+		m_actionPossibleTiles = map->GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetAttackRange());
 	}
 }
 
@@ -198,8 +212,8 @@ void SelectionManager::UnitMovePressed()
 
 		m_state = m_unitMoving;
 
-		Map map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-		m_actionPossibleTiles = map.GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
+		unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+		m_actionPossibleTiles = map->GetArea(m_selectedUnit->GetPosition(), m_selectedUnit->GetMoveRange());
 	}
 }
 

@@ -9,6 +9,7 @@ public:
 	typedef Tile<TileMountain> tBase;
 	void LoadTexture();
 	TileMountain(Position position);
+	virtual TileBase* Clone();
 	~TileMountain();
 	virtual bool CanTraverse();	
 	virtual int GetTypeAsInt();

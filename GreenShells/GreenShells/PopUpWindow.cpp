@@ -2,7 +2,19 @@
 #include "Button.h"
 #include "PopUpWindow.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 
 PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
 	:m_wind(), m_screenSurface(), m_rend(), m_fontSize(24), m_width(width)

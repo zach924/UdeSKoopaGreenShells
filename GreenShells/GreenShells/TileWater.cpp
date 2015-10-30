@@ -12,6 +12,19 @@
 
 #include <boost\property_tree\ptree.hpp>
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 
 TileWater::TileWater(Position position)
 :Tile(position)
@@ -34,6 +47,20 @@ void TileWater::LoadTexture()
 
 TileWater::~TileWater()
 {
+}
+
+TileBase* TileWater::Clone()
+{
+	auto tile = new TileWater{ *this };
+	if (m_district)
+	{
+		tile->m_district = m_district->Clone();
+	}
+	if (m_unit)
+	{
+		tile->m_unit = m_unit->Clone();
+	}
+	return tile;
 }
 
 TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position pos)

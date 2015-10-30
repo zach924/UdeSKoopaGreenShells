@@ -17,6 +17,8 @@ public:
     {
     }
 
+	virtual TileBase* Clone() = 0;
+
     ~Tile()
     {
     }

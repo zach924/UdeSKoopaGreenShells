@@ -1,6 +1,18 @@
 #include "UnitSettler.h"
 #include <iostream>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 UnitSettler::UnitSettler(int owner)
 	: Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
@@ -8,6 +20,12 @@ UnitSettler::UnitSettler(int owner)
 
 UnitSettler::~UnitSettler()
 {
+	std::cout << "Destroyed settler" << std::endl;
+}
+
+UnitBase* UnitSettler::Clone()
+{
+	return new UnitSettler{ *this };
 }
 
 void UnitSettler::LoadTexture()

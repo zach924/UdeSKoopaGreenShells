@@ -11,7 +11,19 @@
 #include "DistrictFarm.h"
 
 #include <boost\property_tree\ptree.hpp>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 void TileGround::LoadTexture()
 {
 	try
@@ -32,6 +44,20 @@ TileGround::TileGround(Position position)
 
 TileGround::~TileGround()
 {
+}
+
+TileBase* TileGround::Clone()
+{
+	auto tile = new TileGround{ *this };
+	if (m_district)
+	{
+		tile->m_district = m_district->Clone();
+	}
+	if (m_unit)
+	{
+		tile->m_unit = m_unit->Clone();
+	}
+	return tile;
 }
 
 TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Position pos)

@@ -13,7 +13,7 @@ public :
 public:
 	DistrictCityCenter(int owner);
 	~DistrictCityCenter();
-
+	virtual DistrictBase* Clone();
     void LoadTexture();
 
 	void ChangeOwner(int owner);

@@ -12,7 +12,7 @@ public:
 public:
 	DistrictFarm(int owner);
 	~DistrictFarm();
-
+	virtual DistrictBase* Clone();
     void LoadTexture();
 	virtual void Repair(int repairValue);
 

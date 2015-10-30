@@ -29,7 +29,9 @@ private:
 
 public:
 	DistrictBase(int owner, int health, int attackDamage);
-	~DistrictBase();
+	virtual ~DistrictBase();
+
+	virtual DistrictBase* Clone() = 0;
 
 	int GetAttackDamage();
 	int GetHealth();

@@ -5,7 +5,6 @@
 
 class DistrictBase;
 class UnitBase;
-class Player;
 
 class TileBase
 {
@@ -19,6 +18,8 @@ protected:
 public:
 
     TileBase(Position position = Position(-1, -1));
+	virtual TileBase* Clone()=0;
+	virtual ~TileBase();
     bool GetOverlayVisible();
     void SetOverlayVisible(bool visible);
     virtual Position GetPosition();

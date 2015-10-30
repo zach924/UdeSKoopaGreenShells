@@ -1,7 +1,19 @@
 #include "UnitEmpty.h"
 #include <algorithm>
 #include <iostream>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif // _DEBUG
+
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 UnitEmpty::UnitEmpty(int owner)
     : Unit<UnitEmpty>(owner, 0, 0, 0, 0)
 {
@@ -9,6 +21,12 @@ UnitEmpty::UnitEmpty(int owner)
 
 UnitEmpty::~UnitEmpty()
 {
+}
+
+UnitBase* UnitEmpty::Clone()
+{
+	assert(false && "Why you trying to clone an empty unit >.>");
+	return new UnitEmpty{ *this };
 }
 
 int UnitEmpty::GetTypeAsInt()

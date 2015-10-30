@@ -9,6 +9,7 @@ public:
 	typedef Tile<TileWater> tBase;
 	void LoadTexture();
 	TileWater(Position position);
+	virtual TileBase* Clone();
 	~TileWater();
 
 	virtual bool CanTraverse();

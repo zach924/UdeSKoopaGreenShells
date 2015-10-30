@@ -30,7 +30,9 @@ private:
 
 public:
 	UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
-	~UnitBase();
+	virtual ~UnitBase();
+
+	virtual UnitBase* Clone() = 0;
 
 	int GetAttackDamage();
 	int GetAttackRange();
@@ -50,10 +52,7 @@ public:
 	
 	AttackNotification ReceiveDamage(int damage);
 
-
 	virtual void NotifyNewTurn();
 
 	boost::property_tree::ptree Serialize();
-	//static UnitBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
-
 };

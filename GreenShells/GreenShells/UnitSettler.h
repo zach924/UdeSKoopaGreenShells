@@ -15,8 +15,8 @@ private:
 
 public:
 	UnitSettler(int owner);
-	~UnitSettler();
-
+	virtual ~UnitSettler();
+	virtual UnitBase* Clone();
 	void LoadTexture();
 
 	virtual int GetTypeAsInt();
