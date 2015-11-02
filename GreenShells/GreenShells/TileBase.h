@@ -17,6 +17,7 @@ protected:
 
 public:
 
+    virtual Color GetMinimapColor() =0;
     TileBase(Position position = Position(-1, -1));
     virtual ~TileBase();
     virtual TileBase* Clone() = 0;

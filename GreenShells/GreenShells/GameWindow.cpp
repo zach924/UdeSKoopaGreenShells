@@ -47,20 +47,20 @@
 #include "DistrictCityCenter.h"
 
 GameWindow::GameWindow(ScreenResolution res)
-	:m_window()
-    ,m_renderer()
-    ,m_CurrentScreen(res)
-    ,m_currentLeftmostColumn(0)
-    ,m_currentLowestRow(0)
-    ,m_currentlyScrolling(false)
-    ,m_foodTexture()
-    ,m_overlayTexture()
-    ,m_scienceTexture()
-    ,m_weaponTexture()
-{ 
+    :m_window()
+    , m_renderer()
+    , m_CurrentScreen(res)
+    , m_currentLeftmostColumn(0)
+    , m_currentLowestRow(0)
+    , m_currentlyScrolling(false)
+    , m_foodTexture()
+    , m_overlayTexture()
+    , m_scienceTexture()
+    , m_weaponTexture()
+{
     //Initialize SDL                                                                                                                            
-	assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
-	assert(TTF_Init() >= 0 && TTF_GetError());
+    assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
+    assert(TTF_Init() >= 0 && TTF_GetError());
 
     auto windowType = m_CurrentScreen.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
     m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, windowType);
@@ -71,11 +71,11 @@ GameWindow::GameWindow(ScreenResolution res)
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
-	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	CreateGeneralButtons();
-	CreateDistrictButtons();
-	CreateUnitButtons();
-	LoadLocalTextures();
+    SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    CreateGeneralButtons();
+    CreateDistrictButtons();
+    CreateUnitButtons();
+    LoadLocalTextures();
 }
 
 GameWindow::~GameWindow()
@@ -89,7 +89,7 @@ GameWindow::~GameWindow()
     m_weaponTexture = nullptr;
     m_overlayTexture = nullptr;
 
-	Close();
+    Close();
 }
 
 void GameWindow::CreateGeneralButtons()
@@ -121,66 +121,66 @@ void GameWindow::CreateUnitButtons()
 
 void GameWindow::LoadLocalTextures()
 {
-	m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
-	assert(m_ressourcesFont != NULL && TTF_GetError());
+    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
+    assert(m_ressourcesFont != NULL && TTF_GetError());
 
-	m_foodTexture = new Texture();
-	m_weaponTexture = new Texture();
-	m_scienceTexture = new Texture();
+    m_foodTexture = new Texture();
+    m_weaponTexture = new Texture();
+    m_scienceTexture = new Texture();
     m_overlayTexture = new Texture();
 
-	try
-	{
-		// Do not remove the renderer from this call otherwise the Load from file will call
-		// GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
-		m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
+    try
+    {
+        // Do not remove the renderer from this call otherwise the Load from file will call
+        // GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
+        m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
 
-		m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
+        m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
 
-		m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
+        m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
 
         m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
 }
 
 void GameWindow::ShowWindow()
 {
-	bool quit = false;
-	while (!quit)
-	{
-		SDL_Event e;
+    bool quit = false;
+    while (!quit)
+    {
+        SDL_Event e;
 
-		//Handle events on queue
-		while (SDL_PollEvent(&e) != 0)
-		{
-			if (e.type == SDL_QUIT)
-			{
-				quit = true;
-			}
-			else if (e.type == SDL_MOUSEBUTTONUP)
-			{
-				std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
-				if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
-				{
-					if (IsClickInMap(e.button.x, e.button.y))
-					{
-						int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostColumn;
-						posCol %= Map::COLUMNS;
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_MOUSEBUTTONUP)
+            {
+                std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
+                if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
+                {
+                    if (IsClickInMap(e.button.x, e.button.y))
+                    {
+                        int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostColumn;
+                        posCol %= Map::COLUMNS;
 
-						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestRow;
-						posRow %= Map::ROWS;
+                        int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestRow;
+                        posRow %= Map::ROWS;
 
-						ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
-					}
-					else if (IsClickInLeftMenu(e.button.x, e.button.y))
-					{
-						ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
-					}
+                        ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
+                    }
+                    else if (IsClickInLeftMenu(e.button.x, e.button.y))
+                    {
+                        ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
+                    }
                     else if (IsClickInMinimap(e.button.x, e.button.y))
                     {
                         int posCol = ((e.button.x - m_CurrentScreen.MINIMAP_POSX) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_WIDTH / 2);
@@ -189,44 +189,44 @@ void GameWindow::ShowWindow()
                             posCol += Map::COLUMNS;
                         }
 
-                        m_currentLeftmostColumn = posCol;                        
+                        m_currentLeftmostColumn = posCol;
 
-                        int posRow = ((e.button.y - m_CurrentScreen.MINIMAP_POSY) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_HEIGHT /2);
+                        int posRow = ((e.button.y - m_CurrentScreen.MINIMAP_POSY) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_HEIGHT / 2);
                         if (posRow < 0)
                         {
                             posRow += Map::ROWS;
                         }
                         m_currentLowestRow = posRow;
                     }
-					else
-					{
-						ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
-					}
-				}
-				else 
-				{
-					PopUpWindow* popUpToRemove = nullptr;
-					for (PopUpWindow* popUp : m_activePopUpWindow)
-					{
-						SDL_RaiseWindow(popUp->GetWindow());
-						if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
-						{
-							if (popUp->handleEvent(e))
-							{
-								popUpToRemove = popUp;
-							}
-							break;
-						}
-					}
+                    else
+                    {
+                        ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+                    }
+                }
+                else
+                {
+                    PopUpWindow* popUpToRemove = nullptr;
+                    for (PopUpWindow* popUp : m_activePopUpWindow)
+                    {
+                        SDL_RaiseWindow(popUp->GetWindow());
+                        if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
+                        {
+                            if (popUp->handleEvent(e))
+                            {
+                                popUpToRemove = popUp;
+                            }
+                            break;
+                        }
+                    }
 
-					if (popUpToRemove != nullptr)
-					{
-						//Remove it from the vector
-						m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
-						popUpToRemove->Close();
-					}
-				}
-			}
+                    if (popUpToRemove != nullptr)
+                    {
+                        //Remove it from the vector
+                        m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
+                        popUpToRemove->Close();
+                    }
+                }
+            }
             else if (e.type == SDL_KEYDOWN && !IsGameWindowInBackground())
             {
                 switch (e.key.keysym.sym)
@@ -250,15 +250,15 @@ void GameWindow::ShowWindow()
                     {
                         m_currentLeftmostColumn = Map::COLUMNS - 1;
                     }
-					break;
-				case (SDLK_RIGHT) :
-                        m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS);
-					break;
-				case (SDLK_DOWN) :
-                        m_currentLowestRow = (m_currentLowestRow + 1) % (Map::ROWS);
-					break;
-				}
-			}
+                                 break;
+                case (SDLK_RIGHT) :
+                    m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS);
+                    break;
+                case (SDLK_DOWN) :
+                    m_currentLowestRow = (m_currentLowestRow + 1) % (Map::ROWS);
+                    break;
+                }
+            }
             /*
             TODO Remove comment when the speed for scroll is reduced
 
@@ -490,8 +490,8 @@ void GameWindow::ShowWindow()
                 //Position the tile on the screen
                 int xPos = m_CurrentScreen.HUD_WIDTH + (column * m_CurrentScreen.TILE_SIZE);
                 int yPos = m_CurrentScreen.HUD_HEIGHT + (row * m_CurrentScreen.TILE_SIZE);
-				SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
-                
+                SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
+
                 if (tile->GetPlayerOwnerId() >= 0)
                 {
                     tileTexture->SetColor(PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()]);
@@ -506,48 +506,48 @@ void GameWindow::ShowWindow()
 
 
                 //Render the district
-				DistrictBase* district = tile->GetDistrict();
-				if (district)
-				{
-					Texture* districtTexture = district->GetTexture();
+                DistrictBase* district = tile->GetDistrict();
+                if (district)
+                {
+                    Texture* districtTexture = district->GetTexture();
                     districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
-					SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
-				}
+                    SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
+                }
 
                 //Render the unit
-				UnitBase* unit = tile->GetUnit();
-				if (unit)
-				{
-					Texture* unitTexture = unit->GetTexture();
+                UnitBase* unit = tile->GetUnit();
+                if (unit)
+                {
+                    Texture* unitTexture = unit->GetTexture();
                     unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
-					SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
-				}
+                    SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+                }
                 //Render the overlay
                 if (tile->GetOverlayVisible())
                 {
                     SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
                 }
-				columnIndex = (columnIndex + 1) % (Map::COLUMNS);
-			}
-			rowIndex = (rowIndex + 1) % (Map::ROWS);
+                columnIndex = (columnIndex + 1) % (Map::COLUMNS);
+            }
+            rowIndex = (rowIndex + 1) % (Map::ROWS);
 
-		}
+        }
 
         //Draw mini map
 
         //Draw background
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
-        SDL_Rect minimapBackgroundQuad = 
-        { 
+        SDL_Rect minimapBackgroundQuad =
+        {
             m_CurrentScreen.MINIMAP_BORDER_X,
             m_CurrentScreen.MINIMAP_BORDER_Y,
             (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::COLUMNS) + m_CurrentScreen.MINIMAP_BORDER,
-            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::ROWS) + m_CurrentScreen.MINIMAP_BORDER 
+            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::ROWS) + m_CurrentScreen.MINIMAP_BORDER
         };
 
         SDL_RenderFillRect(m_renderer, &minimapBackgroundQuad);
-        
+
         //Draw minimap
         int posRow = m_CurrentScreen.MINIMAP_POSY;
         for (int row = 0; row < Map::ROWS; ++row)
@@ -557,42 +557,27 @@ void GameWindow::ShowWindow()
             {
                 SDL_Rect tileQuad = { posColumn, posRow, m_CurrentScreen.MINIMAP_TILE_SIZE, m_CurrentScreen.MINIMAP_TILE_SIZE };
                 TileBase* tile = map->GetTile(Position(column, row));
+                Color tileColor;
 
                 if (false)//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
                 {
-                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_FOW.m_red, MINIMAP_FOW.m_green, MINIMAP_FOW.m_blue, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                    tileColor = MINIMAP_FOW;
                 }
-                else if (dynamic_cast<TileMountain*>(tile) != nullptr)
+                else if (tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
                 {
-                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_MOUNTAIN.m_red, MINIMAP_MOUNTAIN.m_green, MINIMAP_MOUNTAIN.m_blue, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                    tileColor = MINIMAP_CITY;
                 }
-                else if (dynamic_cast<TileWater*>(tile) != nullptr)
+                else if (tile->GetPlayerOwnerId() >= 0)
                 {
-                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_WATER.m_red, MINIMAP_WATER.m_green, MINIMAP_WATER.m_blue, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
-                }
-                else if (tile->GetPlayerOwnerId() < 0)
-                {
-                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_GROUND.m_red, MINIMAP_GROUND.m_green, MINIMAP_GROUND.m_blue, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
-                }
-                else if(tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
-                {                   
-                    SDL_SetRenderDrawColor(m_renderer, MINIMAP_CITY.m_red, MINIMAP_CITY.m_green, MINIMAP_CITY.m_blue, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                    tileColor = PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()];
                 }
                 else
                 {
-                    SDL_SetRenderDrawColor(m_renderer,
-                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_red,
-                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_green,
-                        PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()].m_blue,
-                        SDL_ALPHA_OPAQUE);
-
-                    SDL_RenderFillRect(m_renderer, &tileQuad);
+                    tileColor = tile->GetMinimapColor();
                 }
+
+                SDL_SetRenderDrawColor(m_renderer, tileColor.m_red, tileColor.m_green, tileColor.m_blue, SDL_ALPHA_OPAQUE);
+                SDL_RenderFillRect(m_renderer, &tileQuad);
                 posColumn += m_CurrentScreen.MINIMAP_TILE_SIZE;
             }
             posRow += m_CurrentScreen.MINIMAP_TILE_SIZE;
@@ -603,23 +588,23 @@ void GameWindow::ShowWindow()
         int currentCamColumn = m_CurrentScreen.MINIMAP_POSY + m_currentLowestRow * m_CurrentScreen.MINIMAP_TILE_SIZE;
         int camWidth = currentCamRow + ((m_CurrentScreen.NUM_TILE_WIDTH + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
         int camHeight = currentCamColumn + ((m_CurrentScreen.NUM_TILE_HEIGHT + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
-        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT + (m_CurrentScreen.MINIMAP_BORDER /2);
-        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH  + (m_CurrentScreen.MINIMAP_BORDER /2);
+        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT + (m_CurrentScreen.MINIMAP_BORDER / 2);
+        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH + (m_CurrentScreen.MINIMAP_BORDER / 2);
 
         //white rectangles
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         //leftOverflow
         if (widthOverflow > 0)
-        {            
+        {
             SDL_Rect minimapLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, currentCamColumn, widthOverflow, camHeight - currentCamColumn };
             SDL_RenderDrawRect(m_renderer, &minimapLeftOverflow);
             camWidth = m_CurrentScreen.MAX_WIDTH;
         }
-        
+
         //upOverflow
         if (heightOverflow > 0)
         {
-            SDL_Rect minimapUpOverflow = { currentCamRow, m_CurrentScreen.MINIMAP_POSY, camWidth - currentCamRow, heightOverflow};
+            SDL_Rect minimapUpOverflow = { currentCamRow, m_CurrentScreen.MINIMAP_POSY, camWidth - currentCamRow, heightOverflow };
             SDL_RenderDrawRect(m_renderer, &minimapUpOverflow);
             camHeight = m_CurrentScreen.MAX_HEIGHT;
         }
@@ -630,13 +615,13 @@ void GameWindow::ShowWindow()
             SDL_Rect minimapUpLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, m_CurrentScreen.MINIMAP_POSY, widthOverflow, heightOverflow };
             SDL_RenderDrawRect(m_renderer, &minimapUpLeftOverflow);
         }
-        
+
         //CurrentCamera
-        SDL_Rect minimapCurrentCamera = { currentCamRow, currentCamColumn, camWidth - currentCamRow, camHeight - currentCamColumn};
+        SDL_Rect minimapCurrentCamera = { currentCamRow, currentCamColumn, camWidth - currentCamRow, camHeight - currentCamColumn };
         SDL_RenderDrawRect(m_renderer, &minimapCurrentCamera);
-        
-		//Draw screen
-		SDL_RenderPresent(m_renderer);
+
+        //Draw screen
+        SDL_RenderPresent(m_renderer);
 
         //Render the different popUps
         for (PopUpWindow* popUp : m_activePopUpWindow)
@@ -655,17 +640,17 @@ SDL_Renderer * GameWindow::GetRenderer()
 
 void GameWindow::Close()
 {
-	//Destroy window
+    //Destroy window
     TTF_CloseFont(m_ressourcesFont);
     SDL_DestroyRenderer(m_renderer);
-	SDL_DestroyWindow(m_window);
+    SDL_DestroyWindow(m_window);
     m_ressourcesFont = NULL;
-	m_window = NULL;
-	m_renderer = NULL;
+    m_window = NULL;
+    m_renderer = NULL;
 
-	//Quit SDL subsystems
-	TTF_Quit();
-	SDL_Quit();
+    //Quit SDL subsystems
+    TTF_Quit();
+    SDL_Quit();
 }
 
 bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
@@ -685,16 +670,16 @@ bool GameWindow::IsGameWindowInBackground()
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-    return m_CurrentScreen.HUD_WIDTH < x 
-        && x < m_CurrentScreen.MAX_WIDTH 
-        && m_CurrentScreen.HUD_HEIGHT < y 
-        && y < m_CurrentScreen.MAX_HEIGHT 
+    return m_CurrentScreen.HUD_WIDTH < x
+        && x < m_CurrentScreen.MAX_WIDTH
+        && m_CurrentScreen.HUD_HEIGHT < y
+        && y < m_CurrentScreen.MAX_HEIGHT
         && (x < m_CurrentScreen.MINIMAP_BORDER_X || y < m_CurrentScreen.MINIMAP_BORDER_Y);
 }
 
 bool GameWindow::IsClickInMinimap(const int& x, const int& y)
 {
-    return  x >= m_CurrentScreen.MINIMAP_POSX 
+    return  x >= m_CurrentScreen.MINIMAP_POSX
         && x < m_CurrentScreen.MAX_WIDTH
         && y > m_CurrentScreen.MINIMAP_POSY
         && y < m_CurrentScreen.MAX_HEIGHT;

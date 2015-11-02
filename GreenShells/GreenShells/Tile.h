@@ -8,8 +8,15 @@ class Tile : public TileBase
 {
 public:
     static Texture m_Texture;
+    static Color m_MinimapColor;
+
     void LoadTexture() {};
     virtual int GetTypeAsInt() = 0;
+
+    virtual Color GetMinimapColor()
+    {
+        return m_MinimapColor;
+    }
 
     Tile(Position position = Position(-1, -1))
         : TileBase(position)

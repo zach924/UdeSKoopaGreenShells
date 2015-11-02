@@ -118,9 +118,6 @@ private:
     };
 
     //Other usefull colors
-    const Color MINIMAP_GROUND = { 0,102,0 };
-    const Color MINIMAP_WATER = { 0,0,255 };
-    const Color MINIMAP_MOUNTAIN = { 100,50,15 };
     const Color MINIMAP_FOW = { 0,0,0 };
     const Color EMPTY_COLOR = { 255,255,255 };
     const Color MINIMAP_CITY = {155, 155, 155};
