@@ -84,7 +84,7 @@ private:
     int m_currentLowestRow;
     bool m_currentlyScrolling;
 
-	std::vector<PopUpWindow*> m_activePopUpWindow;
+    std::vector<PopUpWindow*> m_activePopUpWindow;
 
     //Textures for the window
 	TTF_Font* m_ressourcesFont;
@@ -139,8 +139,7 @@ private:
 public:
     static GameWindow& GetInstance()
     {
-
-		static GameWindow m_instance{ RES_1280_720 };
+        static GameWindow m_instance{};
         return m_instance;
     }
 
@@ -152,7 +151,7 @@ public:
     bool IsClickInMinimap(const int& x, const int& y);
     bool IsClickInLeftMenu(const int& x, const int& y);
 
-	void AddPopUpWindow(PopUpWindow * window);
+    void AddPopUpWindow(PopUpWindow * window);
 
-	bool IsGameWindowInBackground();
+    bool IsGameWindowInBackground();
 };

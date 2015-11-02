@@ -9,6 +9,12 @@ TileBase::TileBase(Position position)
 {
 }
 
+TileBase::~TileBase()
+{
+    delete m_district;
+    delete m_unit;
+}
+
 bool TileBase::GetOverlayVisible()
 {
     return m_OverlayVisible;
@@ -44,10 +50,10 @@ DistrictBase* TileBase::GetDistrict()
 
 void TileBase::SetDistrict(DistrictBase* district)
 {
-	if (district)
-	{
-		district->SetPosition(m_position);
-	}
+    if (district)
+    {
+        district->SetPosition(m_position);
+    }
 
     m_district = district;
 }
@@ -59,10 +65,10 @@ UnitBase * TileBase::GetUnit()
 
 void TileBase::SetUnit(UnitBase* unit)
 {
-	if (unit)
-	{
-		unit->SetPosition(m_position);
-	}
+    if (unit)
+    {
+        unit->SetPosition(m_position);
+    }
 
     m_unit = unit;
 }
@@ -84,25 +90,25 @@ TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position p
 
 bool TileBase::IsFree()
 {
-	return !(m_district || m_unit);
+    return !(m_district || m_unit);
 }
 
 boost::property_tree::ptree TileBase::Serialize()
 {
-	boost::property_tree::ptree tileNode;
-	tileNode.put("<xmlattr>.TT", GetTypeAsInt());
-	tileNode.put("<xmlattr>.O", m_owner);
+    boost::property_tree::ptree tileNode;
+    tileNode.put("<xmlattr>.TT", GetTypeAsInt());
+    tileNode.put("<xmlattr>.O", m_owner);
 
-	if (m_unit)
-	{
-		boost::property_tree::ptree unitNode = m_unit->Serialize();
+    if (m_unit)
+    {
+        boost::property_tree::ptree unitNode = m_unit->Serialize();
         tileNode.add_child("U", unitNode);
-	}
-	if (m_district)
-	{
+    }
+    if (m_district)
+    {
         boost::property_tree::ptree districtNode = m_district->Serialize();
         tileNode.add_child("D", districtNode);
-	}
+    }
 
-	return tileNode;
+    return tileNode;
 }

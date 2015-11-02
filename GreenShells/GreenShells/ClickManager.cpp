@@ -5,11 +5,9 @@
 
 #include "ButtonUnitAttack.h"
 
-
 ClickManager::ClickManager()
 {
 }
-
 
 ClickManager::~ClickManager()
 {
@@ -32,29 +30,27 @@ ClickManager::~ClickManager()
     }
 }
 
-
-
 void ClickManager::AddButton(Button* button, LeftMenuPart part)
 {
-	switch (part)
-	{
-	case GeneralPart:
+    switch (part)
+    {
+    case GeneralPart:
         m_generalButtons.emplace_back(button);
-		break;
-	case UnitPart:
-		m_unitButtons.emplace_back(button);
-		break;
-	case DistrictPart:
-		m_districtButtons.emplace_back(button);
-		break;
-	default:
-		break;
-	}
+        break;
+    case UnitPart:
+        m_unitButtons.emplace_back(button);
+        break;
+    case DistrictPart:
+        m_districtButtons.emplace_back(button);
+        break;
+    default:
+        break;
+    }
 }
 
 const std::vector<Button*>& ClickManager::GetUnitButtons()
 {
-	return m_unitButtons;
+    return m_unitButtons;
 }
 
 const std::vector<Button*>& ClickManager::GetDistrictButtons()
@@ -69,8 +65,8 @@ const std::vector<Button*>& ClickManager::GetGeneralButtons()
 
 void ClickManager::ManageMapClick(const Position& position)
 {
-	//std::cout << "Map clicked at pos Column: " << position.Column << " Row: " << position.Row << std::endl;
-	SelectionManager::GetInstance().HandleSelection(position);
+    //std::cout << "Map clicked at pos Column: " << position.Column << " Row: " << position.Row << std::endl;
+    SelectionManager::GetInstance().HandleSelection(position);
 }
 
 void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
@@ -89,36 +85,36 @@ void ClickManager::ManageLeftMenuClick(const int & x, const int & y)
         }
     }
 
-	for (Button* b : m_districtButtons)
-	{
-		if (b->IsInside(x, y))
-		{
+    for (Button* b : m_districtButtons)
+    {
+        if (b->IsInside(x, y))
+        {
             if (b->IsUnpressed())
             {
                 //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	for (Button* b : m_unitButtons)
-	{
-		if (b->IsInside(x, y))
-		{
-            if (b->IsUnpressed()) 
+    for (Button* b : m_unitButtons)
+    {
+        if (b->IsInside(x, y))
+        {
+            if (b->IsUnpressed())
             {
                 //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }
-			break;
-		}
-	}
+            break;
+        }
+    }
 }
 
 void ClickManager::ManageTopMenuClick(const int & x, const int & y)
 {
-	//TODO
+    //TODO
 }

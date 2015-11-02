@@ -2,10 +2,10 @@
 #include <iostream>
 
 Button::Button(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
-	:m_topLimit(sectionOffset + (buttonVOffset * rowIndex) + ((rowIndex - 1) * BUTTON_HEIGHT))
-    , m_botLimit(sectionOffset + (buttonVOffset * rowIndex) +(BUTTON_HEIGHT* rowIndex))
-    , m_lefLimit((buttonHOffset * columnIndex ) + ((columnIndex - 1) * BUTTON_WIDTH))
-    , m_rightLimit((buttonHOffset * columnIndex )+ (BUTTON_WIDTH * columnIndex))
+    :m_topLimit(sectionOffset + (buttonVOffset * rowIndex) + ((rowIndex - 1) * BUTTON_HEIGHT))
+    , m_botLimit(sectionOffset + (buttonVOffset * rowIndex) + (BUTTON_HEIGHT* rowIndex))
+    , m_lefLimit((buttonHOffset * columnIndex) + ((columnIndex - 1) * BUTTON_WIDTH))
+    , m_rightLimit((buttonHOffset * columnIndex) + (BUTTON_WIDTH * columnIndex))
     , m_buttonState(state)
     , m_pressedButton()
     , m_unpressedButton()
@@ -33,7 +33,7 @@ void Button::LoadButtonTextures(SDL_Renderer* rend)
 
 bool Button::IsInside(int xPos, int yPos)
 {
-	return m_lefLimit < xPos && xPos < m_rightLimit && m_topLimit < yPos && yPos < m_botLimit;
+    return m_lefLimit < xPos && xPos < m_rightLimit && m_topLimit < yPos && yPos < m_botLimit;
 }
 
 bool Button::IsUnpressed()
@@ -48,39 +48,39 @@ void Button::SetButtonState(ButtonState state)
 
 int Button::GetTopY()
 {
-	return m_topLimit;
+    return m_topLimit;
 }
 
 int Button::GetLeftX()
 {
-	return m_lefLimit;
+    return m_lefLimit;
 }
 
 int Button::GetWidth()
 {
-	return m_rightLimit - m_lefLimit;
+    return m_rightLimit - m_lefLimit;
 }
 
 int Button::GetHeight()
 {
-	return m_botLimit - m_topLimit;
+    return m_botLimit - m_topLimit;
 }
 
 Texture* Button::GetTextTexture(SDL_Renderer* rend)
 {
-	if (!m_textTexture.IsLoaded())
-	{
-		LoadTextTexture(rend);
-	}
+    if (!m_textTexture.IsLoaded())
+    {
+        LoadTextTexture(rend);
+    }
     switch (m_buttonState)
     {
     case ButtonState::Disabled:
         m_textTexture.SetColor(DISABLED_BUTTON_COLOR);
     default:
-		m_textTexture.SetColor(DEFAULT_BUTTON_COLOR);
+        m_textTexture.SetColor(DEFAULT_BUTTON_COLOR);
         break;
     }
-	return &m_textTexture;
+    return &m_textTexture;
 }
 
 Texture* Button::GetButtonTexture(SDL_Renderer* rend)
@@ -92,10 +92,10 @@ Texture* Button::GetButtonTexture(SDL_Renderer* rend)
     switch (m_buttonState)
     {
     case ButtonState::Pressed:
-		m_pressedButton.SetColor(DEFAULT_BUTTON_COLOR);
+        m_pressedButton.SetColor(DEFAULT_BUTTON_COLOR);
         return &m_pressedButton;
     case ButtonState::Unpressed:
-		m_unpressedButton.SetColor(DEFAULT_BUTTON_COLOR);
+        m_unpressedButton.SetColor(DEFAULT_BUTTON_COLOR);
         return &m_unpressedButton;
     case ButtonState::Disabled:
         m_unpressedButton.SetColor(DISABLED_BUTTON_COLOR);

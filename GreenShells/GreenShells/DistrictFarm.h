@@ -4,19 +4,19 @@
 class DistrictFarm : public District<DistrictFarm>
 {
 public:
-	typedef District<DistrictFarm> tBase;
-	static const int DISTRICT_TYPE = 1;
+    typedef District<DistrictFarm> tBase;
+    static const int DISTRICT_TYPE = 1;
 
-	static const int HEALTH = 75;
+    static const int HEALTH = 75;
 
 public:
-	DistrictFarm(int owner);
-	~DistrictFarm();
-
+    DistrictFarm(int owner);
+    ~DistrictFarm();
+    virtual DistrictBase* Clone();
     void LoadTexture();
-	virtual void Repair(int repairValue);
+    virtual void Repair(int repairValue);
 
-	virtual int GetTypeAsInt();
+    virtual int GetTypeAsInt();
 
-	static DistrictFarm* Deserialize(boost::property_tree::ptree node);
+    static DistrictFarm* Deserialize(boost::property_tree::ptree node);
 };

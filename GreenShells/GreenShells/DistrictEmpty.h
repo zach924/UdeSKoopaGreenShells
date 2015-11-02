@@ -10,11 +10,10 @@ public:
     typedef District<DistrictEmpty> tBase;
     DistrictEmpty(int owner);
     ~DistrictEmpty();
-
+    virtual DistrictBase* Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual int GetTypeAsInt();
 
     virtual  boost::property_tree::ptree Serialize();
 };
-
