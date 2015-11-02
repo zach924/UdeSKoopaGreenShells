@@ -187,6 +187,23 @@ void GameWindow::ShowWindow()
 					{
 						ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
 					}
+                    else if (IsClickInMinimap(e.button.x, e.button.y))
+                    {
+                        int posCol = ((e.button.x - m_CurrentScreen.MINIMAP_POSX) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_WIDTH / 2);
+                        if (posCol < 0)
+                        {
+                            posCol += Map::COLUMNS;
+                        }
+
+                        m_currentLeftmostColumn = posCol;                        
+
+                        int posRow = ((e.button.y - m_CurrentScreen.MINIMAP_POSY) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_HEIGHT /2);
+                        if (posRow < 0)
+                        {
+                            posRow += Map::ROWS;
+                        }
+                        m_currentLowestRow = posRow;
+                    }
 					else
 					{
 						ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
@@ -597,8 +614,8 @@ void GameWindow::ShowWindow()
         int currentCamColumn = m_CurrentScreen.MINIMAP_POSY + m_currentLowestRow * m_CurrentScreen.MINIMAP_TILE_SIZE;
         int camWidth = currentCamRow + ((m_CurrentScreen.NUM_TILE_WIDTH + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
         int camHeight = currentCamColumn + ((m_CurrentScreen.NUM_TILE_HEIGHT + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
-        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT - m_CurrentScreen.MINIMAP_BORDER;
-        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH - m_CurrentScreen.MINIMAP_BORDER;
+        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT + (m_CurrentScreen.MINIMAP_BORDER /2);
+        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH  + (m_CurrentScreen.MINIMAP_BORDER /2);
 
         //white rectangles
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -679,5 +696,17 @@ bool GameWindow::IsGameWindowInBackground()
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-	return m_CurrentScreen.HUD_WIDTH < x && x < m_CurrentScreen.MAX_WIDTH && m_CurrentScreen.HUD_HEIGHT < y && y < m_CurrentScreen.MAX_HEIGHT;
+    return m_CurrentScreen.HUD_WIDTH < x 
+        && x < m_CurrentScreen.MAX_WIDTH 
+        && m_CurrentScreen.HUD_HEIGHT < y 
+        && y < m_CurrentScreen.MAX_HEIGHT 
+        && (x < m_CurrentScreen.MINIMAP_BORDER_X || y < m_CurrentScreen.MINIMAP_BORDER_Y);
+}
+
+bool GameWindow::IsClickInMinimap(const int& x, const int& y)
+{
+    return  x >= m_CurrentScreen.MINIMAP_POSX 
+        && x < m_CurrentScreen.MAX_WIDTH
+        && y > m_CurrentScreen.MINIMAP_POSY
+        && y < m_CurrentScreen.MAX_HEIGHT;
 }

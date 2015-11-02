@@ -58,8 +58,8 @@ struct ScreenResolution
         , RIGHT_SCROLL_POSITION(maxW - 15)
         , LEFT_SCROLL_POSITION(hudW + 15)
         , UP_SCROLL_POSITION(hudH + 15)
-        , MINIMAP_POSX(maxW - 260)
-        , MINIMAP_POSY(maxH - 260)
+        , MINIMAP_POSX(maxW - 64 * MINIMAP_TILE_SIZE - MINIMAP_BORDER / 2)
+        , MINIMAP_POSY(maxH - 64 * MINIMAP_TILE_SIZE - MINIMAP_BORDER / 2)
         , MINIMAP_BORDER_X(MINIMAP_POSX - MINIMAP_BORDER/2)
         , MINIMAP_BORDER_Y(MINIMAP_POSY - MINIMAP_BORDER/2)
 		, FULLSCREEN(fullScreen)
@@ -149,6 +149,7 @@ public:
     void Close();
 
     bool IsClickInMap(const int& x, const int& y);
+    bool IsClickInMinimap(const int& x, const int& y);
     bool IsClickInLeftMenu(const int& x, const int& y);
 
 	void AddPopUpWindow(PopUpWindow * window);
