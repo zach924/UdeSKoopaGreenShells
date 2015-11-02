@@ -170,10 +170,10 @@ void GameWindow::ShowWindow()
 					if (IsClickInMap(e.button.x, e.button.y))
 					{
 						int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostColumn;
-						posCol %= (Map::COLUMNS -1);
+						posCol %= Map::COLUMNS;
 
 						int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestRow;
-						posRow %= (Map::ROWS -1);
+						posRow %= Map::ROWS;
 
 						ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
 					}
