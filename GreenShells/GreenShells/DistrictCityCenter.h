@@ -21,6 +21,7 @@ public:
 	virtual int GetTypeAsInt();
 
 	virtual void Repair(int repairValue);
+	virtual bool CanUpgrade();
 
 
 	static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);

@@ -9,8 +9,6 @@ public:
 	static int const ATTACK_DAMAGE = 5;
 	static int const HEALTH = 100;
 	static int const MOVE_RANGE = 1;
-
-private:
 	static int const UNIT_TYPE = 2;
 
 public:
@@ -19,6 +17,7 @@ public:
 
 	void LoadTexture();
 
+	virtual bool CanUpgrade();
 	virtual int GetTypeAsInt();
 	virtual void Heal(int health);
 

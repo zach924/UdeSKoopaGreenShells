@@ -46,13 +46,13 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 		{
 			switch (child.second.get<int>("<xmlattr>.T"))
 			{
-			case 0:
+			case UnitSwordsman::UNIT_TYPE:
 				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
 				break;
-			case 1:
+			case UnitArcher::UNIT_TYPE:
 				tile->SetUnit(UnitArcher::Deserialize(child.second));
 				break;
-			case 2:
+			case UnitSettler::UNIT_TYPE:
 				tile->SetUnit(UnitSettler::Deserialize(child.second));
 				break;
 			}
@@ -61,10 +61,10 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 		{
 			switch (child.second.get<int>("<xmlattr>.T"))
 			{
-			case 0:
+			case DistrictCityCenter::DISTRICT_TYPE:
 				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
 				break;
-			case 1:
+			case DistrictFarm::DISTRICT_TYPE:
 				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
 				break;
 			}

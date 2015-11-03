@@ -23,6 +23,11 @@ void UnitSwordsman::LoadTexture()
 	}
 }
 
+bool UnitSwordsman::CanUpgrade()
+{
+	return false; // TODO :  Get bit field in player
+}
+
 int UnitSwordsman::GetTypeAsInt()
 {
 	return UNIT_TYPE;

@@ -14,6 +14,7 @@ public:
 
     void LoadTexture();
 
+	virtual bool CanUpgrade();
     virtual void Heal(int health);
     virtual int GetTypeAsInt();
 

@@ -30,6 +30,11 @@ void UnitEmpty::LoadTexture()
     }
 }
 
+bool UnitEmpty::CanUpgrade()
+{
+	return false;
+}
+
 void UnitEmpty::Heal(int health)
 {
     assert(false && "Should not try to heal an empty unit. It cannot be placed on the map.");

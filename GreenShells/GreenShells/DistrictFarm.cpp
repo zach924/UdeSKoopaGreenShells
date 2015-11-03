@@ -28,6 +28,11 @@ void DistrictFarm::Repair(int repairValue)
 	m_health = std::min(m_health + repairValue, HEALTH);
 }
 
+bool DistrictFarm::CanUpgrade()
+{
+	return false; // TODO : Need to get the flag of player class
+}
+
 int DistrictFarm::GetTypeAsInt()
 {
 	return DISTRICT_TYPE;

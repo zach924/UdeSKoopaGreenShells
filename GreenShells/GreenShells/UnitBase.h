@@ -23,15 +23,18 @@ private:
 	int m_scienceCost;
 	int m_weaponCost;
 
-	int m_moveRange;
+	int m_moveRange; 
 
 	int m_attackDamage;
 	int m_attackRange;
+
+	int m_actionLeft;
 
 public:
 	UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
 	~UnitBase();
 
+	int GetActionRemaining();
 	int GetAttackDamage();
 	int GetAttackRange();
 	int GetHealth();
@@ -42,6 +45,8 @@ public:
 
 	Position GetPosition();
 	void SetPosition(Position pos);
+
+	virtual bool CanUpgrade() = 0;
     virtual Texture* GetTexture() = 0;
 	virtual void Heal(int health) = 0;
 

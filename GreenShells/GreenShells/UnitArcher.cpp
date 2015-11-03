@@ -24,6 +24,11 @@ void UnitArcher::LoadTexture()
 	}
 }
 
+bool UnitArcher::CanUpgrade()
+{
+	return false; // TODO :  Get bit field in player
+}
+
 int UnitArcher::GetTypeAsInt()
 {
 	return UNIT_TYPE;

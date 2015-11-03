@@ -24,6 +24,9 @@ class SelectionManager
 
 	UnitBase * m_selectedUnit;
 	DistrictBase * m_selectedDistrict;
+
+	int m_districtTypeToConstruct;
+	int m_unitTypeToCreate;
 	
 	SelectionManager(SelectionManager const&) = delete;
 	void operator=(SelectionManager const&) = delete;
@@ -37,12 +40,15 @@ class SelectionManager
 	void SelectUnit(UnitBase* unitToSelect);
 	void SelectDistrict(DistrictBase* districtToSelect);
 
-	void ChangeButtonState(ButtonState unitState, ButtonState districtState);
+	void ChangeButtonState();
 
 	void Idle(UnitBase* unit, DistrictBase* district);
 	void Attack(Map* map, Position pos);
 	void CreateDistrict(Map* map, Position pos);
+	void CreateUnit(Map* map, Position pos);
 	void Move(Map* map, Position pos);
+
+	void EndAction();
 
 public:
 
@@ -60,7 +66,8 @@ public:
 
 	void HandleSelection(Position pos);
 
-	void CreateDistrictPressed();
+	void CreateDistrictPressed(int districtType);
+	void CreateUnitPressed(int unitType);
 
 	void UnitAttackPressed();
 	void UnitMovePressed();

@@ -23,6 +23,11 @@ void UnitSettler::LoadTexture()
 	}
 }
 
+bool UnitSettler::CanUpgrade()
+{
+	return true; // TODO :  Validate if its true by default for settler
+}
+
 int UnitSettler::GetTypeAsInt()
 {
 	return UNIT_TYPE;

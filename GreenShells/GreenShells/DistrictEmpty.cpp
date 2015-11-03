@@ -25,6 +25,11 @@ int DistrictEmpty::GetTypeAsInt()
     return -1;
 }
 
+bool DistrictEmpty::CanUpgrade()
+{
+	return false;
+}
+
 DistrictEmpty::~DistrictEmpty()
 {
 }

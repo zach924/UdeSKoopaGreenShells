@@ -14,11 +14,13 @@ public:
 
 
 public:
+
 	UnitArcher(int owner);
 	~UnitArcher();
 
 	void LoadTexture();
 
+	virtual bool CanUpgrade();
 	virtual int GetTypeAsInt();
 	virtual void Heal(int health);
 

@@ -41,6 +41,11 @@ void DistrictCityCenter::Repair(int repairValue)
 	m_health = std::min(m_health + repairValue, HEALTH);
 }
 
+bool DistrictCityCenter::CanUpgrade()
+{
+	return false; // TODO :  Need to get the skill tree flag
+}
+
 DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
 {
 	DistrictCityCenter* cityCenter = new DistrictCityCenter(node.get<int>("<xmlattr>.O"));

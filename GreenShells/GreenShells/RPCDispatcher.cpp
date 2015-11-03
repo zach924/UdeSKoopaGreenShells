@@ -27,6 +27,19 @@ void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 	}
 }
 
+void RPCDispatcher::Dispatch(RPCBasicCreationStruct * data)
+{
+	switch (data->m_RPCClassMethod)
+	{
+	case RPCClassMethodType::Map_CreateDistrict:
+		m_worldState->GetMap()->CreateDistrict(data->m_id, data->m_positionToCreate, data->m_requestingPlayerID);
+		break;
+	case RPCClassMethodType::Map_CreateUnit:
+		m_worldState->GetMap()->CreateUnit(data->m_id, data->m_positionToCreate, data->m_requestingPlayerID);
+		break;
+	}
+}
+
 void RPCDispatcher::Dispatch(RPCEvent event)
 {
 	if (event.data->m_turn == m_worldState->GetCurrentTurn())
@@ -38,6 +51,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
 			break;
 		case RPCStructType::RPC_BASIC_TWO_POSITIONS:
 			Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
+			break;
+		case RPCStructType::RPC_BASIC_CREATION:
+			Dispatch(dynamic_cast<RPCBasicCreationStruct*>(event.data));
 			break;
 		}
 	}

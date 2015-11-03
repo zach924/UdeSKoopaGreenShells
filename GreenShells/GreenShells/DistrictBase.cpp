@@ -11,12 +11,18 @@ DistrictBase::DistrictBase(int owner, int health, int attackDamage)
 	m_weaponCost(0),
 	m_foodRatioBonus(0.0),
 	m_scienceRatioBonus(0.0),
-	m_weaponRatioBonus(0.0)
+	m_weaponRatioBonus(0.0),
+	m_actionLeft(1)
 {
 }
 
 DistrictBase::~DistrictBase()
 {
+}
+
+int DistrictBase::GetActionRemaining()
+{
+	return m_actionLeft;
 }
 
 int DistrictBase::GetAttackDamage()

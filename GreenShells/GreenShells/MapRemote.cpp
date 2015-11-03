@@ -21,7 +21,6 @@ MapRemote::~MapRemote()
 
 bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 {
-	//TODO Add checks on client to make sure that you can move this unit.
 	std::stringstream ss;
 
 	RPCStructType dataType{};
@@ -41,7 +40,6 @@ bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocatio
 
 bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition)
 {
-	//TODO Add checks on client to make sure that you can attack this Actor.
 	std::stringstream ss;
 
 	RPCStructType dataType{};
@@ -54,6 +52,46 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
 	data.m_requestingPlayerID = ownerID;
 	data.m_firstPosition = attackerPosition;
 	data.m_secondPosition = targetPosition;
+
+	ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+	return SendData(ss.str());
+}
+
+bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
+{
+	std::stringstream ss;
+
+	RPCStructType dataType{};
+	dataType = RPCStructType::RPC_BASIC_CREATION;
+	ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+	RPCBasicCreationStruct data;
+	data.m_RPCClassMethod = RPCClassMethodType::Map_CreateUnit;
+	data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+	data.m_requestingPlayerID = owner;
+	data.m_positionToCreate = pos;
+	data.m_id = unitType;
+
+	ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+	return SendData(ss.str());
+}
+
+bool MapRemote::CreateDistrict(int districtType, Position pos, int owner)
+{
+	std::stringstream ss;
+
+	RPCStructType dataType{};
+	dataType = RPCStructType::RPC_BASIC_CREATION;
+	ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+	RPCBasicCreationStruct data;
+	data.m_RPCClassMethod = RPCClassMethodType::Map_CreateDistrict;
+	data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+	data.m_requestingPlayerID = owner;
+	data.m_positionToCreate = pos;
+	data.m_id = districtType;
 
 	ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
