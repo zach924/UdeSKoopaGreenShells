@@ -11,8 +11,8 @@ enum ButtonState
 class Button
 {
 public:
-    static const int BUTTON_HEIGHT = 50;
-    static const int BUTTON_WIDTH = 90;
+    static const int STANDARD_BUTTON_HEIGHT = 50;
+    static const int STANDARD_BUTTON_WIDTH = 90;
 
 protected:
     // Not static (no curiously recurring template pattern like tile)
@@ -37,6 +37,7 @@ private:
     virtual void LoadTextTexture(SDL_Renderer* rend) = 0;
 public:
     Button(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state);
+    Button(int posX, int posY, int width, int height, ButtonState state);
     ~Button();
 
     bool IsInside(int xPos, int yPos);

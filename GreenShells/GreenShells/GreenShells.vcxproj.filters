@@ -282,6 +282,9 @@
     <ClCompile Include="ArmySkillTree.cpp">
       <Filter>Source Files\SkillTree</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonNextTurn.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -466,6 +469,9 @@
     </ClInclude>
     <ClInclude Include="EmpireSkillTree.h">
       <Filter>Header Files\SkillTree</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonNextTurn.h">
+      <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,11 +3,11 @@
 YesNoPopUp::YesNoPopUp(const char* windowName, int width, int height, std::function<void()> yesFunction)
     :PopUpWindow(windowName, width, height)
 {
-    m_yesButton = new ButtonYes(height / 2, 1, 1, ((width / 2) - Button::BUTTON_WIDTH) / 2, 0, ButtonState::Unpressed);
+    m_yesButton = new ButtonYes(height / 2, 1, 1, ((width / 2) - Button::STANDARD_BUTTON_WIDTH) / 2, 0, ButtonState::Unpressed);
 
     m_yesFunction = yesFunction;
 
-    m_noButton = new ButtonNo(height / 2, 2, 1, ((width / 2) - Button::BUTTON_WIDTH) / 2, 0, ButtonState::Unpressed);
+    m_noButton = new ButtonNo(height / 2, 2, 1, ((width / 2) - Button::STANDARD_BUTTON_WIDTH) / 2, 0, ButtonState::Unpressed);
 }
 
 YesNoPopUp::~YesNoPopUp()

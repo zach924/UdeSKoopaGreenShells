@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
@@ -223,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArmySkillTree.h" />
+    <ClInclude Include="ButtonNextTurn.h" />
     <ClInclude Include="EmpireSkillTree.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
