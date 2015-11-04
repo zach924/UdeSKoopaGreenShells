@@ -11,6 +11,12 @@ UnitEmpty::~UnitEmpty()
 {
 }
 
+UnitBase* UnitEmpty::Clone()
+{
+    assert(false && "Why you trying to clone an empty unit >.>");
+    return new UnitEmpty{ *this };
+}
+
 int UnitEmpty::GetTypeAsInt()
 {
     assert(false && "Should no try to serialize an empty unit. It cannot be placed on the map");
@@ -45,4 +51,3 @@ boost::property_tree::ptree UnitEmpty::Serialize()
     assert(false && "Should not try to serialize an empty unit. It cannot be placed on the map.");
     return boost::property_tree::ptree();
 }
-

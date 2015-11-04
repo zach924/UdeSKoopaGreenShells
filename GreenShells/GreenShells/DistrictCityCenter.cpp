@@ -3,16 +3,20 @@
 #include <iostream>
 
 DistrictCityCenter::DistrictCityCenter(int owner)
-	: District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
+    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
 {
 }
 
+DistrictBase* DistrictCityCenter::Clone()
+{
+    return new DistrictCityCenter{ *this };
+}
 
 void DistrictCityCenter::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\City.bmp");
+        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\city.bmp");
     }
     catch (std::exception e)
     {
@@ -27,18 +31,18 @@ DistrictCityCenter::~DistrictCityCenter()
 
 void DistrictCityCenter::ChangeOwner(int owner)
 {
-	m_ownerID = owner;
-	m_health = HEALTH;
+    m_ownerID = owner;
+    m_health = HEALTH;
 }
 
 int DistrictCityCenter::GetTypeAsInt()
 {
-	return DISTRICT_TYPE;
+    return DISTRICT_TYPE;
 }
 
 void DistrictCityCenter::Repair(int repairValue)
 {
-	m_health = std::min(m_health + repairValue, HEALTH);
+    m_health = std::min(m_health + repairValue, HEALTH);
 }
 
 bool DistrictCityCenter::CanUpgrade()
@@ -48,8 +52,8 @@ bool DistrictCityCenter::CanUpgrade()
 
 DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
 {
-	DistrictCityCenter* cityCenter = new DistrictCityCenter(node.get<int>("<xmlattr>.O"));
-	cityCenter->m_health = node.get<int>("<xmlattr>.H");
+    DistrictCityCenter* cityCenter = new DistrictCityCenter(node.get<int>("<xmlattr>.O"));
+    cityCenter->m_health = node.get<int>("<xmlattr>.H");
 
-	return cityCenter;
+    return cityCenter;
 }

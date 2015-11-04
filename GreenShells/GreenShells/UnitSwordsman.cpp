@@ -2,7 +2,7 @@
 #include <iostream>
 
 UnitSwordsman::UnitSwordsman(int owner)
-	: Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
@@ -10,11 +10,16 @@ UnitSwordsman::~UnitSwordsman()
 {
 }
 
+UnitBase* UnitSwordsman::Clone()
+{
+    return new UnitSwordsman{ *this };
+}
+
 void UnitSwordsman::LoadTexture()
 {
 	try
 	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\Sword.bmp");
+		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
 	}
 	catch (std::exception e)
 	{
@@ -30,41 +35,41 @@ bool UnitSwordsman::CanUpgrade()
 
 int UnitSwordsman::GetTypeAsInt()
 {
-	return UNIT_TYPE;
+    return UNIT_TYPE;
 }
 
 void UnitSwordsman::Heal(int health)
 {
-	m_health = std::min(m_health + health, HEALTH);
+    m_health = std::min(m_health + health, HEALTH);
 }
 
-// NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING 
+// NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSwordsman::Attack(UnitBase * target)
 {
-	AttackNotification targetNotification = UnitBase::Attack(target);
-	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
+    AttackNotification targetNotification = UnitBase::Attack(target);
+    AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
-	targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
-	targetNotification.CanMove = true;
+    targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
+    targetNotification.CanMove = true;
 
-	return targetNotification;
+    return targetNotification;
 }
 
 AttackNotification UnitSwordsman::Attack(DistrictBase * target)
 {
-	AttackNotification targetNotification = UnitBase::Attack(target);
-	AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
+    AttackNotification targetNotification = UnitBase::Attack(target);
+    AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
-	targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
-	targetNotification.CanMove = true;
+    targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
+    targetNotification.CanMove = true;
 
-	return targetNotification;
+    return targetNotification;
 }
 
 UnitSwordsman * UnitSwordsman::Deserialize(boost::property_tree::ptree node)
 {
-	UnitSwordsman* swordsman = new UnitSwordsman(node.get<int>("<xmlattr>.O"));
-	swordsman->m_health = node.get<int>("<xmlattr>.H");
+    UnitSwordsman* swordsman = new UnitSwordsman(node.get<int>("<xmlattr>.O"));
+    swordsman->m_health = node.get<int>("<xmlattr>.H");
 
-	return swordsman;
+    return swordsman;
 }

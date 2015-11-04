@@ -3,22 +3,24 @@
 #include <boost\property_tree\ptree.hpp>
 
 Player::Player()
-   :m_playerID(),
+    :m_playerID(),
     m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
     m_cityCenterCount(0), // TODO : Be sure we will have one City Hall when game start
-    m_unitCount(0), 
-    m_food(100), 
+    m_unitCount(0),
+    m_food(100),
     m_science(0),
     m_weapon(0),
-    m_foodMultiplier(1), 
-    m_scienceMultiplier(1), 
+    m_foodMultiplier(1),
+    m_scienceMultiplier(1),
     m_weaponMultiplier(1),
-	m_isDisconnected(false)
+    m_isDisconnected(false),
+    m_armySkillTree(),
+    m_empireSkillTree(),
+    m_utilitySkillTree()
 {
 }
-
 
 Player::~Player()
 {
@@ -26,17 +28,17 @@ Player::~Player()
 
 void Player::SetPlayerName(std::string name)
 {
-	m_playerName = name;
+    m_playerName = name;
 }
 
 std::string Player::GetPlayerName()
 {
-	return m_playerName;
+    return m_playerName;
 }
 
 void Player::SetPlayerID(int ID)
 {
-	m_playerID = ID;
+    m_playerID = ID;
 }
 
 int Player::GetPlayerID()
@@ -48,15 +50,15 @@ void Player::NotifyNewTurn()
 {
     m_isReadyForNewTurn = false;
 
-	if (m_isAlive)
-	{
-		//Do stuff
-	}
+    if (m_isAlive)
+    {
+        //Do stuff
+    }
 }
 
 void Player::SetPlayerReadyForNextTurn(bool isReady)
 {
-	m_isReadyForNewTurn = isReady;
+    m_isReadyForNewTurn = isReady;
 }
 
 bool Player::IsPlayerReadyForNextTurn()
@@ -188,32 +190,32 @@ void Player::RemoveWeaponMultiplier(double multiplier)
 
 void Player::AddCityCenter()
 {
-	++m_cityCenterCount;
+    ++m_cityCenterCount;
 }
 
 void Player::RemoveCityCenter()
 {
-	--m_cityCenterCount;
+    --m_cityCenterCount;
 
-	if (m_cityCenterCount <= 0)
-	{
-		m_isAlive = false;
-	}
+    if (m_cityCenterCount <= 0)
+    {
+        m_isAlive = false;
+    }
 }
 
 bool Player::IsAlive()
 {
-	return m_isAlive;
+    return m_isAlive;
 }
 
 void Player::SetIsDisconnected(bool value)
 {
-	m_isDisconnected = true;
+    m_isDisconnected = true;
 }
 
 bool Player::IsDisconnected()
 {
-	return m_isDisconnected;
+    return m_isDisconnected;
 }
 
 boost::property_tree::ptree Player::Serialize()
@@ -229,9 +231,12 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
-	playerNode.put("<xmlattr>.IA", m_isAlive);
-	playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
-	playerNode.put("<xmlattr>.ID", m_isDisconnected);
+    playerNode.put("<xmlattr>.IA", m_isAlive);
+    playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
+    playerNode.put("<xmlattr>.ID", m_isDisconnected);
+    playerNode.put("<xmlattr>.UST", m_utilitySkillTree.toString());
+    playerNode.put("<xmlattr>.EST", m_empireSkillTree.toString());
+    playerNode.put("<xmlattr>.AST", m_armySkillTree.toString());
 
     return playerNode;
 }
@@ -250,9 +255,12 @@ Player Player::Deserialize(boost::property_tree::ptree playerNode)
     player.m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player.m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player.m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
-	player.m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
-	player.m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
-	player.m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");
+    player.m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
+    player.m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
+    player.m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");
+    player.m_utilitySkillTree = UtilitySkillTree(playerNode.get<std::string>("<xmlattr>.UST"));
+    player.m_empireSkillTree = EmpireSkillTree(playerNode.get<std::string>("<xmlattr>.EST"));
+    player.m_armySkillTree = ArmySkillTree(playerNode.get<std::string>("<xmlattr>.AST"));
 
     return player;
 }

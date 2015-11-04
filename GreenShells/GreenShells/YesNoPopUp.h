@@ -4,22 +4,20 @@
 #include "ButtonNo.h"
 
 class YesNoPopUp :
-	public PopUpWindow
+    public PopUpWindow
 {
-	ButtonYes* m_yesButton;
+    ButtonYes* m_yesButton;
 
-	std::function<void()> m_yesFunction;
+    std::function<void()> m_yesFunction;
 
-	ButtonNo* m_noButton;
+    ButtonNo* m_noButton;
 
 public:
 
-	YesNoPopUp(const char* windowName, int width, int height, std::function<void()> yesFunction);
-	~YesNoPopUp();
+    YesNoPopUp(const char* windowName, int width, int height, std::function<void()> yesFunction);
+    ~YesNoPopUp();
 
-	void ShowWindow(SDL_Renderer* rend);
+    void ShowWindow(SDL_Renderer* rend);
 
-
-	bool handleEvent(SDL_Event& e);
+    bool handleEvent(SDL_Event& e);
 };
-

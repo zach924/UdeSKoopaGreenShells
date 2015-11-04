@@ -4,27 +4,27 @@
 class Position
 {
 public:
-	
-	int Column;
-	int Row;
 
-	Position(int column = -1, int row = -1);
-	~Position();
-	std::string ToString() const;
+    int Column;
+    int Row;
 
-	friend bool operator==(const Position& obj1, const Position& obj2)
-	{
-		return obj1.Column == obj2.Column && obj1.Row == obj2.Row;
-	}
+    Position(int column = -1, int row = -1);
+    ~Position();
+    std::string ToString() const;
+
+    friend bool operator==(const Position& obj1, const Position& obj2)
+    {
+        return obj1.Column == obj2.Column && obj1.Row == obj2.Row;
+    }
 
 	friend bool operator!=(const Position& obj1, const Position& obj2)
 	{
 		return !(obj1 == obj2);
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, const Position& obj)
-	{
-		os << obj.ToString();
-		return os;
-	}
+    friend std::ostream& operator<<(std::ostream& os, const Position& obj)
+    {
+        os << obj.ToString();
+        return os;
+    }
 };

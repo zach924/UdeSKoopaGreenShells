@@ -3,14 +3,14 @@
 #include <boost\property_tree\ptree.hpp>
 
 DistrictBase::DistrictBase(int owner, int health, int attackDamage)
-	: m_ownerID(owner),
-	m_health(health),
-	m_attackDamage(attackDamage),
-	m_foodCost(0),
-	m_scienceCost(0),
-	m_weaponCost(0),
-	m_foodRatioBonus(0.0),
-	m_scienceRatioBonus(0.0),
+    : m_ownerID(owner),
+    m_health(health),
+    m_attackDamage(attackDamage),
+    m_foodCost(0),
+    m_scienceCost(0),
+    m_weaponCost(0),
+    m_foodRatioBonus(0.0),
+    m_scienceRatioBonus(0.0),
 	m_weaponRatioBonus(0.0),
 	m_actionLeft(1)
 {
@@ -27,37 +27,37 @@ int DistrictBase::GetActionRemaining()
 
 int DistrictBase::GetAttackDamage()
 {
-	return m_attackDamage;
+    return m_attackDamage;
 }
 
 int DistrictBase::GetHealth()
 {
-	return m_health;
+    return m_health;
 }
 
 int DistrictBase::GetOwnerID()
 {
-	return m_ownerID;
+    return m_ownerID;
 }
 
 Position DistrictBase::GetPosition()
 {
-	return m_position;
+    return m_position;
 }
 
 void DistrictBase::SetPosition(Position pos)
 {
-	m_position = pos;
+    m_position = pos;
 }
 
 AttackNotification DistrictBase::ReceiveDamage(int damage)
 {
-	m_health -= damage;
+    m_health -= damage;
 
-	if (m_health <= 0)
-		std::cout << "A district got destroy : Player " << m_ownerID << std::endl;
+    if (m_health <= 0)
+        std::cout << "A district got destroy : Player " << m_ownerID << std::endl;
 
-	return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
+    return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
 }
 
 void DistrictBase::NotifyNewTurn()
@@ -66,10 +66,10 @@ void DistrictBase::NotifyNewTurn()
 
 boost::property_tree::ptree DistrictBase::Serialize()
 {
-	boost::property_tree::ptree districtNode;
-	districtNode.put("<xmlattr>.T", GetTypeAsInt());
-	districtNode.put("<xmlattr>.O", m_ownerID);
-	districtNode.put("<xmlattr>.H", m_health);
+    boost::property_tree::ptree districtNode;
+    districtNode.put("<xmlattr>.T", GetTypeAsInt());
+    districtNode.put("<xmlattr>.O", m_ownerID);
+    districtNode.put("<xmlattr>.H", m_health);
 
-	return districtNode;
+    return districtNode;
 }

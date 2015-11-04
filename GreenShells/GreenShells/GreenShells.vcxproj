@@ -163,6 +163,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -215,10 +217,13 @@
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitBase.cpp" />
     <ClCompile Include="UnitEmpty.cpp" />
+    <ClCompile Include="UtilitySkillTree.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArmySkillTree.h" />
+    <ClInclude Include="EmpireSkillTree.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />
@@ -274,6 +279,7 @@
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitBase.h" />
     <ClInclude Include="UnitEmpty.h" />
+    <ClInclude Include="UtilitySkillTree.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="YesNoPopUp.h" />
   </ItemGroup>

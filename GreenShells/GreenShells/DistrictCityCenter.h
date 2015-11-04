@@ -3,26 +3,25 @@
 
 class DistrictCityCenter : public District<DistrictCityCenter>
 {
-public :
-	typedef District<DistrictCityCenter> tBase;
-	static const int DISTRICT_TYPE = 0;
+public:
+    typedef District<DistrictCityCenter> tBase;
+    static const int DISTRICT_TYPE = 0;
 
-	static const int ATTACK_DAMAGE = 50;
-	static const int HEALTH = 200;
+    static const int ATTACK_DAMAGE = 50;
+    static const int HEALTH = 200;
 
 public:
-	DistrictCityCenter(int owner);
-	~DistrictCityCenter();
-
+    DistrictCityCenter(int owner);
+    ~DistrictCityCenter();
+    virtual DistrictBase* Clone();
     void LoadTexture();
 
-	void ChangeOwner(int owner);
+    void ChangeOwner(int owner);
 
-	virtual int GetTypeAsInt();
+    virtual int GetTypeAsInt();
 
-	virtual void Repair(int repairValue);
+    virtual void Repair(int repairValue);
 	virtual bool CanUpgrade();
 
-
-	static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
+    static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
 };
