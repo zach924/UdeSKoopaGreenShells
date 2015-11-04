@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include <set>
-#include <bitset> 
 
 #include "Position.h"
 #include "TileBase.h"
@@ -31,7 +29,7 @@ public:
     void GenerateTiles();
     std::vector<Position> GetSpawnPositions();
 
-	std::vector<Position> GetArea(Position position, int distance, Filter filter);
+	std::vector<Position> GetArea(Position position, int distance, MapFilter filter);
 
 
     TileBase* GetTile(Position);
@@ -42,6 +40,6 @@ public:
     virtual boost::property_tree::ptree Serialize();
 
 private:
-	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, Filter filter);
+	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter);
 
 };

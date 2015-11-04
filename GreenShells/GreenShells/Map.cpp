@@ -79,7 +79,7 @@ std::vector<Position> Map::GetSpawnPositions()
     return m_spawnPositions;
 }
 
-std::vector<Position> Map::GetArea(Position position, int distance, Filter filter)
+std::vector<Position> Map::GetArea(Position position, int distance, MapFilter filter)
 {
     std::vector<Position> area;
 	std::vector<Position> currentLevel;
@@ -88,9 +88,9 @@ std::vector<Position> Map::GetArea(Position position, int distance, Filter filte
 	return area;
 }
 
-void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, Filter filter)
+void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter)
 {
-	if (distance >= 0 )
+	if (distance > 0 )
 	{
 		std::vector<Position> nextToVisit;
 
@@ -146,6 +146,14 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
 
 		} // for()
 		GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter);
+	}
+	else if (distance == 0)
+	{
+		// This is the last call, add the lasts ones
+		for (Position pos : toVisit)
+		{
+			alreadyVisited.emplace_back(pos);
+		}
 	}
 }
 

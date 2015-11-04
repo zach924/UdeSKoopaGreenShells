@@ -91,7 +91,7 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
     return tile;
 }
 
-bool TileMountain::CanTraverse(Filter filter)
+bool TileMountain::CanTraverse(MapFilter filter)
 {
 	bool result = (filter & ALLOW_MOUNTAIN) != 0;
 

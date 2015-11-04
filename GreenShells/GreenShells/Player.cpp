@@ -219,7 +219,7 @@ bool Player::IsDisconnected()
     return m_isDisconnected;
 }
 
-Filter Player::GetMoveRestriction()
+MapFilter Player::GetMoveRestriction()
 {
 	// TODO : when zach push the skill tree
 	return ALLOW_GROUND | BLOCK_ENEMIES;

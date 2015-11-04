@@ -90,7 +90,7 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
     return tile;
 }
 
-bool TileWater::CanTraverse(Filter filter)
+bool TileWater::CanTraverse(MapFilter filter)
 {
 	bool result = (filter & ALLOW_WATER) != 0;
 

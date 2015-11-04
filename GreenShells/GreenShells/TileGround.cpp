@@ -91,7 +91,7 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
     return tile;
 }
 
-bool TileGround::CanTraverse(Filter filter)
+bool TileGround::CanTraverse(MapFilter filter)
 {
 	bool result = (filter & ALLOW_GROUND) != 0;
 

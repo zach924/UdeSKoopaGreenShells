@@ -74,7 +74,7 @@ public:
     void SetIsDisconnected(bool value = true);
     bool IsDisconnected();
 
-	Filter GetMoveRestriction();
+	MapFilter GetMoveRestriction();
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);
