@@ -108,7 +108,7 @@ void SelectionManager::ChangeButtonState()
 	std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
 	for (auto btn : unitButtons)
 	{
-		if (m_selectedUnit->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID() && m_selectedUnit->GetActionRemaining() > 0 )
+		if (m_selectedUnit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() && m_selectedUnit->GetActionRemaining() > 0 )
 		{
 			if (dynamic_cast<ButtonUnitAttack*>(btn) != nullptr)
 			{
