@@ -2,6 +2,7 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 
+
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -216,6 +217,12 @@ void Player::SetIsDisconnected(bool value)
 bool Player::IsDisconnected()
 {
     return m_isDisconnected;
+}
+
+MapFilter Player::GetMoveRestriction()
+{
+	// TODO : when zach push the skill tree
+	return ALLOW_GROUND | BLOCK_ENEMIES;
 }
 
 boost::property_tree::ptree Player::Serialize()

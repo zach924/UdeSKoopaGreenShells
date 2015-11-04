@@ -5,6 +5,9 @@
 #include "TileBase.h"
 #include "Texture.h"
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
+
+
 
 class Map
 {
@@ -26,7 +29,8 @@ public:
     void GenerateTiles();
     std::vector<Position> GetSpawnPositions();
 
-    std::vector<Position> GetArea(Position position, int distance);
+	std::vector<Position> GetArea(Position position, int distance, MapFilter filter);
+
 
     TileBase* GetTile(Position);
     virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
@@ -36,4 +40,8 @@ public:
     void NotifyNewturn();
 
     virtual boost::property_tree::ptree Serialize();
+
+private:
+	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter);
+
 };

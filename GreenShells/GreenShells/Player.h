@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
@@ -72,6 +73,8 @@ public:
 
     void SetIsDisconnected(bool value = true);
     bool IsDisconnected();
+
+	MapFilter GetMoveRestriction();
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);
