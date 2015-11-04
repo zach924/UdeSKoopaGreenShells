@@ -85,29 +85,6 @@ std::vector<Position> Map::GetArea(Position position, int distance, Filter filte
 	std::vector<Position> currentLevel;
 	currentLevel.emplace_back(position);
 	GetAreaIntern(distance, currentLevel, area, filter);
-	//std::vector<Position> area;
-	////find miminum and maximum
-	//int maxCol = position.X + distance;
- //   int maxRow = position.Y + distance;
-	//int minCol = position.X - distance;
- //   if (minCol < 0)
- //   {
- //       minCol += COLUMNS;
- //       maxCol += COLUMNS;
- //   }
- //   int minRow = position.Y - distance;
- //   if (minRow < 0)
- //   {
- //       minRow += ROWS;
- //       maxRow += ROWS;
- //   }
-	//for (int i = minCol; i <= maxCol; ++i)
-	//{
-	//	for (int j = minRow; j <= maxRow; ++j)
-	//	{
-	//		area.push_back(Position(i % COLUMNS, j % ROWS));
-	//	}
-	//}
 	return area;
 }
 
