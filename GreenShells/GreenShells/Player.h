@@ -2,7 +2,9 @@
 #include <vector>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
-
+#include "UtilitySkillTree.h"
+#include "ArmySkillTree.h"
+#include "EmpireSkillTree.h"
 
 class Player
 {
@@ -11,8 +13,8 @@ class Player
     bool m_isReadyForNewTurn;
 
     bool m_isAlive;
-	bool m_isDisconnected;
-    
+    bool m_isDisconnected;
+
     unsigned int m_cityCenterCount;
     unsigned int m_unitCount;
 
@@ -24,14 +26,18 @@ class Player
     double m_scienceMultiplier;
     double m_weaponMultiplier;
 
+    UtilitySkillTree m_utilitySkillTree;
+    ArmySkillTree m_armySkillTree;
+    EmpireSkillTree m_empireSkillTree;
+
 public:
     Player();
     ~Player();
 
-	void SetPlayerName(std::string name);
-	std::string GetPlayerName();
+    void SetPlayerName(std::string name);
+    std::string GetPlayerName();
 
-	void SetPlayerID(int ID);
+    void SetPlayerID(int ID);
     int GetPlayerID();
 
     void NotifyNewTurn();
@@ -39,8 +45,8 @@ public:
     void SetPlayerReadyForNextTurn(bool isReady = true);
     bool IsPlayerReadyForNextTurn();
 
-	void SetIsAlive(bool value);
-	bool IsAlive();
+    void SetIsAlive(bool value);
+    bool IsAlive();
     int GetFood();
     int GetScience();
     int GetWeapon();
@@ -62,16 +68,14 @@ public:
     void RemoveScienceMultiplier(double multiplier);
     void RemoveWeaponMultiplier(double multiplier);
 
-	void AddCityCenter();
-	void RemoveCityCenter();
+    void AddCityCenter();
+    void RemoveCityCenter();
 
-	void SetIsDisconnected(bool value=true);
-	bool IsDisconnected();
+    void SetIsDisconnected(bool value = true);
+    bool IsDisconnected();
 
 	Filter GetMoveRestriction();
 
     boost::property_tree::ptree Serialize();
     static Player Deserialize(boost::property_tree::ptree playerNode);
-
 };
-

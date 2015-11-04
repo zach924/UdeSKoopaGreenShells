@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include "RPCManager.h"
 #include "RPCDispatcher.h"
 #include "SynchronizedQueue.h"
@@ -6,33 +7,31 @@
 
 class ServerSession
 {
-	RPCDispatcher* m_dispatcher;
-	RPCManager* m_rpcServerManager;
-	SynchronizedQueue<RPCEvent> m_events;
+    RPCDispatcher* m_dispatcher;
+    RPCManager* m_rpcServerManager;
+    SynchronizedQueue<RPCEvent> m_events;
 
-	std::thread* m_serverSessionThread;
+    std::thread* m_serverSessionThread;
 
-	ServerSession();
-	ServerSession(ServerSession const&) = delete;
-	void operator = (ServerSession const&) = delete;
+    atomic<bool> m_isStopped;
 
-	void run();
+    ServerSession();
+    ServerSession(ServerSession const&) = delete;
+    void operator = (ServerSession const&) = delete;
+
+    void run();
     WorldState m_worldState;
 public:
-	static ServerSession &GetInstance()
-	{
-		static ServerSession m_serverSession;
-		return m_serverSession;
-	}
-	~ServerSession();
+    static ServerSession &GetInstance()
+    {
+        static ServerSession m_serverSession;
+        return m_serverSession;
+    }
+    ~ServerSession();
 
-	void StartServer(int port);
-	void Replicate();
+    void StartServer(int port);
+    void StopServer();
+    void Replicate();
 
-	int AddPlayer(std::string playerName);
+    int AddPlayer(std::string playerName);
 };
-
-
-
-
-

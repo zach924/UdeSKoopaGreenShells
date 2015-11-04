@@ -6,6 +6,11 @@ DistrictEmpty::DistrictEmpty(int owner)
 {
 }
 
+DistrictBase* DistrictEmpty::Clone()
+{
+    return new DistrictEmpty{ *this };
+}
+
 void DistrictEmpty::LoadTexture()
 {
     try

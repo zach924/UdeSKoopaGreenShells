@@ -18,19 +18,19 @@
 
 void TileGround::LoadTexture()
 {
-	try
-	{
-		TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    try
+    {
+        TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
 }
 
 TileGround::TileGround(Position position)
-:Tile(position)
+    :Tile(position)
 {
 }
 
@@ -38,43 +38,57 @@ TileGround::~TileGround()
 {
 }
 
+TileBase* TileGround::Clone()
+{
+    auto tile = new TileGround{ *this };
+    if (m_district)
+    {
+        tile->m_district = m_district->Clone();
+    }
+    if (m_unit)
+    {
+        tile->m_unit = m_unit->Clone();
+    }
+    return tile;
+}
+
 TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     TileGround* tile = new TileGround{ pos };
-	tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+    tile->m_owner = tileNode.get<int>("<xmlattr>.O");
 
-	for each(auto child in tileNode)
-	{
-		if (child.first == "U")
-		{
-			switch (child.second.get<int>("<xmlattr>.T"))
-			{
-			case 0:
-				tile->SetUnit(UnitSwordsman::Deserialize(child.second));
-				break;
-			case 1:
-				tile->SetUnit(UnitArcher::Deserialize(child.second));
-				break;
-			case 2:
-				tile->SetUnit(UnitSettler::Deserialize(child.second));
-				break;
-			}
-		}
-		else if (child.first == "D")
-		{
-			switch (child.second.get<int>("<xmlattr>.T"))
-			{
-			case 0:
-				tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
-				break;
-			case 1:
-				tile->SetDistrict(DistrictFarm::Deserialize(child.second));
-				break;
-			}
-		}
-	}
+    for each(auto child in tileNode)
+    {
+        if (child.first == "U")
+        {
+            switch (child.second.get<int>("<xmlattr>.T"))
+            {
+            case 0:
+                tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+                break;
+            case 1:
+                tile->SetUnit(UnitArcher::Deserialize(child.second));
+                break;
+            case 2:
+                tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            }
+        }
+        else if (child.first == "D")
+        {
+            switch (child.second.get<int>("<xmlattr>.T"))
+            {
+            case 0:
+                tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
+                break;
+            case 1:
+                tile->SetDistrict(DistrictFarm::Deserialize(child.second));
+                break;
+            }
+        }
+    }
 
-	return tile;
+    return tile;
 }
 
 bool TileGround::CanTraverse(Filter filter)
@@ -101,5 +115,5 @@ bool TileGround::CanTraverse(Filter filter)
 
 int TileGround::GetTypeAsInt()
 {
-	return TILE_TYPE;
+    return TILE_TYPE;
 }

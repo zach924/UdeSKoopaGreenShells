@@ -15,7 +15,7 @@ ButtonUnitSell::~ButtonUnitSell()
 
 void ButtonUnitSell::DoAction()
 {
-	std::function<void()> yesFunction = []() {SelectionManager::GetInstance().UnitSell(); }; // TODO call sell function in selection manager (wich sell it is?)
+	std::function<void()> yesFunction = []() {SelectionManager::GetInstance().UnitSell(); };
 
 	YesNoPopUp* popUp = new YesNoPopUp("Are you sure you want to sell that unit?", 350, 150, yesFunction);
 
