@@ -103,6 +103,12 @@
     <Filter Include="Source Files\SkillTree">
       <UniqueIdentifier>{f609e9bc-2518-47e8-a626-da8c30528256}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Button\ResButton">
+      <UniqueIdentifier>{1631456d-5a0d-4679-aa11-a53368609351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Button\ResButton">
+      <UniqueIdentifier>{78ab30c7-83a4-429a-9321-5549fb91d2bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -281,6 +287,18 @@
     </ClCompile>
     <ClCompile Include="ArmySkillTree.cpp">
       <Filter>Source Files\SkillTree</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonQuit.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonRes.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ResPopUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonResSelect.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +487,18 @@
     </ClInclude>
     <ClInclude Include="EmpireSkillTree.h">
       <Filter>Header Files\SkillTree</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonQuit.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonRes.h">
+      <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ResPopUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonResSelect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
