@@ -89,12 +89,12 @@ bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
     dataType = RPCStructType::RPC_BASIC_CREATION;
     ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
 
-    RPCBasicCreationStruct data;
+    RPCBasicActorCreationStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Map_CreateUnit;
     data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
     data.m_requestingPlayerID = owner;
     data.m_positionToCreate = pos;
-    data.m_id = unitType;
+    data.m_actorType = unitType;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
@@ -109,12 +109,12 @@ bool MapRemote::CreateDistrict(int districtType, Position pos, int owner)
     dataType = RPCStructType::RPC_BASIC_CREATION;
     ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
 
-    RPCBasicCreationStruct data;
+    RPCBasicActorCreationStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Map_CreateDistrict;
     data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
     data.m_requestingPlayerID = owner;
     data.m_positionToCreate = pos;
-    data.m_id = districtType;
+    data.m_actorType = districtType;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 

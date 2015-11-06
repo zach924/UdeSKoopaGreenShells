@@ -12,7 +12,7 @@ class RPCDispatcher
 
     void Dispatch(RPCBasicStruct* data);
     void Dispatch(RPCBasicTwoPositionsStruct* data);
-    void Dispatch(RPCBasicCreationStruct* data);
+    void Dispatch(RPCBasicActorCreationStruct* data);
     void Dispatch(RPCEvent);
 
 public:
