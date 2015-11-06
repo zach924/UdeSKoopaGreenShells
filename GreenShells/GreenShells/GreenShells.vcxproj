@@ -166,6 +166,8 @@
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
+    <ClCompile Include="PlayerLocal.cpp" />
+    <ClCompile Include="PlayerRemote.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -226,6 +228,8 @@
     <ClInclude Include="ArmySkillTree.h" />
     <ClInclude Include="ButtonNextTurn.h" />
     <ClInclude Include="EmpireSkillTree.h" />
+    <ClInclude Include="PlayerLocal.h" />
+    <ClInclude Include="PlayerRemote.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include "GameSession.h"
+#include "Player.h"
 
 ButtonNextTurn::ButtonNextTurn(int posX, int posY, int width, int height, ButtonState state)
     :Button(posX, posY, width, height, state)
@@ -10,6 +12,12 @@ ButtonNextTurn::ButtonNextTurn(int posX, int posY, int width, int height, Button
 
 ButtonNextTurn::~ButtonNextTurn()
 {
+}
+
+void ButtonNextTurn::DoAction()
+{
+    GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->SetPlayerReadyForNextTurn();
+    //SetButtonState(ButtonState::Disabled);
 }
 
 void ButtonNextTurn::LoadTextTexture(SDL_Renderer * rend)
@@ -24,14 +32,3 @@ void ButtonNextTurn::LoadTextTexture(SDL_Renderer * rend)
         std::cout << msg << std::endl;
     }
 }
-
-Texture * ButtonNextTurn::GetTextTexture(SDL_Renderer * rend)
-{
-    return nullptr;
-}
-
-Texture * ButtonNextTurn::GetButtonTexture(SDL_Renderer * rend)
-{
-    return nullptr;
-}
-

@@ -4,6 +4,8 @@
 
 #include "WorldState.h"
 #include "Player.h"
+#include "PlayerLocal.h"
+#include "PlayerRemote.h"
 #include "Map"
 #include "MapLocal.h"
 #include "MapRemote.h"
@@ -33,6 +35,17 @@ Map* WorldState::GetMapCopy()
     return m_map->Clone();
 }
 
+Player* WorldState::GetPlayer(int playerID)
+{
+    return m_players.at(playerID);
+}
+
+Player* WorldState::GetPlayerCopy(int playerID)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_players.at(playerID)->Clone();
+}
+
 void WorldState::PrepareLocalGame()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
@@ -55,9 +68,9 @@ void WorldState::NotifyNewTurn()
     m_map->NotifyNewturn();
 
     //Notify players of a new turn
-    for (Player& player : m_players)
+    for (Player* player : m_players)
     {
-        player.NotifyNewTurn();
+        player->NotifyNewTurn();
     }
 }
 
@@ -67,20 +80,20 @@ int WorldState::AddPlayer(std::string playerName)
 
     for (auto player : m_players)
     {
-        if (playerName == player.GetPlayerName())
+        if (playerName == player->GetPlayerName())
         {
             //it's a reconnect
             std::cout << playerName << " has reconnected!" << endl;
-            player.SetIsDisconnected(false);
-            return player.GetPlayerID();
+            player->SetIsDisconnected(false);
+            return player->GetPlayerID();
         }
     }
 
     int playerID = static_cast<int>(m_players.size());
     std::cout << playerName << " has joined and his id is " << playerID << endl;
-    Player newPlayer;
-    newPlayer.SetPlayerID(playerID);
-    newPlayer.SetPlayerName(playerName);
+    Player* newPlayer = new PlayerLocal();
+    newPlayer->SetPlayerID(playerID);
+    newPlayer->SetPlayerName(playerName);
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     TileBase* tile = m_map->GetTile(spawnPosition);
     tile->SetUnit(new UnitSettler(playerID));
@@ -91,11 +104,11 @@ int WorldState::AddPlayer(std::string playerName)
 void WorldState::RemovePlayer(int id)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    for (Player &player : m_players)
+    for (Player* player : m_players)
     {
-        if (player.GetPlayerID() == id)
+        if (player->GetPlayerID() == id)
         {
-            player.SetIsAlive(false);
+            player->SetIsAlive(false);
             break;
         }
     }
@@ -107,12 +120,13 @@ boost::property_tree::ptree WorldState::Serialize()
     boost::property_tree::ptree worldStateXml;
 
     boost::property_tree::ptree& worldStateNode = worldStateXml.add("WS", "");
+    worldStateNode.put("<xmlattr>.Turn", m_turn);
 
     // Get Player XML to add here
     boost::property_tree::ptree& playerListNode = worldStateNode.add("Ps", "");
-    for (Player player : m_players)
+    for (Player* player : m_players)
     {
-        playerListNode.add_child("P", player.Serialize());
+        playerListNode.add_child("P", player->Serialize());
     }
 
     // Get Map XML
@@ -125,18 +139,26 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
 
-    m_turn = 1;
+    
     m_players.clear();
     delete m_map;
+    auto WS = worldStateXml.get_child("WS");
+    m_turn = WS.get<int>("<xmlattr>.Turn");
 
-    for each (auto worldStateNode in worldStateXml.get_child("WS"))
+    for each (auto worldStateNode in WS)
     {
         if (worldStateNode.first == "Ps")
         {
             for each (auto playerNode in worldStateNode.second)
             {
-                m_players.push_back(Player::Deserialize(playerNode.second));
-                //AddPlayer();
+                if (m_remote)
+                {
+                    m_players.push_back(PlayerRemote::Deserialize(playerNode.second));                   
+                }
+                else
+                {
+                    m_players.push_back(PlayerLocal::Deserialize(playerNode.second));
+                }
             }
         }
         else if (worldStateNode.first == "M")
@@ -153,12 +175,6 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     }
 }
 
-Player WorldState::GetPlayer(int playerID)
-{
-    lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_players.at(playerID);
-}
-
 bool WorldState::AreAllPlayerReady()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
@@ -167,9 +183,9 @@ bool WorldState::AreAllPlayerReady()
         return false;
     }
 
-    for (Player& player : m_players)
+    for (Player* player : m_players)
     {
-        if (player.IsAlive() && !player.IsPlayerReadyForNextTurn())
+        if (player->IsAlive() && !player->IsPlayerReadyForNextTurn())
         {
             return false;
         }

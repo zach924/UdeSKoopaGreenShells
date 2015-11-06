@@ -73,17 +73,6 @@ void SelectionManager::SelectDistrict(DistrictBase * districtToSelect)
 
 void SelectionManager::ChangeButtonState(ButtonState unitState, ButtonState districtState)
 {
-    std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-    for (auto btn : unitButtons)
-    {
-        btn->SetButtonState(unitState);
-    }
-
-    std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
-    for (auto btn : districtButtons)
-    {
-        btn->SetButtonState(districtState);
-    }
 }
 
 void SelectionManager::Idle(UnitBase* unit, DistrictBase* district)

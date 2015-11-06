@@ -16,6 +16,8 @@ struct ScreenResolution
     const int BUTTON_HORIZONTAL_OFFSET = 25;
     const int MINIMAP_BORDER = 4;
     const int MINIMAP_TILE_SIZE = 4;
+    const int NEXT_TURN_BUTTON_HEIGHT = 50;
+    const int NEXT_TURN_BUTTON_WIDTH = 260;
 
     int HUD_WIDTH;
     int HUD_HEIGHT;
@@ -71,6 +73,8 @@ static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120,25,362,650,false
 static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114,35,410,735,false };
 static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,319,664,false };
 static ScreenResolution RES_1920_1080_FullScreen{ 1920,1080,1625,975,295,105,38,319,664,true };
+
+class ButtonNextTurn;
 
 class GameWindow
 {
@@ -128,9 +132,7 @@ private:
     GameWindow(GameWindow const&) = delete;
     void operator=(GameWindow const&) = delete;
 
-    void CreateGeneralButtons();
-    void CreateDistrictButtons();
-    void CreateUnitButtons();
+    void CreateButtons();
 	void LoadLocalTextures();
 
 public:

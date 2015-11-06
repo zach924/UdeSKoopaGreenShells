@@ -37,6 +37,8 @@
 #include "ButtonDistrictSell.h"
 #include "ButtonDistrictUpgrade.h"
 
+#include "ButtonNextTurn.h"
+
 // Unit
 #include "UnitArcher.h"
 #include "UnitSwordsman.h"
@@ -72,9 +74,7 @@ GameWindow::GameWindow(ScreenResolution res)
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
     SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    CreateGeneralButtons();
-    CreateDistrictButtons();
-    CreateUnitButtons();
+    CreateButtons();
     LoadLocalTextures();
 }
 
@@ -92,31 +92,33 @@ GameWindow::~GameWindow()
     Close();
 }
 
-void GameWindow::CreateGeneralButtons()
+void GameWindow::CreateButtons()
 {
-    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::GeneralPart);
-}
+    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    
+    //Next turn
+    ClickManager::GetInstance().AddButton(new ButtonNextTurn(m_CurrentScreen.MINIMAP_BORDER_X,
+        m_CurrentScreen.MINIMAP_BORDER_Y - m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT,
+        m_CurrentScreen.NEXT_TURN_BUTTON_WIDTH,
+        m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT));
 
-void GameWindow::CreateDistrictButtons()
-{
-    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
-    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::DistrictPart);
-}
+    //Districts
+    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
 
-void GameWindow::CreateUnitButtons()
-{
-    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
-    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET), LeftMenuPart::UnitPart);
+    //Units
+    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
 }
 
 void GameWindow::LoadLocalTextures()
@@ -177,10 +179,6 @@ void GameWindow::ShowWindow()
 
                         ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
                     }
-                    else if (IsClickInLeftMenu(e.button.x, e.button.y))
-                    {
-                        ClickManager::GetInstance().ManageLeftMenuClick(e.button.x, e.button.y);
-                    }
                     else if (IsClickInMinimap(e.button.x, e.button.y))
                     {
                         int posCol = ((e.button.x - m_CurrentScreen.MINIMAP_POSX) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_WIDTH / 2);
@@ -200,7 +198,7 @@ void GameWindow::ShowWindow()
                     }
                     else
                     {
-                        ClickManager::GetInstance().ManageTopMenuClick(e.button.x, e.button.y);
+                        ClickManager::GetInstance().ManageMenuClick(e.button.x, e.button.y);
                     }
                 }
                 else
@@ -302,7 +300,7 @@ void GameWindow::ShowWindow()
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            Player currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayer(GameSession::GetInstance().GetCurrentPlayerID());
+            unique_ptr<Player> currentPlayer { GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
 
             /************
                 FOOD
@@ -319,7 +317,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadFood = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadFood);
 
-            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer.GetFood()).c_str(), textColor);
+            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetFood()).c_str(), textColor);
             assert(foodSurf != NULL && TTF_GetError());
 
             SDL_Texture* foodTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodSurf);
@@ -341,7 +339,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadWeapon = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadWeapon);
 
-            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer.GetWeapon()).c_str(), textColor);
+            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetWeapon()).c_str(), textColor);
             assert(weaponSurf != NULL && TTF_GetError());
 
             SDL_Texture* weaponTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponSurf);
@@ -362,7 +360,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadScience = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
 
-            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer.GetScience()).c_str(), textColor);
+            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetScience()).c_str(), textColor);
             assert(scienceSurf != NULL && TTF_GetError());
 
             SDL_Texture* scienceTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceSurf);
@@ -393,79 +391,6 @@ void GameWindow::ShowWindow()
 
             SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-        }
-
-        //Render Buttons
-        const std::vector<Button*> generalButtons = ClickManager::GetInstance().GetGeneralButtons();
-        for (Button* button : generalButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
-
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
-
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
-
-        const std::vector<Button*> districtButtons = ClickManager::GetInstance().GetDistrictButtons();
-        for (Button* button : districtButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
-
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
-
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
-
-        const std::vector<Button*> unitButtons = ClickManager::GetInstance().GetUnitButtons();
-        for (Button* button : unitButtons)
-        {
-            int x = button->GetLeftX();
-            int y = button->GetTopY();
-            int width = button->GetWidth();
-            int height = button->GetHeight();
-            SDL_Rect renderQuad = { x, y, width, height };
-
-            Texture* buttonTexture = button->GetButtonTexture();
-            Texture * textTexture = button->GetTextTexture();
-
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &renderQuad);
-            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &renderQuad);
-        }
-
-        //Render Selected district
-        {
-            Texture* selectedDistrictTexture = SelectionManager::GetInstance().GetSelectedDistrict()->GetTexture();
-            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
-            int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
-            SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
-
-            //Remove Color and render
-            selectedDistrictTexture->SetColor(EMPTY_COLOR);
-            SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
-        }
-
-        //Render Selected unit
-        {
-            Texture* selectedUnitTexture = SelectionManager::GetInstance().GetSelectedUnit()->GetTexture();
-            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
-            int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
-            SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
-
-            //Remove Color and render
-            selectedUnitTexture->SetColor(EMPTY_COLOR);
-            SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
         }
 
         //Render Map
@@ -534,7 +459,6 @@ void GameWindow::ShowWindow()
         }
 
         //Draw mini map
-
         //Draw background
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
@@ -620,6 +544,53 @@ void GameWindow::ShowWindow()
         SDL_Rect minimapCurrentCamera = { currentCamRow, currentCamColumn, camWidth - currentCamRow, camHeight - currentCamColumn };
         SDL_RenderDrawRect(m_renderer, &minimapCurrentCamera);
 
+        //Render Buttons
+        const std::vector<Button*> Buttons = ClickManager::GetInstance().GetButtons();
+        for (Button* button : Buttons)
+        {
+            int buttonX = button->GetLeftX();
+            int buttonY = button->GetTopY();
+            int buttonWidth = button->GetWidth();
+            int buttonHeight = button->GetHeight();
+            SDL_Rect buttonRect = { buttonX, buttonY, buttonWidth, buttonHeight };
+
+
+            Texture* buttonTexture = button->GetButtonTexture();
+            Texture * textTexture = button->GetTextTexture();
+            int textH = textTexture->GetHeight();
+            int textW = textTexture->GetWidth();
+
+            int horizontalOffset = (buttonWidth - textW) / 2;
+            int verticalOffset = (buttonHeight - textH) / 2;
+            SDL_Rect textRect = { buttonX + horizontalOffset, buttonY + verticalOffset, textW, textH };
+            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &buttonRect);
+            SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &textRect);
+        }
+
+        //Render Selected district
+        {
+            Texture* selectedDistrictTexture = SelectionManager::GetInstance().GetSelectedDistrict()->GetTexture();
+            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
+            SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
+
+            //Remove Color and render
+            selectedDistrictTexture->SetColor(EMPTY_COLOR);
+            SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
+        }
+
+        //Render Selected unit
+        {
+            Texture* selectedUnitTexture = SelectionManager::GetInstance().GetSelectedUnit()->GetTexture();
+            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
+            SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
+
+            //Remove Color and render
+            selectedUnitTexture->SetColor(EMPTY_COLOR);
+            SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
+        }
+
         //Draw screen
         SDL_RenderPresent(m_renderer);
 
@@ -674,7 +645,7 @@ bool GameWindow::IsClickInMap(const int& x, const int& y)
         && x < m_CurrentScreen.MAX_WIDTH
         && m_CurrentScreen.HUD_HEIGHT < y
         && y < m_CurrentScreen.MAX_HEIGHT
-        && (x < m_CurrentScreen.MINIMAP_BORDER_X || y < m_CurrentScreen.MINIMAP_BORDER_Y);
+        && (x < m_CurrentScreen.MINIMAP_BORDER_X || y < m_CurrentScreen.MINIMAP_BORDER_Y - m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT);
 }
 
 bool GameWindow::IsClickInMinimap(const int& x, const int& y)
