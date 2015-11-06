@@ -13,6 +13,8 @@ public:
     virtual DistrictBase* Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
+	virtual int GetMaxHealth();
+	virtual const char* GetName();
     virtual int GetTypeAsInt();
     virtual bool CanUpgrade();
 

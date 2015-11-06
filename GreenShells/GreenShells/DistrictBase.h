@@ -42,6 +42,8 @@ public:
     virtual Texture* GetTexture() = 0;
     Position GetPosition();
     void SetPosition(Position pos);
+	virtual int GetMaxHealth() = 0;
+	virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
     virtual bool CanUpgrade() = 0;
 

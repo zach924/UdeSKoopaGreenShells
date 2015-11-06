@@ -9,6 +9,7 @@ public:
 
     static const int ATTACK_DAMAGE = 50;
     static const int HEALTH = 200;
+	static const char* NAME;
 
 public:
     DistrictCityCenter(int owner);
@@ -18,6 +19,8 @@ public:
 
     void ChangeOwner(int owner);
 
+	virtual int GetMaxHealth();
+	virtual const char* GetName();
     virtual int GetTypeAsInt();
 
     virtual void Repair(int repairValue);
