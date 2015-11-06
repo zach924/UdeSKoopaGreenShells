@@ -282,6 +282,9 @@
     <ClCompile Include="ArmySkillTree.cpp">
       <Filter>Source Files\SkillTree</Filter>
     </ClCompile>
+    <ClCompile Include="SkillTreePopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="EmpireSkillTree.h">
       <Filter>Header Files\SkillTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillTreePopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
