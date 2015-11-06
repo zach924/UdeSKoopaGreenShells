@@ -83,79 +83,79 @@ std::vector<Position> Map::GetSpawnPositions()
 std::vector<Position> Map::GetArea(Position position, int distance, MapFilter filter)
 {
     std::vector<Position> area;
-	std::vector<Position> currentLevel;
-	currentLevel.emplace_back(position);
-	GetAreaIntern(distance, currentLevel, area, filter);
-	return area;
+    std::vector<Position> currentLevel;
+    currentLevel.emplace_back(position);
+    GetAreaIntern(distance, currentLevel, area, filter);
+    return area;
 }
 
 void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter)
 {
-	if (distance > 0 )
-	{
-		std::vector<Position> nextToVisit;
+    if (distance > 0 )
+    {
+        std::vector<Position> nextToVisit;
 
-		for (Position pos : toVisit)
-		{
-			alreadyVisited.emplace_back(pos);
+        for (Position pos : toVisit)
+        {
+            alreadyVisited.emplace_back(pos);
 
-			int topRow = (pos.Row + 1) % ROWS;
-			int rightCol = (pos.Column + 1) % COLUMNS;
-			int botRow = pos.Row - 1;
-			int LeftCol = pos.Column - 1;
+            int topRow = (pos.Row + 1) % ROWS;
+            int rightCol = (pos.Column + 1) % COLUMNS;
+            int botRow = pos.Row - 1;
+            int LeftCol = pos.Column - 1;
 
-			if (botRow < 0)
-			{
-				botRow = ROWS;
-			}
+            if (botRow < 0)
+            {
+                botRow = ROWS;
+            }
 
-			if (LeftCol < 0)
-			{
-				LeftCol = ROWS;
-			}
+            if (LeftCol < 0)
+            {
+                LeftCol = ROWS;
+            }
 
-			// Find the four tiles
-			Position positions[8];
+            // Find the four tiles
+            Position positions[8];
 
-			// Top pos
-			positions[0] = Position(pos.Column, topRow);
-			// TopRigt pos
-			positions[1] = Position(rightCol, topRow);
-			// Right pos
-			positions[2] = Position(rightCol, pos.Row);
-			// BotRight pos
-			positions[3] = Position(rightCol, botRow);
-			// Bot pos
-			positions[4] = Position(pos.Column, botRow);
-			// BotLeft pos
-			positions[5] = Position(LeftCol, botRow);
-			// Left pos
-			positions[6] = Position(LeftCol, pos.Row);
-			// TopLeft pos
-			positions[7] = Position(LeftCol, topRow);
+            // Top pos
+            positions[0] = Position(pos.Column, topRow);
+            // TopRigt pos
+            positions[1] = Position(rightCol, topRow);
+            // Right pos
+            positions[2] = Position(rightCol, pos.Row);
+            // BotRight pos
+            positions[3] = Position(rightCol, botRow);
+            // Bot pos
+            positions[4] = Position(pos.Column, botRow);
+            // BotLeft pos
+            positions[5] = Position(LeftCol, botRow);
+            // Left pos
+            positions[6] = Position(LeftCol, pos.Row);
+            // TopLeft pos
+            positions[7] = Position(LeftCol, topRow);
 
-			for (Position position : positions)
-			{
-				if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
-				{
-					if (GetTile(position)->CanTraverse(filter))
-					{
-						nextToVisit.emplace_back(position);
-					}
-				}
-			}
+            for (Position position : positions)
+            {
+                if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
+                {
+                    if (GetTile(position)->CanTraverse(filter))
+                    {
+                        nextToVisit.emplace_back(position);
+                    }
+                }
+            }
 
-		} // for()
-		GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter);
-	}
-	else if (distance == 0)
-	{
-		// This is the last call, add the lasts ones
-		for (Position pos : toVisit)
-		{
-			alreadyVisited.emplace_back(pos);
-		}
-	}
+        } // for()
+        GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter);
+    }
+    else if (distance == 0)
+    {
+        // This is the last call, add the lasts ones
+        for (Position pos : toVisit)
+        {
+            alreadyVisited.emplace_back(pos);
+        }
+    }
 }
 
 TileBase* Map::GetTile(Position position)
@@ -207,14 +207,14 @@ bool Map::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 
 bool Map::Attack(int ownerID, Position attackerPosition, Position targetPosition)
 {
-	assert(false && "Virtual method is not implemented");
-	return false;
+    assert(false && "Virtual method is not implemented");
+    return false;
 }
 
 bool Map::CreateDistrict(int unitType, Position pos, int owner)
 {
-	assert(false && "Virtual method is not implemented");
-	return false;
+    assert(false && "Virtual method is not implemented");
+    return false;
 }
 
 bool Map::CreateUnit(int districtType, Position pos, int owner)

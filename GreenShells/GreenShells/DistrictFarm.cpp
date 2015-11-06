@@ -35,7 +35,7 @@ void DistrictFarm::Repair(int repairValue)
 
 bool DistrictFarm::CanUpgrade()
 {
-	return false; // TODO : Need to get the flag of player class
+    return false; // TODO : Need to get the flag of player class
 }
 
 int DistrictFarm::GetTypeAsInt()

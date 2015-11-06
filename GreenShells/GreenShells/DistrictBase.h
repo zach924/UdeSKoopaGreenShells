@@ -27,7 +27,7 @@ private:
 
     int m_attackDamage;
 
-	int m_actionLeft;
+    int m_actionPointsLeft;
 
 public:
     DistrictBase(int owner, int health, int attackDamage);
@@ -35,7 +35,7 @@ public:
 
     virtual DistrictBase* Clone() = 0;
 
-	int GetActionRemaining();
+    int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetHealth();
     int GetOwnerID();
@@ -43,7 +43,7 @@ public:
     Position GetPosition();
     void SetPosition(Position pos);
     virtual int GetTypeAsInt() = 0;
-	virtual bool CanUpgrade() = 0;
+    virtual bool CanUpgrade() = 0;
 
     virtual void Repair(int repairValue) = 0;
     virtual AttackNotification ReceiveDamage(int damage);

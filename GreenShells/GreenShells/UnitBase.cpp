@@ -12,8 +12,8 @@ UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int at
     m_weaponCost(0),
     m_moveRange(moveRange),
     m_attackRange(attackRange),
-	m_attackDamage(attackDamage),
-	m_actionLeft(1)
+    m_attackDamage(attackDamage),
+    m_actionPointsLeft(1)
 {
 }
 
@@ -21,9 +21,9 @@ UnitBase::~UnitBase()
 {
 }
 
-int UnitBase::GetActionRemaining()
+int UnitBase::GetActionPointsRemaining()
 {
-	return m_actionLeft;
+    return m_actionPointsLeft;
 }
 
 int UnitBase::GetAttackDamage()

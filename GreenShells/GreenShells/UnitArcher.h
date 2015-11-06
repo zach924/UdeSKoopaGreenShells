@@ -19,7 +19,7 @@ public:
     virtual UnitBase* Clone();
     void LoadTexture();
 
-	virtual bool CanUpgrade();
+    virtual bool CanUpgrade();
     virtual int GetTypeAsInt();
     virtual void Heal(int health);
 

@@ -14,8 +14,8 @@ ButtonSpawnUnit::~ButtonSpawnUnit()
 
 void ButtonSpawnUnit::DoAction()
 {
-	// TODO : add the popup window for selection, and move that line in popup window
-	SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsman::UNIT_TYPE);
+    // TODO : add the popup window for selection, and move that line in popup window
+    SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsman::UNIT_TYPE);
 }
 
 void ButtonSpawnUnit::LoadTextTexture(SDL_Renderer* rend)

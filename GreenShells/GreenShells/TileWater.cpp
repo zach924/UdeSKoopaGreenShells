@@ -58,33 +58,33 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 
     for each(auto child in tileNode)
     {
-		if (child.first == "U")
-		{
+        if (child.first == "U")
+        {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-			case UnitSwordsman::UNIT_TYPE:
+            case UnitSwordsman::UNIT_TYPE:
                 tile->SetUnit(UnitSwordsman::Deserialize(child.second));
                 break;
-			case UnitArcher::UNIT_TYPE:
+            case UnitArcher::UNIT_TYPE:
                 tile->SetUnit(UnitArcher::Deserialize(child.second));
                 break;
-			case UnitSettler::UNIT_TYPE:
+            case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
                 break;
-			}
-		}
-		else if (child.first == "D")
-		{
+            }
+        }
+        else if (child.first == "D")
+        {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-			case DistrictCityCenter::DISTRICT_TYPE:
+            case DistrictCityCenter::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
                 break;
-			case DistrictFarm::DISTRICT_TYPE:
+            case DistrictFarm::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictFarm::Deserialize(child.second));
                 break;
             }
-		}
+        }
     }
 
     return tile;
@@ -92,24 +92,24 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 
 bool TileWater::CanTraverse(MapFilter filter)
 {
-	bool result = (filter & ALLOW_WATER) != 0;
+    bool result = (filter & ALLOW_WATER) != 0;
 
-	if ((filter & BLOCK_ENEMIES) != 0)
-	{
-		int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
+    if ((filter & BLOCK_ENEMIES) != 0)
+    {
+        int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
 
-		if (m_unit != nullptr)
-		{
-			result &= currentPlayerID == m_unit->GetOwnerID();
-		}
+        if (m_unit != nullptr)
+        {
+            result &= currentPlayerID == m_unit->GetOwnerID();
+        }
 
-		if (m_district != nullptr)
-		{
-			result &= currentPlayerID == m_district->GetOwnerID();
-		}
+        if (m_district != nullptr)
+        {
+            result &= currentPlayerID == m_district->GetOwnerID();
+        }
 
-	}
-	return  result;
+    }
+    return  result;
 }
 
 int TileWater::GetTypeAsInt()

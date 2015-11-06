@@ -12,7 +12,7 @@ public:
     ~TileWater();
     virtual TileBase* Clone();
 
-	virtual bool CanTraverse(MapFilter filter);
+    virtual bool CanTraverse(MapFilter filter);
     virtual int GetTypeAsInt();
     static TileWater* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position{ -1, 0 });
 };

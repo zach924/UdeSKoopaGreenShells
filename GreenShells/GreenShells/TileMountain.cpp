@@ -63,13 +63,13 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-			case UnitSwordsman::UNIT_TYPE:
+            case UnitSwordsman::UNIT_TYPE:
                 tile->SetUnit(UnitSwordsman::Deserialize(child.second));
                 break;
-			case UnitArcher::UNIT_TYPE:
+            case UnitArcher::UNIT_TYPE:
                 tile->SetUnit(UnitArcher::Deserialize(child.second));
                 break;
-			case UnitSettler::UNIT_TYPE:
+            case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
                 break;
             }
@@ -78,10 +78,10 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-			case DistrictCityCenter::DISTRICT_TYPE:
+            case DistrictCityCenter::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
                 break;
-			case DistrictFarm::DISTRICT_TYPE:
+            case DistrictFarm::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictFarm::Deserialize(child.second));
                 break;
             }
@@ -93,24 +93,24 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 
 bool TileMountain::CanTraverse(MapFilter filter)
 {
-	bool result = (filter & ALLOW_MOUNTAIN) != 0;
+    bool result = (filter & ALLOW_MOUNTAIN) != 0;
 
-	if ((filter & BLOCK_ENEMIES) != 0)
-	{
-		int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
+    if ((filter & BLOCK_ENEMIES) != 0)
+    {
+        int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
 
-		if (m_unit != nullptr)
-		{
-			result &= currentPlayerID == m_unit->GetOwnerID();
-		}
+        if (m_unit != nullptr)
+        {
+            result &= currentPlayerID == m_unit->GetOwnerID();
+        }
 
-		if (m_district != nullptr)
-		{
-			result &= currentPlayerID == m_district->GetOwnerID();
-		}
+        if (m_district != nullptr)
+        {
+            result &= currentPlayerID == m_district->GetOwnerID();
+        }
 
-	}
-	return  result;
+    }
+    return  result;
 }
 
 int TileMountain::GetTypeAsInt()

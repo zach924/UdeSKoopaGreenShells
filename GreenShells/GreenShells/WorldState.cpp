@@ -161,26 +161,26 @@ Player WorldState::GetPlayer(int playerID)
 
 bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_map->MoveUnit(ownerID, unitLocation, newLocation);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->MoveUnit(ownerID, unitLocation, newLocation);
 }
 
 bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_map->Attack(ownerID, attackerPosition, targetPosition);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->Attack(ownerID, attackerPosition, targetPosition);
 }
 
 bool WorldState::CreateUnit(int unitType, Position pos, int owner)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_map->CreateUnit(unitType, pos, owner);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->CreateUnit(unitType, pos, owner);
 }
 
 bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
 {
-	lock_guard<recursive_mutex> lock{ m_mutex };
-	return m_map->CreateDistrict(districtType, pos, owner);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->CreateDistrict(districtType, pos, owner);
 }
 
 bool WorldState::AreAllPlayerReady()

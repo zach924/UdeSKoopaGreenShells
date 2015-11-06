@@ -17,20 +17,20 @@ UnitBase* UnitSwordsman::Clone()
 
 void UnitSwordsman::LoadTexture()
 {
-	try
-	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    try
+    {
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
 }
 
 bool UnitSwordsman::CanUpgrade()
 {
-	return false; // TODO :  Get bit field in player
+    return false; // TODO :  Get bit field in player
 }
 
 int UnitSwordsman::GetTypeAsInt()

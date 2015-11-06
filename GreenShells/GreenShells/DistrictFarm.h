@@ -15,7 +15,7 @@ public:
     virtual DistrictBase* Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
-	virtual bool CanUpgrade();
+    virtual bool CanUpgrade();
 
     virtual int GetTypeAsInt();
 

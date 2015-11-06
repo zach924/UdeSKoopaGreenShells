@@ -38,7 +38,7 @@ void UnitEmpty::LoadTexture()
 
 bool UnitEmpty::CanUpgrade()
 {
-	return false;
+    return false;
 }
 
 void UnitEmpty::Heal(int health)

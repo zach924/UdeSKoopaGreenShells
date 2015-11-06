@@ -28,7 +28,7 @@ private:
     int m_attackDamage;
     int m_attackRange;
 
-	int m_actionLeft;
+    int m_actionPointsLeft;
 
 public:
     UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
@@ -36,7 +36,7 @@ public:
 
     virtual UnitBase* Clone() = 0;
 
-	int GetActionRemaining();
+    int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetAttackRange();
     int GetHealth();
@@ -48,7 +48,7 @@ public:
     Position GetPosition();
     void SetPosition(Position pos);
 
-	virtual bool CanUpgrade() = 0;
+    virtual bool CanUpgrade() = 0;
     virtual Texture* GetTexture() = 0;
     virtual void Heal(int health) = 0;
 
