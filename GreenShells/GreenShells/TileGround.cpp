@@ -7,8 +7,12 @@
 #include "UnitSwordsman.h"
 #include "UnitSettler.h"
 
+#include "MapFilter.h"
+
 #include "DistrictCityCenter.h"
 #include "DistrictFarm.h"
+
+#include "GameSession.h"
 
 #include <boost\property_tree\ptree.hpp>
 
@@ -59,13 +63,13 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-            case 0:
+            case UnitSwordsman::UNIT_TYPE:
                 tile->SetUnit(UnitSwordsman::Deserialize(child.second));
                 break;
-            case 1:
+            case UnitArcher::UNIT_TYPE:
                 tile->SetUnit(UnitArcher::Deserialize(child.second));
                 break;
-            case 2:
+            case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
                 break;
             }
@@ -74,10 +78,10 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-            case 0:
+            case DistrictCityCenter::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
                 break;
-            case 1:
+            case DistrictFarm::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictFarm::Deserialize(child.second));
                 break;
             }
@@ -87,9 +91,26 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
     return tile;
 }
 
-bool TileGround::CanTraverse()
+bool TileGround::CanTraverse(MapFilter filter)
 {
-    return true;
+    bool result = (filter & ALLOW_GROUND) != 0;
+
+    if ((filter & BLOCK_ENEMIES) != 0)
+    {
+        int currentPlayerID = GameSession::GetInstance().GetCurrentPlayerID();
+
+        if (m_unit != nullptr)
+        {
+            result &= currentPlayerID == m_unit->GetOwnerID();
+        }
+
+        if (m_district != nullptr)
+        {
+            result &= currentPlayerID == m_district->GetOwnerID();
+        }
+
+    }
+    return  result;
 }
 
 int TileGround::GetTypeAsInt()

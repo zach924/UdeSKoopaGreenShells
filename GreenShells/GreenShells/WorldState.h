@@ -34,6 +34,11 @@ public:
     int AddPlayer(std::string playerName);
     void RemovePlayer(int id);
 
+    bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
+    bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
+    bool CreateUnit(int unitType, Position pos, int owner);
+    bool CreateDistrict(int districtType, Position pos, int owner);
+
     bool AreAllPlayerReady();
     boost::property_tree::ptree Serialize();
     void Deserialize(boost::property_tree::ptree worldStateXml);

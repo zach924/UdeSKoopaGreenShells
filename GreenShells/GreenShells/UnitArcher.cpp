@@ -18,15 +18,20 @@ UnitBase* UnitArcher::Clone()
 
 void UnitArcher::LoadTexture()
 {
-	try
-	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\bow.bmp");
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    try
+    {
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\bow.bmp");
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
+}
+
+bool UnitArcher::CanUpgrade()
+{
+    return false; // TODO :  Get bit field in player
 }
 
 int UnitArcher::GetTypeAsInt()

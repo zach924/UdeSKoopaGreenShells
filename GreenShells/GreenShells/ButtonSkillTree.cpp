@@ -13,7 +13,7 @@ ButtonSkillTree::~ButtonSkillTree()
 
 void ButtonSkillTree::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+	// TODO: do action
 }
 
 void ButtonSkillTree::LoadTextTexture(SDL_Renderer* rend)

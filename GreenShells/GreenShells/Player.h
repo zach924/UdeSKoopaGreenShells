@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Ptree_ForwardDeclaration.h"
+#include "MapFilter.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
@@ -74,6 +75,8 @@ public:
 
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
+
+	MapFilter GetMoveRestriction();
 
     virtual boost::property_tree::ptree Serialize();
 };

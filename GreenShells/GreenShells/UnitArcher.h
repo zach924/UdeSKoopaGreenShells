@@ -13,11 +13,13 @@ public:
     static int const UNIT_TYPE = 1;
 
 public:
+
     UnitArcher(int owner);
     virtual ~UnitArcher();
     virtual UnitBase* Clone();
     void LoadTexture();
 
+    virtual bool CanUpgrade();
     virtual int GetTypeAsInt();
     virtual void Heal(int health);
 

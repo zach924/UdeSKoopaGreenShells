@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "GameSession.h"
+#include "SelectionManager.h"
 #include "Player.h"
 
 ButtonNextTurn::ButtonNextTurn(int posX, int posY, int width, int height, ButtonState state)
@@ -17,14 +18,16 @@ ButtonNextTurn::~ButtonNextTurn()
 void ButtonNextTurn::DoAction()
 {
     GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->SetPlayerReadyForNextTurn();
-    //SetButtonState(ButtonState::Disabled);
+    SetButtonState(ButtonState::Pressed);
+    SelectionManager::GetInstance().UpdateButtonState();
 }
 
 void ButtonNextTurn::LoadTextTexture(SDL_Renderer * rend)
 {
     try
     {
-        m_textTexture.CreateFromText("Next Turn");
+        TTF_Font* font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 30);
+        m_textTexture.CreateFromText("Next Turn", font);
     }
     catch (std::exception e)
     {

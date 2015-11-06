@@ -43,7 +43,6 @@ void ClickManager::ManageMenuClick(const int & x, const int & y)
         {
             if (b->IsUnpressed())
             {
-                //TODO put in back to unpressed when appropriate
                 b->SetButtonState(ButtonState::Pressed);
                 b->DoAction();
             }

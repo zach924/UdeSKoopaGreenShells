@@ -470,6 +470,9 @@
     <ClInclude Include="UnitSettler.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="MapFilter.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
     <ClInclude Include="UtilitySkillTree.h">
       <Filter>Header Files\SkillTree</Filter>
     </ClInclude>

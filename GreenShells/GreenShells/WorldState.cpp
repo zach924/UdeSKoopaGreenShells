@@ -9,8 +9,8 @@
 #include "Map"
 #include "MapLocal.h"
 #include "MapRemote.h"
-#include "UnitSettler.h"
 #include "TileBase.h"
+#include "DistrictCityCenter.h"
 
 using namespace std;
 
@@ -96,7 +96,7 @@ int WorldState::AddPlayer(std::string playerName)
     newPlayer->SetPlayerName(playerName);
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     TileBase* tile = m_map->GetTile(spawnPosition);
-    tile->SetUnit(new UnitSettler(playerID));
+    tile->SetDistrict(new DistrictCityCenter(playerID));
     m_players.push_back(newPlayer);
     return playerID;
 }
@@ -173,6 +173,30 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
             }
         }
     }
+}
+
+bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->MoveUnit(ownerID, unitLocation, newLocation);
+}
+
+bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->Attack(ownerID, attackerPosition, targetPosition);
+}
+
+bool WorldState::CreateUnit(int unitType, Position pos, int owner)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->CreateUnit(unitType, pos, owner);
+}
+
+bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->CreateDistrict(districtType, pos, owner);
 }
 
 bool WorldState::AreAllPlayerReady()

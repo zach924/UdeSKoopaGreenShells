@@ -30,6 +30,12 @@ int DistrictEmpty::GetTypeAsInt()
     return -1;
 }
 
+bool DistrictEmpty::CanUpgrade()
+{
+    assert(false && "Should never serialize an empty district. Don't add it to the map");
+    return false;
+}
+
 DistrictEmpty::~DistrictEmpty()
 {
 }

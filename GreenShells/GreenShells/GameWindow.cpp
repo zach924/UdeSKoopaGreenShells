@@ -153,6 +153,7 @@ void GameWindow::LoadLocalTextures()
 void GameWindow::ShowWindow()
 {
     bool quit = false;
+    SelectionManager::GetInstance().UpdateButtonState();
     while (!quit)
     {
         SDL_Event e;
@@ -290,7 +291,6 @@ void GameWindow::ShowWindow()
                 m_currentLowestRow--;
         }
         */
-
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
@@ -330,6 +330,7 @@ void GameWindow::ShowWindow()
 
             SDL_Rect renderQuadFoodValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, foodTextTexture, NULL, &renderQuadFoodValue);
+            SDL_DestroyTexture(foodTextTexture);
 
             /************
                WEAPON
@@ -351,6 +352,7 @@ void GameWindow::ShowWindow()
 
             SDL_Rect renderQuadWeaponValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, weaponTextTexture, NULL, &renderQuadWeaponValue);
+            SDL_DestroyTexture(weaponTextTexture);
 
             /************
                SCIENCE
@@ -372,6 +374,7 @@ void GameWindow::ShowWindow()
 
             SDL_Rect renderQuadScienceValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, scienceTextTexture, NULL, &renderQuadScienceValue);
+            SDL_DestroyTexture(scienceTextTexture);
 
             /************
                 TURN
@@ -391,6 +394,8 @@ void GameWindow::ShowWindow()
 
             SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
+            SDL_DestroyTexture(turnTextTexture);
+
         }
 
         //Render Map
@@ -548,22 +553,24 @@ void GameWindow::ShowWindow()
         const std::vector<Button*> Buttons = ClickManager::GetInstance().GetButtons();
         for (Button* button : Buttons)
         {
+            //the button
+            Texture* buttonTexture = button->GetButtonTexture();
             int buttonX = button->GetLeftX();
             int buttonY = button->GetTopY();
+
+            //this will stretch the texture to the following width/height
             int buttonWidth = button->GetWidth();
             int buttonHeight = button->GetHeight();
             SDL_Rect buttonRect = { buttonX, buttonY, buttonWidth, buttonHeight };
+            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &buttonRect);
 
-
-            Texture* buttonTexture = button->GetButtonTexture();
+            //the text on the button
             Texture * textTexture = button->GetTextTexture();
             int textH = textTexture->GetHeight();
             int textW = textTexture->GetWidth();
-
             int horizontalOffset = (buttonWidth - textW) / 2;
             int verticalOffset = (buttonHeight - textH) / 2;
             SDL_Rect textRect = { buttonX + horizontalOffset, buttonY + verticalOffset, textW, textH };
-            SDL_RenderCopy(m_renderer, buttonTexture->GetTexture(), NULL, &buttonRect);
             SDL_RenderCopy(m_renderer, textTexture->GetTexture(), NULL, &textRect);
         }
 

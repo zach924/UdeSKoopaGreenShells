@@ -29,6 +29,7 @@ enum RPCStructType
 {
     RPC_BASIC,
     RPC_BASIC_TWO_POSITIONS,
+    RPC_BASIC_CREATION,
 };
 
 enum RPCClassMethodType
@@ -36,7 +37,9 @@ enum RPCClassMethodType
     //Class_Method,
     Map_Move,
     Map_Attack,
-    Player_SetReady
+    Player_SetReady,
+    Map_CreateUnit,
+    Map_CreateDistrict,
 };
 
 struct RPCBasicStruct
@@ -55,6 +58,12 @@ struct RPCBasicTwoPositionsStruct : public RPCBasicStruct
 {
     Position m_firstPosition;
     Position m_secondPosition;
+};
+
+struct RPCBasicActorCreationStruct : RPCBasicStruct
+{
+    Position m_positionToCreate;
+    int m_actorType;
 };
 
 struct RPCEvent

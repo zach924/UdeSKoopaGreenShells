@@ -225,6 +225,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />
     <ClInclude Include="ButtonNextTurn.h" />
     <ClInclude Include="EmpireSkillTree.h" />
