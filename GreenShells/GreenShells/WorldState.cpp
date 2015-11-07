@@ -139,7 +139,6 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
 
-    
     m_players.clear();
     delete m_map;
     auto WS = worldStateXml.get_child("WS");
@@ -149,13 +148,16 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     {
         if (worldStateNode.first == "Ps")
         {
-            for each (auto playerNode in worldStateNode.second)
+            if (m_remote)
             {
-                if (m_remote)
+                for each (auto playerNode in worldStateNode.second)
                 {
-                    m_players.push_back(PlayerRemote::Deserialize(playerNode.second));                   
+                    m_players.push_back(PlayerRemote::Deserialize(playerNode.second));
                 }
-                else
+            }
+            else
+            {
+                for each (auto playerNode in worldStateNode.second)
                 {
                     m_players.push_back(PlayerLocal::Deserialize(playerNode.second));
                 }

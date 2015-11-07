@@ -74,8 +74,6 @@ static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114,35,410,735,fal
 static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,319,664,false };
 static ScreenResolution RES_1920_1080_FullScreen{ 1920,1080,1625,975,295,105,38,319,664,true };
 
-class ButtonNextTurn;
-
 class GameWindow
 {
 private:

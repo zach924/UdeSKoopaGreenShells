@@ -18,7 +18,6 @@ ButtonNextTurn::~ButtonNextTurn()
 void ButtonNextTurn::DoAction()
 {
     GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->SetPlayerReadyForNextTurn();
-    SetButtonState(ButtonState::Pressed);
     SelectionManager::GetInstance().UpdateButtonState();
 }
 
