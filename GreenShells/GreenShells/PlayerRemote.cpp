@@ -24,7 +24,7 @@ Player* PlayerRemote::Clone()
     player->m_isReadyForNewTurn = m_isReadyForNewTurn;
     player->m_isAlive = m_isAlive;
     player->m_isDisconnected = m_isDisconnected;
-    player->m_cityCenterCount = m_cityCenterCount;
+    player->m_cityCenterLocations = m_cityCenterLocations;
     player->m_unitCount = m_unitCount;
     player->m_food = m_food;
     player->m_science = m_science;
@@ -49,7 +49,7 @@ void PlayerRemote::SetPlayerID(int ID)
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::NotifyNewTurn()
+void PlayerRemote::NotifyNewTurn(int turn, Map* map)
 {
     assert(false && "Don't use this with player remote");
 }
@@ -139,12 +139,12 @@ void PlayerRemote::RemoveWeaponMultiplier(double multiplier)
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::AddCityCenter()
+void PlayerRemote::AddCityCenter(Position pos, int turn)
 {
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::RemoveCityCenter()
+void PlayerRemote::RemoveCityCenter(Position pos)
 {
     assert(false && "Don't use this with player remote");
 }
@@ -160,7 +160,6 @@ PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
 
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
-    player->m_cityCenterCount = playerNode.get<int>("<xmlattr>.CHC");
     player->m_unitCount = playerNode.get<int>("<xmlattr>.UC");
     player->m_food = playerNode.get<int>("<xmlattr>.F");
     player->m_science = playerNode.get<int>("<xmlattr>.S");
@@ -174,6 +173,13 @@ PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
     player->m_utilitySkillTree = UtilitySkillTree(playerNode.get<std::string>("<xmlattr>.UST"));
     player->m_empireSkillTree = EmpireSkillTree(playerNode.get<std::string>("<xmlattr>.EST"));
     player->m_armySkillTree = ArmySkillTree(playerNode.get<std::string>("<xmlattr>.AST"));
+    for (auto cityCenterNode : playerNode.get_child("CCL"))
+    {
+        int column = cityCenterNode.second.get<int>("<xmlattr>.Co");
+        int row = cityCenterNode.second.get<int>("<xmlattr>.Ro");
+        int turnFounded = cityCenterNode.second.get<int>("<xmlattr>.TF");
+        player->m_cityCenterLocations[Position{ column , row }] = turnFounded;
+    }
 
     return player;
 }

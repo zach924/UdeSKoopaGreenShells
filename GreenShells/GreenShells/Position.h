@@ -18,6 +18,8 @@ public:
         return os;
     }
 
-    inline bool operator == (const Position& other) { return Row == other.Row && Column == other.Column; }
-    inline bool operator!=( const Position& other) { return !(*this == other); }
+    inline bool operator==(const Position& other) const { return Row == other.Row && Column == other.Column; }
+    inline bool operator!=(const Position& other) const { return !(*this == other); }
+    //For usage in a map
+    inline bool operator< (const Position& other) const { return Row < other.Row && Column < other.Column; }
 };

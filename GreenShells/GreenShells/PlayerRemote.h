@@ -12,7 +12,7 @@ public:
     virtual Player* Clone();
     virtual void SetPlayerName(std::string name);
     virtual void SetPlayerID(int ID);
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn, Map* map);
     virtual void SetPlayerReadyForNextTurn(bool isReady = true);
     virtual void SetIsAlive(bool value);
     virtual void AddFood(unsigned int qty);
@@ -27,8 +27,8 @@ public:
     virtual void RemoveFoodMultiplier(double multiplier);
     virtual void RemoveScienceMultiplier(double multiplier);
     virtual void RemoveWeaponMultiplier(double multiplier);
-    virtual void AddCityCenter();
-    virtual void RemoveCityCenter();
+    virtual void AddCityCenter(Position pos, int turn);
+    virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
     static PlayerRemote* Deserialize(boost::property_tree::ptree playerNode);
 };

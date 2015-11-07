@@ -8,7 +8,7 @@ Player::Player()
     m_playerName(),
     m_isReadyForNewTurn(false),
     m_isAlive(true),
-    m_cityCenterCount(0), // TODO : Be sure we will have one City Hall when game start
+    m_cityCenterLocations(),
     m_unitCount(0),
     m_food(100),
     m_science(0),
@@ -78,7 +78,6 @@ boost::property_tree::ptree Player::Serialize()
     boost::property_tree::ptree playerNode;
     playerNode.put("<xmlattr>.PId", m_playerID);
     playerNode.put("<xmlattr>.PName", m_playerName);
-    playerNode.put("<xmlattr>.CHC", m_cityCenterCount);
     playerNode.put("<xmlattr>.UC", m_unitCount);
     playerNode.put("<xmlattr>.F", m_food);
     playerNode.put("<xmlattr>.S", m_science);
@@ -93,5 +92,14 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.EST", m_empireSkillTree.toString());
     playerNode.put("<xmlattr>.AST", m_armySkillTree.toString());
 
+    boost::property_tree::ptree& cityCenterListNode = playerNode.add("CCL", "");
+    for (auto cityCenter : m_cityCenterLocations)
+    {
+        boost::property_tree::ptree cityCenterNode;
+        cityCenterNode.put("<xmlattr>.Co", cityCenter.first.Column);
+        cityCenterNode.put("<xmlattr>.Ro", cityCenter.first.Row);
+        cityCenterNode.put("<xmlattr>.TF", cityCenter.second);
+        cityCenterListNode.add_child("CC", cityCenterNode);
+    }
     return playerNode;
 }

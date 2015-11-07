@@ -48,7 +48,7 @@ public:
     virtual void Repair(int repairValue) = 0;
     virtual AttackNotification ReceiveDamage(int damage);
 
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn);
 
     boost::property_tree::ptree Serialize();
 };
