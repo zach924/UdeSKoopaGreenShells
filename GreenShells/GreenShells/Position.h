@@ -20,6 +20,6 @@ public:
 
     inline bool operator==(const Position& other) const { return Row == other.Row && Column == other.Column; }
     inline bool operator!=(const Position& other) const { return !(*this == other); }
-    //For usage in a map
+    //For usage in a std::map
     inline bool operator< (const Position& other) const { return Row < other.Row && Column < other.Column; }
 };
