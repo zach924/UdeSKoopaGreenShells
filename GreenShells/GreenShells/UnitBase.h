@@ -59,7 +59,7 @@ public:
 
     AttackNotification ReceiveDamage(int damage);
 
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn);
 
     boost::property_tree::ptree Serialize();
 };

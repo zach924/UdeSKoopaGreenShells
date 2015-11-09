@@ -5,6 +5,7 @@
 #include "RPCManager.h"
 #include "RPCBase.h"
 #include "RPCDispatcher.h"
+#include "SelectionManager.h"
 
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
@@ -133,6 +134,7 @@ void GameSession::FetchReplication()
     boost::property_tree::xml_parser::read_xml(dataStream, pt);
     m_worldState.Deserialize(pt);
     std::cout << "Replication has occured." << std::endl;
+    SelectionManager::GetInstance().UpdateButtonState();
 }
 
 void GameSession::FetchReplicationThread()

@@ -39,6 +39,7 @@ enum RPCClassMethodType
     Map_Attack,
     Map_CreateUnit,
     Map_CreateDistrict,
+    Player_SetReady
 };
 
 struct RPCBasicStruct

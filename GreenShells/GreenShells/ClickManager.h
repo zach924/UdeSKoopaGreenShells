@@ -1,14 +1,8 @@
 #pragma once
 #include <vector>
 #include "Button.h"
-class Position;
 
-enum LeftMenuPart
-{
-    GeneralPart,
-    UnitPart,
-    DistrictPart
-};
+class Position;
 
 class ClickManager
 {
@@ -18,9 +12,7 @@ class ClickManager
     ClickManager();
     ~ClickManager();
 
-    std::vector<Button*> m_unitButtons;
-    std::vector<Button*> m_districtButtons;
-    std::vector<Button*> m_generalButtons;
+    std::vector<Button*> m_buttons;
 
 public:
     static ClickManager& GetInstance()
@@ -29,12 +21,9 @@ public:
         return m_instance;
     }
 
-    void AddButton(Button* button, LeftMenuPart part);
-    const std::vector<Button*>& GetUnitButtons();
-    const std::vector<Button*>& GetDistrictButtons();
-    const std::vector<Button*>& GetGeneralButtons();
+    void AddButton(Button* button);
+    const std::vector<Button*>& GetButtons();
 
     void ManageMapClick(const Position& position);
-    void ManageLeftMenuClick(const int& x, const int& y);
-    void ManageTopMenuClick(const int& x, const int& y);
+    void ManageMenuClick(const int& x, const int& y);
 };

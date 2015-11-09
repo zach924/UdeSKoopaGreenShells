@@ -25,16 +25,16 @@ void TileBase::SetOverlayVisible(bool visible)
     m_OverlayVisible = visible;
 }
 
-void TileBase::NotifyNewTurn()
+void TileBase::NotifyNewTurn(int turn)
 {
     if (m_district != nullptr)
     {
-        m_district->NotifyNewTurn();
+        m_district->NotifyNewTurn(turn);
     }
 
     if (m_unit != nullptr)
     {
-        m_unit->NotifyNewTurn();
+        m_unit->NotifyNewTurn(turn);
     }
 }
 

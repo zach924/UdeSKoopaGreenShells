@@ -49,11 +49,10 @@ public:
         return m_instance;
     }
 
+    void UpdateButtonState();
     UnitBase* GetSelectedUnit();
     DistrictBase* GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
-
-    void ChangeButtonState();
 
     void Cancel();
 

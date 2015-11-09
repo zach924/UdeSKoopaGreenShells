@@ -60,7 +60,7 @@ AttackNotification DistrictBase::ReceiveDamage(int damage)
     return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
 }
 
-void DistrictBase::NotifyNewTurn()
+void DistrictBase::NotifyNewTurn(int turn)
 {
 }
 

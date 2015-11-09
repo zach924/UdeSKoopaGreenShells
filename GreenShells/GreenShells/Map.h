@@ -37,7 +37,7 @@ public:
     virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
     virtual bool CreateUnit(int unitType, Position pos, int owner);
     virtual bool CreateDistrict(int districtType, Position pos, int owner);
-    void NotifyNewturn();
+    void NotifyNewTurn(int turn);
 
     virtual boost::property_tree::ptree Serialize();
 
