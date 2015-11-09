@@ -3,11 +3,14 @@
 #include "RPCDispatcher.h"
 #include "WorldState.h"
 #include "Map.h"
+#include "Player.h"
 
 void RPCDispatcher::Dispatch(RPCBasicStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
+    case RPCClassMethodType::Player_SetReady:
+        m_worldState->GetPlayer(data->m_requestingPlayerID)->SetPlayerReadyForNextTurn();
         break;
     }
 }

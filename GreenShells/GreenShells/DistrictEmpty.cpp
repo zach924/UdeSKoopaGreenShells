@@ -26,13 +26,13 @@ void DistrictEmpty::LoadTexture()
 
 int DistrictEmpty::GetTypeAsInt()
 {
-    assert(false && "Should no try to serialize an empty district. It cannot be placed on the map");
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
     return -1;
 }
 
 bool DistrictEmpty::CanUpgrade()
 {
-    assert(false && "Should never serialize an empty district. Don't add it to the map");
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
     return false;
 }
 
@@ -42,7 +42,19 @@ DistrictEmpty::~DistrictEmpty()
 
 void DistrictEmpty::Repair(int repairValue)
 {
-    assert(false && "Should not try to repair an empty district");
+	assert(false && "Should be in an Empty District. It cannot be placed on the map");
+}
+
+int DistrictEmpty::GetMaxHealth()
+{
+	assert(false && "Should be in an Empty District. It cannot be placed on the map");
+	return 0;
+}
+
+const char * DistrictEmpty::GetName()
+{
+	assert(false && "Should be in an Empty District. It cannot be placed on the map");
+	return nullptr;
 }
 
 boost::property_tree::ptree DistrictEmpty::Serialize()

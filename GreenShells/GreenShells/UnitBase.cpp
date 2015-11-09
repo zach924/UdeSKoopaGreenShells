@@ -85,7 +85,7 @@ AttackNotification UnitBase::Attack(DistrictBase * target)
     return targetNotification;
 }
 
-void UnitBase::NotifyNewTurn()
+void UnitBase::NotifyNewTurn(int turn)
 {
 }
 

@@ -58,6 +58,52 @@ bool Texture::LoadFromFile(std::string path, SDL_Renderer* rend)
     return m_IsLoaded;
 }
 
+bool Texture::CreateFromText(std::string message, TTF_Font * font, SDL_Renderer * rend)
+{
+    Free();
+    SDL_Texture* newTexture = nullptr;
+    
+    if (font == nullptr)
+    {
+        font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 20);
+    }
+
+    SDL_Color Color = { 255, 255, 255 };
+    SDL_Surface* surface = TTF_RenderText_Blended(const_cast<TTF_Font*>(font), message.c_str(), Color);
+    TTF_CloseFont(font);
+    if (surface == NULL)
+    {
+        std::string msg(SDL_GetError());
+        SDL_FreeSurface(surface);
+        throw new std::exception(msg.c_str());
+        return false;
+    }
+    else
+    {
+        if (rend == nullptr)
+        {
+            rend = GameWindow::GetInstance().GetRenderer();
+        }
+        newTexture = SDL_CreateTextureFromSurface(rend, surface);
+        if (newTexture == NULL)
+        {
+            std::string msg(SDL_GetError());
+            SDL_FreeSurface(surface);
+            throw new std::exception(msg.c_str());
+            return false;
+        }
+        else
+        {
+            m_width = surface->w;
+            m_height = surface->h;
+        }
+        SDL_FreeSurface(surface);
+    }
+    m_texture = newTexture;
+    m_IsLoaded = m_texture != NULL;
+    return m_IsLoaded;
+}
+
 void Texture::Free()
 {
     if (m_texture != NULL)

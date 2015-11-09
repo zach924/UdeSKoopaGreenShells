@@ -34,7 +34,7 @@ void ServerSession::run()
             auto players = m_rpcServerManager->GetDisconnectedPlayers();
             for (auto player : players)
             {
-                m_worldState.GetPlayer(player).SetIsDisconnected();
+                m_worldState.GetPlayer(player)->SetIsDisconnected();
             }
 
             if (m_dispatcher->Dispatch())

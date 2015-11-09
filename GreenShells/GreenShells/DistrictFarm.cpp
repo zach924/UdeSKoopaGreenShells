@@ -1,6 +1,8 @@
 #include "DistrictFarm.h"
 #include <iostream>
 
+const char* DistrictFarm::NAME = "Farm";
+
 DistrictFarm::DistrictFarm(int owner)
     : District<DistrictFarm>(owner, HEALTH, NORMAL_DISTRICT_ATTACK_DMG)
 {
@@ -36,6 +38,16 @@ void DistrictFarm::Repair(int repairValue)
 bool DistrictFarm::CanUpgrade()
 {
     return false; // TODO : Need to get the flag of player class
+}
+
+int DistrictFarm::GetMaxHealth()
+{
+	return HEALTH;
+}
+
+const char * DistrictFarm::GetName()
+{
+	return NAME;
 }
 
 int DistrictFarm::GetTypeAsInt()

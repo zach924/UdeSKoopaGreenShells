@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+const char* DistrictCityCenter::NAME = "CityCenter";
+
 DistrictCityCenter::DistrictCityCenter(int owner)
     : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
 {
@@ -33,6 +35,16 @@ void DistrictCityCenter::ChangeOwner(int owner)
 {
     m_ownerID = owner;
     m_health = HEALTH;
+}
+
+int DistrictCityCenter::GetMaxHealth()
+{
+	return HEALTH;
+}
+
+const char * DistrictCityCenter::GetName()
+{
+	return NAME;
 }
 
 int DistrictCityCenter::GetTypeAsInt()

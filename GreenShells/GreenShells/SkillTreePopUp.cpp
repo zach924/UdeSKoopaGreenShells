@@ -1,8 +1,11 @@
+#include <iostream>
 #include "SkillTreePopUp.h"
+#include "ButtonText.h"
 
 SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     :PopUpWindow(windowName, width, height)
 {
+    m_buttons.emplace_back(new ButtonText(100, 100, 100, 100, "Ranger", []() { std::cout << "Pressed Ranger button" << std::endl; }));
 }
 
 SkillTreePopUp::~SkillTreePopUp()
@@ -29,36 +32,33 @@ void SkillTreePopUp::ShowWindow(SDL_Renderer * rend)
         SDL_RenderCopy(m_rend, texture, NULL, &renderQuadText);
     }
 
-    //// Show Yes Button
-    //x = m_yesButton->GetLeftX();
-    //y = m_yesButton->GetTopY();
-    //width = m_yesButton->GetWidth();
-    //height = m_yesButton->GetHeight();
-    //SDL_Rect renderQuadYes = { x, y, width, height };
+    for (auto button : m_buttons)
+    {
+        x = button->GetLeftX();
+        y = button->GetTopY();
+        width = button->GetWidth();
+        height = button->GetHeight();
+        SDL_Rect renderQuad = { x, y, width, height };
 
-    //Texture* buttonTextureYes = m_yesButton->GetButtonTexture(m_rend);
-    //Texture * textTextureYes = m_yesButton->GetTextTexture(m_rend);
+        Texture* buttonTexture = button->GetButtonTexture(m_rend);
+        Texture * textTexture = button->GetTextTexture(m_rend);
 
-    //SDL_RenderCopy(m_rend, buttonTextureYes->GetTexture(), NULL, &renderQuadYes);
-    //SDL_RenderCopy(m_rend, textTextureYes->GetTexture(), NULL, &renderQuadYes);
-
-    //// Show No Button
-    //x = m_noButton->GetLeftX();
-    //y = m_noButton->GetTopY();
-    //width = m_noButton->GetWidth();
-    //height = m_noButton->GetHeight();
-    //SDL_Rect renderQuadNo = { x, y, width, height };
-
-    //Texture* buttonTextureNo = m_noButton->GetButtonTexture(m_rend);
-    //Texture * textTextureNo = m_noButton->GetTextTexture(m_rend);
-
-    //SDL_RenderCopy(m_rend, buttonTextureNo->GetTexture(), NULL, &renderQuadNo);
-    //SDL_RenderCopy(m_rend, textTextureNo->GetTexture(), NULL, &renderQuadNo);
+        SDL_RenderCopy(m_rend, buttonTexture->GetTexture(), NULL, &renderQuad);
+        SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &renderQuad);
+    }
 
     SDL_RenderPresent(m_rend);
 }
 
 bool SkillTreePopUp::handleEvent(SDL_Event & e)
 {
+    for (auto button : m_buttons)
+    {
+        if (button->IsUnpressed() && button->IsInside(e.button.x, e.button.y))
+        {
+            button->DoAction();
+            return true;
+        }
+    }
     return false;
 }

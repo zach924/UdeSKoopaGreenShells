@@ -43,6 +43,8 @@ public:
     int GetMoveRange();
     int GetOwnerID();
 
+	virtual int GetMaxHealth() = 0;
+	virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
 
     Position GetPosition();
@@ -57,7 +59,7 @@ public:
 
     AttackNotification ReceiveDamage(int damage);
 
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn);
 
     boost::property_tree::ptree Serialize();
 };

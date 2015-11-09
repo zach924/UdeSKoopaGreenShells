@@ -16,6 +16,8 @@ struct ScreenResolution
     const int BUTTON_HORIZONTAL_OFFSET = 25;
     const int MINIMAP_BORDER = 4;
     const int MINIMAP_TILE_SIZE = 4;
+    const int NEXT_TURN_BUTTON_HEIGHT = 50;
+    const int NEXT_TURN_BUTTON_WIDTH = 260;
 
     int HUD_WIDTH;
     int HUD_HEIGHT;
@@ -88,6 +90,7 @@ private:
 
     //Textures for the window
     TTF_Font* m_ressourcesFont;
+    TTF_Font* m_infoFont;
     Texture* m_foodTexture;
     Texture* m_weaponTexture;
     Texture* m_scienceTexture;
@@ -128,9 +131,7 @@ private:
     GameWindow(GameWindow const&) = delete;
     void operator=(GameWindow const&) = delete;
 
-    void CreateGeneralButtons();
-    void CreateDistrictButtons();
-    void CreateUnitButtons();
+    void CreateButtons();
     void LoadLocalTextures();
 
 public:

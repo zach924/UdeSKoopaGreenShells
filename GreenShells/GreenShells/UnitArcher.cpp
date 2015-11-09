@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+const char* UnitArcher::UNIT_NAME = "Archer";
+
 UnitArcher::UnitArcher(int owner)
     : Unit<UnitArcher>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
 {
@@ -32,6 +34,16 @@ void UnitArcher::LoadTexture()
 bool UnitArcher::CanUpgrade()
 {
     return false; // TODO :  Get bit field in player
+}
+
+int UnitArcher::GetMaxHealth()
+{
+	return HEALTH;
+}
+
+const char * UnitArcher::GetName()
+{
+	return UNIT_NAME;
 }
 
 int UnitArcher::GetTypeAsInt()

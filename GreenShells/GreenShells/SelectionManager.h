@@ -22,8 +22,7 @@ class SelectionManager
 
     SelectionManagerState m_state;
 
-    UnitBase * m_selectedUnit;
-    DistrictBase * m_selectedDistrict;
+    Position m_selectedPosition;
 
     int m_districtTypeToConstruct;
     int m_unitTypeToCreate;
@@ -34,15 +33,7 @@ class SelectionManager
     SelectionManager();
     ~SelectionManager();
 
-    void DeselectUnit(UnitBase* unit = nullptr);
-    void DeselectDistrict(DistrictBase* district = nullptr);
-
-    void SelectUnit(UnitBase* unitToSelect);
-    void SelectDistrict(DistrictBase* districtToSelect);
-
-    void ChangeButtonState();
-
-    void Idle(UnitBase* unit, DistrictBase* district);
+    void Idle(Position pos);
     void Attack(Position pos);
     void CreateDistrict(Position pos);
     void CreateUnit(Position pos);
@@ -58,6 +49,7 @@ public:
         return m_instance;
     }
 
+    void UpdateButtonState();
     UnitBase* GetSelectedUnit();
     DistrictBase* GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
