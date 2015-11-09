@@ -2,7 +2,6 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 
-
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -19,7 +18,8 @@ Player::Player()
     m_isDisconnected(false),
     m_armySkillTree(),
     m_empireSkillTree(),
-    m_utilitySkillTree()
+    m_utilitySkillTree(),
+    m_diplomaticRelations()
 {
 }
 
@@ -69,8 +69,8 @@ bool Player::IsDisconnected()
 
 MapFilter Player::GetMoveRestriction()
 {
-	// TODO : when zach push the skill tree
-	return ALLOW_GROUND | BLOCK_ENEMIES;
+    // TODO : when zach push the skill tree
+    return ALLOW_GROUND | BLOCK_ENEMIES;
 }
 
 boost::property_tree::ptree Player::Serialize()
@@ -93,5 +93,19 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.EST", m_empireSkillTree.toString());
     playerNode.put("<xmlattr>.AST", m_armySkillTree.toString());
 
+    boost::property_tree::ptree& diplomaticRelationsNode = playerNode.add("DR", "");
+    for (auto relation = m_diplomaticRelations.begin(); relation != m_diplomaticRelations.end(); ++relation)
+    {
+        boost::property_tree::ptree& relationNode = diplomaticRelationsNode.add("R", "");
+        relationNode.put("<xmlattr>.SP", relation->first);//SP = Second Player
+        relationNode.put("<xmlattr>.RS", relation->second.GetRelationStatus());//RS = Relation Status
+        relationNode.put("<xmlattr>.MA", relation->second.GetMustAnswerPlayerId());//MA = Must Answer Player Id
+    }
+
     return playerNode;
+}
+
+std::map<int, DiplomaticRelation> Player::GetDiplomaticRelations()
+{
+    return m_diplomaticRelations;
 }

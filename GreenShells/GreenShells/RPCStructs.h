@@ -30,6 +30,8 @@ enum RPCStructType
     RPC_BASIC,
     RPC_BASIC_TWO_POSITIONS,
     RPC_BASIC_CREATION,
+    RPC_BASIC_DIPLOMACY_REQUEST,
+    RPC_BASIC_DIPLOMACY_RESPONSE,
 };
 
 enum RPCClassMethodType
@@ -39,7 +41,12 @@ enum RPCClassMethodType
     Map_Attack,
     Map_CreateUnit,
     Map_CreateDistrict,
-    Player_SetReady
+    Player_SetReady,
+    Player_SendPeaceRequest,
+    Player_SendAllianceRequest,
+    Player_RespondPeace,
+    Player_RespondAlliance,
+    Player_DeclareWar,
 };
 
 struct RPCBasicStruct
@@ -64,6 +71,16 @@ struct RPCBasicActorCreationStruct : RPCBasicStruct
 {
     Position m_positionToCreate;
     int m_actorType;
+};
+
+struct RPCBasicDiplomaticRequestStruct : RPCBasicStruct
+{
+    int m_otherPlayerId;
+};
+
+struct RPCBasicDiplomaticResponseStruct : RPCBasicDiplomaticRequestStruct
+{
+    bool m_response;
 };
 
 struct RPCEvent

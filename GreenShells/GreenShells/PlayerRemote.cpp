@@ -5,6 +5,11 @@
 #include <iostream>
 #include <boost\property_tree\ptree.hpp>
 
+void PlayerRemote::RemoveRelation(int otherPlayerId)
+{
+    assert(false && "Don't use this with player remote");
+}
+
 PlayerRemote::PlayerRemote()
     :Player()
 {
@@ -35,7 +40,8 @@ Player* PlayerRemote::Clone()
     player->m_utilitySkillTree = m_utilitySkillTree;
     player->m_armySkillTree = m_armySkillTree;
     player->m_empireSkillTree = m_empireSkillTree;
-    
+    player->m_diplomaticRelations.insert(m_diplomaticRelations.begin(), m_diplomaticRelations.end());
+
     return player;
 }
 
@@ -154,6 +160,124 @@ void PlayerRemote::SetIsDisconnected(bool value)
     assert(false && "Don't use this with player remote");
 }
 
+void PlayerRemote::AddNewRelation(int otherPlayerId, RelationStatus status, int mustAnswerPlayerId)
+{
+    assert(false && "Don't use this with player remote");
+}
+
+void PlayerRemote::SendPeaceProposition(int otherPlayerId)
+{
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicDiplomaticRequestStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_SendPeaceRequest;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = m_playerID;
+    data.m_otherPlayerId = otherPlayerId;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+    SendData(ss.str());
+}
+
+void PlayerRemote::ReceivePeaceProposition(int otherPlayerId)
+{
+    assert(false && "Don't use this with player remote");
+}
+
+void PlayerRemote::RespondPeaceProposition(int otherPlayerId, bool answer)
+{
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicDiplomaticResponseStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_RespondPeace;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = m_playerID;
+    data.m_otherPlayerId = otherPlayerId;
+    data.m_response = answer;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+    SendData(ss.str());
+}
+
+void PlayerRemote::GoToPeace(int otherPlayerId)
+{
+    assert(false && "You can't do that with a remote player");
+}
+
+void PlayerRemote::ReceiveAllianceProposition(int otherPlayerId)
+{
+    assert(false && "Don't use this with player remote");
+}
+
+void PlayerRemote::SendAllianceProposition(int otherPlayerId)
+{
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicDiplomaticRequestStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_SendAllianceRequest;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = m_playerID;
+    data.m_otherPlayerId = otherPlayerId;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+    SendData(ss.str());
+}
+
+void PlayerRemote::RespondAllianceProposition(int otherPlayerId, bool answer)
+{
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicDiplomaticResponseStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_RespondAlliance;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = m_playerID;
+    data.m_otherPlayerId = otherPlayerId;
+    data.m_response = answer;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+    SendData(ss.str());
+}
+
+void PlayerRemote::GoToAlliance(int otherPlayerId)
+{
+    assert(false && "You can't do that with a remote player");
+}
+
+void PlayerRemote::GoToWar(int otherPlayerId)
+{
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicDiplomaticRequestStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_DeclareWar;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = m_playerID;
+    data.m_otherPlayerId = otherPlayerId;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+    SendData(ss.str());
+}
+
 PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
 {
     PlayerRemote* player = new PlayerRemote();
@@ -174,6 +298,22 @@ PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
     player->m_utilitySkillTree = UtilitySkillTree(playerNode.get<std::string>("<xmlattr>.UST"));
     player->m_empireSkillTree = EmpireSkillTree(playerNode.get<std::string>("<xmlattr>.EST"));
     player->m_armySkillTree = ArmySkillTree(playerNode.get<std::string>("<xmlattr>.AST"));
+
+    auto diplomaticRelationsNode = playerNode.get_child("DR");
+    for (auto relationNode : diplomaticRelationsNode)
+    {
+        if (relationNode.first == "R")
+        {
+            int SP = relationNode.second.get<int>("<xmlattr>.SP");
+            RelationStatus RS = static_cast<RelationStatus>(relationNode.second.get<int>("<xmlattr>.RS"));
+            int MA = relationNode.second.get<int>("<xmlattr>.MA");
+            player->m_diplomaticRelations[SP] = DiplomaticRelation(RS, MA);
+        }
+        else
+        {
+            assert(false && "You added a new node in player serialize. You need to Deserialize it");
+        }
+    }
 
     return player;
 }

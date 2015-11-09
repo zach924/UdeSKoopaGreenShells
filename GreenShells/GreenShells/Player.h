@@ -1,10 +1,12 @@
 #pragma once
 #include <vector>
+#include <map>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
+#include "DiplomaticRelation.h"
 
 class Player
 {
@@ -30,6 +32,10 @@ protected:
     UtilitySkillTree m_utilitySkillTree;
     ArmySkillTree m_armySkillTree;
     EmpireSkillTree m_empireSkillTree;
+
+    //Diplomacy
+    std::map<int, DiplomaticRelation> m_diplomaticRelations;
+    virtual void RemoveRelation(int otherPlayerId) = 0;
 
 public:
     Player();
@@ -73,10 +79,24 @@ public:
     virtual void AddCityCenter() = 0;
     virtual void RemoveCityCenter() = 0;
 
+    //Diplomacy
+    std::map<int, DiplomaticRelation> GetDiplomaticRelations();
+    virtual void AddNewRelation(int otherPlayerId, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1) = 0;
+    virtual void SendPeaceProposition(int otherPlayerId) = 0;
+    virtual void ReceivePeaceProposition(int otherPlayerId) = 0;
+    virtual void RespondPeaceProposition(int otherPlayerId, bool answer) = 0;
+    virtual void GoToPeace(int otherPlayerId) = 0;
+
+    virtual void SendAllianceProposition(int otherPlayerId) = 0;
+    virtual void ReceiveAllianceProposition(int otherPlayerId) = 0;
+    virtual void GoToAlliance(int otherPlayerId) = 0;
+    virtual void RespondAllianceProposition(int otherPlayerId, bool answer) = 0;
+    virtual void GoToWar(int otherPlayerId) = 0;
+
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
-	MapFilter GetMoveRestriction();
+    MapFilter GetMoveRestriction();
 
     virtual boost::property_tree::ptree Serialize();
 };

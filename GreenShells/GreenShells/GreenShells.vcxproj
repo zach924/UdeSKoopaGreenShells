@@ -164,7 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="ButtonDiplomacyAction.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
+    <ClCompile Include="DiplomacyPopUp.cpp" />
+    <ClCompile Include="DiplomaticRelation.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="PlayerLocal.cpp" />
     <ClCompile Include="PlayerRemote.cpp" />
@@ -225,6 +228,9 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonDiplomacyAction.h" />
+    <ClInclude Include="DiplomacyPopUp.h" />
+    <ClInclude Include="DiplomaticRelation.h" />
     <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />
     <ClInclude Include="ButtonNextTurn.h" />

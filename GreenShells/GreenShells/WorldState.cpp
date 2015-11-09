@@ -97,6 +97,11 @@ int WorldState::AddPlayer(std::string playerName)
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     TileBase* tile = m_map->GetTile(spawnPosition);
     tile->SetDistrict(new DistrictCityCenter(playerID));
+    for (auto p : m_players)
+    {
+        p->AddNewRelation(playerID);
+        newPlayer->AddNewRelation(p->GetPlayerID());
+    }
     m_players.push_back(newPlayer);
     return playerID;
 }

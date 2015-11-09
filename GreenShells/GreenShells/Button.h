@@ -20,6 +20,7 @@ protected:
     Texture m_textTexture;
 
     ButtonState m_buttonState;
+    virtual void LoadTextTexture(SDL_Renderer* rend) = 0;
 
 private:
 
@@ -34,7 +35,6 @@ private:
     int m_lefLimit;
 
     void LoadButtonTextures(SDL_Renderer* rend);
-    virtual void LoadTextTexture(SDL_Renderer* rend) = 0;
 public:
     Button(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state);
     Button(int posX, int posY, int width, int height, ButtonState state);
@@ -55,9 +55,9 @@ public:
     /*
     * Omitting rend, and it will be rendered for the main game window
     */
-    Texture* GetTextTexture(SDL_Renderer* rend = nullptr);
+    virtual Texture* GetTextTexture(SDL_Renderer* rend = nullptr);
     /*
     * Omitting rend, and it will be rendered for the main game window
     */
-    Texture* GetButtonTexture(SDL_Renderer* rend = nullptr);
+    virtual Texture* GetButtonTexture(SDL_Renderer* rend = nullptr);
 };

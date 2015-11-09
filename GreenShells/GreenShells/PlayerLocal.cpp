@@ -1,6 +1,12 @@
 #include "PlayerLocal.h"
 #include <boost\property_tree\ptree.hpp>
 
+void PlayerLocal::RemoveRelation(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    m_diplomaticRelations.erase(relation);
+}
+
 PlayerLocal::PlayerLocal()
     :Player()
 {
@@ -30,6 +36,7 @@ Player* PlayerLocal::Clone()
     player->m_utilitySkillTree = m_utilitySkillTree;
     player->m_armySkillTree = m_armySkillTree;
     player->m_empireSkillTree = m_empireSkillTree;
+    player->m_diplomaticRelations.insert(m_diplomaticRelations.begin(), m_diplomaticRelations.end());
 
     return player;
 }
@@ -187,6 +194,87 @@ void PlayerLocal::SetIsDisconnected(bool value)
     m_isDisconnected = true;
 }
 
+void PlayerLocal::AddNewRelation(int otherPlayerId, RelationStatus status, int mustAnswerPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation == m_diplomaticRelations.end())
+    {
+        m_diplomaticRelations[otherPlayerId] = DiplomaticRelation(status, mustAnswerPlayerId);
+    }
+}
+void PlayerLocal::SendPeaceProposition(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::War)
+    {
+        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::NegociatingPeace, otherPlayerId);
+    }
+}
+
+void PlayerLocal::ReceivePeaceProposition(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations[otherPlayerId];
+    if (relation.GetRelationStatus() == RelationStatus::War)
+    {
+        relation.ChangeRelationStatus(RelationStatus::NegociatingPeace, m_playerID);
+    }
+}
+
+void PlayerLocal::RespondPeaceProposition(int otherPlayerId, bool answer)
+{
+    assert(false && "Should not be used on a local Player");
+}
+
+void PlayerLocal::GoToPeace(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::NegociatingPeace)
+    {
+        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::Peace);
+    }
+}
+
+void PlayerLocal::SendAllianceProposition(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::Peace)
+    {
+        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::NegocatingAlliance, otherPlayerId);
+    }
+}
+
+void PlayerLocal::ReceiveAllianceProposition(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations[otherPlayerId];
+    if (relation.GetRelationStatus() == RelationStatus::Peace)
+    {
+        relation.ChangeRelationStatus(RelationStatus::NegocatingAlliance, m_playerID);
+    }
+}
+
+void PlayerLocal::RespondAllianceProposition(int otherPlayerId, bool answer)
+{
+    assert(false && "This should not be used on a local Player");
+}
+
+void PlayerLocal::GoToAlliance(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::NegocatingAlliance)
+    {
+        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::Alliance);
+    }
+}
+
+void PlayerLocal::GoToWar(int otherPlayerId)
+{
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() != RelationStatus::War && relation->second.GetRelationStatus() != RelationStatus::Alliance)
+    {
+        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::War);
+    }
+}
+
 PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 {
     PlayerLocal* player = new PlayerLocal();
@@ -208,5 +296,20 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
     player->m_empireSkillTree = EmpireSkillTree(playerNode.get<std::string>("<xmlattr>.EST"));
     player->m_armySkillTree = ArmySkillTree(playerNode.get<std::string>("<xmlattr>.AST"));
 
+    auto diplomaticRelationsNode = playerNode.get_child("DR");
+    for (auto relationNode : diplomaticRelationsNode)
+    {
+        if (relationNode.first == "R")
+        {
+            int SP = relationNode.second.get<int>("<xmlattr>.SP");
+            RelationStatus RS = static_cast<RelationStatus>(relationNode.second.get<int>("<xmlattr>.RS"));
+            int MA = relationNode.second.get<int>("<xmlattr>.MA");
+            player->m_diplomaticRelations[SP] = DiplomaticRelation(RS, MA);
+        }
+        else
+        {
+            assert(false && "You added a new node in player serialize. You need to Deserialize it");
+        }
+    }
     return player;
 }

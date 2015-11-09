@@ -68,7 +68,7 @@ GameWindow::GameWindow(ScreenResolution res)
     m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, windowType);
     assert(m_window != NULL && SDL_GetError());
 
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);//VSYNC caps at 60 fps
     assert(m_renderer != NULL && SDL_GetError());
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
@@ -153,6 +153,7 @@ void GameWindow::LoadLocalTextures()
 void GameWindow::ShowWindow()
 {
     bool quit = false;
+
     while (!quit)
     {
         SDL_Event e;
@@ -293,7 +294,6 @@ void GameWindow::ShowWindow()
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
-
         //Render UI
         //Render ressources and turns
         {
@@ -598,15 +598,14 @@ void GameWindow::ShowWindow()
             selectedUnitTexture->SetColor(EMPTY_COLOR);
             SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
         }
-
-        //Draw screen
-        SDL_RenderPresent(m_renderer);
-
         //Render the different popUps
         for (PopUpWindow* popUp : m_activePopUpWindow)
         {
             popUp->ShowWindow(m_renderer);
         }
+
+        //Draw screen
+        SDL_RenderPresent(m_renderer);
     }
 
     Close();
