@@ -42,8 +42,6 @@ SelectionManager::SelectionManager()
     , m_unitTypeToCreate(-1)
     , m_selectedPosition(-1, -1)
 {
-    //m_selectedDistrict = m_districtEmpty;
-    //m_selectedUnit = m_unitEmpty;
 }
 
 SelectionManager::~SelectionManager()

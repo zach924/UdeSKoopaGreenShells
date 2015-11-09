@@ -88,7 +88,7 @@ private:
 
     //Textures for the window
     TTF_Font* m_ressourcesFont;
-	TTF_Font* m_infoFont;
+    TTF_Font* m_infoFont;
     Texture* m_foodTexture;
     Texture* m_weaponTexture;
     Texture* m_scienceTexture;

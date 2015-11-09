@@ -481,18 +481,19 @@ void GameWindow::ShowWindow()
                 NAME
                 *************/
                 {
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, selectedDistrict->GetName(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* nameSurface = TTF_RenderText_Solid(m_infoFont, selectedDistrict->GetName(), textColor);
+                    assert(nameSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* nameTextTexture = SDL_CreateTextureFromSurface(m_renderer, nameSurface);
+                    assert(nameTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = nameSurface->w;
+                    heightText = nameSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, nameTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(nameTextTexture);
+                    SDL_FreeSurface(nameSurface);
                 }
                 yPos += heightText;
 
@@ -505,18 +506,19 @@ void GameWindow::ShowWindow()
                     healthText.append("/");
                     healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
+                    assert(healthSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* healthTextTexture = SDL_CreateTextureFromSurface(m_renderer, healthSurface);
+                    assert(healthTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = healthSurface->w;
+                    heightText = healthSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, healthTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(healthTextTexture);
+                    SDL_FreeSurface(healthSurface);
                 }
                 yPos += heightText;
 
@@ -527,18 +529,19 @@ void GameWindow::ShowWindow()
                     std::string attackText = "Atk dmg : ";
                     attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(attackSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* attackTextTexture = SDL_CreateTextureFromSurface(m_renderer, attackSurface);
+                    assert(attackTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = attackSurface->w;
+                    heightText = attackSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, attackTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(attackTextTexture);
+                    SDL_FreeSurface(attackSurface);
                 }
                 yPos += heightText;
 
@@ -549,18 +552,19 @@ void GameWindow::ShowWindow()
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedDistrict->GetActionPointsRemaining()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* actionSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(actionSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* actionTextTexture = SDL_CreateTextureFromSurface(m_renderer, actionSurface);
+                    assert(actionTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = actionSurface->w;
+                    heightText = actionSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, actionTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(actionTextTexture);
+                    SDL_FreeSurface(actionSurface);
                 }
 
             }
@@ -593,18 +597,19 @@ void GameWindow::ShowWindow()
                      NAME
                 *************/
                 {
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, selectedUnit->GetName(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* nameSurface = TTF_RenderText_Solid(m_infoFont, selectedUnit->GetName(), textColor);
+                    assert(nameSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* nameTextTexture = SDL_CreateTextureFromSurface(m_renderer, nameSurface);
+                    assert(nameTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = nameSurface->w;
+                    heightText = nameSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, nameTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(nameTextTexture);
+                    SDL_FreeSurface(nameSurface);
                 }
                 yPos += heightText;
 
@@ -617,18 +622,19 @@ void GameWindow::ShowWindow()
                     healthText.append("/");
                     healthText.append(std::to_string(selectedUnit->GetMaxHealth()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
+                    assert(healthSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* healthTextTexture = SDL_CreateTextureFromSurface(m_renderer, healthSurface);
+                    assert(healthTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = healthSurface->w;
+                    heightText = healthSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, healthTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(healthTextTexture);
+                    SDL_FreeSurface(healthSurface);
                 }
                 yPos += heightText;
 
@@ -641,18 +647,19 @@ void GameWindow::ShowWindow()
                     attackText.append("    Range :");
                     attackText.append(std::to_string(selectedUnit->GetAttackRange()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(attackSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* attackTextTexture = SDL_CreateTextureFromSurface(m_renderer, attackSurface);
+                    assert(attackTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = attackSurface->w;
+                    heightText = attackSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, attackTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(attackTextTexture);
+                    SDL_FreeSurface(attackSurface);
                 }
                 yPos += heightText;
 
@@ -663,18 +670,19 @@ void GameWindow::ShowWindow()
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedUnit->GetActionPointsRemaining()));
 
-                    SDL_Surface* turnSurf = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
-                    assert(turnSurf != NULL && TTF_GetError());
+                    SDL_Surface* actionSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(actionSurface != NULL && TTF_GetError());
 
-                    SDL_Texture* turnTextTexture = SDL_CreateTextureFromSurface(m_renderer, turnSurf);
-                    assert(turnTextTexture != NULL && TTF_GetError());
+                    SDL_Texture* actionTextTexture = SDL_CreateTextureFromSurface(m_renderer, actionSurface);
+                    assert(actionTextTexture != NULL && TTF_GetError());
 
-                    widthText = turnSurf->w;
-                    heightText = turnSurf->h;
+                    widthText = actionSurface->w;
+                    heightText = actionSurface->h;
 
                     SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(turnTextTexture);
+                    SDL_RenderCopy(m_renderer, actionTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(actionTextTexture);
+                    SDL_FreeSurface(actionSurface);
                 }
             }
         }
