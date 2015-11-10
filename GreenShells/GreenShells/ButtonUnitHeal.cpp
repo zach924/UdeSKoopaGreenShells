@@ -21,6 +21,7 @@ void ButtonUnitHeal::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\Heal_text.bmp", rend);
+        std::cout << "Loading TEXT_BUTTON_HEAL_U" << std::endl;
     }
     catch (std::exception e)
     {

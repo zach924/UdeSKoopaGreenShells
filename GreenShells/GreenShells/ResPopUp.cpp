@@ -68,22 +68,27 @@ bool ResPopUp::handleEvent(SDL_Event & e)
 	}
 	if (m_1280_720->IsUnpressed() && m_1280_720->IsInside(e.button.x, e.button.y))
 	{
+		GameWindow::GetInstance().ChangeResolution(RES_1280_720);
 		return true;
 	}
 	if (m_1600_900->IsUnpressed() && m_1600_900->IsInside(e.button.x, e.button.y))
 	{
+		GameWindow::GetInstance().ChangeResolution(RES_1600_900);
 		return true;
 	}
 	if (m_1600_1024->IsUnpressed() && m_1600_1024->IsInside(e.button.x, e.button.y))
 	{
+		GameWindow::GetInstance().ChangeResolution(RES_1600_1024);
 		return true;
 	}
 	if (m_1920_1080->IsUnpressed() && m_1920_1080->IsInside(e.button.x, e.button.y))
 	{
+		GameWindow::GetInstance().ChangeResolution(RES_1920_1080);
 		return true;
 	}
 	if (m_1920_1080_FullScreen->IsUnpressed() && m_1920_1080_FullScreen->IsInside(e.button.x, e.button.y))
 	{
+		GameWindow::GetInstance().ChangeResolution(RES_1920_1080_FullScreen);
 		return true;
 	}
 }

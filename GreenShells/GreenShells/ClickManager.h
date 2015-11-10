@@ -30,6 +30,7 @@ public:
     }
 
     void AddButton(Button* button, LeftMenuPart part);
+	void CleatButtons();
     const std::vector<Button*>& GetUnitButtons();
     const std::vector<Button*>& GetDistrictButtons();
     const std::vector<Button*>& GetGeneralButtons();

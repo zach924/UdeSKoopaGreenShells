@@ -64,30 +64,32 @@ struct ScreenResolution
 		, MINIMAP_BORDER_Y(MINIMAP_POSY - MINIMAP_BORDER / 2)
 		, FULLSCREEN(fullScreen)
 	{};
-	/*ScreenResolution(const ScreenResolution& other)
-		:MAX_WIDTH(other.MAX_WIDTH)
-		, MAX_HEIGHT(other.MAX_HEIGHT)
-		, MAP_WIDTH(other.MAP_WIDTH)
-		, MAP_HEIGHT(other.MAP_HEIGHT)
-		, SELECTED_UNIT_HEIGHT(other.SELECTED_UNIT_HEIGHT)
-		, SELECTED_DISTRICT_HEIGHT(other.SELECTED_DISTRICT_HEIGHT)
-		, HUD_WIDTH(other.HUD_WIDTH)
-		, HUD_HEIGHT(other.HUD_HEIGHT)
-		, BUTTON_VERTICAL_OFFSET(other.BUTTON_VERTICAL_OFFSET)
-		, NUM_TILE_WIDTH(other.NUM_TILE_WIDTH)
-		, NUM_TILE_HEIGHT(other.NUM_TILE_HEIGHT)
-		, DISTRICT_MENU_BUTTON_HEIGHT(other.DISTRICT_MENU_BUTTON_HEIGHT)
-		, UNIT_MENU_BUTTON_HEIGHT(other.UNIT_MENU_BUTTON_HEIGHT)
-		, DOWN_SCROLL_POSITION(other.DOWN_SCROLL_POSITION)
-		, RIGHT_SCROLL_POSITION(other.RIGHT_SCROLL_POSITION)
-		, LEFT_SCROLL_POSITION(other.LEFT_SCROLL_POSITION)
-		, UP_SCROLL_POSITION(other.UP_SCROLL_POSITION)
-		, MINIMAP_POSX(other.MINIMAP_POSX)
-		, MINIMAP_POSY(other.MINIMAP_POSY)
-		, MINIMAP_BORDER_X(MINIMAP_BORDER_X)
-		, MINIMAP_BORDER_Y(MINIMAP_BORDER_Y)
-		, FULLSCREEN(other.FULLSCREEN)
-	{}*/
+	ScreenResolution& ScreenResolution::operator =(const ScreenResolution& other)
+	{  
+		MAX_WIDTH = other.MAX_WIDTH;
+		MAX_HEIGHT = other.MAX_HEIGHT;
+		MAP_WIDTH =other.MAP_WIDTH;
+		MAP_HEIGHT = other.MAP_HEIGHT;
+		SELECTED_UNIT_HEIGHT = other.SELECTED_UNIT_HEIGHT;
+		SELECTED_DISTRICT_HEIGHT = other.SELECTED_DISTRICT_HEIGHT;
+		HUD_WIDTH = other.HUD_WIDTH;
+		HUD_HEIGHT = other.HUD_HEIGHT;
+		BUTTON_VERTICAL_OFFSET = other.BUTTON_VERTICAL_OFFSET;
+		NUM_TILE_WIDTH = other.NUM_TILE_WIDTH;
+		NUM_TILE_HEIGHT = other.NUM_TILE_HEIGHT;
+		DISTRICT_MENU_BUTTON_HEIGHT = other.DISTRICT_MENU_BUTTON_HEIGHT;
+		UNIT_MENU_BUTTON_HEIGHT = other.UNIT_MENU_BUTTON_HEIGHT;
+		DOWN_SCROLL_POSITION = other.DOWN_SCROLL_POSITION;
+		RIGHT_SCROLL_POSITION = other.RIGHT_SCROLL_POSITION;
+		LEFT_SCROLL_POSITION = other.LEFT_SCROLL_POSITION;
+		UP_SCROLL_POSITION = other.UP_SCROLL_POSITION;
+		MINIMAP_POSX = other.MINIMAP_POSX;
+		MINIMAP_POSY = other.MINIMAP_POSY;
+		MINIMAP_BORDER_X = MINIMAP_BORDER_X;
+		MINIMAP_BORDER_Y = MINIMAP_BORDER_Y;
+		FULLSCREEN = other.FULLSCREEN;
+		return *this;
+	};
 };
 static ScreenResolution RES_800_600{ 800,600,520,520,280,80,5,240,425,false };
 static ScreenResolution RES_1280_720{ 1280,720,975,650,305,70,12,292,498,false };
@@ -158,19 +160,12 @@ private:
     void CreateDistrictButtons();
     void CreateUnitButtons();
 	void LoadLocalTextures();
-	static GameWindow* m_instance;
 
 public:
     static GameWindow& GetInstance()
     {
-		if (m_instance == nullptr)
-		{
-			m_instance = new GameWindow();
-		}
-
-		return *m_instance;
-        /*static GameWindow m_instance{};
-        return m_instance;*/
+        static GameWindow m_instance{};
+        return m_instance;
     }
 
     void ShowWindow();

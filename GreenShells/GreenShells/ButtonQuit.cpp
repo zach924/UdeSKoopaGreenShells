@@ -22,6 +22,8 @@ void ButtonQuit::LoadTextTexture(SDL_Renderer* rend)
 	try
 	{
 		m_textTexture.LoadFromFile("..\\Sprite\\Button\\No_text.bmp", rend);
+        std::cout << "Loading TEXT_BUTTON_QUIT" << std::endl;
+
 	}
 	catch (std::exception e)
 	{

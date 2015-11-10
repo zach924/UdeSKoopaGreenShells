@@ -21,6 +21,7 @@ void ButtonDistrictRepair::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\Repair_text.bmp", rend);
+        std::cout << "Loading TEXT_BUTTON_REPAIR_D" << std::endl;
     }
     catch (std::exception e)
     {

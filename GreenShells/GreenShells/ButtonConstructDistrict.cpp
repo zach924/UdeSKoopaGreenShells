@@ -21,6 +21,7 @@ void ButtonConstructDistrict::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\ConstructDistrict_text.bmp");
+        std::cout << "Loading TEXT_BUTTON_CONSTRUC_D" << std::endl;
     }
     catch (std::exception e)
     {

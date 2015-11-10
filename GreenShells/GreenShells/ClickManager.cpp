@@ -48,6 +48,13 @@ void ClickManager::AddButton(Button* button, LeftMenuPart part)
     }
 }
 
+void ClickManager::CleatButtons()
+{
+	m_unitButtons.clear();
+	m_districtButtons.clear();
+	m_generalButtons.clear();
+}
+
 const std::vector<Button*>& ClickManager::GetUnitButtons()
 {
     return m_unitButtons;

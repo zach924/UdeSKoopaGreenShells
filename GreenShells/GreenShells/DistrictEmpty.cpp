@@ -16,6 +16,9 @@ void DistrictEmpty::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\emptyDistrict.bmp");
+		std::cout << "Loading DISTRICT_EMPTY" << std::endl;
+
+
     }
     catch (std::exception e)
     {

@@ -24,6 +24,8 @@ void ButtonResSelect::LoadTextTexture(SDL_Renderer* rend)
 	try
 	{
 		m_textTexture.LoadFromFile("..\\Sprite\\Button\\Yes_text.bmp", rend);
+        std::cout << "Loading TEXT_BUTTON_RES_SELECT" << std::endl;
+
 	}
 	catch (std::exception e)
 	{

@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include <SDL.h>
 #include <exception>
+#include <iostream>
 #include "GameWindow.h"
 
 Texture::Texture()
@@ -55,6 +56,7 @@ bool Texture::LoadFromFile(std::string path, SDL_Renderer* rend)
     }
     m_texture = newTexture;
     m_IsLoaded = m_texture != NULL;
+
     return m_IsLoaded;
 }
 

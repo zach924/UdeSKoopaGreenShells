@@ -21,6 +21,7 @@ void ButtonUnitAttack::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\attack_text.bmp", rend);
+        std::cout << "Loading TEXT_BUTTON_ATTK_U" << std::endl;
     }
     catch (std::exception e)
     {
