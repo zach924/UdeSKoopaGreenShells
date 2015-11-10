@@ -600,7 +600,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+            if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
             {
                 xPos += widthIcon + iconTextSpacing;
 
@@ -694,6 +694,7 @@ void GameWindow::ShowWindow()
                     SDL_FreeSurface(actionSurface);
                 }
 
+                delete selectedDistrict;
             }
 
         }
@@ -717,7 +718,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+            if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
             {
                 xPos += widthIcon + iconTextSpacing;
 
@@ -812,6 +813,8 @@ void GameWindow::ShowWindow()
                     SDL_DestroyTexture(actionTextTexture);
                     SDL_FreeSurface(actionSurface);
                 }
+
+                delete selectedUnit;
             }
         }
 

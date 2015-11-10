@@ -7,6 +7,7 @@ class UnitEmpty : public Unit<UnitEmpty>
 {
 public:
     typedef Unit<UnitEmpty> tBase;
+    static int const UNIT_TYPE = -1;
 
 public:
     UnitEmpty(int owner);
@@ -16,8 +17,8 @@ public:
 
     virtual bool CanUpgrade();
     virtual void Heal(int health);
-	virtual int GetMaxHealth();
-	virtual const char* GetName();
+    virtual int GetMaxHealth();
+    virtual const char* GetName();
     virtual int GetTypeAsInt();
 
     virtual  boost::property_tree::ptree Serialize();

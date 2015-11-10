@@ -59,9 +59,10 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
     else
     {
-        UnitBase* selectedUnit = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetUnit();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        UnitBase* unitSelected = map->GetTile(m_selectedPosition)->GetUnit();
 
-        return selectedUnit ? selectedUnit : m_unitEmpty;
+        return unitSelected ? unitSelected->Clone() : m_unitEmpty;
     }
 }
 
@@ -73,9 +74,10 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     }
     else
     {
-        DistrictBase* selecteDistrict = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetDistrict();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        DistrictBase* selecteDistrict = map->GetTile(m_selectedPosition)->GetDistrict();
 
-        return selecteDistrict ? selecteDistrict : m_districtEmpty;
+        return selecteDistrict ? selecteDistrict->Clone() : m_districtEmpty;
     }
 }
 
@@ -92,8 +94,8 @@ void SelectionManager::Cancel()
 
 void SelectionManager::UpdateButtonState()
 {
-    UnitBase* selectedUnit = GetSelectedUnit();
-    DistrictBase* selectedDistrict = GetSelectedDistrict();
+    UnitBase* selectedUnit{ GetSelectedUnit() };
+    DistrictBase* selectedDistrict{ GetSelectedDistrict() };
 
     std::vector<Button*> buttons = ClickManager::GetInstance().GetButtons();
 
@@ -243,7 +245,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonConstructDistrict*>(btn) != nullptr)
         {
-            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
+            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
@@ -255,7 +257,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonSpawnUnit*>(btn) != nullptr)
         {
-            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
+            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
@@ -292,6 +294,16 @@ void SelectionManager::UpdateButtonState()
             assert(false && "You must implement this for your button!");
         }
     }
+
+    if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
+    {
+        delete selectedDistrict;
+    }
+    if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
+    {
+        delete selectedUnit;
+    }
+
 }
 
 
@@ -415,6 +427,7 @@ void SelectionManager::UnitAttackPressed()
         m_state = m_unitAttacking;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+
         std::vector<Position> allPositionNear = map->GetArea(m_selectedPosition, GetSelectedUnit()->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
@@ -460,12 +473,26 @@ void SelectionManager::UnitMovePressed()
 
 bool SelectionManager::IsAnUnitSelected()
 {
-    return dynamic_cast<UnitEmpty*>(GetSelectedUnit()) == nullptr;
+    UnitBase* unit = GetSelectedUnit();
+    bool isUnitSelected = false;
+    if (unit != m_unitEmpty)
+    {
+        delete unit;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 bool SelectionManager::IsADistrictSelected()
 {
-    return dynamic_cast<DistrictEmpty*>(GetSelectedDistrict()) == nullptr;
+    DistrictBase* district = GetSelectedDistrict();
+    bool isUnitSelected = false;
+    if (district != m_districtEmpty)
+    {
+        delete district;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 void SelectionManager::UnitSell()

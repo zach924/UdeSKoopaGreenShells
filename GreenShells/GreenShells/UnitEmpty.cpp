@@ -19,8 +19,7 @@ UnitBase* UnitEmpty::Clone()
 
 int UnitEmpty::GetTypeAsInt()
 {
-	assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-    return -1;
+    return UNIT_TYPE;
 }
 
 void UnitEmpty::LoadTexture()
@@ -38,25 +37,25 @@ void UnitEmpty::LoadTexture()
 
 bool UnitEmpty::CanUpgrade()
 {
-	assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
     return false;
 }
 
 void UnitEmpty::Heal(int health)
 {
-	assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
 }
 
 int UnitEmpty::GetMaxHealth()
 {
-	assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-	return 0;
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    return 0;
 }
 
 const char * UnitEmpty::GetName()
 {
-	assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-	return nullptr;
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    return nullptr;
 }
 
 boost::property_tree::ptree UnitEmpty::Serialize()
