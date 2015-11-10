@@ -420,7 +420,7 @@ void SelectionManager::CreateUnitPressed(int unitType)
 
 void SelectionManager::UnitAttackPressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager attack State" << std::endl;
 
@@ -445,7 +445,7 @@ void SelectionManager::UnitAttackPressed()
 
 void SelectionManager::UnitMovePressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager Move State" << std::endl;
 
@@ -471,7 +471,7 @@ void SelectionManager::UnitMovePressed()
     }
 }
 
-bool SelectionManager::IsAnUnitSelected()
+bool SelectionManager::IsAUnitSelected()
 {
     UnitBase* unit = GetSelectedUnit();
     bool isUnitSelected = false;
