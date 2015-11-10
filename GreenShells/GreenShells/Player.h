@@ -1,13 +1,18 @@
 #pragma once
 #include <vector>
+#include <map>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
+#include "Position.h"
+
+class Map;
 
 class Player
 {
+protected:
     std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;
@@ -15,7 +20,7 @@ class Player
     bool m_isAlive;
     bool m_isDisconnected;
 
-    unsigned int m_cityCenterCount;
+    std::map<Position, int> m_cityCenterLocations;
     unsigned int m_unitCount;
 
     unsigned int m_food;
@@ -30,52 +35,53 @@ class Player
     ArmySkillTree m_armySkillTree;
     EmpireSkillTree m_empireSkillTree;
 
+
 public:
     Player();
     ~Player();
 
-    void SetPlayerName(std::string name);
+    virtual Player* Clone() = 0;
+    virtual void SetPlayerName(std::string name) = 0;
     std::string GetPlayerName();
 
-    void SetPlayerID(int ID);
+    virtual void SetPlayerID(int ID) = 0;
     int GetPlayerID();
 
-    void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn, Map* map) = 0;
 
-    void SetPlayerReadyForNextTurn(bool isReady = true);
+    virtual void SetPlayerReadyForNextTurn(bool isReady = true) = 0;
     bool IsPlayerReadyForNextTurn();
 
-    void SetIsAlive(bool value);
+    virtual void SetIsAlive(bool value) = 0;
     bool IsAlive();
     int GetFood();
     int GetScience();
     int GetWeapon();
 
-    void AddFood(unsigned int qty);
-    void AddScience(unsigned int qty);
-    void AddWeapon(unsigned int qty);
+    virtual void AddFood(unsigned int qty) = 0;
+    virtual void AddScience(unsigned int qty) = 0;
+    virtual void AddWeapon(unsigned int qty) = 0;
 
-    bool ConsumeFood(unsigned int qty);
-    bool ConsumeScience(unsigned int qty);
-    bool ConsumeWeapon(unsigned int qty);
+    virtual bool ConsumeFood(unsigned int qty) = 0;
+    virtual bool ConsumeScience(unsigned int qty) = 0;
+    virtual bool ConsumeWeapon(unsigned int qty) = 0;
 
-    void AddFoodMultiplier(double multiplier);
-    void AddScienceMultiplier(double multiplier);
-    void AddWeaponMultiplier(double multiplier);
+    virtual void AddFoodMultiplier(double multiplier) = 0;
+    virtual void AddScienceMultiplier(double multiplier) = 0;
+    virtual void AddWeaponMultiplier(double multiplier) = 0;
 
     // TODO : When gameplay will be more canon, see if the multiplier can go under 1.0 (Ennemy affecting my ratio)
-    void RemoveFoodMultiplier(double multiplier);
-    void RemoveScienceMultiplier(double multiplier);
-    void RemoveWeaponMultiplier(double multiplier);
+    virtual void RemoveFoodMultiplier(double multiplier) = 0;
+    virtual void RemoveScienceMultiplier(double multiplier) = 0;
+    virtual void RemoveWeaponMultiplier(double multiplier) = 0;
 
-    void AddCityCenter();
-    void RemoveCityCenter();
+    virtual void AddCityCenter(Position pos, int turn) = 0;
+    virtual void RemoveCityCenter(Position pos) = 0;
 
-    void SetIsDisconnected(bool value = true);
+    virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
 	MapFilter GetMoveRestriction();
 
-    boost::property_tree::ptree Serialize();
-    static Player Deserialize(boost::property_tree::ptree playerNode);
+    virtual boost::property_tree::ptree Serialize();
 };

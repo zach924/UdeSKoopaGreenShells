@@ -164,11 +164,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="ButtonQuit.cpp" />
     <ClCompile Include="ButtonRes.cpp" />
     <ClCompile Include="ButtonResSelect.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
+    <ClCompile Include="PlayerLocal.cpp" />
     <ClCompile Include="ResPopUp.cpp" />
+    <ClCompile Include="PlayerRemote.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -231,8 +234,11 @@
     <ClInclude Include="ButtonResSelect.h" />
     <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />
+    <ClInclude Include="ButtonNextTurn.h" />
     <ClInclude Include="EmpireSkillTree.h" />
     <ClInclude Include="ResPopUp.h" />
+    <ClInclude Include="PlayerLocal.h" />
+    <ClInclude Include="PlayerRemote.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />

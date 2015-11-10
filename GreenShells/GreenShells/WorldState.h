@@ -11,7 +11,7 @@ class WorldState
 {
     std::recursive_mutex m_mutex;
     int m_turn;
-    std::vector<Player> m_players;
+    std::vector<Player*> m_players;
     Map* m_map;
     bool m_remote;
 public:
@@ -22,6 +22,10 @@ public:
     Map* GetMap();
     //Returns a copy of the map for drawing
     Map* GetMapCopy();
+    //Temp Hack
+    Player* GetPlayer(int playerID);
+    //Returns a copy of a player for drawing
+    Player* GetPlayerCopy(int playerID);
 
     void PrepareLocalGame();
     int GetCurrentTurn();
@@ -29,7 +33,11 @@ public:
 
     int AddPlayer(std::string playerName);
     void RemovePlayer(int id);
-    Player GetPlayer(int playerID);
+
+    bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
+    bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
+    bool CreateUnit(int unitType, Position pos, int owner);
+    bool CreateDistrict(int districtType, Position pos, int owner);
 
     bool AreAllPlayerReady();
     boost::property_tree::ptree Serialize();

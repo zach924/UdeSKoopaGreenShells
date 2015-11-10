@@ -4,9 +4,13 @@
 #include "TileMountain.h"
 #include "TileWater.h"
 
-#include "Unit.h"
-#include "District.h"
 #include "DistrictCityCenter.h"
+#include "DistrictFarm.h"
+
+#include "UnitArcher.h"
+#include "UnitSettler.h"
+#include "UnitSwordsman.h"
+
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
 #include <exception>
@@ -62,12 +66,14 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
     auto secondTile = GetTile(newLocation);
 
+
     //New Location is emtpy or there is a district and it's allied. Move him
     if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
     {
-        secondTile->SetUnit(firstTile->GetUnit());
-        firstTile->GetUnit()->SetPosition(newLocation);
+        UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);
+        tempUnit->SetPosition(newLocation);
+        secondTile->SetUnit(tempUnit);
         return true;
     }
 
@@ -142,6 +148,65 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
         }
     }
 
+    return true;
+}
+
+bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
+{
+    if (GetTile(pos)->GetUnit() != nullptr)
+    {
+        return false;
+    }
+
+    UnitBase* unit = nullptr;
+    switch (unitType)
+    {
+    case UnitSwordsman::UNIT_TYPE:
+        unit = new UnitSwordsman(owner);
+        break;
+    case UnitArcher::UNIT_TYPE:
+        unit = new UnitArcher(owner);
+        break;
+    case UnitSettler::UNIT_TYPE:
+        unit = new UnitSettler(owner);
+        break;
+    default:
+        return false;
+        break;
+    }
+
+    if (unit)
+    {
+        GetTile(pos)->SetUnit(unit);
+    }
+    return true;
+}
+
+bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
+{
+    if (GetTile(pos)->GetDistrict() != nullptr)
+    {
+        return false;
+    }
+
+    DistrictBase* district = nullptr;
+    switch (districtType)
+    {
+    case DistrictCityCenter::DISTRICT_TYPE:
+        district = new DistrictCityCenter(owner);
+        break;
+    case DistrictFarm::DISTRICT_TYPE:
+        district = new DistrictFarm(owner);
+        break;
+    default:
+        return false;
+        break;
+    }
+
+    if (district)
+    {
+        GetTile(pos)->SetDistrict(district);
+    }
     return true;
 }
 

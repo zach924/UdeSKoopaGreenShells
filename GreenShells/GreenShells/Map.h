@@ -29,17 +29,19 @@ public:
     void GenerateTiles();
     std::vector<Position> GetSpawnPositions();
 
-	std::vector<Position> GetArea(Position position, int distance, MapFilter filter);
+    std::vector<Position> GetArea(Position position, int distance, MapFilter filter);
 
 
     TileBase* GetTile(Position);
     virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
     virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
-    void NotifyNewturn();
+    virtual bool CreateUnit(int unitType, Position pos, int owner);
+    virtual bool CreateDistrict(int districtType, Position pos, int owner);
+    void NotifyNewTurn(int turn);
 
     virtual boost::property_tree::ptree Serialize();
 
 private:
-	void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter);
+    void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter);
 
 };

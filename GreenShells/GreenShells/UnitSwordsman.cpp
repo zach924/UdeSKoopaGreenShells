@@ -1,6 +1,8 @@
 #include "UnitSwordsman.h"
 #include <iostream>
 
+const char* UnitSwordsman::UNIT_NAME = "Swordsman";
+
 UnitSwordsman::UnitSwordsman(int owner)
     : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
@@ -17,16 +19,31 @@ UnitBase* UnitSwordsman::Clone()
 
 void UnitSwordsman::LoadTexture()
 {
-	try
-	{
-		m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
+    try
+    {
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
 		std::cout << "Loading UNIT_SWORD" << std::endl;
-	}
-	catch (std::exception e)
-	{
-		std::string msg{ e.what() };
-		std::cout << msg << std::endl;
-	}
+    }
+    catch (std::exception e)
+    {
+        std::string msg{ e.what() };
+        std::cout << msg << std::endl;
+    }
+}
+
+bool UnitSwordsman::CanUpgrade()
+{
+    return false; // TODO :  Get bit field in player
+}
+
+int UnitSwordsman::GetMaxHealth()
+{
+    return HEALTH;
+}
+
+const char * UnitSwordsman::GetName()
+{
+    return UNIT_NAME;
 }
 
 int UnitSwordsman::GetTypeAsInt()

@@ -16,6 +16,8 @@ struct ScreenResolution
     const int BUTTON_HORIZONTAL_OFFSET = 25;
     const int MINIMAP_BORDER = 4;
     const int MINIMAP_TILE_SIZE = 4;
+    const int NEXT_TURN_BUTTON_HEIGHT = 50;
+    const int NEXT_TURN_BUTTON_WIDTH = 260;
 
     int HUD_WIDTH;
     int HUD_HEIGHT;
@@ -38,7 +40,7 @@ struct ScreenResolution
     int MINIMAP_POSX;
     int MINIMAP_BORDER_X;
     int MINIMAP_BORDER_Y;
-	bool FULLSCREEN;
+    bool FULLSCREEN;
 
 	ScreenResolution(int maxW, int maxH, int mapW, int mapH, int hudW, int hudH, int vOffset, int DistrictH, int UnitH, bool fullScreen)
 		:MAX_WIDTH(maxW)
@@ -62,7 +64,7 @@ struct ScreenResolution
 		, MINIMAP_POSY(maxH - 64 * MINIMAP_TILE_SIZE - MINIMAP_BORDER / 2)
 		, MINIMAP_BORDER_X(MINIMAP_POSX - MINIMAP_BORDER / 2)
 		, MINIMAP_BORDER_Y(MINIMAP_POSY - MINIMAP_BORDER / 2)
-		, FULLSCREEN(fullScreen)
+        , FULLSCREEN(fullScreen)
 	{};
 	ScreenResolution& ScreenResolution::operator =(const ScreenResolution& other)
 	{  
@@ -115,10 +117,11 @@ private:
     std::vector<PopUpWindow*> m_activePopUpWindow;
 
     //Textures for the window
-	TTF_Font* m_ressourcesFont;
-	Texture* m_foodTexture;
-	Texture* m_weaponTexture;
-	Texture* m_scienceTexture;
+    TTF_Font* m_ressourcesFont;
+    TTF_Font* m_infoFont;
+    Texture* m_foodTexture;
+    Texture* m_weaponTexture;
+    Texture* m_scienceTexture;
     Texture* m_overlayTexture;
 
     const Color PLAYER_ACTOR_COLORS[8] =
@@ -156,15 +159,13 @@ private:
     GameWindow(GameWindow const&) = delete;
     void operator=(GameWindow const&) = delete;
 
-    void CreateGeneralButtons();
-    void CreateDistrictButtons();
-    void CreateUnitButtons();
-	void LoadLocalTextures();
+    void CreateButtons();
+    void LoadLocalTextures();
 
 public:
     static GameWindow& GetInstance()
     {
-        static GameWindow m_instance{};
+        static GameWindow m_instance{ RES_1280_720 };
         return m_instance;
     }
 

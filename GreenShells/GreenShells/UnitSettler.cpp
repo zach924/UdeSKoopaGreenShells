@@ -1,6 +1,8 @@
 #include "UnitSettler.h"
 #include <iostream>
 
+const char* UnitSettler::UNIT_NAME = "Settler";
+
 UnitSettler::UnitSettler(int owner)
     : Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
@@ -27,6 +29,21 @@ void UnitSettler::LoadTexture()
         std::string msg{ e.what() };
         std::cout << msg << std::endl;
     }
+}
+
+bool UnitSettler::CanUpgrade()
+{
+    return true; // TODO :  Validate if its true by default for settler
+}
+
+int UnitSettler::GetMaxHealth()
+{
+	return HEALTH;
+}
+
+const char * UnitSettler::GetName()
+{
+	return UNIT_NAME;
 }
 
 int UnitSettler::GetTypeAsInt()

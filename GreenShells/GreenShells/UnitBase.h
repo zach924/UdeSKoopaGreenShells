@@ -28,22 +28,29 @@ private:
     int m_attackDamage;
     int m_attackRange;
 
+    int m_actionPointsLeft;
+
 public:
     UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
     virtual ~UnitBase();
 
     virtual UnitBase* Clone() = 0;
 
+    int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetAttackRange();
     int GetHealth();
     int GetMoveRange();
     int GetOwnerID();
 
+	virtual int GetMaxHealth() = 0;
+	virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
 
     Position GetPosition();
     void SetPosition(Position pos);
+
+    virtual bool CanUpgrade() = 0;
     virtual Texture* GetTexture() = 0;
     virtual void Heal(int health) = 0;
 
@@ -52,7 +59,7 @@ public:
 
     AttackNotification ReceiveDamage(int damage);
 
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn);
 
     boost::property_tree::ptree Serialize();
 };

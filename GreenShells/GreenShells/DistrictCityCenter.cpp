@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+const char* DistrictCityCenter::NAME = "CityCenter";
+
 DistrictCityCenter::DistrictCityCenter(int owner)
     : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
 {
@@ -37,6 +39,16 @@ void DistrictCityCenter::ChangeOwner(int owner)
     m_health = HEALTH;
 }
 
+int DistrictCityCenter::GetMaxHealth()
+{
+	return HEALTH;
+}
+
+const char * DistrictCityCenter::GetName()
+{
+	return NAME;
+}
+
 int DistrictCityCenter::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
@@ -45,6 +57,11 @@ int DistrictCityCenter::GetTypeAsInt()
 void DistrictCityCenter::Repair(int repairValue)
 {
     m_health = std::min(m_health + repairValue, HEALTH);
+}
+
+bool DistrictCityCenter::CanUpgrade()
+{
+    return false; // TODO :  Need to get the skill tree flag
 }
 
 DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)

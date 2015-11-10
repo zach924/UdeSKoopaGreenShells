@@ -29,7 +29,7 @@ public:
     virtual bool CanTraverse(MapFilter filter)=0;
     virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
-    virtual void NotifyNewTurn();
+    virtual void NotifyNewTurn(int turn);
     virtual DistrictBase* GetDistrict();
     virtual void SetDistrict(DistrictBase* district);
     virtual UnitBase* GetUnit();
