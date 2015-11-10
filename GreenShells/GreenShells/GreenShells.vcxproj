@@ -166,6 +166,7 @@
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="ButtonQuit.cpp" />
+    <ClCompile Include="ButtonText.cpp" />
     <ClCompile Include="ButtonRes.cpp" />
     <ClCompile Include="ButtonResSelect.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
@@ -230,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonQuit.h" />
+    <ClInclude Include="ButtonText.h" />
     <ClInclude Include="ButtonRes.h" />
     <ClInclude Include="ButtonResSelect.h" />
     <ClInclude Include="MapFilter.h" />

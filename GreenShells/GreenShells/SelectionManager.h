@@ -64,7 +64,7 @@ public:
     void UnitAttackPressed();
     void UnitMovePressed();
 
-    bool IsAnUnitSelected();
+    bool IsAUnitSelected();
     bool IsADistrictSelected();
 
     void UnitSell();

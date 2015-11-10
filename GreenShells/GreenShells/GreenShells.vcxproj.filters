@@ -315,6 +315,9 @@
     <ClCompile Include="PlayerRemote.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonText.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -523,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="PlayerRemote.h">
       <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonText.h">
+      <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

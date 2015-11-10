@@ -59,9 +59,10 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
     else
     {
-        UnitBase* selectedUnit = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetUnit();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        UnitBase* unitSelected = map->GetTile(m_selectedPosition)->GetUnit();
 
-        return selectedUnit ? selectedUnit : m_unitEmpty;
+        return unitSelected ? unitSelected->Clone() : m_unitEmpty;
     }
 }
 
@@ -73,9 +74,10 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     }
     else
     {
-        DistrictBase* selecteDistrict = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetDistrict();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        DistrictBase* selecteDistrict = map->GetTile(m_selectedPosition)->GetDistrict();
 
-        return selecteDistrict ? selecteDistrict : m_districtEmpty;
+        return selecteDistrict ? selecteDistrict->Clone() : m_districtEmpty;
     }
 }
 
@@ -92,8 +94,8 @@ void SelectionManager::Cancel()
 
 void SelectionManager::UpdateButtonState()
 {
-    UnitBase* selectedUnit = GetSelectedUnit();
-    DistrictBase* selectedDistrict = GetSelectedDistrict();
+    UnitBase* selectedUnit{ GetSelectedUnit() };
+    DistrictBase* selectedDistrict{ GetSelectedDistrict() };
 
     std::vector<Button*> buttons = ClickManager::GetInstance().GetButtons();
 
@@ -292,6 +294,16 @@ void SelectionManager::UpdateButtonState()
             assert(false && "You must implement this for your button!");
         }
     }
+
+    if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+    {
+        delete selectedDistrict;
+    }
+    if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+    {
+        delete selectedUnit;
+    }
+
 }
 
 
@@ -408,13 +420,14 @@ void SelectionManager::CreateUnitPressed(int unitType)
 
 void SelectionManager::UnitAttackPressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager attack State" << std::endl;
 
         m_state = m_unitAttacking;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+
         std::vector<Position> allPositionNear = map->GetArea(m_selectedPosition, GetSelectedUnit()->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
@@ -432,7 +445,7 @@ void SelectionManager::UnitAttackPressed()
 
 void SelectionManager::UnitMovePressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager Move State" << std::endl;
 
@@ -458,14 +471,28 @@ void SelectionManager::UnitMovePressed()
     }
 }
 
-bool SelectionManager::IsAnUnitSelected()
+bool SelectionManager::IsAUnitSelected()
 {
-    return dynamic_cast<UnitEmpty*>(GetSelectedUnit()) == nullptr;
+    UnitBase* unit = GetSelectedUnit();
+    bool isUnitSelected = false;
+    if (unit != m_unitEmpty)
+    {
+        delete unit;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 bool SelectionManager::IsADistrictSelected()
 {
-    return dynamic_cast<DistrictEmpty*>(GetSelectedDistrict()) == nullptr;
+    DistrictBase* district = GetSelectedDistrict();
+    bool isUnitSelected = false;
+    if (district != m_districtEmpty)
+    {
+        delete district;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 void SelectionManager::UnitSell()
