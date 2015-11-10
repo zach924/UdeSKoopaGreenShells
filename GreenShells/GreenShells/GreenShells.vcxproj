@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
+    <ClCompile Include="ButtonText.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="PlayerLocal.cpp" />
     <ClCompile Include="PlayerRemote.cpp" />
@@ -225,6 +226,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonText.h" />
     <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />
     <ClInclude Include="ButtonNextTurn.h" />
