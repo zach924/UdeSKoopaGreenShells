@@ -1,6 +1,8 @@
 #include "UnitSwordsman.h"
 #include <iostream>
 
+const char* UnitSwordsman::UNIT_NAME = "Swordsman";
+
 UnitSwordsman::UnitSwordsman(int owner)
     : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
@@ -31,6 +33,16 @@ void UnitSwordsman::LoadTexture()
 bool UnitSwordsman::CanUpgrade()
 {
     return false; // TODO :  Get bit field in player
+}
+
+int UnitSwordsman::GetMaxHealth()
+{
+    return HEALTH;
+}
+
+const char * UnitSwordsman::GetName()
+{
+    return UNIT_NAME;
 }
 
 int UnitSwordsman::GetTypeAsInt()

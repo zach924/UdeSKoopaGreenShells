@@ -65,12 +65,12 @@ void WorldState::NotifyNewTurn()
     m_turn++;
 
     //Notify map of a new turn
-    m_map->NotifyNewturn();
+    m_map->NotifyNewTurn(m_turn);
 
     //Notify players of a new turn
     for (Player* player : m_players)
     {
-        player->NotifyNewTurn();
+        player->NotifyNewTurn(m_turn, m_map);
     }
 }
 
@@ -97,6 +97,7 @@ int WorldState::AddPlayer(std::string playerName)
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     TileBase* tile = m_map->GetTile(spawnPosition);
     tile->SetDistrict(new DistrictCityCenter(playerID));
+    newPlayer->AddCityCenter(spawnPosition, m_turn);
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);

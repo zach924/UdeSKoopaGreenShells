@@ -1,5 +1,8 @@
 #include "PlayerLocal.h"
 #include <boost\property_tree\ptree.hpp>
+#include "DistrictCityCenter.h"
+#include "Map.h"
+#include "MapFilter.h"
 
 void PlayerLocal::RemoveRelation(int otherPlayerId)
 {
@@ -25,7 +28,7 @@ Player* PlayerLocal::Clone()
     player->m_isReadyForNewTurn = m_isReadyForNewTurn;
     player->m_isAlive = m_isAlive;
     player->m_isDisconnected = m_isDisconnected;
-    player->m_cityCenterCount = m_cityCenterCount;
+    player->m_cityCenterLocations = m_cityCenterLocations;
     player->m_unitCount = m_unitCount;
     player->m_food = m_food;
     player->m_science = m_science;
@@ -51,13 +54,13 @@ void PlayerLocal::SetPlayerID(int ID)
     m_playerID = ID;
 }
 
-void PlayerLocal::NotifyNewTurn()
+void PlayerLocal::NotifyNewTurn(int turn, Map* map)
 {
     m_isReadyForNewTurn = false;
 
     if (m_isAlive)
     {
-        //Do stuff
+        UpdateTilesOwned(turn, map);
     }
 }
 
@@ -174,16 +177,16 @@ void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
     }
 }
 
-void PlayerLocal::AddCityCenter()
+void PlayerLocal::AddCityCenter(Position pos, int turn)
 {
-    ++m_cityCenterCount;
+    m_cityCenterLocations[pos] = turn;
 }
 
-void PlayerLocal::RemoveCityCenter()
+void PlayerLocal::RemoveCityCenter(Position pos)
 {
-    --m_cityCenterCount;
+    m_cityCenterLocations.erase(pos);
 
-    if (m_cityCenterCount <= 0)
+    if (m_cityCenterLocations.size() <= 0)
     {
         m_isAlive = false;
     }
@@ -281,7 +284,6 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
-    player->m_cityCenterCount = playerNode.get<int>("<xmlattr>.CHC");
     player->m_unitCount = playerNode.get<int>("<xmlattr>.UC");
     player->m_food = playerNode.get<int>("<xmlattr>.F");
     player->m_science = playerNode.get<int>("<xmlattr>.S");
@@ -311,5 +313,51 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
             assert(false && "You added a new node in player serialize. You need to Deserialize it");
         }
     }
+    
+    for (auto cityCenterNode : playerNode.get_child("CCL"))
+    {
+        int column = cityCenterNode.second.get<int>("<xmlattr>.Co");
+        int row = cityCenterNode.second.get<int>("<xmlattr>.Ro");
+        int turnFounded = cityCenterNode.second.get<int>("<xmlattr>.TF");
+        player->m_cityCenterLocations[Position{ column , row }] = turnFounded;
+    }
+    
     return player;
+}
+
+void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
+{
+    for (auto cityCenter : m_cityCenterLocations)
+    {
+        std::vector<Position> ownedTiles;
+        int cityCenterTier = turn - cityCenter.second;
+        if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
+        {
+            ownedTiles = map->GetArea(cityCenter.first, 4, NO_FILTER);
+        }
+        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
+        {
+            ownedTiles = map->GetArea(cityCenter.first, 3, NO_FILTER);
+        }
+        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
+        {
+            ownedTiles = map->GetArea(cityCenter.first, 2, NO_FILTER);
+        }
+        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
+        {
+            ownedTiles = map->GetArea(cityCenter.first, 1, NO_FILTER);
+        }
+        else
+        {
+            ownedTiles = map->GetArea(cityCenter.first, 0, NO_FILTER);
+        }
+
+        for (auto position : ownedTiles)
+        {
+            if (map->GetTile(position)->GetPlayerOwnerId() == -1)
+            {
+                map->GetTile(position)->SetPlayerOwnerId(m_playerID);
+            }
+        }
+    }
 }

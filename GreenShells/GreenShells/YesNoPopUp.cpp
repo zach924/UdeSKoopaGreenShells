@@ -49,6 +49,8 @@ void YesNoPopUp::ShowWindow(SDL_Renderer* rend)
         SDL_Rect renderQuadText = { x, y, width, height };
 
         SDL_RenderCopy(m_rend, texture, NULL, &renderQuadText);
+
+        SDL_DestroyTexture(texture);
     }
 
     // Show Yes Button

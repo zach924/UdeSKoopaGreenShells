@@ -306,6 +306,9 @@
     <ClCompile Include="ButtonDiplomacyAction.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonText.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -505,6 +508,9 @@
     </ClInclude>
     <ClInclude Include="DiplomacyPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonText.h">
+      <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="DiplomaticRelation.h">
       <Filter>Header Files\Player</Filter>

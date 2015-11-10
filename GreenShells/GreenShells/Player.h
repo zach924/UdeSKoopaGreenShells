@@ -7,6 +7,9 @@
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
 #include "DiplomaticRelation.h"
+#include "Position.h"
+
+class Map;
 
 class Player
 {
@@ -18,7 +21,7 @@ protected:
     bool m_isAlive;
     bool m_isDisconnected;
 
-    unsigned int m_cityCenterCount;
+    std::map<Position, int> m_cityCenterLocations;
     unsigned int m_unitCount;
 
     unsigned int m_food;
@@ -48,7 +51,7 @@ public:
     virtual void SetPlayerID(int ID) = 0;
     int GetPlayerID();
 
-    virtual void NotifyNewTurn() = 0;
+    virtual void NotifyNewTurn(int turn, Map* map) = 0;
 
     virtual void SetPlayerReadyForNextTurn(bool isReady = true) = 0;
     bool IsPlayerReadyForNextTurn();
@@ -76,8 +79,8 @@ public:
     virtual void RemoveScienceMultiplier(double multiplier) = 0;
     virtual void RemoveWeaponMultiplier(double multiplier) = 0;
 
-    virtual void AddCityCenter() = 0;
-    virtual void RemoveCityCenter() = 0;
+    virtual void AddCityCenter(Position pos, int turn) = 0;
+    virtual void RemoveCityCenter(Position pos) = 0;
 
     //Diplomacy
     std::map<int, DiplomaticRelation> GetDiplomaticRelations();

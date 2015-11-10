@@ -166,6 +166,7 @@
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonDiplomacyAction.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
+    <ClCompile Include="ButtonText.cpp" />
     <ClCompile Include="DiplomacyPopUp.cpp" />
     <ClCompile Include="DiplomaticRelation.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonText.h" />
     <ClInclude Include="ButtonDiplomacyAction.h" />
     <ClInclude Include="DiplomacyPopUp.h" />
     <ClInclude Include="DiplomaticRelation.h" />

@@ -41,10 +41,12 @@
 
 // Unit
 #include "UnitArcher.h"
+#include "UnitEmpty.h"
 #include "UnitSwordsman.h"
 #include "UnitSettler.h"
 
 // District
+#include "DistrictEmpty.h"
 #include "DistrictFarm.h"
 #include "DistrictCityCenter.h"
 
@@ -124,7 +126,9 @@ void GameWindow::CreateButtons()
 void GameWindow::LoadLocalTextures()
 {
     m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
+    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
     assert(m_ressourcesFont != NULL && TTF_GetError());
+    assert(m_infoFont != NULL && TTF_GetError());
 
     m_foodTexture = new Texture();
     m_weaponTexture = new Texture();
@@ -331,6 +335,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadFoodValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, foodTextTexture, NULL, &renderQuadFoodValue);
             SDL_DestroyTexture(foodTextTexture);
+            SDL_FreeSurface(foodSurf);
 
             /************
                WEAPON
@@ -353,6 +358,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadWeaponValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, weaponTextTexture, NULL, &renderQuadWeaponValue);
             SDL_DestroyTexture(weaponTextTexture);
+            SDL_FreeSurface(weaponSurf);
 
             /************
                SCIENCE
@@ -375,6 +381,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadScienceValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, scienceTextTexture, NULL, &renderQuadScienceValue);
             SDL_DestroyTexture(scienceTextTexture);
+            SDL_FreeSurface(scienceSurf);
 
             /************
                 TURN
@@ -395,8 +402,10 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
             SDL_DestroyTexture(turnTextTexture);
+            SDL_FreeSurface(turnSurf);
 
         }
+
 
         //Render Map
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
@@ -578,7 +587,8 @@ void GameWindow::ShowWindow()
 
         //Render Selected district
         {
-            Texture* selectedDistrictTexture = SelectionManager::GetInstance().GetSelectedDistrict()->GetTexture();
+            DistrictBase* selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
+            Texture* selectedDistrictTexture = selectedDistrict->GetTexture();
             int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
             SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
@@ -586,11 +596,118 @@ void GameWindow::ShowWindow()
             //Remove Color and render
             selectedDistrictTexture->SetColor(EMPTY_COLOR);
             SDL_RenderCopy(m_renderer, selectedDistrictTexture->GetTexture(), NULL, &renderQuad);
+
+            SDL_Color textColor = { 255, 255, 255 };
+            int iconTextSpacing = 5;
+            int widthIcon = 64;
+            int heightIcon = 64;
+            int widthText = 0;
+            int heightText = 0;
+            int yText = 0;
+
+            if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+            {
+                xPos += widthIcon + iconTextSpacing;
+
+                /************
+                NAME
+                *************/
+                {
+                    SDL_Surface* nameSurface = TTF_RenderText_Solid(m_infoFont, selectedDistrict->GetName(), textColor);
+                    assert(nameSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* nameTextTexture = SDL_CreateTextureFromSurface(m_renderer, nameSurface);
+                    assert(nameTextTexture != NULL && TTF_GetError());
+
+                    widthText = nameSurface->w;
+                    heightText = nameSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, nameTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(nameTextTexture);
+                    SDL_FreeSurface(nameSurface);
+                }
+                yPos += heightText;
+
+                /************
+                HEALTH
+                *************/
+                {
+                    std::string healthText = "Health : ";
+                    healthText.append(std::to_string(selectedDistrict->GetHealth()));
+                    healthText.append("/");
+                    healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
+
+                    SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
+                    assert(healthSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* healthTextTexture = SDL_CreateTextureFromSurface(m_renderer, healthSurface);
+                    assert(healthTextTexture != NULL && TTF_GetError());
+
+                    widthText = healthSurface->w;
+                    heightText = healthSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, healthTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(healthTextTexture);
+                    SDL_FreeSurface(healthSurface);
+                }
+                yPos += heightText;
+
+                /************
+                ATTACK
+                *************/
+                {
+                    std::string attackText = "Atk dmg : ";
+                    attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+
+                    SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(attackSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* attackTextTexture = SDL_CreateTextureFromSurface(m_renderer, attackSurface);
+                    assert(attackTextTexture != NULL && TTF_GetError());
+
+                    widthText = attackSurface->w;
+                    heightText = attackSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, attackTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(attackTextTexture);
+                    SDL_FreeSurface(attackSurface);
+                }
+                yPos += heightText;
+
+                /************
+                ACTION
+                *************/
+                {
+                    std::string attackText = "Action left : ";
+                    attackText.append(std::to_string(selectedDistrict->GetActionPointsRemaining()));
+
+                    SDL_Surface* actionSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(actionSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* actionTextTexture = SDL_CreateTextureFromSurface(m_renderer, actionSurface);
+                    assert(actionTextTexture != NULL && TTF_GetError());
+
+                    widthText = actionSurface->w;
+                    heightText = actionSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, actionTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(actionTextTexture);
+                    SDL_FreeSurface(actionSurface);
+                }
+
+                delete selectedDistrict;
+            }
+
         }
 
         //Render Selected unit
         {
-            Texture* selectedUnitTexture = SelectionManager::GetInstance().GetSelectedUnit()->GetTexture();
+            UnitBase* selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
+            Texture* selectedUnitTexture = selectedUnit->GetTexture();
             int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
             SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
@@ -598,6 +715,112 @@ void GameWindow::ShowWindow()
             //Remove Color and render
             selectedUnitTexture->SetColor(EMPTY_COLOR);
             SDL_RenderCopy(m_renderer, selectedUnitTexture->GetTexture(), NULL, &renderQuad);
+
+            SDL_Color textColor = { 255, 255, 255 };
+            int iconTextSpacing = 10;
+            int widthIcon = 64;
+            int widthText = 0;
+            int heightText = 0;
+            int yText = 0;
+
+            if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+            {
+                xPos += widthIcon + iconTextSpacing;
+
+                /************
+                NAME
+                *************/
+                {
+                    SDL_Surface* nameSurface = TTF_RenderText_Solid(m_infoFont, selectedUnit->GetName(), textColor);
+                    assert(nameSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* nameTextTexture = SDL_CreateTextureFromSurface(m_renderer, nameSurface);
+                    assert(nameTextTexture != NULL && TTF_GetError());
+
+                    widthText = nameSurface->w;
+                    heightText = nameSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, nameTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(nameTextTexture);
+                    SDL_FreeSurface(nameSurface);
+                }
+                yPos += heightText;
+
+                /************
+                HEALTH
+                *************/
+                {
+                    std::string healthText = "Health : ";
+                    healthText.append(std::to_string(selectedUnit->GetHealth()));
+                    healthText.append("/");
+                    healthText.append(std::to_string(selectedUnit->GetMaxHealth()));
+
+                    SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
+                    assert(healthSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* healthTextTexture = SDL_CreateTextureFromSurface(m_renderer, healthSurface);
+                    assert(healthTextTexture != NULL && TTF_GetError());
+
+                    widthText = healthSurface->w;
+                    heightText = healthSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, healthTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(healthTextTexture);
+                    SDL_FreeSurface(healthSurface);
+                }
+                yPos += heightText;
+
+                /************
+                ATTACK
+                *************/
+                {
+                    std::string attackText = "Atk dmg : ";
+                    attackText.append(std::to_string(selectedUnit->GetAttackDamage()));
+                    attackText.append("    Range :");
+                    attackText.append(std::to_string(selectedUnit->GetAttackRange()));
+
+                    SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(attackSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* attackTextTexture = SDL_CreateTextureFromSurface(m_renderer, attackSurface);
+                    assert(attackTextTexture != NULL && TTF_GetError());
+
+                    widthText = attackSurface->w;
+                    heightText = attackSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, attackTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(attackTextTexture);
+                    SDL_FreeSurface(attackSurface);
+                }
+                yPos += heightText;
+
+                /************
+                ACTION
+                *************/
+                {
+                    std::string attackText = "Action left : ";
+                    attackText.append(std::to_string(selectedUnit->GetActionPointsRemaining()));
+
+                    SDL_Surface* actionSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
+                    assert(actionSurface != NULL && TTF_GetError());
+
+                    SDL_Texture* actionTextTexture = SDL_CreateTextureFromSurface(m_renderer, actionSurface);
+                    assert(actionTextTexture != NULL && TTF_GetError());
+
+                    widthText = actionSurface->w;
+                    heightText = actionSurface->h;
+
+                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
+                    SDL_RenderCopy(m_renderer, actionTextTexture, NULL, &renderQuadTurnValue);
+                    SDL_DestroyTexture(actionTextTexture);
+                    SDL_FreeSurface(actionSurface);
+                }
+
+                delete selectedUnit;
+            }
         }
         //Render the different popUps
         for (PopUpWindow* popUp : m_activePopUpWindow)
@@ -621,9 +844,11 @@ void GameWindow::Close()
 {
     //Destroy window
     TTF_CloseFont(m_ressourcesFont);
+    TTF_CloseFont(m_infoFont);
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     m_ressourcesFont = NULL;
+    m_infoFont = NULL;
     m_window = NULL;
     m_renderer = NULL;
 

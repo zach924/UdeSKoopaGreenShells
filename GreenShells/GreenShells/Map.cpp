@@ -163,13 +163,13 @@ TileBase* Map::GetTile(Position position)
     return m_tiles[position.Row][position.Column];
 }
 
-void Map::NotifyNewturn()
+void Map::NotifyNewTurn(int turn)
 {
     for (std::vector<TileBase*>& tileRow : m_tiles)
     {
         for (TileBase* tile : tileRow)
         {
-            tile->NotifyNewTurn();
+            tile->NotifyNewTurn(turn);
         }
     }
 }
