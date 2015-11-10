@@ -2,7 +2,7 @@
 #include "PopUpWindow.h"
 #include <vector>
 
-class ButtonDiplomacyAction;
+class ButtonText;
 
 class DiplomacyPopUp : public PopUpWindow
 {
@@ -20,8 +20,8 @@ class DiplomacyPopUp : public PopUpWindow
     const int BUTTON_WIDTH = 120;
     const int BUTTON_HEIGHT = 40;
 
-    std::vector <std::pair<ButtonDiplomacyAction, std::function<void()> > > m_buttons;
-    ButtonDiplomacyAction* m_buttonClose;
+    std::vector <ButtonText> m_buttons;
+    ButtonText* m_buttonClose;
     TTF_Font* m_textFont;
     TTF_Font* m_buttonFont;
     

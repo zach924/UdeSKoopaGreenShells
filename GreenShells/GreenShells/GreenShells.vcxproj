@@ -164,7 +164,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
-    <ClCompile Include="ButtonDiplomacyAction.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="ButtonText.cpp" />
     <ClCompile Include="DiplomacyPopUp.cpp" />
@@ -230,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonText.h" />
-    <ClInclude Include="ButtonDiplomacyAction.h" />
     <ClInclude Include="DiplomacyPopUp.h" />
     <ClInclude Include="DiplomaticRelation.h" />
     <ClInclude Include="MapFilter.h" />
