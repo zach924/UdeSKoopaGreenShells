@@ -314,8 +314,6 @@
     </ClCompile>
     <ClCompile Include="PlayerRemote.cpp">
       <Filter>Source Files\Player</Filter>
-
-
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +523,6 @@
     </ClInclude>
     <ClInclude Include="PlayerRemote.h">
       <Filter>Header Files\Player</Filter>
-    </ClInclude>
-
-
     </ClInclude>
   </ItemGroup>
 </Project>
