@@ -7,8 +7,6 @@ class DistrictEmpty :
     public District<DistrictEmpty>
 {
 public:
-    static const int DISTRICT_TYPE = -1;
-
     typedef District<DistrictEmpty> tBase;
     DistrictEmpty(int owner);
     ~DistrictEmpty();

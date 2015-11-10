@@ -600,7 +600,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
+            if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
             {
                 xPos += widthIcon + iconTextSpacing;
 
@@ -718,7 +718,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
+            if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
             {
                 xPos += widthIcon + iconTextSpacing;
 

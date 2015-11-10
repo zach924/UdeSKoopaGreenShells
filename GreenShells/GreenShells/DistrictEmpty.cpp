@@ -26,7 +26,8 @@ void DistrictEmpty::LoadTexture()
 
 int DistrictEmpty::GetTypeAsInt()
 {
-    return DISTRICT_TYPE;
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
+    return -1;
 }
 
 bool DistrictEmpty::CanUpgrade()

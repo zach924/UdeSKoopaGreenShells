@@ -7,7 +7,6 @@ class UnitEmpty : public Unit<UnitEmpty>
 {
 public:
     typedef Unit<UnitEmpty> tBase;
-    static int const UNIT_TYPE = -1;
 
 public:
     UnitEmpty(int owner);

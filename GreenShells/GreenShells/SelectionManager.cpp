@@ -245,7 +245,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonConstructDistrict*>(btn) != nullptr)
         {
-            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
+            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
@@ -257,7 +257,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonSpawnUnit*>(btn) != nullptr)
         {
-            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
+            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
@@ -295,11 +295,11 @@ void SelectionManager::UpdateButtonState()
         }
     }
 
-    if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
+    if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
     {
         delete selectedDistrict;
     }
-    if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
+    if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
     {
         delete selectedUnit;
     }
