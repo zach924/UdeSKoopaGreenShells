@@ -334,6 +334,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadFoodValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, foodTextTexture, NULL, &renderQuadFoodValue);
             SDL_DestroyTexture(foodTextTexture);
+            SDL_FreeSurface(foodSurf);
 
             /************
                WEAPON
@@ -356,6 +357,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadWeaponValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, weaponTextTexture, NULL, &renderQuadWeaponValue);
             SDL_DestroyTexture(weaponTextTexture);
+            SDL_FreeSurface(weaponSurf);
 
             /************
                SCIENCE
@@ -378,6 +380,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadScienceValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, scienceTextTexture, NULL, &renderQuadScienceValue);
             SDL_DestroyTexture(scienceTextTexture);
+            SDL_FreeSurface(scienceSurf);
 
             /************
                 TURN
@@ -398,6 +401,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadTurnValue = { x, yText, widthText, heightText };
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
             SDL_DestroyTexture(turnTextTexture);
+            SDL_FreeSurface(turnSurf);
 
         }
 
