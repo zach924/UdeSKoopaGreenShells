@@ -21,11 +21,10 @@ class DiplomacyPopUp : public PopUpWindow
     const int BUTTON_HEIGHT = 40;
 
     std::vector <std::pair<ButtonDiplomacyAction, std::function<void()> > > m_buttons;
+    ButtonDiplomacyAction* m_buttonClose;
     TTF_Font* m_textFont;
     TTF_Font* m_buttonFont;
-
-    void ClearButtons();
-
+    
 public:
     DiplomacyPopUp();
     ~DiplomacyPopUp();

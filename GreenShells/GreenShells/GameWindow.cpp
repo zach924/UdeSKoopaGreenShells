@@ -223,6 +223,7 @@ void GameWindow::ShowWindow()
                         //Remove it from the vector
                         m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
                         popUpToRemove->Close();
+                        SelectionManager::GetInstance().UpdateButtonState();
                     }
                 }
             }
