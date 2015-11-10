@@ -21,13 +21,11 @@ ClickManager::~ClickManager()
 void ClickManager::AddButton(Button* button)
 {
     m_buttons.emplace_back(button);
-void ClickManager::CleatButtons()
-{
-	m_unitButtons.clear();
-	m_districtButtons.clear();
-	m_generalButtons.clear();
 }
 
+void ClickManager::ClearButtons()
+{
+    m_buttons.clear();
 }
 
 const std::vector<Button*>& ClickManager::GetButtons()

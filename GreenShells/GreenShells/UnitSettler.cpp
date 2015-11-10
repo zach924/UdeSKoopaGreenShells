@@ -22,7 +22,6 @@ void UnitSettler::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\settler.bmp");
-		std::cout << "Loading UNIT_SETTLER" << std::endl;
 	}
     catch (std::exception e)
     {

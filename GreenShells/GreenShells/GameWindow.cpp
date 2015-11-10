@@ -84,8 +84,7 @@ GameWindow::GameWindow(ScreenResolution res)
 
     SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     CreateButtons();
-	ClickManager::GetInstance().AddButton(new ButtonQuit(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonRes(0,1,1, m_CurrentScreen.MAX_WIDTH - 200, 10, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+
     LoadLocalTextures();
 }
 
@@ -130,6 +129,10 @@ void GameWindow::CreateButtons()
     ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
     ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
     ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+
+    //Menu
+    ClickManager::GetInstance().AddButton(new ButtonQuit(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonRes(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 200, 10, ButtonState::Unpressed));
 }
 
 void GameWindow::LoadLocalTextures()
@@ -149,16 +152,12 @@ void GameWindow::LoadLocalTextures()
         // Do not remove the renderer from this call otherwise the Load from file will call
         // GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
         m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
-        std::cout << "Loading RESSOURCE_FOOD" << std::endl;
 
         m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
-        std::cout << "Loading RESSOURCE_WEAPON" << std::endl;
 
         m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
-        std::cout << "Loading RESSOURCE_SCIENCE" << std::endl;
 
         m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
-        std::cout << "Loading RESSOURCE_OVERLAY" << std::endl;
 
     }
     catch (std::exception e)
@@ -907,12 +906,8 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	assert(m_renderer != NULL && SDL_GetError());
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	ClickManager::GetInstance().CleatButtons();
-	CreateGeneralButtons();
-	CreateDistrictButtons();
-	CreateUnitButtons();
-	ClickManager::GetInstance().AddButton(new ButtonQuit(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
-	ClickManager::GetInstance().AddButton(new ButtonRes(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 200, 10, ButtonState::Unpressed), LeftMenuPart::GeneralPart);
+	ClickManager::GetInstance().ClearButtons();
+    CreateButtons();
 	LoadLocalTextures();
 
 	// TODO : meh ....

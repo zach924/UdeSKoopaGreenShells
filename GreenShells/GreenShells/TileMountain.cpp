@@ -26,7 +26,6 @@ void TileMountain::LoadTexture()
     try
     {
         TileMountain::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Mountain.bmp");
-		std::cout << "Loading TILE_MOUNTAIN" << std::endl;
 	}
     catch (std::exception e)
     {

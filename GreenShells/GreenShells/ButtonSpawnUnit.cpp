@@ -23,7 +23,6 @@ void ButtonSpawnUnit::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\SpawnUnit_text.bmp", rend);
-        std::cout << "Loading TEXT_BUTTON_SPAWN_U" << std::endl;
     }
     catch (std::exception e)
     {

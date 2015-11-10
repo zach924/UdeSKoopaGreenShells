@@ -22,7 +22,6 @@ void TileGround::LoadTexture()
     try
     {
         TileGround::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Grass.bmp");
-		std::cout << "Loading TILE_GROUND" << std::endl;
 	}
     catch (std::exception e)
     {

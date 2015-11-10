@@ -25,7 +25,6 @@ void TileWater::LoadTexture()
     try
     {
         TileWater::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Water.bmp");
-		std::cout << "Loading TILE_WATER" << std::endl;
 	}
     catch (std::exception e)
     {

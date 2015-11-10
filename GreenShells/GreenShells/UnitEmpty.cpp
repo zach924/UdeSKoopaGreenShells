@@ -28,7 +28,6 @@ void UnitEmpty::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\emptyUnit.bmp");
-		std::cout << "Loading UNIT_EMPTY" << std::endl;
 	}
     catch (std::exception e)
     {

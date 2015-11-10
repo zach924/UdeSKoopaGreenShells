@@ -21,8 +21,6 @@ void ButtonUnitUpgrade::LoadTextTexture(SDL_Renderer* rend)
     try
     {
         m_textTexture.LoadFromFile("..\\Sprite\\Button\\Upgrade_text.bmp", rend);
-        std::cout << "Loading TEXT_BUTTON_UPGRADE_U" << std::endl;
-
     }
     catch (std::exception e)
     {
