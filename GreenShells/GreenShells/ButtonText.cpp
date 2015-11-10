@@ -28,7 +28,7 @@ void ButtonText::LoadTextTexture(SDL_Renderer * rend)
 {
     try
     {
-        TTF_Font* font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 30);
+        TTF_Font* font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
         m_textTexture.CreateFromText(m_text, font, rend);
     }
     catch (std::exception e)

@@ -3,7 +3,7 @@
 #include "PopUpWindow.h"
 
 PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
-    :m_wind(), m_screenSurface(), m_rend(), m_fontSize(24), m_width(width)
+    :m_wind(), m_screenSurface(), m_rend(), m_fontSize(24), m_width(width), m_height(height)
 {
     m_wind = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     assert(m_wind != NULL && SDL_GetError());
