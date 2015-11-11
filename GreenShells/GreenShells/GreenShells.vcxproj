@@ -166,8 +166,9 @@
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="ButtonQuit.cpp" />
+    <ClCompile Include="ButtonSave.cpp" />
     <ClCompile Include="ButtonText.cpp" />
-    <ClCompile Include="ButtonRes.cpp" />
+    <ClCompile Include="ButtonMenu.cpp" />
     <ClCompile Include="ButtonResSelect.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="PlayerLocal.cpp" />
@@ -231,8 +232,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonQuit.h" />
+    <ClInclude Include="ButtonSave.h" />
     <ClInclude Include="ButtonText.h" />
-    <ClInclude Include="ButtonRes.h" />
+    <ClInclude Include="ButtonMenu.h" />
     <ClInclude Include="ButtonResSelect.h" />
     <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />

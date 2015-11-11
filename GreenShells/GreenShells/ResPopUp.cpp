@@ -7,24 +7,35 @@
 ResPopUp::ResPopUp(const char* windowName, int width, int height)
 	:PopUpWindow(windowName, width, height)
 {
-	int y = 10;
-	m_800_600 = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    int buffer = 20;
+    int sectionBuffer = 40;
+    int currentX = 50;
+    int currentY = m_fontSize + buffer;
+    int buttonWidth = 120;
+    int buttonHeight = 50;
 
-	y += 75;
-	m_1280_720 = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    m_allResButtons[0] = new ButtonResSelect("1280_720", currentX, currentY, buttonWidth, buttonHeight, RES_1280_720, ButtonState::Unpressed);
 
-	y += 75;
-	m_1600_900 = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    currentY += buffer + buttonHeight;
+    m_allResButtons[1] = new ButtonResSelect("1600_900", currentX, currentY, buttonWidth, buttonHeight, RES_1600_900, ButtonState::Unpressed);
 
-	y += 75;
-	m_1600_1024 = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    currentY += buffer + buttonHeight;
+    m_allResButtons[2] = new ButtonResSelect("1600_1024", currentX, currentY, buttonWidth, buttonHeight, RES_1600_1024, ButtonState::Unpressed);
 
-	y += 75;
-	m_1920_1080 = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    currentY += sectionBuffer + buttonHeight;
+    m_quitButton = new ButtonQuit(currentX, currentY, buttonWidth, buttonHeight, ButtonState::Unpressed);
 
-	y += 75;
-	m_1920_1080_FullScreen = new ButtonResSelect(0, 1, 1, 50, y, ButtonState::Unpressed);
+    currentY = m_fontSize + buffer;
+    currentX += buttonWidth + buffer;
+    m_allResButtons[3] = new ButtonResSelect("1920_1080", currentX, currentY, buttonWidth, buttonHeight, RES_1920_1080, ButtonState::Unpressed);
 
+    currentY += buffer + buttonHeight;
+    m_allResButtons[4] = new ButtonResSelect("1920_1080*", currentX, currentY, buttonWidth, buttonHeight, RES_1920_1080_FullScreen, ButtonState::Unpressed);
+
+    currentY += buffer + buttonHeight;
+    currentY += sectionBuffer + buttonHeight;
+    m_saveButton = new ButtonSave(currentX, currentY, buttonWidth, buttonHeight, ButtonState::Unpressed);
+    
 }
 
 
@@ -35,60 +46,99 @@ ResPopUp::~ResPopUp()
 void ResPopUp::ShowWindow(SDL_Renderer * rend)
 {
 	SDL_RenderClear(m_rend);
-	RenderButton(m_800_600, rend);
-	RenderButton(m_1280_720, rend);
-	RenderButton(m_1600_900, rend);
-	RenderButton(m_1600_1024, rend);
-	RenderButton(m_1920_1080, rend);
-	RenderButton(m_1920_1080_FullScreen, rend);	
+    int x = 25;
+    int y = 0;
+    int height = m_fontSize;
+
+    for (int i = 0; i < m_texts.size(); ++i)
+    {
+        int width = m_width - 50;
+        
+
+        SDL_Texture* texture = m_texts.at(i);
+
+        y = (i * m_fontSize) + 10;
+
+        SDL_Rect renderQuadText = { x, y, width, height };
+
+        SDL_RenderCopy(m_rend, texture, NULL, &renderQuadText);
+
+        SDL_DestroyTexture(texture);
+    }
+
+    for (ButtonResSelect* button : m_allResButtons)
+    {
+        //the button
+        Texture* buttonTexture = button->GetButtonTexture(m_rend);
+        int buttonX = button->GetLeftX();
+        int buttonY = button->GetTopY();
+
+        //this will stretch the texture to the following width/height
+        int buttonWidth = button->GetWidth();
+        int buttonHeight = button->GetHeight();
+        SDL_Rect buttonRect = { buttonX, buttonY, buttonWidth, buttonHeight };
+        SDL_RenderCopy(m_rend, buttonTexture->GetTexture(), NULL, &buttonRect);
+
+        //the text on the button
+        Texture * textTexture = button->GetTextTexture(m_rend);
+        int textH = textTexture->GetHeight();
+        int textW = textTexture->GetWidth();
+        int horizontalOffset = (buttonWidth - textW) / 2;
+        int verticalOffset = (buttonHeight - textH) / 2;
+        SDL_Rect textRect = { buttonX + horizontalOffset, buttonY + verticalOffset, textW, textH };
+        SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &textRect);
+    }
+    RenderButton(m_quitButton);
+    RenderButton(m_saveButton);
+
 	SDL_RenderPresent(m_rend);
 }
 
-void ResPopUp::RenderButton(ButtonResSelect * butt, SDL_Renderer * rend)
+void ResPopUp::RenderButton(Button* button)
 {
-	int x = butt->GetLeftX();
-	int y = butt->GetTopY();
-	int width = butt->GetWidth();
-	int height = butt->GetHeight();
-	SDL_Rect renderQuad = { x, y, width, height };
+    //the button
+    Texture* buttonTexture = button->GetButtonTexture(m_rend);
+    int buttonX = button->GetLeftX();
+    int buttonY = button->GetTopY();
 
-	Texture* buttonTexture = butt->GetButtonTexture(m_rend);
-	Texture * textTexture = butt->GetTextTexture(m_rend);
+    //this will stretch the texture to the following width/height
+    int buttonWidth = button->GetWidth();
+    int buttonHeight = button->GetHeight();
+    SDL_Rect buttonRect = { buttonX, buttonY, buttonWidth, buttonHeight };
+    SDL_RenderCopy(m_rend, buttonTexture->GetTexture(), NULL, &buttonRect);
 
-	SDL_RenderCopy(m_rend, buttonTexture->GetTexture(), NULL, &renderQuad);
-	SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &renderQuad);
+    //the text on the button
+    Texture * textTexture = button->GetTextTexture(m_rend);
+    int textH = textTexture->GetHeight();
+    int textW = textTexture->GetWidth();
+    int horizontalOffset = (buttonWidth - textW) / 2;
+    int verticalOffset = (buttonHeight - textH) / 2;
+    SDL_Rect textRect = { buttonX + horizontalOffset, buttonY + verticalOffset, textW, textH };
+    SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &textRect);
 }
 
 bool ResPopUp::handleEvent(SDL_Event & e)
 {
-	if (m_800_600->IsUnpressed() && m_800_600->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_800_600);
-		return true;
-	}
-	if (m_1280_720->IsUnpressed() && m_1280_720->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_1280_720);
-		return true;
-	}
-	if (m_1600_900->IsUnpressed() && m_1600_900->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_1600_900);
-		return true;
-	}
-	if (m_1600_1024->IsUnpressed() && m_1600_1024->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_1600_1024);
-		return true;
-	}
-	if (m_1920_1080->IsUnpressed() && m_1920_1080->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_1920_1080);
-		return true;
-	}
-	if (m_1920_1080_FullScreen->IsUnpressed() && m_1920_1080_FullScreen->IsInside(e.button.x, e.button.y))
-	{
-		GameWindow::GetInstance().ChangeResolution(RES_1920_1080_FullScreen);
-		return true;
-	}
+    for (ButtonResSelect* button : m_allResButtons)
+    {
+        if (button->IsUnpressed() && button->IsInside(e.button.x, e.button.y))
+        {
+            GameWindow::GetInstance().ChangeResolution(button->GetRes());
+            return true;
+        }
+    }
+
+    if (m_quitButton->IsUnpressed() && m_quitButton->IsInside(e.button.x, e.button.y))
+    {
+        m_quitButton->DoAction();
+        return true;
+    }
+    
+    if (m_saveButton->IsUnpressed() && m_saveButton->IsInside(e.button.x, e.button.y))
+    {
+        m_saveButton->DoAction();
+        return true;
+    }
+    
+    return false;
 }

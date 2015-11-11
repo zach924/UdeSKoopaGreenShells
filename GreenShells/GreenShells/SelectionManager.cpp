@@ -33,8 +33,7 @@
 #include "ButtonSpawnUnit.h"
 #include "ButtonGeneralCancel.h"
 #include "ButtonSkillTree.h"
-#include "ButtonRes.h"
-#include "ButtonQuit.h"
+#include "ButtonMenu.h"
 
 SelectionManager::SelectionManager()
     :m_state(m_idle)
@@ -291,11 +290,7 @@ void SelectionManager::UpdateButtonState()
                 btn->SetButtonState(ButtonState::Unpressed);
             }
         }
-        else if (dynamic_cast<ButtonRes*>(btn) != nullptr)
-        {
-            btn->SetButtonState(ButtonState::Unpressed);
-        }
-        else if (dynamic_cast<ButtonQuit*>(btn) != nullptr)
+        else if (dynamic_cast<ButtonMenu*>(btn) != nullptr)
         {
             btn->SetButtonState(ButtonState::Unpressed);
         }

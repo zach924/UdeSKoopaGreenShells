@@ -38,8 +38,8 @@
 #include "ButtonDistrictSell.h"
 #include "ButtonDistrictUpgrade.h"
 
-#include "ButtonQuit.h"
-#include "ButtonRes.h"
+//#include "ButtonQuit.h"
+#include "ButtonMenu.h"
 #include "ButtonNextTurn.h"
 
 
@@ -131,8 +131,7 @@ void GameWindow::CreateButtons()
     ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
 
     //Menu
-    ClickManager::GetInstance().AddButton(new ButtonQuit(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed));
-    ClickManager::GetInstance().AddButton(new ButtonRes(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 200, 10, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonMenu(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed));
 }
 
 void GameWindow::LoadLocalTextures()
@@ -172,10 +171,6 @@ void GameWindow::ShowWindow()
 
 	while (!m_doQuit)
 	{
-		
-		
-
-
 		SDL_Event e;
 
 		//Handle events on queue
@@ -243,6 +238,7 @@ void GameWindow::ShowWindow()
 						//Remove it from the vector
 						m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
 						popUpToRemove->Close();
+                        SelectionManager::GetInstance().UpdateButtonState();
 					}
 				}
 			}
