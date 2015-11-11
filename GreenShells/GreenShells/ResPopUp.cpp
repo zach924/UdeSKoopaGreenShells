@@ -46,25 +46,14 @@ ResPopUp::~ResPopUp()
 void ResPopUp::ShowWindow(SDL_Renderer * rend)
 {
 	SDL_RenderClear(m_rend);
-    int x = 25;
-    int y = 0;
+    int horizontalPos = 25;
+    int verticalPos = 0;
     int height = m_fontSize;
 
-    for (int i = 0; i < m_texts.size(); ++i)
-    {
-        int width = m_width - 50;
-        
-
-        SDL_Texture* texture = m_texts.at(i);
-
-        y = (i * m_fontSize) + 10;
-
-        SDL_Rect renderQuadText = { x, y, width, height };
-
-        SDL_RenderCopy(m_rend, texture, NULL, &renderQuadText);
-
-        SDL_DestroyTexture(texture);
-    }
+    Texture menuHeader;
+    menuHeader.CreateFromText("Menu", m_font, m_rend);
+    SDL_Rect menuHeaderRect{ horizontalPos, verticalPos, menuHeader.GetWidth(), menuHeader.GetHeight() };
+    SDL_RenderCopy(m_rend, menuHeader.GetTexture(), NULL, &menuHeaderRect);
 
     for (ButtonResSelect* button : m_allResButtons)
     {

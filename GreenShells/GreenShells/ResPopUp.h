@@ -8,6 +8,7 @@ class ResPopUp :
 	public PopUpWindow
 {
 private:
+
     ButtonResSelect* m_allResButtons [5];
     ButtonQuit * m_quitButton;
     ButtonSave * m_saveButton;

@@ -319,7 +319,7 @@
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSave.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI\Button\MenuButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -534,7 +534,7 @@
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>
     <ClInclude Include="ButtonSave.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

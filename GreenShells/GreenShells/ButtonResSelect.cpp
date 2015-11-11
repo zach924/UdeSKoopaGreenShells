@@ -12,7 +12,6 @@ ButtonResSelect::ButtonResSelect(std::string resolutionText, int posX, int posY,
 
 ButtonResSelect::~ButtonResSelect()
 {
-    std::cout << "BTN DELETE" << std::endl;
 }
 
 void ButtonResSelect::DoAction()
