@@ -3,11 +3,11 @@
 class ButtonQuit : public Button
 {
 public:
-	ButtonQuit(int posX, int posY, int width, int height, ButtonState state);
-	~ButtonQuit();
+    ButtonQuit(int posX, int posY, int width, int height, ButtonState state);
+    ~ButtonQuit();
 
-	void DoAction();
+    void DoAction();
 
-	void LoadTextTexture(SDL_Renderer* rend = nullptr);
+    void LoadTextTexture(SDL_Renderer* rend = nullptr);
 };
 

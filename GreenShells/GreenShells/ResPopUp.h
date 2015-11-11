@@ -5,7 +5,7 @@
 #include "ButtonSave.h"
 
 class ResPopUp :
-	public PopUpWindow
+    public PopUpWindow
 {
 private:
 
@@ -14,12 +14,12 @@ private:
     ButtonSave * m_saveButton;
 
 public:
-	ResPopUp(const char* windowName, int width, int height);
-	~ResPopUp();
+    ResPopUp(const char* windowName, int width, int height);
+    ~ResPopUp();
 
-	void ShowWindow(SDL_Renderer* rend);
+    void ShowWindow(SDL_Renderer* rend);
 
-	bool handleEvent(SDL_Event& e);
+    bool handleEvent(SDL_Event& e);
     void RenderButton(Button* button);
 
 };

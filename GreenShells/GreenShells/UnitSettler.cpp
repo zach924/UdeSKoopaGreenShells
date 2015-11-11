@@ -22,7 +22,7 @@ void UnitSettler::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\settler.bmp");
-	}
+    }
     catch (std::exception e)
     {
         std::string msg{ e.what() };
@@ -37,12 +37,12 @@ bool UnitSettler::CanUpgrade()
 
 int UnitSettler::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * UnitSettler::GetName()
 {
-	return UNIT_NAME;
+    return UNIT_NAME;
 }
 
 int UnitSettler::GetTypeAsInt()

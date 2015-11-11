@@ -39,12 +39,12 @@ void DistrictCityCenter::ChangeOwner(int owner)
 
 int DistrictCityCenter::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * DistrictCityCenter::GetName()
 {
-	return NAME;
+    return NAME;
 }
 
 int DistrictCityCenter::GetTypeAsInt()

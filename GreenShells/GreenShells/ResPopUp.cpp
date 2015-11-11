@@ -5,7 +5,7 @@
 
 
 ResPopUp::ResPopUp(const char* windowName, int width, int height)
-	:PopUpWindow(windowName, width, height)
+    :PopUpWindow(windowName, width, height)
 {
     int buffer = 20;
     int sectionBuffer = 40;
@@ -45,7 +45,7 @@ ResPopUp::~ResPopUp()
 
 void ResPopUp::ShowWindow(SDL_Renderer * rend)
 {
-	SDL_RenderClear(m_rend);
+    SDL_RenderClear(m_rend);
     int horizontalPos = 25;
     int verticalPos = 0;
     int height = m_fontSize;
@@ -80,7 +80,7 @@ void ResPopUp::ShowWindow(SDL_Renderer * rend)
     RenderButton(m_quitButton);
     RenderButton(m_saveButton);
 
-	SDL_RenderPresent(m_rend);
+    SDL_RenderPresent(m_rend);
 }
 
 void ResPopUp::RenderButton(Button* button)

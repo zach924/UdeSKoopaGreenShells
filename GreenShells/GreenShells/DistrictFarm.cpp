@@ -18,7 +18,7 @@ void DistrictFarm::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\farm.bmp");
-	}
+    }
     catch (std::exception e)
     {
         std::string msg{ e.what() };
@@ -42,12 +42,12 @@ bool DistrictFarm::CanUpgrade()
 
 int DistrictFarm::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * DistrictFarm::GetName()
 {
-	return NAME;
+    return NAME;
 }
 
 int DistrictFarm::GetTypeAsInt()

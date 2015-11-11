@@ -4,18 +4,18 @@
 #include "GameWindow.h"
 
 class ButtonResSelect :
-	public Button
+    public Button
 {
 private:
     std::string m_resText;
     ScreenResolution m_res;
 public:
-	ButtonResSelect(std::string resolutionText, int posX, int posY, int width, int height, ScreenResolution res, ButtonState = ButtonState::Disabled);
-	~ButtonResSelect();
+    ButtonResSelect(std::string resolutionText, int posX, int posY, int width, int height, ScreenResolution res, ButtonState = ButtonState::Disabled);
+    ~ButtonResSelect();
 
-	void DoAction();
+    void DoAction();
 
-	void LoadTextTexture(SDL_Renderer* rend = nullptr);
+    void LoadTextTexture(SDL_Renderer* rend = nullptr);
 
     ScreenResolution& GetRes();
 };

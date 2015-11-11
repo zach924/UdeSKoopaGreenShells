@@ -22,7 +22,7 @@ public:
     }
 
     void AddButton(Button* button);
-	void ClearButtons();
+    void ClearButtons();
     const std::vector<Button*>& GetButtons();
 
     void ManageMapClick(const Position& position);

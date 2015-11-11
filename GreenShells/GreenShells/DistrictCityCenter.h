@@ -23,12 +23,12 @@ public:
 
     void ChangeOwner(int owner);
 
-	virtual int GetMaxHealth();
-	virtual const char* GetName();
+    virtual int GetMaxHealth();
+    virtual const char* GetName();
     virtual int GetTypeAsInt();
 
     virtual void Repair(int repairValue);
-	virtual bool CanUpgrade();
+    virtual bool CanUpgrade();
 
     static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
 };

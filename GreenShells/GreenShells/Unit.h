@@ -9,7 +9,7 @@ class Unit : public UnitBase
 public:
     static Texture m_Texture;
     void LoadTexture() {};
-	static bool m_forceLoading;
+    static bool m_forceLoading;
     virtual int GetTypeAsInt() = 0;
 
 public:
@@ -35,13 +35,13 @@ public:
         if (!m_Texture.IsLoaded() || m_forceLoading)
         {
             static_cast<T*>(this)->LoadTexture();
-			m_forceLoading = false;
+            m_forceLoading = false;
         }
         return &m_Texture;
     }
 
-	static void ForceReload()
-	{
-		m_forceLoading = true;
-	}
+    static void ForceReload()
+    {
+        m_forceLoading = true;
+    }
 };

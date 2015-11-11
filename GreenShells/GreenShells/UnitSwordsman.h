@@ -10,7 +10,7 @@ public:
     static int const HEALTH = 100;
     static int const MOVE_RANGE = 1;
     static int const UNIT_TYPE = 0;
-	static const char* UNIT_NAME;
+    static const char* UNIT_NAME;
 
 public:
     UnitSwordsman(int owner);
@@ -19,8 +19,8 @@ public:
     void LoadTexture();
 
     virtual bool CanUpgrade();
-	virtual int GetMaxHealth();
-	virtual const char* GetName();
+    virtual int GetMaxHealth();
+    virtual const char* GetName();
     virtual int GetTypeAsInt();
     virtual void Heal(int health);
 

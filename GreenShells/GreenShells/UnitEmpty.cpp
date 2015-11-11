@@ -28,7 +28,7 @@ void UnitEmpty::LoadTexture()
     try
     {
         m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\emptyUnit.bmp");
-	}
+    }
     catch (std::exception e)
     {
         std::string msg{ e.what() };

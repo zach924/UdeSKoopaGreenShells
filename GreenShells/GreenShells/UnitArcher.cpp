@@ -38,12 +38,12 @@ bool UnitArcher::CanUpgrade()
 
 int UnitArcher::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * UnitArcher::GetName()
 {
-	return UNIT_NAME;
+    return UNIT_NAME;
 }
 
 int UnitArcher::GetTypeAsInt()

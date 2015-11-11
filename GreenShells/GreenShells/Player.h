@@ -81,7 +81,7 @@ public:
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
-	MapFilter GetMoveRestriction();
+    MapFilter GetMoveRestriction();
 
     virtual boost::property_tree::ptree Serialize();
 };
