@@ -4,7 +4,7 @@
 #include "ButtonQuit.h"
 #include "ButtonSave.h"
 
-class ResPopUp :
+class MenuPopUp :
     public PopUpWindow
 {
 private:
@@ -14,8 +14,8 @@ private:
     ButtonSave * m_saveButton;
 
 public:
-    ResPopUp(const char* windowName, int width, int height);
-    ~ResPopUp();
+    MenuPopUp(const char* windowName, int width, int height);
+    ~MenuPopUp();
 
     void ShowWindow(SDL_Renderer* rend);
 

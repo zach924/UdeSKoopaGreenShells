@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ButtonMenu.h"
 
-#include "ResPopUp.h"
+#include "MenuPopUp.h"
 #include "GameWindow.h"
 
 
@@ -17,7 +17,7 @@ ButtonMenu::~ButtonMenu()
 
 void ButtonMenu::DoAction()
 {
-    ResPopUp* popUp = new ResPopUp("Menu", 360, 375);
+    MenuPopUp* popUp = new MenuPopUp("Menu", 360, 375);
 
     GameWindow::GetInstance().AddPopUpWindow(popUp);
 }

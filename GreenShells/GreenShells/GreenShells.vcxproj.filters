@@ -315,11 +315,11 @@
     <ClCompile Include="ButtonQuit.cpp">
       <Filter>Source Files\UI\Button\MenuButton</Filter>
     </ClCompile>
-    <ClCompile Include="ResPopUp.cpp">
-      <Filter>Source Files\UI\PopupWindow</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonSave.cpp">
       <Filter>Source Files\UI\Button\MenuButton</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -527,14 +527,14 @@
     <ClInclude Include="ButtonMenu.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>
-    <ClInclude Include="ResPopUp.h">
-      <Filter>Header Files\UI\PopupWindow</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonResSelect.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>
     <ClInclude Include="ButtonSave.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

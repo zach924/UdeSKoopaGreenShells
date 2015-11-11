@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <utility>
 #include <assert.h>
-#include <algorithm>
 
 #include "UnitBase.h"
 #include "DistrictBase.h"
@@ -56,7 +55,7 @@
 GameWindow::GameWindow(ScreenResolution res)
     :m_window()
     , m_renderer()
-    , m_CurrentScreen(res)
+    , m_CurrentScreenResolution(res)
     , m_currentLeftmostColumn(0)
     , m_currentLowestRow(0)
     , m_currentlyScrolling(false)
@@ -71,8 +70,8 @@ GameWindow::GameWindow(ScreenResolution res)
     assert(SDL_Init(SDL_INIT_VIDEO) >= 0 && SDL_GetError());
     assert(TTF_Init() >= 0 && TTF_GetError());
 
-    auto windowType = m_CurrentScreen.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
-    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, windowType);
+    auto windowType = m_CurrentScreenResolution.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
+    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreenResolution.MAX_WIDTH, m_CurrentScreenResolution.MAX_HEIGHT, windowType);
     assert(m_window != NULL && SDL_GetError());
 
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
@@ -101,34 +100,34 @@ GameWindow::~GameWindow()
 
 void GameWindow::CreateButtons()
 {
-    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
-    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
-    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDiplomacy(0, 1, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonSkillTree(0, 2, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
     
     //Next turn
-    ClickManager::GetInstance().AddButton(new ButtonNextTurn(m_CurrentScreen.MINIMAP_BORDER_X,
-        m_CurrentScreen.MINIMAP_BORDER_Y - m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT,
-        m_CurrentScreen.NEXT_TURN_BUTTON_WIDTH,
-        m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT));
+    ClickManager::GetInstance().AddButton(new ButtonNextTurn(m_CurrentScreenResolution.MINIMAP_BORDER_X,
+        m_CurrentScreenResolution.MINIMAP_BORDER_Y - m_CurrentScreenResolution.NEXT_TURN_BUTTON_HEIGHT,
+        m_CurrentScreenResolution.NEXT_TURN_BUTTON_WIDTH,
+        m_CurrentScreenResolution.NEXT_TURN_BUTTON_HEIGHT));
 
     //Districts
-    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreen.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictUpgrade(m_CurrentScreenResolution.DISTRICT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictSell(m_CurrentScreenResolution.DISTRICT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictRepair(m_CurrentScreenResolution.DISTRICT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonDistrictCancel(m_CurrentScreenResolution.DISTRICT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
 
     //Units
-    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
-    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreen.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreen.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitAttack(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 1, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitHeal(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 2, 1, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitUpgrade(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 1, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitSell(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 2, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitMove(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 1, 3, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
+    ClickManager::GetInstance().AddButton(new ButtonUnitCancel(m_CurrentScreenResolution.UNIT_MENU_BUTTON_HEIGHT, 2, 3, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
 
     //Menu
-    ClickManager::GetInstance().AddButton(new ButtonMenu(0, 1, 1, m_CurrentScreen.MAX_WIDTH - 100, 10, ButtonState::Unpressed));
+    ClickManager::GetInstance().AddButton(new ButtonMenu(0, 1, 1, m_CurrentScreenResolution.MAX_WIDTH - 100, 10, ButtonState::Unpressed));
 }
 
 void GameWindow::LoadLocalTextures()
@@ -183,17 +182,17 @@ void GameWindow::ShowWindow()
                 {
                     if (IsClickInMap(e.button.x, e.button.y))
                     {
-                        int posCol = ((e.button.x - m_CurrentScreen.HUD_WIDTH) / m_CurrentScreen.TILE_SIZE) + m_currentLeftmostColumn;
+                        int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
                         posCol %= Map::COLUMNS;
 
-                        int posRow = ((e.button.y - m_CurrentScreen.HUD_HEIGHT) / m_CurrentScreen.TILE_SIZE) + m_currentLowestRow;
+                        int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
                         posRow %= Map::ROWS;
 
                         ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
                     }
                     else if (IsClickInMinimap(e.button.x, e.button.y))
                     {
-                        int posCol = ((e.button.x - m_CurrentScreen.MINIMAP_POSX) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_WIDTH / 2);
+                        int posCol = ((e.button.x - m_CurrentScreenResolution.MINIMAP_POSX) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
                         if (posCol < 0)
                         {
                             posCol += Map::COLUMNS;
@@ -201,7 +200,7 @@ void GameWindow::ShowWindow()
 
                         m_currentLeftmostColumn = posCol;
 
-                        int posRow = ((e.button.y - m_CurrentScreen.MINIMAP_POSY) / m_CurrentScreen.MINIMAP_TILE_SIZE) - (m_CurrentScreen.NUM_TILE_HEIGHT / 2);
+                        int posRow = ((e.button.y - m_CurrentScreenResolution.MINIMAP_POSY) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
                         if (posRow < 0)
                         {
                             posRow += Map::ROWS;
@@ -318,7 +317,7 @@ void GameWindow::ShowWindow()
                 FOOD
             *************/
             int iconTextSpacing = 5;
-            int x = m_CurrentScreen.HUD_WIDTH;
+            int x = m_CurrentScreenResolution.HUD_WIDTH;
             int yIcon = 10;
             int widthIcon = 64;
             int heightIcon = 64;
@@ -426,17 +425,17 @@ void GameWindow::ShowWindow()
         }
 
         int rowIndex = m_currentLowestRow;
-        for (int row = 0; row <= m_CurrentScreen.NUM_TILE_HEIGHT; ++row)
+        for (int row = 0; row <= m_CurrentScreenResolution.NUM_TILE_HEIGHT; ++row)
         {
             int columnIndex = m_currentLeftmostColumn;
-            for (int column = 0; column <= m_CurrentScreen.NUM_TILE_WIDTH; ++column)
+            for (int column = 0; column <= m_CurrentScreenResolution.NUM_TILE_WIDTH; ++column)
             {
                 TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
                 Texture* tileTexture = tile->GetTexture();
 
                 //Position the tile on the screen
-                int xPos = m_CurrentScreen.HUD_WIDTH + (column * m_CurrentScreen.TILE_SIZE);
-                int yPos = m_CurrentScreen.HUD_HEIGHT + (row * m_CurrentScreen.TILE_SIZE);
+                int xPos = m_CurrentScreenResolution.HUD_WIDTH + (column * m_CurrentScreenResolution.TILE_SIZE);
+                int yPos = m_CurrentScreenResolution.HUD_HEIGHT + (row * m_CurrentScreenResolution.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
                 if (tile->GetPlayerOwnerId() >= 0)
@@ -488,22 +487,22 @@ void GameWindow::ShowWindow()
 
         SDL_Rect minimapBackgroundQuad =
         {
-            m_CurrentScreen.MINIMAP_BORDER_X,
-            m_CurrentScreen.MINIMAP_BORDER_Y,
-            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::COLUMNS) + m_CurrentScreen.MINIMAP_BORDER,
-            (m_CurrentScreen.MINIMAP_TILE_SIZE * Map::ROWS) + m_CurrentScreen.MINIMAP_BORDER
+            m_CurrentScreenResolution.MINIMAP_BORDER_X,
+            m_CurrentScreenResolution.MINIMAP_BORDER_Y,
+            (m_CurrentScreenResolution.MINIMAP_TILE_SIZE * Map::COLUMNS) + m_CurrentScreenResolution.MINIMAP_BORDER,
+            (m_CurrentScreenResolution.MINIMAP_TILE_SIZE * Map::ROWS) + m_CurrentScreenResolution.MINIMAP_BORDER
         };
 
         SDL_RenderFillRect(m_renderer, &minimapBackgroundQuad);
 
         //Draw minimap
-        int posRow = m_CurrentScreen.MINIMAP_POSY;
+        int posRow = m_CurrentScreenResolution.MINIMAP_POSY;
         for (int row = 0; row < Map::ROWS; ++row)
         {
-            int posColumn = m_CurrentScreen.MINIMAP_POSX;
+            int posColumn = m_CurrentScreenResolution.MINIMAP_POSX;
             for (int column = 0; column < Map::COLUMNS; ++column)
             {
-                SDL_Rect tileQuad = { posColumn, posRow, m_CurrentScreen.MINIMAP_TILE_SIZE, m_CurrentScreen.MINIMAP_TILE_SIZE };
+                SDL_Rect tileQuad = { posColumn, posRow, m_CurrentScreenResolution.MINIMAP_TILE_SIZE, m_CurrentScreenResolution.MINIMAP_TILE_SIZE };
                 TileBase* tile = map->GetTile(Position(column, row));
                 Color tileColor;
 
@@ -526,41 +525,41 @@ void GameWindow::ShowWindow()
 
                 SDL_SetRenderDrawColor(m_renderer, tileColor.m_red, tileColor.m_green, tileColor.m_blue, SDL_ALPHA_OPAQUE);
                 SDL_RenderFillRect(m_renderer, &tileQuad);
-                posColumn += m_CurrentScreen.MINIMAP_TILE_SIZE;
+                posColumn += m_CurrentScreenResolution.MINIMAP_TILE_SIZE;
             }
-            posRow += m_CurrentScreen.MINIMAP_TILE_SIZE;
+            posRow += m_CurrentScreenResolution.MINIMAP_TILE_SIZE;
         }
 
         //Draw current camera rectangle(s)
-        int currentCamRow = m_CurrentScreen.MINIMAP_POSX + m_currentLeftmostColumn * m_CurrentScreen.MINIMAP_TILE_SIZE;
-        int currentCamColumn = m_CurrentScreen.MINIMAP_POSY + m_currentLowestRow * m_CurrentScreen.MINIMAP_TILE_SIZE;
-        int camWidth = currentCamRow + ((m_CurrentScreen.NUM_TILE_WIDTH + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
-        int camHeight = currentCamColumn + ((m_CurrentScreen.NUM_TILE_HEIGHT + 1) * m_CurrentScreen.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
-        int heightOverflow = camHeight - m_CurrentScreen.MAX_HEIGHT + (m_CurrentScreen.MINIMAP_BORDER / 2);
-        int widthOverflow = camWidth - m_CurrentScreen.MAX_WIDTH + (m_CurrentScreen.MINIMAP_BORDER / 2);
+        int currentCamRow = m_CurrentScreenResolution.MINIMAP_POSX + m_currentLeftmostColumn * m_CurrentScreenResolution.MINIMAP_TILE_SIZE;
+        int currentCamColumn = m_CurrentScreenResolution.MINIMAP_POSY + m_currentLowestRow * m_CurrentScreenResolution.MINIMAP_TILE_SIZE;
+        int camWidth = currentCamRow + ((m_CurrentScreenResolution.NUM_TILE_WIDTH + 1) * m_CurrentScreenResolution.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
+        int camHeight = currentCamColumn + ((m_CurrentScreenResolution.NUM_TILE_HEIGHT + 1) * m_CurrentScreenResolution.MINIMAP_TILE_SIZE);//+1 because we start counting at 0
+        int heightOverflow = camHeight - m_CurrentScreenResolution.MAX_HEIGHT + (m_CurrentScreenResolution.MINIMAP_BORDER / 2);
+        int widthOverflow = camWidth - m_CurrentScreenResolution.MAX_WIDTH + (m_CurrentScreenResolution.MINIMAP_BORDER / 2);
 
         //white rectangles
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         //leftOverflow
         if (widthOverflow > 0)
         {
-            SDL_Rect minimapLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, currentCamColumn, widthOverflow, camHeight - currentCamColumn };
+            SDL_Rect minimapLeftOverflow = { m_CurrentScreenResolution.MINIMAP_POSX, currentCamColumn, widthOverflow, camHeight - currentCamColumn };
             SDL_RenderDrawRect(m_renderer, &minimapLeftOverflow);
-            camWidth = m_CurrentScreen.MAX_WIDTH;
+            camWidth = m_CurrentScreenResolution.MAX_WIDTH;
         }
 
         //upOverflow
         if (heightOverflow > 0)
         {
-            SDL_Rect minimapUpOverflow = { currentCamRow, m_CurrentScreen.MINIMAP_POSY, camWidth - currentCamRow, heightOverflow };
+            SDL_Rect minimapUpOverflow = { currentCamRow, m_CurrentScreenResolution.MINIMAP_POSY, camWidth - currentCamRow, heightOverflow };
             SDL_RenderDrawRect(m_renderer, &minimapUpOverflow);
-            camHeight = m_CurrentScreen.MAX_HEIGHT;
+            camHeight = m_CurrentScreenResolution.MAX_HEIGHT;
         }
 
         //upLeftOverflow
         if (heightOverflow > 0 && widthOverflow > 0)
         {
-            SDL_Rect minimapUpLeftOverflow = { m_CurrentScreen.MINIMAP_POSX, m_CurrentScreen.MINIMAP_POSY, widthOverflow, heightOverflow };
+            SDL_Rect minimapUpLeftOverflow = { m_CurrentScreenResolution.MINIMAP_POSX, m_CurrentScreenResolution.MINIMAP_POSY, widthOverflow, heightOverflow };
             SDL_RenderDrawRect(m_renderer, &minimapUpLeftOverflow);
         }
 
@@ -597,8 +596,8 @@ void GameWindow::ShowWindow()
         {
             DistrictBase* selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
             Texture* selectedDistrictTexture = selectedDistrict->GetTexture();
-            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
-            int yPos = m_CurrentScreen.SELECTED_DISTRICT_HEIGHT;
+            int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreenResolution.SELECTED_DISTRICT_HEIGHT;
             SDL_Rect renderQuad = { xPos, yPos, selectedDistrictTexture->GetWidth(), selectedDistrictTexture->GetHeight() };
 
             //Remove Color and render
@@ -716,8 +715,8 @@ void GameWindow::ShowWindow()
         {
             UnitBase* selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
             Texture* selectedUnitTexture = selectedUnit->GetTexture();
-            int xPos = m_CurrentScreen.BUTTON_HORIZONTAL_OFFSET;
-            int yPos = m_CurrentScreen.SELECTED_UNIT_HEIGHT;
+            int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
+            int yPos = m_CurrentScreenResolution.SELECTED_UNIT_HEIGHT;
             SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
 
             //Remove Color and render
@@ -869,7 +868,7 @@ void GameWindow::Close()
 
 bool GameWindow::IsClickInLeftMenu(const int & x, const int & y)
 {
-    return x < m_CurrentScreen.HUD_WIDTH && 0 < y;
+    return x < m_CurrentScreenResolution.HUD_WIDTH && 0 < y;
 }
 
 void GameWindow::AddPopUpWindow(PopUpWindow * window)
@@ -889,10 +888,10 @@ void GameWindow::RequestQuit()
 
 void GameWindow::ChangeResolution(const ScreenResolution& newRes)
 {
-    m_CurrentScreen = newRes;
-    auto windowType = m_CurrentScreen.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
+    m_CurrentScreenResolution = newRes;
+    auto windowType = m_CurrentScreenResolution.FULLSCREEN ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
     SDL_DestroyWindow(m_window);
-    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreen.MAX_WIDTH, m_CurrentScreen.MAX_HEIGHT, windowType);
+    m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreenResolution.MAX_WIDTH, m_CurrentScreenResolution.MAX_HEIGHT, windowType);
     assert(m_window != NULL && SDL_GetError());
     SDL_DestroyRenderer(m_renderer);
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
@@ -919,17 +918,17 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)
 {
-    return m_CurrentScreen.HUD_WIDTH < x
-        && x < m_CurrentScreen.MAX_WIDTH
-        && m_CurrentScreen.HUD_HEIGHT < y
-        && y < m_CurrentScreen.MAX_HEIGHT
-        && (x < m_CurrentScreen.MINIMAP_BORDER_X || y < m_CurrentScreen.MINIMAP_BORDER_Y - m_CurrentScreen.NEXT_TURN_BUTTON_HEIGHT);
+    return m_CurrentScreenResolution.HUD_WIDTH < x
+        && x < m_CurrentScreenResolution.MAX_WIDTH
+        && m_CurrentScreenResolution.HUD_HEIGHT < y
+        && y < m_CurrentScreenResolution.MAX_HEIGHT
+        && (x < m_CurrentScreenResolution.MINIMAP_BORDER_X || y < m_CurrentScreenResolution.MINIMAP_BORDER_Y - m_CurrentScreenResolution.NEXT_TURN_BUTTON_HEIGHT);
 }
 
 bool GameWindow::IsClickInMinimap(const int& x, const int& y)
 {
-    return  x >= m_CurrentScreen.MINIMAP_POSX
-        && x < m_CurrentScreen.MAX_WIDTH
-        && y > m_CurrentScreen.MINIMAP_POSY
-        && y < m_CurrentScreen.MAX_HEIGHT;
+    return  x >= m_CurrentScreenResolution.MINIMAP_POSX
+        && x < m_CurrentScreenResolution.MAX_WIDTH
+        && y > m_CurrentScreenResolution.MINIMAP_POSY
+        && y < m_CurrentScreenResolution.MAX_HEIGHT;
 }

@@ -104,7 +104,7 @@ class GameWindow
 {
 private:
 
-    ScreenResolution m_CurrentScreen;
+    ScreenResolution m_CurrentScreenResolution;
     bool m_doQuit;
     bool m_resChanged;
     GameWindow* m_nextWindow;

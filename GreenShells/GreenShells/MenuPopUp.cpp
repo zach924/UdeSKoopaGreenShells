@@ -1,10 +1,10 @@
-#include "ResPopUp.h"
+#include "MenuPopUp.h"
 
 #include "GameWindow.h"
 
 
 
-ResPopUp::ResPopUp(const char* windowName, int width, int height)
+MenuPopUp::MenuPopUp(const char* windowName, int width, int height)
     :PopUpWindow(windowName, width, height)
 {
     int buffer = 20;
@@ -39,11 +39,11 @@ ResPopUp::ResPopUp(const char* windowName, int width, int height)
 }
 
 
-ResPopUp::~ResPopUp()
+MenuPopUp::~MenuPopUp()
 {
 }
 
-void ResPopUp::ShowWindow(SDL_Renderer * rend)
+void MenuPopUp::ShowWindow(SDL_Renderer * rend)
 {
     SDL_RenderClear(m_rend);
     int horizontalPos = 25;
@@ -83,7 +83,7 @@ void ResPopUp::ShowWindow(SDL_Renderer * rend)
     SDL_RenderPresent(m_rend);
 }
 
-void ResPopUp::RenderButton(Button* button)
+void MenuPopUp::RenderButton(Button* button)
 {
     //the button
     Texture* buttonTexture = button->GetButtonTexture(m_rend);
@@ -106,7 +106,7 @@ void ResPopUp::RenderButton(Button* button)
     SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &textRect);
 }
 
-bool ResPopUp::handleEvent(SDL_Event & e)
+bool MenuPopUp::handleEvent(SDL_Event & e)
 {
     for (ButtonResSelect* button : m_allResButtons)
     {
