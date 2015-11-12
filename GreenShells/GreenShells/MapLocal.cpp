@@ -59,19 +59,49 @@ void MapLocal::DiscoverArea(Position pos, int range, int playerId)
 
 void MapLocal::VisionChange(Position initialPos, Position newPosition, int range, int playerId)
 {
-    auto positionLostVision = GetArea(initialPos, range, NO_FILTER);
-
-    for (Position pos : positionLostVision)
+    for (int row = 0; row < ROWS; ++row)
     {
-        GetTile(pos)->PlayerDontSeeAnymore(playerId);
+        for (int column = 0; column < COLUMNS; ++column)
+        {
+            m_tiles[row][column]->PlayerDontSeeAnymore(playerId);
+
+            DistrictBase* district = m_tiles[row][column]->GetDistrict();
+            UnitBase* unit = m_tiles[row][column]->GetUnit();
+
+            if (district && district->GetOwnerID() == playerId)
+            {
+                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange(), NO_FILTER);
+
+                for (Position pos : positionGotVision)
+                {
+                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                }
+            }
+            if (unit && unit->GetOwnerID() == playerId)
+            {
+                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange(), NO_FILTER);
+
+                for (Position pos : positionGotVision)
+                {
+                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                }
+            }
+        }
     }
 
-    auto positionGotVision = GetArea(initialPos, range, NO_FILTER);
-
-    for (Position pos : positionGotVision)
-    {
-        GetTile(pos)->PlayerSee(playerId);
-    }
+    //auto positionLostVision = GetArea(initialPos, range, NO_FILTER);
+    //
+    //for (Position pos : positionLostVision)
+    //{
+    //    GetTile(pos)->PlayerDontSeeAnymore(playerId);
+    //}
+    //
+    //auto positionGotVision = GetArea(newPosition, range, NO_FILTER);
+    //
+    //for (Position pos : positionGotVision)
+    //{
+    //    GetTile(pos)->PlayerSee(playerId);
+    //}
 }
 
 bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
