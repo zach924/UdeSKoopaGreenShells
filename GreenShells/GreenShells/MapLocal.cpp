@@ -7,9 +7,15 @@
 #include "DistrictCityCenter.h"
 #include "DistrictFarm.h"
 
-#include "UnitArcher.h"
 #include "UnitSettler.h"
+
+#include "UnitArcher.h"
+
 #include "UnitSwordsman.h"
+
+#include "UnitAxeman.h"
+
+#include "UnitCannon.h"
 
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
@@ -169,6 +175,12 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         break;
     case UnitSettler::UNIT_TYPE:
         unit = new UnitSettler(owner);
+        break;
+    case UnitAxeman::UNIT_TYPE:
+        unit = new UnitAxeman(owner);
+        break;
+    case UnitCannon::UNIT_TYPE:
+        unit = new UnitCannon(owner);
         break;
     default:
         return false;

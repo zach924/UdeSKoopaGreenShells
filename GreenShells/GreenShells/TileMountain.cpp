@@ -2,10 +2,16 @@
 #include <string>
 #include <iostream>
 #include "District.h"
-#include "Unit.h"
-#include "UnitArcher.h"
-#include "UnitSwordsman.h"
+
 #include "UnitSettler.h"
+
+#include "UnitArcher.h"
+
+#include "UnitSwordsman.h"
+
+#include "UnitAxeman.h"
+
+#include "UnitCannon.h"
 
 #include "MapFilter.h"
 #include "GameSession.h"
@@ -71,6 +77,12 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
                 break;
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            case UnitAxeman::UNIT_TYPE:
+                tile->SetUnit(UnitAxeman::Deserialize(child.second));
+                break;
+            case UnitCannon::UNIT_TYPE:
+                tile->SetUnit(UnitCannon::Deserialize(child.second));
                 break;
             }
         }
