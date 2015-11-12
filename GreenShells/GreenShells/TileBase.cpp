@@ -5,7 +5,7 @@
 #include <boost\property_tree\ptree.hpp>
 
 TileBase::TileBase(Position position)
-    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible(), m_playerHaveSeen(0)
+    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible(), m_playerDiscovered(0), m_playerSee(0)
 {
 }
 
@@ -83,33 +83,33 @@ void TileBase::SetPlayerOwnerId(int id)
     m_owner = id;
 }
 
-void TileBase::PlayerSee(int playerId)
+void TileBase::PlayerDiscover(int playerId)
 {
     switch (playerId)
     {
     case 0:
-        m_playerHaveSeen |= PLAYER_ONE_SEEN;
+        m_playerDiscovered |= PLAYER_ONE_SEEN;
         break;
     case 1:
-        m_playerHaveSeen |= PLAYER_TWO_SEEN;
+        m_playerDiscovered |= PLAYER_TWO_SEEN;
         break;
     case 2:
-        m_playerHaveSeen |= PLAYER_THREE_SEEN;
+        m_playerDiscovered |= PLAYER_THREE_SEEN;
         break;
     case 3:
-        m_playerHaveSeen |= PLAYER_FOUR_SEEN;
+        m_playerDiscovered |= PLAYER_FOUR_SEEN;
         break;
     case 4:
-        m_playerHaveSeen |= PLAYER_FIVE_SEEN;
+        m_playerDiscovered |= PLAYER_FIVE_SEEN;
         break;
     case 5:
-        m_playerHaveSeen |= PLAYER_SIX_SEEN;
+        m_playerDiscovered |= PLAYER_SIX_SEEN;
         break;
     case 6:
-        m_playerHaveSeen |= PLAYER_SEVEN_SEEN;
+        m_playerDiscovered |= PLAYER_SEVEN_SEEN;
         break;
     case 7:
-        m_playerHaveSeen |= PLAYER_EIGHT_SEEN;
+        m_playerDiscovered |= PLAYER_EIGHT_SEEN;
         break;
     default:
         break;
@@ -118,40 +118,145 @@ void TileBase::PlayerSee(int playerId)
 
 bool TileBase::IsDiscovered(int playerId)
 {
-    bool haveSee = false;
+    bool isDiscover = false;
     
     switch (playerId)
     {
     case 0:
-        haveSee = m_playerHaveSeen & PLAYER_ONE_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_ONE_SEEN) != 0;
         break;
     case 1:
-        haveSee = m_playerHaveSeen & PLAYER_TWO_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_TWO_SEEN) != 0;
         break;
     case 2:
-        haveSee = m_playerHaveSeen & PLAYER_THREE_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_THREE_SEEN) != 0;
         break;
     case 3:
-        haveSee = m_playerHaveSeen & PLAYER_FOUR_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_FOUR_SEEN) != 0;
         break;
     case 4:
-        haveSee = m_playerHaveSeen & PLAYER_FIVE_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_FIVE_SEEN) != 0;
         break;
     case 5:
-        haveSee = m_playerHaveSeen & PLAYER_SIX_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_SIX_SEEN) != 0;
         break;
     case 6:
-        haveSee = m_playerHaveSeen & PLAYER_SEVEN_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_SEVEN_SEEN) != 0;
         break;
     case 7:
-        haveSee = m_playerHaveSeen & PLAYER_EIGHT_SEEN;
+        isDiscover = (m_playerDiscovered & PLAYER_EIGHT_SEEN) != 0;
         break;
     default:
         break;
     }
 
-    return haveSee;
+    return isDiscover;
 }
+
+void TileBase::PlayerSee(int playerId)
+{
+    switch (playerId)
+    {
+    case 0:
+        m_playerSee |= PLAYER_ONE_SEEN;
+        break;
+    case 1:
+        m_playerSee |= PLAYER_TWO_SEEN;
+        break;
+    case 2:
+        m_playerSee |= PLAYER_THREE_SEEN;
+        break;
+    case 3:
+        m_playerSee |= PLAYER_FOUR_SEEN;
+        break;
+    case 4:
+        m_playerSee |= PLAYER_FIVE_SEEN;
+        break;
+    case 5:
+        m_playerSee |= PLAYER_SIX_SEEN;
+        break;
+    case 6:
+        m_playerSee |= PLAYER_SEVEN_SEEN;
+        break;
+    case 7:
+        m_playerSee |= PLAYER_EIGHT_SEEN;
+        break;
+    default:
+        break;
+    }
+}
+
+void TileBase::PlayerDontSeeAnymore(int playerId)
+{
+    switch (playerId)
+    {
+    case 0:
+        m_playerSee &= ~PLAYER_ONE_SEEN;
+        break;
+    case 1:
+        m_playerSee &= ~PLAYER_TWO_SEEN;
+        break;
+    case 2:
+        m_playerSee &= ~PLAYER_THREE_SEEN;
+        break;
+    case 3:
+        m_playerSee &= ~PLAYER_FOUR_SEEN;
+        break;
+    case 4:
+        m_playerSee &= ~PLAYER_FIVE_SEEN;
+        break;
+    case 5:
+        m_playerSee &= ~PLAYER_SIX_SEEN;
+        break;
+    case 6:
+        m_playerSee &= ~PLAYER_SEVEN_SEEN;
+        break;
+    case 7:
+        m_playerSee &= ~PLAYER_EIGHT_SEEN;
+        break;
+    default:
+        break;
+    }
+}
+
+bool TileBase::IsSeen(int playerId)
+{
+    bool isSeen = false;
+
+    switch (playerId)
+    {
+    case 0:
+        isSeen = (m_playerSee & PLAYER_ONE_SEEN) != 0;
+        break;
+    case 1:
+        isSeen = (m_playerSee & PLAYER_TWO_SEEN) != 0;
+        break;
+    case 2:
+        isSeen = (m_playerSee & PLAYER_THREE_SEEN) != 0;
+        break;
+    case 3:
+        isSeen = (m_playerSee & PLAYER_FOUR_SEEN) != 0;
+        break;
+    case 4:
+        isSeen = (m_playerSee & PLAYER_FIVE_SEEN) != 0;
+        break;
+    case 5:
+        isSeen = (m_playerSee & PLAYER_SIX_SEEN) != 0;
+        break;
+    case 6:
+        isSeen = (m_playerSee & PLAYER_SEVEN_SEEN) != 0;
+        break;
+    case 7:
+        isSeen = (m_playerSee & PLAYER_EIGHT_SEEN) != 0;
+        break;
+    default:
+        break;
+    }
+
+    return isSeen;
+}
+
+
 
 TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
@@ -168,7 +273,8 @@ boost::property_tree::ptree TileBase::Serialize()
     boost::property_tree::ptree tileNode;
     tileNode.put("<xmlattr>.TT", GetTypeAsInt());
     tileNode.put("<xmlattr>.O", m_owner);
-    tileNode.put("<xmlattr>.D", m_playerHaveSeen);
+    tileNode.put("<xmlattr>.D", m_playerDiscovered);
+    tileNode.put("<xmlattr>.S", m_playerSee);
 
     if (m_unit)
     {

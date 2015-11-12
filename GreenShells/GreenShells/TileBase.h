@@ -26,7 +26,8 @@ protected:
     int m_owner;
     Position m_position;
 
-    int m_playerHaveSeen;
+    int m_playerDiscovered;
+    int m_playerSee;
 
 public:
 
@@ -49,8 +50,11 @@ public:
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);
 
-    void PlayerSee(int playerId);
+    void PlayerDiscover(int playerId);
     bool IsDiscovered(int playerId);
+    void PlayerSee(int playerId);
+    void PlayerDontSeeAnymore(int playerId);
+    bool IsSeen(int playerId);
 
     bool IsFree();
     boost::property_tree::ptree Serialize();

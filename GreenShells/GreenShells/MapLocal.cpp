@@ -53,6 +53,23 @@ void MapLocal::DiscoverArea(Position pos, int range, int playerId)
 
     for (Position pos : positionToDiscover)
     {
+        GetTile(pos)->PlayerDiscover(playerId);
+    }
+}
+
+void MapLocal::VisionChange(Position initialPos, Position newPosition, int range, int playerId)
+{
+    auto positionLostVision = GetArea(initialPos, range, NO_FILTER);
+
+    for (Position pos : positionLostVision)
+    {
+        GetTile(pos)->PlayerDontSeeAnymore(playerId);
+    }
+
+    auto positionGotVision = GetArea(initialPos, range, NO_FILTER);
+
+    for (Position pos : positionGotVision)
+    {
         GetTile(pos)->PlayerSee(playerId);
     }
 }
@@ -86,6 +103,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         secondTile->SetUnit(tempUnit);
 
         DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
+        VisionChange(unitLocation, newLocation, tempUnit->GetViewRange(), ownerID);
         return true;
     }
 
@@ -192,6 +210,8 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         GetTile(pos)->SetUnit(unit);
 
         DiscoverArea(pos, unit->GetViewRange(), owner);
+        VisionChange(pos, pos, unit->GetViewRange(), owner);
+
     }
     return true;
 }
@@ -222,6 +242,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         GetTile(pos)->SetDistrict(district);
 
         DiscoverArea(pos, district->GetViewRange(), owner);
+        VisionChange(pos, pos, district->GetViewRange(), owner);
     }
     return true;
 }

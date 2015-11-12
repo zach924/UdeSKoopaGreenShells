@@ -55,7 +55,8 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
 {
     TileWater* tile = new TileWater{ pos };
     tile->m_owner = tileNode.get<int>("<xmlattr>.O");
-    tile->m_playerHaveSeen = tileNode.get<int>("<xmlattr>.D");
+    tile->m_playerDiscovered = tileNode.get<int>("<xmlattr>.D");
+    tile->m_playerSee = tileNode.get<int>("<xmlattr>.S");
 
     for each(auto child in tileNode)
     {

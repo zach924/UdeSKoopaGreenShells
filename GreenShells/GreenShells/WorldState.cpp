@@ -103,6 +103,7 @@ int WorldState::AddPlayer(std::string playerName)
     if (!m_remote)
     {
         dynamic_cast<MapLocal*>(m_map)->DiscoverArea(spawnPosition, DistrictCityCenter::VIEW_RANGE, playerID);
+        dynamic_cast<MapLocal*>(m_map)->VisionChange(spawnPosition, spawnPosition, DistrictCityCenter::VIEW_RANGE, playerID);
     }
 
     return playerID;

@@ -424,7 +424,9 @@ void GameWindow::ShowWindow()
             {
                 TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
                 Texture* tileTexture = tile->GetTexture();
+
                 bool isDiscover = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
+                bool isSeen = tile->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
 
                 //Position the tile on the screen
                 int xPos = m_CurrentScreen.HUD_WIDTH + (column * m_CurrentScreen.TILE_SIZE);
@@ -439,9 +441,13 @@ void GameWindow::ShowWindow()
                 {
                     tileTexture->SetColor(PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()]);
                 }
-                else
+                else if (isSeen)
                 {
                     tileTexture->SetColor(EMPTY_COLOR);
+                }
+                else
+                {
+                    tileTexture->SetColor(MAP_NOVISIBILITY);
                 }
 
                 //Render the tile
