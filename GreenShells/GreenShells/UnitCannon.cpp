@@ -35,7 +35,7 @@ void UnitCannon::LoadTexture()
 
 bool UnitCannon::CanUpgrade()
 {
-    false;
+    return false;
 }
 
 int UnitCannon::GetMaxHealth()

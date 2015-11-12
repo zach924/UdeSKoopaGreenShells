@@ -15,6 +15,8 @@
 
 #include "UnitAxeman.h"
 
+#include "UnitMace.h"
+
 #include "UnitCannon.h"
 
 #include <boost\property_tree\ptree.hpp>
@@ -181,6 +183,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         break;
     case UnitCannon::UNIT_TYPE:
         unit = new UnitCannon(owner);
+        break;
+    case UnitMace::UNIT_TYPE:
+        unit = new UnitMace(owner);
         break;
     default:
         return false;

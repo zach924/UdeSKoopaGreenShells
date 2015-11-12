@@ -327,6 +327,9 @@
     <ClCompile Include="UnitCannon.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="UnitMace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -547,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="UnitCannon.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMace.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

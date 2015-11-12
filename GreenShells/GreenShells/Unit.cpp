@@ -9,9 +9,11 @@
 
 #include "UnitAxeman.h"
 
-#include "UnitEmpty.h"
+#include "UnitMace.h"
 
 #include "UnitCannon.h"
+
+#include "UnitEmpty.h"
 
 
 Texture UnitSettler::tBase::m_Texture = {};
@@ -21,6 +23,8 @@ Texture UnitSwordsman::tBase::m_Texture = {};
 Texture UnitArcher::tBase::m_Texture = {};
 
 Texture UnitAxeman::tBase::m_Texture = {};
+
+Texture UnitMace::tBase::m_Texture = {};
 
 Texture UnitCannon::tBase::m_Texture = {};
 
@@ -34,6 +38,8 @@ bool UnitArcher::tBase::m_forceLoading = false;
 bool UnitSwordsman::tBase::m_forceLoading = false;
 
 bool UnitAxeman::tBase::m_forceLoading = false;
+
+bool UnitMace::tBase::m_forceLoading = false;
 
 bool UnitCannon::tBase::m_forceLoading = false;
 

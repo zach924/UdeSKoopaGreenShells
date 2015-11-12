@@ -176,6 +176,7 @@
     <ClCompile Include="PlayerLocal.cpp" />
     <ClCompile Include="MenuPopUp.cpp" />
     <ClCompile Include="PlayerRemote.cpp" />
+    <ClCompile Include="UnitMace.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcher.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="MenuPopUp.h" />
     <ClInclude Include="PlayerLocal.h" />
     <ClInclude Include="PlayerRemote.h" />
+    <ClInclude Include="UnitMace.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcher.h" />
     <ClInclude Include="AttackNotification.h" />

@@ -11,6 +11,8 @@
 
 #include "UnitAxeman.h"
 
+#include "UnitMace.h"
+
 #include "UnitCannon.h"
 
 #include "MapFilter.h"
@@ -84,6 +86,9 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
                 break;
             case UnitCannon::UNIT_TYPE:
                 tile->SetUnit(UnitCannon::Deserialize(child.second));
+                break;
+            case UnitMace::UNIT_TYPE:
+                tile->SetUnit(UnitMace::Deserialize(child.second));
                 break;
             }
         }
