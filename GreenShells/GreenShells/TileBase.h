@@ -9,12 +9,24 @@ class UnitBase;
 
 class TileBase
 {
-    bool m_OverlayVisible;
+private :
+    static const int PLAYER_ONE_SEEN   = 0x00000001;
+    static const int PLAYER_TWO_SEEN   = 0x00000010;
+    static const int PLAYER_THREE_SEEN = 0x00000100;
+    static const int PLAYER_FOUR_SEEN  = 0x00001000;
+    static const int PLAYER_FIVE_SEEN  = 0x00010000;
+    static const int PLAYER_SIX_SEEN   = 0x00100000;
+    static const int PLAYER_SEVEN_SEEN = 0x01000000;
+    static const int PLAYER_EIGHT_SEEN = 0x10000000;
+
 protected:
+    bool m_OverlayVisible;
     DistrictBase* m_district;
     UnitBase* m_unit;
     int m_owner;
     Position m_position;
+
+    int m_playerHaveSeen;
 
 public:
 
@@ -36,6 +48,9 @@ public:
     virtual void SetUnit(UnitBase* unit);
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);
+
+    void PlayerSee(int playerId);
+    bool IsDiscovered(int playerId);
 
     bool IsFree();
     boost::property_tree::ptree Serialize();

@@ -4,7 +4,7 @@
 #include "UnitBase.h"
 #include "DistrictBase.h"
 
-UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage)
+UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange)
     : m_ownerID(owner),
     m_health(health),
     m_foodCost(0),
@@ -13,7 +13,8 @@ UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int at
     m_moveRange(moveRange),
     m_attackRange(attackRange),
     m_attackDamage(attackDamage),
-    m_actionPointsLeft(1)
+    m_actionPointsLeft(1),
+	m_viewRange(viewRange)
 {
 }
 

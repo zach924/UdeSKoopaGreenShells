@@ -4,7 +4,7 @@
 const char* UnitSwordsman::UNIT_NAME = "Swordsman";
 
 UnitSwordsman::UnitSwordsman(int owner)
-    : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
 }
 
@@ -48,6 +48,11 @@ const char * UnitSwordsman::GetName()
 int UnitSwordsman::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitSwordsman::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitSwordsman::Heal(int health)

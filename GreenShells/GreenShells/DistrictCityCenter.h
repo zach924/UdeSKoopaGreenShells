@@ -14,6 +14,7 @@ public:
     static const int TURN_FOR_BORDER_T2 = 50; // 2 Tile
     static const int TURN_FOR_BORDER_T3 = 100; // 3 Tile
     static const int TURN_FOR_BORDER_T4 = 200; // 4 Tile
+    static int const VIEW_RANGE = 3;
 
 public:
     DistrictCityCenter(int owner);
@@ -25,7 +26,8 @@ public:
 
 	virtual int GetMaxHealth();
 	virtual const char* GetName();
-    virtual int GetTypeAsInt();
+    virtual int GetTypeAsInt(); 
+    virtual int GetViewRange();
 
     virtual void Repair(int repairValue);
 	virtual bool CanUpgrade();

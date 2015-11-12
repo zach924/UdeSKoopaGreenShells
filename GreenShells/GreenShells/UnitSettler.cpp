@@ -4,7 +4,7 @@
 const char* UnitSettler::UNIT_NAME = "Settler";
 
 UnitSettler::UnitSettler(int owner)
-    : Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
 }
 
@@ -48,6 +48,11 @@ const char * UnitSettler::GetName()
 int UnitSettler::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitSettler::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitSettler::Heal(int health)

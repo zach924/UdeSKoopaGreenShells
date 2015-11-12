@@ -121,7 +121,8 @@ private:
     };
 
     //Other usefull colors
-    const Color MINIMAP_FOW = { 0,0,0 };
+    const Color MAP_FOW = { 0,0,0 };
+    const Color MAP_NOVISIBILITY = { 155,155,155 };
     const Color EMPTY_COLOR = { 255,255,255 };
     const Color MINIMAP_CITY = {155, 155, 155};
 

@@ -9,6 +9,7 @@ public:
 
     static const int HEALTH = 75;
     static const char* NAME;
+    static int const VIEW_RANGE = 3;
 
 public:
     DistrictFarm(int owner);
@@ -21,6 +22,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
 
     static DistrictFarm* Deserialize(boost::property_tree::ptree node);
 };

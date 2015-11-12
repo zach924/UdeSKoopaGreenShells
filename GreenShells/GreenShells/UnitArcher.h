@@ -11,7 +11,8 @@ public:
     static int const HEALTH = 100;
     static int const MOVE_RANGE = 1;
     static int const UNIT_TYPE = 1;
-	static const char* UNIT_NAME;
+    static int const VIEW_RANGE = 3;
+    static const char* UNIT_NAME;
 
 public:
 
@@ -24,6 +25,7 @@ public:
 	virtual int GetMaxHealth();
 	virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
     virtual void Heal(int health);
 
     static UnitArcher* Deserialize(boost::property_tree::ptree node);

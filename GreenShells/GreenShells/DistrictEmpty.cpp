@@ -2,7 +2,7 @@
 #include <iostream>
 
 DistrictEmpty::DistrictEmpty(int owner)
-    : District<DistrictEmpty>(owner, 0, 0)
+    : District<DistrictEmpty>(owner, 0, 0, 0)
 {
 }
 
@@ -28,6 +28,12 @@ int DistrictEmpty::GetTypeAsInt()
 {
     assert(false && "Should be in an Empty District. It cannot be placed on the map");
     return -1;
+}
+
+int DistrictEmpty::GetViewRange()
+{
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
+    return 0;
 }
 
 bool DistrictEmpty::CanUpgrade()

@@ -99,6 +99,12 @@ int WorldState::AddPlayer(std::string playerName)
     tile->SetDistrict(new DistrictCityCenter(playerID));
     newPlayer->AddCityCenter(spawnPosition, m_turn);
     m_players.push_back(newPlayer);
+
+    if (!m_remote)
+    {
+        dynamic_cast<MapLocal*>(m_map)->DiscoverArea(spawnPosition, DistrictCityCenter::VIEW_RANGE, playerID);
+    }
+
     return playerID;
 }
 

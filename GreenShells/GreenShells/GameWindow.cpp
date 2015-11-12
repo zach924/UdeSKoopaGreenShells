@@ -424,13 +424,18 @@ void GameWindow::ShowWindow()
             {
                 TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
                 Texture* tileTexture = tile->GetTexture();
+                bool isDiscover = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
 
                 //Position the tile on the screen
                 int xPos = m_CurrentScreen.HUD_WIDTH + (column * m_CurrentScreen.TILE_SIZE);
                 int yPos = m_CurrentScreen.HUD_HEIGHT + (row * m_CurrentScreen.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                if (tile->GetPlayerOwnerId() >= 0)
+                if (!isDiscover)
+                {
+                    tileTexture->SetColor(MAP_FOW);
+                }
+                else if (tile->GetPlayerOwnerId() >= 0)
                 {
                     tileTexture->SetColor(PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()]);
                 }
@@ -442,28 +447,30 @@ void GameWindow::ShowWindow()
                 //Render the tile
                 SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
+                if (isDiscover)
+                {
+                    //Render the district
+                    DistrictBase* district = tile->GetDistrict();
+                    if (district)
+                    {
+                        Texture* districtTexture = district->GetTexture();
+                        districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
+                        SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
+                    }
 
-                //Render the district
-                DistrictBase* district = tile->GetDistrict();
-                if (district)
-                {
-                    Texture* districtTexture = district->GetTexture();
-                    districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
-                }
-
-                //Render the unit
-                UnitBase* unit = tile->GetUnit();
-                if (unit)
-                {
-                    Texture* unitTexture = unit->GetTexture();
-                    unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
-                }
-                //Render the overlay
-                if (tile->GetOverlayVisible())
-                {
-                    SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                    //Render the unit
+                    UnitBase* unit = tile->GetUnit();
+                    if (unit)
+                    {
+                        Texture* unitTexture = unit->GetTexture();
+                        unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
+                        SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+                    }
+                    //Render the overlay
+                    if (tile->GetOverlayVisible())
+                    {
+                        SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                    }
                 }
                 columnIndex = (columnIndex + 1) % (Map::COLUMNS);
             }
@@ -498,9 +505,9 @@ void GameWindow::ShowWindow()
                 TileBase* tile = map->GetTile(Position(column, row));
                 Color tileColor;
 
-                if (false)//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
+                if (!tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
                 {
-                    tileColor = MINIMAP_FOW;
+                    tileColor = MAP_FOW;
                 }
                 else if (tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
                 {

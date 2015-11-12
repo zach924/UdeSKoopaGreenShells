@@ -5,7 +5,7 @@
 #include <boost\property_tree\ptree.hpp>
 
 TileBase::TileBase(Position position)
-    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible()
+    :m_position(position), m_district(nullptr), m_unit(nullptr), m_owner(-1), m_OverlayVisible(), m_playerHaveSeen(0)
 {
 }
 
@@ -83,6 +83,76 @@ void TileBase::SetPlayerOwnerId(int id)
     m_owner = id;
 }
 
+void TileBase::PlayerSee(int playerId)
+{
+    switch (playerId)
+    {
+    case 0:
+        m_playerHaveSeen |= PLAYER_ONE_SEEN;
+        break;
+    case 1:
+        m_playerHaveSeen |= PLAYER_TWO_SEEN;
+        break;
+    case 2:
+        m_playerHaveSeen |= PLAYER_THREE_SEEN;
+        break;
+    case 3:
+        m_playerHaveSeen |= PLAYER_FOUR_SEEN;
+        break;
+    case 4:
+        m_playerHaveSeen |= PLAYER_FIVE_SEEN;
+        break;
+    case 5:
+        m_playerHaveSeen |= PLAYER_SIX_SEEN;
+        break;
+    case 6:
+        m_playerHaveSeen |= PLAYER_SEVEN_SEEN;
+        break;
+    case 7:
+        m_playerHaveSeen |= PLAYER_EIGHT_SEEN;
+        break;
+    default:
+        break;
+    }
+}
+
+bool TileBase::IsDiscovered(int playerId)
+{
+    bool haveSee = false;
+    
+    switch (playerId)
+    {
+    case 0:
+        haveSee = m_playerHaveSeen & PLAYER_ONE_SEEN;
+        break;
+    case 1:
+        haveSee = m_playerHaveSeen & PLAYER_TWO_SEEN;
+        break;
+    case 2:
+        haveSee = m_playerHaveSeen & PLAYER_THREE_SEEN;
+        break;
+    case 3:
+        haveSee = m_playerHaveSeen & PLAYER_FOUR_SEEN;
+        break;
+    case 4:
+        haveSee = m_playerHaveSeen & PLAYER_FIVE_SEEN;
+        break;
+    case 5:
+        haveSee = m_playerHaveSeen & PLAYER_SIX_SEEN;
+        break;
+    case 6:
+        haveSee = m_playerHaveSeen & PLAYER_SEVEN_SEEN;
+        break;
+    case 7:
+        haveSee = m_playerHaveSeen & PLAYER_EIGHT_SEEN;
+        break;
+    default:
+        break;
+    }
+
+    return haveSee;
+}
+
 TileBase* TileBase::Deserialize(boost::property_tree::ptree tileNode, Position pos)
 {
     return nullptr;
@@ -98,6 +168,7 @@ boost::property_tree::ptree TileBase::Serialize()
     boost::property_tree::ptree tileNode;
     tileNode.put("<xmlattr>.TT", GetTypeAsInt());
     tileNode.put("<xmlattr>.O", m_owner);
+    tileNode.put("<xmlattr>.D", m_playerHaveSeen);
 
     if (m_unit)
     {

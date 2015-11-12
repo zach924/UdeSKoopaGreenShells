@@ -47,6 +47,16 @@ Map* MapLocal::Clone()
     return map;
 }
 
+void MapLocal::DiscoverArea(Position pos, int range, int playerId)
+{
+    auto positionToDiscover = GetArea(pos, range, NO_FILTER);
+
+    for (Position pos : positionToDiscover)
+    {
+        GetTile(pos)->PlayerSee(playerId);
+    }
+}
+
 bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
@@ -74,6 +84,8 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         firstTile->SetUnit(nullptr);
         tempUnit->SetPosition(newLocation);
         secondTile->SetUnit(tempUnit);
+
+        DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
         return true;
     }
 
@@ -178,6 +190,8 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
+
+        DiscoverArea(pos, unit->GetViewRange(), owner);
     }
     return true;
 }
@@ -206,6 +220,8 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     if (district)
     {
         GetTile(pos)->SetDistrict(district);
+
+        DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
 }

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange)
     : m_ownerID(owner),
     m_health(health),
     m_attackDamage(attackDamage),
@@ -12,7 +12,8 @@ DistrictBase::DistrictBase(int owner, int health, int attackDamage)
     m_foodRatioBonus(0.0),
     m_scienceRatioBonus(0.0),
     m_weaponRatioBonus(0.0),
-    m_actionPointsLeft(1)
+    m_actionPointsLeft(1),
+    m_viewRange(viewRange)
 {
 }
 

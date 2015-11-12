@@ -5,7 +5,7 @@
 const char* UnitArcher::UNIT_NAME = "Archer";
 
 UnitArcher::UnitArcher(int owner)
-    : Unit<UnitArcher>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitArcher>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
 }
 
@@ -49,6 +49,11 @@ const char * UnitArcher::GetName()
 int UnitArcher::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitArcher::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitArcher::Heal(int health)
