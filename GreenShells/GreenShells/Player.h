@@ -83,7 +83,7 @@ public:
 
     virtual boost::property_tree::ptree Serialize();
 
-    virtual MapFilter GetMoveRestriction() = 0;
+    virtual MapFilter GetMoveRestriction();
 
     virtual UtilitySkillTree GetUtilitySkillTree() ; 
     virtual ArmySkillTree GetArmySkillTree();

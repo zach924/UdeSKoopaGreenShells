@@ -40,7 +40,7 @@ void DistrictFarm::Repair(int repairValue)
 bool DistrictFarm::CanUpgrade()
 {
     Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Farm;
+    return player->GetEmpireSkillTree().Windmill;
 }
 
 int DistrictFarm::GetMaxHealth()

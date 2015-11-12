@@ -8,7 +8,7 @@ public:
     bool Settler : 1;
     bool Monastery : 1;
     bool Farm : 1;
-    bool Winmill : 1;
+    bool Windmill : 1;
     bool Fishery : 1;
     bool Stable : 1;
     bool Cathedral : 1;

@@ -31,7 +31,5 @@ public:
     virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
     static PlayerRemote* Deserialize(boost::property_tree::ptree playerNode);
-
-    virtual MapFilter GetMoveRestriction();
   };
 
