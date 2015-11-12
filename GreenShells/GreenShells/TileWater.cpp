@@ -8,7 +8,8 @@
 
 #include "UnitArcher.h"
 
-#include "UnitSwordsman.h"
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
 
 #include "UnitAxeman.h"
 
@@ -71,8 +72,11 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-            case UnitSwordsman::UNIT_TYPE:
-                tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+            case UnitSwordsmanI::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanI::Deserialize(child.second));
+                break;
+            case UnitSwordsmanII::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanII::Deserialize(child.second));
                 break;
             case UnitArcher::UNIT_TYPE:
                 tile->SetUnit(UnitArcher::Deserialize(child.second));

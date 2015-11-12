@@ -270,9 +270,6 @@
     <ClCompile Include="YesNoPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
-    <ClCompile Include="UnitSwordsman.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="DistrictCityCenter.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
@@ -328,7 +325,13 @@
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="UnitMace.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSwordsmanI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSwordsmanII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,9 +476,6 @@
     <ClInclude Include="ButtonYes.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
-    <ClInclude Include="UnitSwordsman.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonNo.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
@@ -552,7 +552,13 @@
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UnitMace.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

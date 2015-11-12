@@ -1,30 +1,29 @@
-#include "UnitAxeman.h"
-#include <algorithm>
+#include "UnitSwordsmanI.h"
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 
-const char* UnitAxeman::UNIT_NAME = "Axeman";
+const char* UnitSwordsmanI::UNIT_NAME = "Swordsman MK1";
 
-UnitAxeman::UnitAxeman(int owner)
-    : Unit<UnitAxeman>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+UnitSwordsmanI::UnitSwordsmanI(int owner)
+    : Unit<UnitSwordsmanI>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-UnitAxeman::~UnitAxeman()
+UnitSwordsmanI::~UnitSwordsmanI()
 {
 }
 
-UnitBase* UnitAxeman::Clone()
+UnitBase* UnitSwordsmanI::Clone()
 {
-    return new UnitAxeman{ *this };
+    return new UnitSwordsmanI{ *this };
 }
 
-void UnitAxeman::LoadTexture()
+void UnitSwordsmanI::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\axe.bmp");
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
     }
     catch (std::exception e)
     {
@@ -33,41 +32,34 @@ void UnitAxeman::LoadTexture()
     }
 }
 
-bool UnitAxeman::CanUpgrade()
+bool UnitSwordsmanI::CanUpgrade()
 {
     Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetArmySkillTree().AxeT2;
+    return player->GetArmySkillTree().SwordT2;
 }
 
-int UnitAxeman::GetMaxHealth()
+int UnitSwordsmanI::GetMaxHealth()
 {
     return HEALTH;
 }
 
-const char * UnitAxeman::GetName()
+const char * UnitSwordsmanI::GetName()
 {
     return UNIT_NAME;
 }
 
-int UnitAxeman::GetTypeAsInt()
+int UnitSwordsmanI::GetTypeAsInt()
 {
     return UNIT_TYPE;
 }
 
-void UnitAxeman::Heal(int health)
+void UnitSwordsmanI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
-UnitAxeman * UnitAxeman::Deserialize(boost::property_tree::ptree node)
-{
-    UnitAxeman* axeman = new UnitAxeman(node.get<int>("<xmlattr>.O"));
-    axeman->m_health = node.get<int>("<xmlattr>.H");
-
-    return axeman;
-}
-
-AttackNotification UnitAxeman::Attack(UnitBase * target)
+// NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
+AttackNotification UnitSwordsmanI::Attack(UnitBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -78,7 +70,7 @@ AttackNotification UnitAxeman::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitAxeman::Attack(DistrictBase * target)
+AttackNotification UnitSwordsmanI::Attack(DistrictBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -87,4 +79,12 @@ AttackNotification UnitAxeman::Attack(DistrictBase * target)
     targetNotification.CanMove = true;
 
     return targetNotification;
+}
+
+UnitSwordsmanI * UnitSwordsmanI::Deserialize(boost::property_tree::ptree node)
+{
+    UnitSwordsmanI* swordsman = new UnitSwordsmanI(node.get<int>("<xmlattr>.O"));
+    swordsman->m_health = node.get<int>("<xmlattr>.H");
+
+    return swordsman;
 }

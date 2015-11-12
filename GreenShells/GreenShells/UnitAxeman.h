@@ -24,5 +24,8 @@ public:
     virtual int GetTypeAsInt();
     virtual void Heal(int health);
 
+    virtual AttackNotification Attack(UnitBase* target);
+    virtual AttackNotification Attack(DistrictBase* target);
+
     static UnitAxeman* Deserialize(boost::property_tree::ptree node);
 };

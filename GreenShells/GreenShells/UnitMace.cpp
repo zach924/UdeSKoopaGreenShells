@@ -66,3 +66,25 @@ UnitMace * UnitMace::Deserialize(boost::property_tree::ptree node)
 
     return mace;
 }
+
+AttackNotification UnitMace::Attack(UnitBase * target)
+{
+    AttackNotification targetNotification = UnitBase::Attack(target);
+    AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
+
+    targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
+    targetNotification.CanMove = true;
+
+    return targetNotification;
+}
+
+AttackNotification UnitMace::Attack(DistrictBase * target)
+{
+    AttackNotification targetNotification = UnitBase::Attack(target);
+    AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
+
+    targetNotification.AttackerIsDead = attackerNotification.TargetIsDead;
+    targetNotification.CanMove = true;
+
+    return targetNotification;
+}

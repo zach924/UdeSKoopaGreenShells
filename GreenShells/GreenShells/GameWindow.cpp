@@ -43,7 +43,7 @@
 // Unit
 #include "UnitArcher.h"
 #include "UnitEmpty.h"
-#include "UnitSwordsman.h"
+#include "UnitSwordsmanI.h"
 #include "UnitSettler.h"
 #include "UnitEmpty.h"
 
@@ -903,7 +903,7 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
 
     UnitArcher::tBase::ForceReload();
     UnitSettler::tBase::ForceReload();
-    UnitSwordsman::tBase::ForceReload();
+    UnitSwordsmanI::tBase::ForceReload();
     UnitEmpty::tBase::ForceReload();
 
     TileGround::tBase::ForceReload();

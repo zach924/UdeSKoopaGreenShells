@@ -11,7 +11,8 @@
 
 #include "UnitArcher.h"
 
-#include "UnitSwordsman.h"
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
 
 #include "UnitAxeman.h"
 
@@ -169,8 +170,11 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     UnitBase* unit = nullptr;
     switch (unitType)
     {
-    case UnitSwordsman::UNIT_TYPE:
-        unit = new UnitSwordsman(owner);
+    case UnitSwordsmanI::UNIT_TYPE:
+        unit = new UnitSwordsmanI(owner);
+        break;
+    case UnitSwordsmanII::UNIT_TYPE:
+        unit = new UnitSwordsmanII(owner);
         break;
     case UnitArcher::UNIT_TYPE:
         unit = new UnitArcher(owner);

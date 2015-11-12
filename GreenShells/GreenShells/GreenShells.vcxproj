@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
     <ClCompile Include="UnitAxeman.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
@@ -218,7 +219,7 @@
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
-    <ClCompile Include="UnitSwordsman.cpp" />
+    <ClCompile Include="UnitSwordsmanI.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -234,6 +235,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />
     <ClInclude Include="UnitAxeman.h" />
     <ClInclude Include="ButtonQuit.h" />
@@ -292,7 +294,7 @@
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
-    <ClInclude Include="UnitSwordsman.h" />
+    <ClInclude Include="UnitSwordsmanI.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />
