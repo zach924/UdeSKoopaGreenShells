@@ -67,12 +67,6 @@ bool Player::IsDisconnected()
     return m_isDisconnected;
 }
 
-MapFilter Player::GetMoveRestriction()
-{
-    // TODO : when zach push the skill tree
-    return ALLOW_GROUND | BLOCK_ENEMIES;
-}
-
 boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;
@@ -103,3 +97,17 @@ boost::property_tree::ptree Player::Serialize()
     }
     return playerNode;
 }
+
+UtilitySkillTree Player::GetUtilitySkillTree()
+{
+    return m_utilitySkillTree;
+}
+ArmySkillTree Player::GetArmySkillTree()
+{
+    return m_armySkillTree;
+}
+EmpireSkillTree Player::GetEmpireSkillTree()
+{
+    return m_empireSkillTree;
+}
+

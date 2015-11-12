@@ -256,3 +256,9 @@ void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
         }
     }
 }
+
+MapFilter PlayerLocal::GetMoveRestriction()
+{
+    assert(false && "Don't use this with player local use only for UI");
+    return NULL;
+}

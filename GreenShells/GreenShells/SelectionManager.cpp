@@ -91,6 +91,7 @@ void SelectionManager::Cancel()
 {
     m_state = m_idle;
     m_actionPossibleTiles.clear();
+    UpdateButtonState();
 }
 
 void SelectionManager::UpdateButtonState()
@@ -158,7 +159,7 @@ void SelectionManager::UpdateButtonState()
             if (selectedUnit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
                 && selectedUnit->GetActionPointsRemaining() > 0
                 && m_state == m_idle
-                && selectedUnit->GetHealth() < 100) // TODO : get max health for unit
+                && selectedUnit->GetHealth() < selectedUnit->GetMaxHealth())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -198,7 +199,7 @@ void SelectionManager::UpdateButtonState()
         {
             if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
                 && selectedDistrict->GetActionPointsRemaining() > 0
-                && selectedDistrict->GetHealth() < 200) // TODO : GetMaxHeatlh
+                && selectedDistrict->GetHealth() < selectedDistrict->GetMaxHealth())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -353,7 +354,6 @@ void SelectionManager::EndAction()
 
 void SelectionManager::HandleSelection(Position pos)
 {
-    //TODO taskID 8.2 Processus de selection
     Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
     TileBase* tile = map->GetTile(pos);
 
@@ -503,4 +503,29 @@ bool SelectionManager::IsADistrictSelected()
 void SelectionManager::UnitSell()
 {
     // TODO: Sell Unit
+}
+
+void SelectionManager::DistrictSell()
+{
+    // TODO: Sell District
+}
+
+void SelectionManager::UnitUpgrade()
+{
+    // TODO: unit upgrade
+}
+
+void SelectionManager::DistrictUpgrade()
+{
+    // TODO: unit upgrade
+}
+
+void SelectionManager::UnitHeal()
+{
+    // TODO
+}
+
+void SelectionManager::DistrictRepair()
+{
+    // TODO
 }

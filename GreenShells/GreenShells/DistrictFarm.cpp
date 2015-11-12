@@ -1,5 +1,7 @@
-#include "DistrictFarm.h"
+#include "GameSession.h"
 #include <iostream>
+#include "DistrictFarm.h"
+#include "Player.h"
 
 const char* DistrictFarm::NAME = "Farm";
 
@@ -37,7 +39,8 @@ void DistrictFarm::Repair(int repairValue)
 
 bool DistrictFarm::CanUpgrade()
 {
-    return false; // TODO : Need to get the flag of player class
+    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    return player->GetEmpireSkillTree().Farm;
 }
 
 int DistrictFarm::GetMaxHealth()

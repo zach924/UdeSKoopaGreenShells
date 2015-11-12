@@ -81,7 +81,11 @@ public:
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
-    MapFilter GetMoveRestriction();
-
     virtual boost::property_tree::ptree Serialize();
+
+    virtual MapFilter GetMoveRestriction() = 0;
+
+    virtual UtilitySkillTree GetUtilitySkillTree() ; 
+    virtual ArmySkillTree GetArmySkillTree();
+    virtual EmpireSkillTree GetEmpireSkillTree();
 };

@@ -901,7 +901,6 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
     CreateButtons();
     LoadLocalTextures();
 
-    // TODO : meh ....
     UnitArcher::tBase::ForceReload();
     UnitSettler::tBase::ForceReload();
     UnitSwordsman::tBase::ForceReload();

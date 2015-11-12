@@ -1,6 +1,8 @@
 #include "UnitArcher.h"
 #include <algorithm>
 #include <iostream>
+#include "GameSession.h"
+#include "Player.h"
 
 const char* UnitArcher::UNIT_NAME = "Archer";
 
@@ -33,7 +35,8 @@ void UnitArcher::LoadTexture()
 
 bool UnitArcher::CanUpgrade()
 {
-    return false; // TODO :  Get bit field in player
+    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    return player->GetArmySkillTree().RangerT2;
 }
 
 int UnitArcher::GetMaxHealth()

@@ -13,7 +13,7 @@ ButtonUnitHeal::~ButtonUnitHeal()
 
 void ButtonUnitHeal::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().UnitHeal();
 }
 
 void ButtonUnitHeal::LoadTextTexture(SDL_Renderer* rend)

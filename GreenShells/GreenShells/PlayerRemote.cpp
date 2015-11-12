@@ -183,3 +183,22 @@ PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
 
     return player;
 }
+
+MapFilter PlayerRemote::GetMoveRestriction()
+{
+    MapFilter moveRestriction = ALLOW_GROUND | BLOCK_ENEMIES;
+    if (m_utilitySkillTree.Embark)
+    {
+        moveRestriction |= ALLOW_WATER;
+    }
+
+    if (m_utilitySkillTree.MountainWalking)
+    {
+        moveRestriction |= ALLOW_MOUNTAIN;
+    }
+    return moveRestriction;
+}
+
+
+
+

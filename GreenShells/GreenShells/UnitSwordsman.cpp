@@ -1,5 +1,7 @@
 #include "UnitSwordsman.h"
 #include <iostream>
+#include "GameSession.h"
+#include "Player.h"
 
 const char* UnitSwordsman::UNIT_NAME = "Swordsman";
 
@@ -32,7 +34,8 @@ void UnitSwordsman::LoadTexture()
 
 bool UnitSwordsman::CanUpgrade()
 {
-    return false; // TODO :  Get bit field in player
+    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    return player->GetArmySkillTree().SwordT2;
 }
 
 int UnitSwordsman::GetMaxHealth()

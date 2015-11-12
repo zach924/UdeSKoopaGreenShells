@@ -13,7 +13,7 @@ ButtonDistrictCancel::~ButtonDistrictCancel()
 
 void ButtonDistrictCancel::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().Cancel();
 }
 
 void ButtonDistrictCancel::LoadTextTexture(SDL_Renderer* rend)
