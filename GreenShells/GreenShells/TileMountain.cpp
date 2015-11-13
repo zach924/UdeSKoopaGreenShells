@@ -9,6 +9,7 @@
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
 
 #include "UnitAxeman.h"
 
@@ -77,6 +78,9 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
                 break;
             case UnitSwordsmanII::UNIT_TYPE:
                 tile->SetUnit(UnitSwordsmanII::Deserialize(child.second));
+                break;
+            case UnitSwordsmanIII::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanIII::Deserialize(child.second));
                 break;
             case UnitArcher::UNIT_TYPE:
                 tile->SetUnit(UnitArcher::Deserialize(child.second));

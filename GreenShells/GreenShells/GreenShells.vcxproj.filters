@@ -333,6 +333,9 @@
     <ClCompile Include="UnitSwordsmanII.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="UnitSwordsmanIII.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="UnitSwordsmanII.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanIII.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

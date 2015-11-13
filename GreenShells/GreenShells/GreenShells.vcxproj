@@ -230,6 +230,7 @@
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitBase.cpp" />
     <ClCompile Include="UnitEmpty.cpp" />
+    <ClCompile Include="UnitSwordsmanIII.cpp" />
     <ClCompile Include="UtilitySkillTree.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="YesNoPopUp.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitBase.h" />
     <ClInclude Include="UnitEmpty.h" />
+    <ClInclude Include="UnitSwordsmanIII.h" />
     <ClInclude Include="UtilitySkillTree.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="YesNoPopUp.h" />
