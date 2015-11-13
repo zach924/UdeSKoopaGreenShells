@@ -16,7 +16,8 @@
 #include "UnitAxemanI.h"
 #include "UnitAxemanII.h"
 
-#include "UnitMace.h"
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
 
 #include "UnitCannon.h"
 
@@ -106,8 +107,11 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
             case UnitCannon::UNIT_TYPE:
                 tile->SetUnit(UnitCannon::Deserialize(child.second));
                 break;
-            case UnitMace::UNIT_TYPE:
-                tile->SetUnit(UnitMace::Deserialize(child.second));
+            case UnitMaceI::UNIT_TYPE:
+                tile->SetUnit(UnitMaceI::Deserialize(child.second));
+                break;
+            case UnitMaceII::UNIT_TYPE:
+                tile->SetUnit(UnitMaceII::Deserialize(child.second));
                 break;
             }
         }

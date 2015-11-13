@@ -318,9 +318,6 @@
     <ClCompile Include="UnitCannon.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="UnitMace.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="UnitSwordsmanI.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
@@ -343,6 +340,12 @@
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="UnitArcherIII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitMaceI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitMaceII.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -557,9 +560,6 @@
     <ClInclude Include="UnitCannon.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="UnitMace.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="UnitSwordsmanI.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
@@ -582,6 +582,12 @@
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UnitArcherIII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMaceI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMaceII.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

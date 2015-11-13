@@ -1,10 +1,10 @@
 #pragma once
 #include "Unit.h"
 
-class UnitMace : public Unit<UnitMace>
+class UnitMaceI : public Unit<UnitMaceI>
 {
 public:
-    typedef Unit<UnitMace> tBase;
+    typedef Unit<UnitMaceI> tBase;
 
     static int const ATTACK_DAMAGE = 50;
     static int const ATTACK_RANGE = 1;
@@ -13,8 +13,8 @@ public:
     static int const UNIT_TYPE = 5;
     static const char* UNIT_NAME;
 
-    UnitMace(int owner);
-    virtual ~UnitMace();
+    UnitMaceI(int owner);
+    virtual ~UnitMaceI();
     virtual UnitBase* Clone();
     void LoadTexture();
 
@@ -27,5 +27,5 @@ public:
     virtual AttackNotification Attack(UnitBase* target);
     virtual AttackNotification Attack(DistrictBase* target);
 
-    static UnitMace* Deserialize(boost::property_tree::ptree node);
+    static UnitMaceI* Deserialize(boost::property_tree::ptree node);
 };

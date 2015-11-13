@@ -1,30 +1,30 @@
-#include "UnitMace.h"
+#include "UnitMaceII.h"
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 
-const char* UnitMace::UNIT_NAME = "Mace";
+const char* UnitMaceII::UNIT_NAME = "Mace MK2";
 
-UnitMace::UnitMace(int owner)
-    : Unit<UnitMace>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+UnitMaceII::UnitMaceII(int owner)
+    : Unit<UnitMaceII>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-UnitMace::~UnitMace()
+UnitMaceII::~UnitMaceII()
 {
 }
 
-UnitBase* UnitMace::Clone()
+UnitBase* UnitMaceII::Clone()
 {
-    return new UnitMace{ *this };
+    return new UnitMaceII{ *this };
 }
 
-void UnitMace::LoadTexture()
+void UnitMaceII::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\mace.bmp");
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\mace2.bmp");
     }
     catch (std::exception e)
     {
@@ -33,41 +33,40 @@ void UnitMace::LoadTexture()
     }
 }
 
-bool UnitMace::CanUpgrade()
+bool UnitMaceII::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetArmySkillTree().MaceT2;
+    return false;
 }
 
-int UnitMace::GetMaxHealth()
+int UnitMaceII::GetMaxHealth()
 {
     return HEALTH;
 }
 
-const char * UnitMace::GetName()
+const char * UnitMaceII::GetName()
 {
     return UNIT_NAME;
 }
 
-int UnitMace::GetTypeAsInt()
+int UnitMaceII::GetTypeAsInt()
 {
     return UNIT_TYPE;
 }
 
-void UnitMace::Heal(int health)
+void UnitMaceII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
-UnitMace * UnitMace::Deserialize(boost::property_tree::ptree node)
+UnitMaceII * UnitMaceII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitMace* mace = new UnitMace(node.get<int>("<xmlattr>.O"));
+    UnitMaceII* mace = new UnitMaceII(node.get<int>("<xmlattr>.O"));
     mace->m_health = node.get<int>("<xmlattr>.H");
 
     return mace;
 }
 
-AttackNotification UnitMace::Attack(UnitBase * target)
+AttackNotification UnitMaceII::Attack(UnitBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -78,7 +77,7 @@ AttackNotification UnitMace::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitMace::Attack(DistrictBase * target)
+AttackNotification UnitMaceII::Attack(DistrictBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);

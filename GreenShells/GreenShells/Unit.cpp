@@ -14,7 +14,8 @@
 #include "UnitAxemanI.h"
 #include "UnitAxemanII.h"
 
-#include "UnitMace.h"
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
 
 #include "UnitCannon.h"
 
@@ -34,7 +35,8 @@ Texture UnitArcherIII::tBase::m_Texture = {};
 Texture UnitAxemanI::tBase::m_Texture = {};
 Texture UnitAxemanII::tBase::m_Texture = {};
 
-Texture UnitMace::tBase::m_Texture = {};
+Texture UnitMaceI::tBase::m_Texture = {};
+Texture UnitMaceII::tBase::m_Texture = {};
 
 Texture UnitCannon::tBase::m_Texture = {};
 
@@ -54,7 +56,8 @@ bool UnitSwordsmanIII::tBase::m_forceLoading = false;
 bool UnitAxemanI::tBase::m_forceLoading = false;
 bool UnitAxemanII::tBase::m_forceLoading = false;
 
-bool UnitMace::tBase::m_forceLoading = false;
+bool UnitMaceI::tBase::m_forceLoading = false;
+bool UnitMaceII::tBase::m_forceLoading = false;
 
 bool UnitCannon::tBase::m_forceLoading = false;
 

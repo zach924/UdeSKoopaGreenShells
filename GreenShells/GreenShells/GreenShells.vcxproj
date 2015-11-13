@@ -167,6 +167,7 @@
     <ClCompile Include="UnitArcherII.cpp" />
     <ClCompile Include="UnitArcherIII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
+    <ClCompile Include="UnitMaceII.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
     <ClCompile Include="UnitAxemanI.cpp" />
@@ -180,7 +181,7 @@
     <ClCompile Include="PlayerLocal.cpp" />
     <ClCompile Include="MenuPopUp.cpp" />
     <ClCompile Include="PlayerRemote.cpp" />
-    <ClCompile Include="UnitMace.cpp" />
+    <ClCompile Include="UnitMaceI.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
     <ClCompile Include="UnitArcherI.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="UnitArcherII.h" />
     <ClInclude Include="UnitArcherIII.h" />
     <ClInclude Include="UnitAxemanII.h" />
+    <ClInclude Include="UnitMaceII.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />
     <ClInclude Include="UnitAxemanI.h" />
@@ -257,7 +259,7 @@
     <ClInclude Include="MenuPopUp.h" />
     <ClInclude Include="PlayerLocal.h" />
     <ClInclude Include="PlayerRemote.h" />
-    <ClInclude Include="UnitMace.h" />
+    <ClInclude Include="UnitMaceI.h" />
     <ClInclude Include="UnitSettler.h" />
     <ClInclude Include="UnitArcherI.h" />
     <ClInclude Include="AttackNotification.h" />
