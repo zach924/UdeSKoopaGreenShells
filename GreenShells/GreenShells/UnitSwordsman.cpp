@@ -82,6 +82,6 @@ UnitSwordsman * UnitSwordsman::Deserialize(boost::property_tree::ptree node)
 {
     UnitSwordsman* swordsman = new UnitSwordsman(node.get<int>("<xmlattr>.O"));
     swordsman->m_health = node.get<int>("<xmlattr>.H");
-
+    
     return swordsman;
 }

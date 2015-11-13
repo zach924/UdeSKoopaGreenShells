@@ -62,6 +62,18 @@ bool Player::IsAlive()
     return m_isAlive;
 }
 
+bool Player::IsNegociating()
+{
+    for (auto relation : m_diplomaticRelations)
+    {
+        if (relation.second.GetRelationStatus() == RelationStatus::NegocatingAlliance || relation.second.GetRelationStatus() == RelationStatus::NegociatingPeace)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Player::IsDisconnected()
 {
     return m_isDisconnected;
@@ -99,7 +111,9 @@ boost::property_tree::ptree Player::Serialize()
         relationNode.put("<xmlattr>.SP", relation->first);//SP = Second Player
         relationNode.put("<xmlattr>.RS", relation->second.GetRelationStatus());//RS = Relation Status
         relationNode.put("<xmlattr>.MA", relation->second.GetMustAnswerPlayerId());//MA = Must Answer Player Id
+        relationNode.put("<xmlattr>.PT", relation->second.GetPropositionTurn());//PT = Proposition Turn
     }
+
     boost::property_tree::ptree& cityCenterListNode = playerNode.add("CCL", "");
     for (auto cityCenter : m_cityCenterLocations)
     {

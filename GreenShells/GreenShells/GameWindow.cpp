@@ -125,8 +125,8 @@ void GameWindow::CreateButtons()
 
 void GameWindow::LoadLocalTextures()
 {
-    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
-    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
+    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 20);
+    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     assert(m_ressourcesFont != NULL && TTF_GetError());
     assert(m_infoFont != NULL && TTF_GetError());
 
@@ -304,7 +304,7 @@ void GameWindow::ShowWindow()
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            unique_ptr<Player> currentPlayer { GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+            unique_ptr<Player> currentPlayer { GameSession::GetInstance().GetCurrentPlayerCopy() };
 
             /************
                 FOOD
@@ -403,7 +403,6 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
             SDL_DestroyTexture(turnTextTexture);
             SDL_FreeSurface(turnSurf);
-
         }
 
 

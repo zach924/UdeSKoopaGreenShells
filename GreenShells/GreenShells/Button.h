@@ -21,20 +21,19 @@ protected:
 
     ButtonState m_buttonState;
     virtual void LoadTextTexture(SDL_Renderer* rend) = 0;
-
-private:
-
     Texture m_unpressedButton;
     Texture m_pressedButton;
     const Color DISABLED_BUTTON_COLOR{ 192,192,192 };
     const Color DEFAULT_BUTTON_COLOR{ 255,255,255 };
+    void LoadButtonTextures(SDL_Renderer* rend);
+
+private:
 
     int m_topLimit;
     int m_botLimit;
     int m_rightLimit;
     int m_lefLimit;
 
-    void LoadButtonTextures(SDL_Renderer* rend);
 public:
     Button(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state);
     Button(int posX, int posY, int width, int height, ButtonState state);

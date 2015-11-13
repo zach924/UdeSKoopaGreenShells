@@ -1,8 +1,9 @@
 #include "DiplomaticRelation.h"
 
-DiplomaticRelation::DiplomaticRelation(RelationStatus status, int mustAnswerPlayerId)
+DiplomaticRelation::DiplomaticRelation(int propositionTurn, RelationStatus status, int mustAnswerPlayerId)
     :m_status(status)
     ,m_mustAnswerPlayerId(mustAnswerPlayerId)
+    ,m_propositionTurn(propositionTurn)
 {
 }
 
@@ -10,9 +11,10 @@ DiplomaticRelation::~DiplomaticRelation()
 {
 }
 
-void DiplomaticRelation::ChangeRelationStatus(RelationStatus status, int mustAnswerPlayerId)
+void DiplomaticRelation::ChangeRelationStatus(RelationStatus status, int currentTurn, int mustAnswerPlayerId)
 {
     m_status = status;
+    m_propositionTurn = currentTurn;
     m_mustAnswerPlayerId = mustAnswerPlayerId;
 }
 
@@ -24,4 +26,9 @@ int DiplomaticRelation::GetMustAnswerPlayerId()
 RelationStatus DiplomaticRelation::GetRelationStatus()
 {
     return m_status;
+}
+
+int DiplomaticRelation::GetPropositionTurn()
+{
+    return m_propositionTurn;
 }

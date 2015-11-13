@@ -160,12 +160,12 @@ void PlayerRemote::SetIsDisconnected(bool value)
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::AddNewRelation(int otherPlayerId, RelationStatus status, int mustAnswerPlayerId)
+void PlayerRemote::AddNewRelation(int otherPlayerId, int currentTurn, RelationStatus status, int mustAnswerPlayerId)
 {
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::SendPeaceProposition(int otherPlayerId)
+void PlayerRemote::SendPeaceProposition(int otherPlayerId, int currentTurn)
 {
     std::stringstream ss;
 
@@ -175,7 +175,7 @@ void PlayerRemote::SendPeaceProposition(int otherPlayerId)
 
     RPCBasicDiplomaticRequestStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Player_SendPeaceRequest;
-    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_turn = currentTurn;
     data.m_requestingPlayerID = m_playerID;
     data.m_otherPlayerId = otherPlayerId;
 
@@ -183,12 +183,12 @@ void PlayerRemote::SendPeaceProposition(int otherPlayerId)
     SendData(ss.str());
 }
 
-void PlayerRemote::ReceivePeaceProposition(int otherPlayerId)
+void PlayerRemote::ReceivePeaceProposition(int otherPlayerId, int currentTurn)
 {
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::RespondPeaceProposition(int otherPlayerId, bool answer)
+void PlayerRemote::RespondPeaceProposition(int otherPlayerId, int currentTurn, bool answer)
 {
     std::stringstream ss;
 
@@ -198,7 +198,7 @@ void PlayerRemote::RespondPeaceProposition(int otherPlayerId, bool answer)
 
     RPCBasicDiplomaticResponseStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Player_RespondPeace;
-    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_turn = currentTurn;
     data.m_requestingPlayerID = m_playerID;
     data.m_otherPlayerId = otherPlayerId;
     data.m_response = answer;
@@ -207,17 +207,17 @@ void PlayerRemote::RespondPeaceProposition(int otherPlayerId, bool answer)
     SendData(ss.str());
 }
 
-void PlayerRemote::GoToPeace(int otherPlayerId)
+void PlayerRemote::GoToPeace(int otherPlayerId, int currentTurn)
 {
     assert(false && "You can't do that with a remote player");
 }
 
-void PlayerRemote::ReceiveAllianceProposition(int otherPlayerId)
+void PlayerRemote::ReceiveAllianceProposition(int otherPlayerId, int currentTurn)
 {
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::SendAllianceProposition(int otherPlayerId)
+void PlayerRemote::SendAllianceProposition(int otherPlayerId, int currentTurn)
 {
     std::stringstream ss;
 
@@ -227,7 +227,7 @@ void PlayerRemote::SendAllianceProposition(int otherPlayerId)
 
     RPCBasicDiplomaticRequestStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Player_SendAllianceRequest;
-    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_turn = currentTurn;
     data.m_requestingPlayerID = m_playerID;
     data.m_otherPlayerId = otherPlayerId;
 
@@ -236,7 +236,7 @@ void PlayerRemote::SendAllianceProposition(int otherPlayerId)
     SendData(ss.str());
 }
 
-void PlayerRemote::RespondAllianceProposition(int otherPlayerId, bool answer)
+void PlayerRemote::RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer)
 {
     std::stringstream ss;
 
@@ -246,7 +246,7 @@ void PlayerRemote::RespondAllianceProposition(int otherPlayerId, bool answer)
 
     RPCBasicDiplomaticResponseStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Player_RespondAlliance;
-    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_turn = currentTurn;
     data.m_requestingPlayerID = m_playerID;
     data.m_otherPlayerId = otherPlayerId;
     data.m_response = answer;
@@ -255,12 +255,12 @@ void PlayerRemote::RespondAllianceProposition(int otherPlayerId, bool answer)
     SendData(ss.str());
 }
 
-void PlayerRemote::GoToAlliance(int otherPlayerId)
+void PlayerRemote::GoToAlliance(int otherPlayerId, int currentTurn)
 {
     assert(false && "You can't do that with a remote player");
 }
 
-void PlayerRemote::GoToWar(int otherPlayerId)
+void PlayerRemote::GoToWar(int otherPlayerId, int currentTurn)
 {
     std::stringstream ss;
 
@@ -270,7 +270,7 @@ void PlayerRemote::GoToWar(int otherPlayerId)
 
     RPCBasicDiplomaticRequestStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Player_DeclareWar;
-    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_turn = currentTurn;
     data.m_requestingPlayerID = m_playerID;
     data.m_otherPlayerId = otherPlayerId;
 
@@ -313,7 +313,8 @@ PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
             int SP = relationNode.second.get<int>("<xmlattr>.SP");
             RelationStatus RS = static_cast<RelationStatus>(relationNode.second.get<int>("<xmlattr>.RS"));
             int MA = relationNode.second.get<int>("<xmlattr>.MA");
-            player->m_diplomaticRelations[SP] = DiplomaticRelation(RS, MA);
+            int PT = relationNode.second.get<int>("<xmlattr>.PT");
+            player->m_diplomaticRelations.insert(std::map<int, DiplomaticRelation>::value_type(SP, DiplomaticRelation(PT, RS, MA)));
         }
         else
         {

@@ -55,16 +55,16 @@ void RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Player_SendPeaceRequest:
-        m_worldState->GetPlayer(data->m_requestingPlayerID)->SendPeaceProposition(data->m_otherPlayerId);
-        m_worldState->GetPlayer(data->m_otherPlayerId)->ReceivePeaceProposition(data->m_requestingPlayerID);
+        m_worldState->GetPlayer(data->m_requestingPlayerID)->SendPeaceProposition(data->m_otherPlayerId, data->m_turn);
+        m_worldState->GetPlayer(data->m_otherPlayerId)->ReceivePeaceProposition(data->m_requestingPlayerID, data->m_turn);
         break;
     case RPCClassMethodType::Player_SendAllianceRequest:
-        m_worldState->GetPlayer(data->m_requestingPlayerID)->SendAllianceProposition(data->m_otherPlayerId);
-        m_worldState->GetPlayer(data->m_otherPlayerId)->ReceiveAllianceProposition(data->m_requestingPlayerID);
+        m_worldState->GetPlayer(data->m_requestingPlayerID)->SendAllianceProposition(data->m_otherPlayerId, data->m_turn);
+        m_worldState->GetPlayer(data->m_otherPlayerId)->ReceiveAllianceProposition(data->m_requestingPlayerID, data->m_turn);
         break;
     case RPCClassMethodType::Player_DeclareWar:
-        m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToWar(data->m_otherPlayerId);
-        m_worldState->GetPlayer(data->m_otherPlayerId)->GoToWar(data->m_requestingPlayerID);
+        m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToWar(data->m_otherPlayerId, data->m_turn);
+        m_worldState->GetPlayer(data->m_otherPlayerId)->GoToWar(data->m_requestingPlayerID, data->m_turn);
         break;
     default:
         assert(false && "You must add your code here");
@@ -79,25 +79,25 @@ void RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
     case RPCClassMethodType::Player_RespondPeace:
         if (data->m_response)
         {
-            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToPeace(data->m_otherPlayerId);
-            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToPeace(data->m_requestingPlayerID);
+            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToPeace(data->m_otherPlayerId, data->m_turn);
+            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToPeace(data->m_requestingPlayerID, data->m_turn);
         }
         else
         {
-            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToWar(data->m_otherPlayerId);
-            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToWar(data->m_requestingPlayerID);
+            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToWar(data->m_otherPlayerId, data->m_turn);
+            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToWar(data->m_requestingPlayerID, data->m_turn);
         }
         break;
     case RPCClassMethodType::Player_RespondAlliance:
         if (data->m_response)
         {
-            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToAlliance(data->m_otherPlayerId);
-            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToAlliance(data->m_requestingPlayerID);
+            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToAlliance(data->m_otherPlayerId, data->m_turn);
+            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToAlliance(data->m_requestingPlayerID, data->m_turn);
         }
         else
         {
-            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToPeace(data->m_otherPlayerId);
-            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToPeace(data->m_requestingPlayerID);
+            m_worldState->GetPlayer(data->m_requestingPlayerID)->GoToPeace(data->m_otherPlayerId, data->m_turn);
+            m_worldState->GetPlayer(data->m_otherPlayerId)->GoToPeace(data->m_requestingPlayerID, data->m_turn);
         }
         break;
     default:

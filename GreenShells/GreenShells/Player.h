@@ -14,6 +14,8 @@ class Map;
 class Player
 {
 protected:
+
+    const int OFFER_DURATION = 10;
     std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;
@@ -38,7 +40,6 @@ protected:
 
     //Diplomacy
     std::map<int, DiplomaticRelation> m_diplomaticRelations;
-    virtual void RemoveRelation(int otherPlayerId) = 0;
 
 public:
     Player();
@@ -58,6 +59,7 @@ public:
 
     virtual void SetIsAlive(bool value) = 0;
     bool IsAlive();
+    bool IsNegociating();
     int GetFood();
     int GetScience();
     int GetWeapon();
@@ -84,17 +86,18 @@ public:
 
     //Diplomacy
     std::map<int, DiplomaticRelation> GetDiplomaticRelations();
-    virtual void AddNewRelation(int otherPlayerId, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1) = 0;
-    virtual void SendPeaceProposition(int otherPlayerId) = 0;
-    virtual void ReceivePeaceProposition(int otherPlayerId) = 0;
-    virtual void RespondPeaceProposition(int otherPlayerId, bool answer) = 0;
-    virtual void GoToPeace(int otherPlayerId) = 0;
+    virtual void AddNewRelation(int otherPlayerId, int currentTurn = 0, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1) = 0;
+    virtual void RemoveRelation(int otherPlayerId) = 0;
+    virtual void SendPeaceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void ReceivePeaceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void RespondPeaceProposition(int otherPlayerId, int currentTurn, bool answer) = 0;
+    virtual void GoToPeace(int otherPlayerId, int currentTurn) = 0;
 
-    virtual void SendAllianceProposition(int otherPlayerId) = 0;
-    virtual void ReceiveAllianceProposition(int otherPlayerId) = 0;
-    virtual void GoToAlliance(int otherPlayerId) = 0;
-    virtual void RespondAllianceProposition(int otherPlayerId, bool answer) = 0;
-    virtual void GoToWar(int otherPlayerId) = 0;
+    virtual void SendAllianceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void ReceiveAllianceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void GoToAlliance(int otherPlayerId, int currentTurn) = 0;
+    virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer) = 0;
+    virtual void GoToWar(int otherPlayerId, int currentTurn) = 0;
 
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();

@@ -52,7 +52,7 @@ void DistrictBase::SetPosition(Position pos)
 
 AttackNotification DistrictBase::ReceiveDamage(int damage)
 {
-    m_health -= damage;
+    m_health = std::max(m_health - damage, 0);
 
     if (m_health <= 0)
         std::cout << "A district got destroy : Player " << m_ownerID << std::endl;

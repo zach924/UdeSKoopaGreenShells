@@ -6,9 +6,9 @@ class UnitSwordsman : public Unit<UnitSwordsman>
 public:
     typedef Unit<UnitSwordsman> tBase;
 
-    static int const ATTACK_DAMAGE = 50;
+    static int const ATTACK_DAMAGE = 100;
     static int const HEALTH = 100;
-    static int const MOVE_RANGE = 1;
+    static int const MOVE_RANGE = 5;
     static int const UNIT_TYPE = 0;
 	static const char* UNIT_NAME;
 

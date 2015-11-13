@@ -46,6 +46,18 @@ Player* WorldState::GetPlayerCopy(int playerID)
     return m_players.at(playerID)->Clone();
 }
 
+std::vector<Player*> WorldState::GetPlayersCopy()
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    std::vector<Player*> players;
+
+    for (auto p : m_players)
+    {
+        players.emplace_back(p->Clone());
+    }
+    return players;
+}
+
 void WorldState::PrepareLocalGame()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };

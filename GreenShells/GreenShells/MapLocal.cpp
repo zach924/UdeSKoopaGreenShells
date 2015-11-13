@@ -14,6 +14,8 @@
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
 #include <exception>
+#include "Player.h"
+#include "ServerSession.h"
 
 MapLocal::MapLocal()
     :Map()
@@ -67,7 +69,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
     auto secondTile = GetTile(newLocation);
 
 
-    //New Location is emtpy or there is a district and it's allied. Move him
+    //New Location is emtpy or there is a district and it belongs to the player. Move him
     if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
     {
         UnitBase* tempUnit = firstTile->GetUnit();
@@ -117,6 +119,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
     {
         attackerTile->SetUnit(nullptr);
         delete attacker;
+        attacker = nullptr;
     }
 
     // Target is dead?
@@ -129,12 +132,15 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
         }
         else
         {
-            if (typeid(districtTargeted) == typeid(DistrictCityCenter::tBase))
+            if (attacker && notification.CanMove && districtTargeted->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
             {
+                int turn = ServerSession::GetInstance().GetWorldState()->GetCurrentTurn();
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID())->RemoveCityCenter(districtTargeted->GetPosition());
                 static_cast<DistrictCityCenter*>(districtTargeted)->ChangeOwner(ownerID);
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(ownerID)->AddCityCenter(districtTargeted->GetPosition(), turn);
                 // for now player wont move on the citycenter if they take control of it
             }
-            else
+            else if (districtTargeted->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {
                 targetTile->SetDistrict(nullptr);
                 delete districtTargeted;

@@ -3,6 +3,7 @@
 #include "DistrictCityCenter.h"
 #include "Map.h"
 #include "MapFilter.h"
+#include "ServerSession.h"
 
 void PlayerLocal::RemoveRelation(int otherPlayerId)
 {
@@ -58,9 +59,31 @@ void PlayerLocal::NotifyNewTurn(int turn, Map* map)
 {
     m_isReadyForNewTurn = false;
 
+    if (m_cityCenterLocations.size() <= 0)
+    {
+        SetIsAlive(false);
+    }
+
     if (m_isAlive)
     {
         UpdateTilesOwned(turn, map);
+        for (auto it = m_diplomaticRelations.begin(); it != m_diplomaticRelations.end(); ++it)
+        {
+            RelationStatus status = it->second.GetRelationStatus();
+            int propositionTurn = it->second.GetPropositionTurn();
+            if (status == RelationStatus::NegocatingAlliance && propositionTurn + OFFER_DURATION <= turn)
+            {
+                it->second.ChangeRelationStatus(RelationStatus::Peace, turn);
+            }
+            else if (status == RelationStatus::NegociatingPeace && propositionTurn + OFFER_DURATION <= turn)
+            {
+                it->second.ChangeRelationStatus(RelationStatus::War, turn);
+            }
+            else if (status == RelationStatus::Alliance && propositionTurn + OFFER_DURATION <= turn)
+            {
+                it->second.ChangeRelationStatus(RelationStatus::Peace, turn);
+            }
+        }
     }
 }
 
@@ -71,6 +94,25 @@ void PlayerLocal::SetPlayerReadyForNextTurn(bool isReady)
 
 void PlayerLocal::SetIsAlive(bool value)
 {
+    if (value)
+    {
+        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayersCopy();
+        for (auto p : players)
+        {
+            p->AddNewRelation(m_playerID);
+            AddNewRelation(p->GetPlayerID());
+        }
+        m_diplomaticRelations.clear();
+    }
+    else
+    {
+        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayersCopy();
+        for (auto p : players)
+        {
+            p->RemoveRelation(m_playerID);
+        }
+        m_diplomaticRelations.clear();
+    }
     m_isAlive = value;
 }
 
@@ -188,7 +230,7 @@ void PlayerLocal::RemoveCityCenter(Position pos)
 
     if (m_cityCenterLocations.size() <= 0)
     {
-        m_isAlive = false;
+        SetIsAlive(false);
     }
 }
 
@@ -197,84 +239,86 @@ void PlayerLocal::SetIsDisconnected(bool value)
     m_isDisconnected = true;
 }
 
-void PlayerLocal::AddNewRelation(int otherPlayerId, RelationStatus status, int mustAnswerPlayerId)
+void PlayerLocal::AddNewRelation(int otherPlayerId, int currentTurn, RelationStatus status, int mustAnswerPlayerId)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation == m_diplomaticRelations.end())
     {
-        m_diplomaticRelations[otherPlayerId] = DiplomaticRelation(status, mustAnswerPlayerId);
+        m_diplomaticRelations.insert(std::map<int, DiplomaticRelation>::value_type(otherPlayerId, DiplomaticRelation(currentTurn, status, mustAnswerPlayerId)));
     }
 }
-void PlayerLocal::SendPeaceProposition(int otherPlayerId)
+void PlayerLocal::SendPeaceProposition(int otherPlayerId, int currentTurn)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::War)
     {
-        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::NegociatingPeace, otherPlayerId);
+        relation->second.ChangeRelationStatus(RelationStatus::NegociatingPeace, currentTurn, otherPlayerId);
     }
 }
 
-void PlayerLocal::ReceivePeaceProposition(int otherPlayerId)
+void PlayerLocal::ReceivePeaceProposition(int otherPlayerId, int currentTurn)
 {
-    auto relation = m_diplomaticRelations[otherPlayerId];
-    if (relation.GetRelationStatus() == RelationStatus::War)
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation->second.GetRelationStatus() == RelationStatus::War)
     {
-        relation.ChangeRelationStatus(RelationStatus::NegociatingPeace, m_playerID);
+        relation->second.ChangeRelationStatus(RelationStatus::NegociatingPeace, currentTurn, m_playerID);
     }
 }
 
-void PlayerLocal::RespondPeaceProposition(int otherPlayerId, bool answer)
+void PlayerLocal::RespondPeaceProposition(int otherPlayerId, int currentTurn, bool answer)
 {
     assert(false && "Should not be used on a local Player");
 }
 
-void PlayerLocal::GoToPeace(int otherPlayerId)
+void PlayerLocal::GoToPeace(int otherPlayerId, int currentTurn)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
-    if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::NegociatingPeace)
+    if (relation != m_diplomaticRelations.end()
+        && (relation->second.GetRelationStatus() == RelationStatus::NegociatingPeace
+            || relation->second.GetRelationStatus() == RelationStatus::NegocatingAlliance))
     {
-        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::Peace);
+        relation->second.ChangeRelationStatus(RelationStatus::Peace, currentTurn);
     }
 }
 
-void PlayerLocal::SendAllianceProposition(int otherPlayerId)
+void PlayerLocal::SendAllianceProposition(int otherPlayerId, int currentTurn)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::Peace)
     {
-        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::NegocatingAlliance, otherPlayerId);
+        relation->second.ChangeRelationStatus(RelationStatus::NegocatingAlliance, currentTurn, otherPlayerId);
     }
 }
 
-void PlayerLocal::ReceiveAllianceProposition(int otherPlayerId)
+void PlayerLocal::ReceiveAllianceProposition(int otherPlayerId, int currentTurn)
 {
-    auto relation = m_diplomaticRelations[otherPlayerId];
-    if (relation.GetRelationStatus() == RelationStatus::Peace)
+    auto relation = m_diplomaticRelations.find(otherPlayerId);
+    if (relation->second.GetRelationStatus() == RelationStatus::Peace)
     {
-        relation.ChangeRelationStatus(RelationStatus::NegocatingAlliance, m_playerID);
+        relation->second.ChangeRelationStatus(RelationStatus::NegocatingAlliance,currentTurn, m_playerID);
     }
 }
 
-void PlayerLocal::RespondAllianceProposition(int otherPlayerId, bool answer)
+void PlayerLocal::RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer)
 {
     assert(false && "This should not be used on a local Player");
 }
 
-void PlayerLocal::GoToAlliance(int otherPlayerId)
+void PlayerLocal::GoToAlliance(int otherPlayerId, int currentTurn)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() == RelationStatus::NegocatingAlliance)
     {
-        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::Alliance);
+        relation->second.ChangeRelationStatus(RelationStatus::Alliance, currentTurn);
     }
 }
 
-void PlayerLocal::GoToWar(int otherPlayerId)
+void PlayerLocal::GoToWar(int otherPlayerId, int currentTurn)
 {
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation != m_diplomaticRelations.end() && relation->second.GetRelationStatus() != RelationStatus::War && relation->second.GetRelationStatus() != RelationStatus::Alliance)
     {
-        m_diplomaticRelations[otherPlayerId].ChangeRelationStatus(RelationStatus::War);
+        relation->second.ChangeRelationStatus(RelationStatus::War, currentTurn);
     }
 }
 
@@ -306,14 +350,15 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
             int SP = relationNode.second.get<int>("<xmlattr>.SP");
             RelationStatus RS = static_cast<RelationStatus>(relationNode.second.get<int>("<xmlattr>.RS"));
             int MA = relationNode.second.get<int>("<xmlattr>.MA");
-            player->m_diplomaticRelations[SP] = DiplomaticRelation(RS, MA);
+            int PT = relationNode.second.get<int>("<xmlattr>.PT");
+            player->m_diplomaticRelations.insert(std::map<int, DiplomaticRelation>::value_type(SP, DiplomaticRelation(PT, RS, MA)));
         }
         else
         {
             assert(false && "You added a new node in player serialize. You need to Deserialize it");
         }
     }
-    
+
     for (auto cityCenterNode : playerNode.get_child("CCL"))
     {
         int column = cityCenterNode.second.get<int>("<xmlattr>.Co");
@@ -321,7 +366,7 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
         int turnFounded = cityCenterNode.second.get<int>("<xmlattr>.TF");
         player->m_cityCenterLocations[Position{ column , row }] = turnFounded;
     }
-    
+
     return player;
 }
 

@@ -27,6 +27,8 @@ public:
     //Returns a copy of a player for drawing
     Player* GetPlayerCopy(int playerID);
 
+    std::vector<Player*> GetPlayersCopy();
+
     void PrepareLocalGame();
     int GetCurrentTurn();
     void NotifyNewTurn();
