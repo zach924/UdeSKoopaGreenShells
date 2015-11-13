@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ButtonSpawnUnit.h"
 #include "SelectionManager.h"
-#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
 
 ButtonSpawnUnit::ButtonSpawnUnit(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
@@ -15,7 +15,7 @@ ButtonSpawnUnit::~ButtonSpawnUnit()
 void ButtonSpawnUnit::DoAction()
 {
     // TODO : add the popup window for selection, and move that line in popup window
-    SelectionManager::GetInstance().CreateUnitPressed(UnitArcherII::UNIT_TYPE);
+    SelectionManager::GetInstance().CreateUnitPressed(UnitArcherIII::UNIT_TYPE);
 }
 
 void ButtonSpawnUnit::LoadTextTexture(SDL_Renderer* rend)

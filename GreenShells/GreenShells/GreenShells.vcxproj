@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="UnitArcherII.cpp" />
+    <ClCompile Include="UnitArcherIII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
@@ -239,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UnitArcherII.h" />
+    <ClInclude Include="UnitArcherIII.h" />
     <ClInclude Include="UnitAxemanII.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />

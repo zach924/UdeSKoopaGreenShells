@@ -9,6 +9,7 @@
 
 #include "UnitArcherI.h"
 #include "UnitArcherII.h"
+#include "UnitArcherIII.h"
 
 #include "UnitAxemanI.h"
 #include "UnitAxemanII.h"
@@ -28,6 +29,7 @@ Texture UnitSwordsmanIII::tBase::m_Texture = {};
 
 Texture UnitArcherI::tBase::m_Texture = {};
 Texture UnitArcherII::tBase::m_Texture = {};
+Texture UnitArcherIII::tBase::m_Texture = {};
 
 Texture UnitAxemanI::tBase::m_Texture = {};
 Texture UnitAxemanII::tBase::m_Texture = {};
@@ -43,6 +45,7 @@ bool UnitSettler::tBase::m_forceLoading = false;
 
 bool UnitArcherI::tBase::m_forceLoading = false;
 bool UnitArcherII::tBase::m_forceLoading = false;
+bool UnitArcherIII::tBase::m_forceLoading = false;
 
 bool UnitSwordsmanI::tBase::m_forceLoading = false;
 bool UnitSwordsmanII::tBase::m_forceLoading = false;
