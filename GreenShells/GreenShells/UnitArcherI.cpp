@@ -1,26 +1,26 @@
-#include "UnitArcher.h"
+#include "UnitArcherI.h"
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 
-const char* UnitArcher::UNIT_NAME = "Archer";
+const char* UnitArcherI::UNIT_NAME = "Archer MK1";
 
-UnitArcher::UnitArcher(int owner)
-    : Unit<UnitArcher>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+UnitArcherI::UnitArcherI(int owner)
+    : Unit<UnitArcherI>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-UnitArcher::~UnitArcher()
+UnitArcherI::~UnitArcherI()
 {
 }
 
-UnitBase* UnitArcher::Clone()
+UnitBase* UnitArcherI::Clone()
 {
-    return new UnitArcher{ *this };
+    return new UnitArcherI{ *this };
 }
 
-void UnitArcher::LoadTexture()
+void UnitArcherI::LoadTexture()
 {
     try
     {
@@ -33,35 +33,35 @@ void UnitArcher::LoadTexture()
     }
 }
 
-bool UnitArcher::CanUpgrade()
+bool UnitArcherI::CanUpgrade()
 {
     Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetArmySkillTree().RangerT2;
 }
 
-int UnitArcher::GetMaxHealth()
+int UnitArcherI::GetMaxHealth()
 {
     return HEALTH;
 }
 
-const char * UnitArcher::GetName()
+const char * UnitArcherI::GetName()
 {
     return UNIT_NAME;
 }
 
-int UnitArcher::GetTypeAsInt()
+int UnitArcherI::GetTypeAsInt()
 {
     return UNIT_TYPE;
 }
 
-void UnitArcher::Heal(int health)
+void UnitArcherI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
-UnitArcher * UnitArcher::Deserialize(boost::property_tree::ptree node)
+UnitArcherI * UnitArcherI::Deserialize(boost::property_tree::ptree node)
 {
-    UnitArcher* archer = new UnitArcher(node.get<int>("<xmlattr>.O"));
+    UnitArcherI* archer = new UnitArcherI(node.get<int>("<xmlattr>.O"));
     archer->m_health = node.get<int>("<xmlattr>.H");
 
     return archer;

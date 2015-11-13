@@ -41,7 +41,7 @@
 #include "ButtonNextTurn.h"
 
 // Unit
-#include "UnitArcher.h"
+#include "UnitArcherI.h"
 #include "UnitEmpty.h"
 #include "UnitSwordsmanI.h"
 #include "UnitSettler.h"
@@ -901,7 +901,7 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
     CreateButtons();
     LoadLocalTextures();
 
-    UnitArcher::tBase::ForceReload();
+    UnitArcherI::tBase::ForceReload();
     UnitSettler::tBase::ForceReload();
     UnitSwordsmanI::tBase::ForceReload();
     UnitEmpty::tBase::ForceReload();

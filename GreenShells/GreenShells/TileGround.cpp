@@ -5,7 +5,8 @@
 
 #include "UnitSettler.h"
 
-#include "UnitArcher.h"
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -84,8 +85,11 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
             case UnitSwordsmanIII::UNIT_TYPE:
                 tile->SetUnit(UnitSwordsmanIII::Deserialize(child.second));
                 break;
-            case UnitArcher::UNIT_TYPE:
-                tile->SetUnit(UnitArcher::Deserialize(child.second));
+            case UnitArcherI::UNIT_TYPE:
+                tile->SetUnit(UnitArcherI::Deserialize(child.second));
+                break; 
+            case UnitArcherII::UNIT_TYPE:
+                tile->SetUnit(UnitArcherII::Deserialize(child.second));
                 break;
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));

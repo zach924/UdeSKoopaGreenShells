@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="UnitArcherII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
@@ -180,7 +181,7 @@
     <ClCompile Include="PlayerRemote.cpp" />
     <ClCompile Include="UnitMace.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
-    <ClCompile Include="UnitArcher.cpp" />
+    <ClCompile Include="UnitArcherI.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonDistrictSell.cpp" />
     <ClCompile Include="ButtonDistrictUpgrade.cpp" />
@@ -237,6 +238,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitArcherII.h" />
     <ClInclude Include="UnitAxemanII.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />
@@ -255,7 +257,7 @@
     <ClInclude Include="PlayerRemote.h" />
     <ClInclude Include="UnitMace.h" />
     <ClInclude Include="UnitSettler.h" />
-    <ClInclude Include="UnitArcher.h" />
+    <ClInclude Include="UnitArcherI.h" />
     <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonDistrictSell.h" />

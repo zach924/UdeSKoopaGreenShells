@@ -252,9 +252,6 @@
     <ClCompile Include="ButtonYes.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="UnitArcher.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonNo.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
@@ -338,6 +335,12 @@
     </ClCompile>
     <ClCompile Include="UnitAxemanII.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitArcherI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitArcherII.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -491,9 +494,6 @@
     <ClInclude Include="PopUpWindow.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
-    <ClInclude Include="UnitArcher.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="YesNoPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
@@ -571,6 +571,12 @@
     </ClInclude>
     <ClInclude Include="UnitAxemanII.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitArcherI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitArcherII.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
