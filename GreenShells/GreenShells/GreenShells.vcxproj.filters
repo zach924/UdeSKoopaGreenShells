@@ -318,9 +318,6 @@
     <ClCompile Include="MenuPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
-    <ClCompile Include="UnitAxeman.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="UnitCannon.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
@@ -334,7 +331,13 @@
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="UnitSwordsmanIII.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAxemanI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAxemanII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +551,6 @@
     <ClInclude Include="MenuPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
-    <ClInclude Include="UnitAxeman.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="UnitCannon.h">
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
@@ -564,7 +564,13 @@
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UnitSwordsmanIII.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAxemanI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAxemanII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,26 +1,26 @@
-#include "UnitAxeman.h"
+#include "UnitAxemanI.h"
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
 
-const char* UnitAxeman::UNIT_NAME = "Axeman";
+const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
 
-UnitAxeman::UnitAxeman(int owner)
-    : Unit<UnitAxeman>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+UnitAxemanI::UnitAxemanI(int owner)
+    : Unit<UnitAxemanI>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-UnitAxeman::~UnitAxeman()
+UnitAxemanI::~UnitAxemanI()
 {
 }
 
-UnitBase* UnitAxeman::Clone()
+UnitBase* UnitAxemanI::Clone()
 {
-    return new UnitAxeman{ *this };
+    return new UnitAxemanI{ *this };
 }
 
-void UnitAxeman::LoadTexture()
+void UnitAxemanI::LoadTexture()
 {
     try
     {
@@ -33,41 +33,41 @@ void UnitAxeman::LoadTexture()
     }
 }
 
-bool UnitAxeman::CanUpgrade()
+bool UnitAxemanI::CanUpgrade()
 {
     Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetArmySkillTree().AxeT2;
 }
 
-int UnitAxeman::GetMaxHealth()
+int UnitAxemanI::GetMaxHealth()
 {
     return HEALTH;
 }
 
-const char * UnitAxeman::GetName()
+const char * UnitAxemanI::GetName()
 {
     return UNIT_NAME;
 }
 
-int UnitAxeman::GetTypeAsInt()
+int UnitAxemanI::GetTypeAsInt()
 {
     return UNIT_TYPE;
 }
 
-void UnitAxeman::Heal(int health)
+void UnitAxemanI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
-UnitAxeman * UnitAxeman::Deserialize(boost::property_tree::ptree node)
+UnitAxemanI * UnitAxemanI::Deserialize(boost::property_tree::ptree node)
 {
-    UnitAxeman* axeman = new UnitAxeman(node.get<int>("<xmlattr>.O"));
+    UnitAxemanI* axeman = new UnitAxemanI(node.get<int>("<xmlattr>.O"));
     axeman->m_health = node.get<int>("<xmlattr>.H");
 
     return axeman;
 }
 
-AttackNotification UnitAxeman::Attack(UnitBase * target)
+AttackNotification UnitAxemanI::Attack(UnitBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -78,7 +78,7 @@ AttackNotification UnitAxeman::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitAxeman::Attack(DistrictBase * target)
+AttackNotification UnitAxemanI::Attack(DistrictBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);

@@ -12,7 +12,8 @@
 #include "UnitSwordsmanII.h"
 #include "UnitSwordsmanIII.h"
 
-#include "UnitAxeman.h"
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
 
 #include "UnitMace.h"
 
@@ -88,8 +89,11 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
                 break;
-            case UnitAxeman::UNIT_TYPE:
-                tile->SetUnit(UnitAxeman::Deserialize(child.second));
+            case UnitAxemanI::UNIT_TYPE:
+                tile->SetUnit(UnitAxemanI::Deserialize(child.second));
+                break;
+            case UnitAxemanII::UNIT_TYPE:
+                tile->SetUnit(UnitAxemanII::Deserialize(child.second));
                 break;
             case UnitCannon::UNIT_TYPE:
                 tile->SetUnit(UnitCannon::Deserialize(child.second));

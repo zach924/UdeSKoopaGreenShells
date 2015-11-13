@@ -164,9 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="UnitAxemanII.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
-    <ClCompile Include="UnitAxeman.cpp" />
+    <ClCompile Include="UnitAxemanI.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
     <ClCompile Include="ButtonQuit.cpp" />
     <ClCompile Include="ButtonSave.cpp" />
@@ -236,9 +237,10 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitAxemanII.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />
-    <ClInclude Include="UnitAxeman.h" />
+    <ClInclude Include="UnitAxemanI.h" />
     <ClInclude Include="ButtonQuit.h" />
     <ClInclude Include="ButtonSave.h" />
     <ClInclude Include="ButtonText.h" />
