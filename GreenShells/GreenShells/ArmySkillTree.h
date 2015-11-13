@@ -4,6 +4,8 @@
 
 class ArmySkillTree
 {
+public:
+
     bool Militia : 1;
     bool RangerT1 : 1;
     bool RangerT2 : 1;
@@ -18,7 +20,6 @@ class ArmySkillTree
     bool Shield : 1;
     bool Canon : 1;
 
-public:
     ArmySkillTree();
     ArmySkillTree(std::string value);
     ArmySkillTree GetReadyForResearch();

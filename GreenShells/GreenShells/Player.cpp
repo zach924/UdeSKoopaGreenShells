@@ -73,6 +73,23 @@ MapFilter Player::GetMoveRestriction()
 	return ALLOW_GROUND | BLOCK_ENEMIES;
 }
 
+
+
+UtilitySkillTree Player::GetUtilitySkillTree()
+{
+    return m_utilitySkillTree;
+}
+
+ArmySkillTree Player::GetArmySkillTree()
+{
+    return m_armySkillTree;
+}
+
+EmpireSkillTree Player::GetEmpireSkillTree()
+{
+    return m_empireSkillTree;
+}
+
 boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;

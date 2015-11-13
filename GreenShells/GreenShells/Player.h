@@ -3,6 +3,7 @@
 #include <map>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
+#include "Skills.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
@@ -12,6 +13,16 @@ class Map;
 
 class Player
 {
+public: 
+    static const int SKILL_COST_TIER1 = 10;
+    static const int SKILL_COST_TIER2 = 100;
+    static const int SKILL_COST_TIER3 = 250;
+    static const int SKILL_COST_TIER4 = 500;
+    static const int SKILL_COST_TIER5 = 1000;
+    static const int SKILL_COST_TIER6 = 2000;
+    static const int SKILL_COST_TIER7 = 3500;
+    static const int SKILL_COST_TIER8 = 5000;
+
 protected:
     std::string m_playerName;
     int m_playerID;
@@ -82,6 +93,12 @@ public:
     bool IsDisconnected();
 
 	MapFilter GetMoveRestriction();
+
+    UtilitySkillTree GetUtilitySkillTree();
+    ArmySkillTree GetArmySkillTree();
+    EmpireSkillTree GetEmpireSkillTree();
+
+    virtual void UnlockSkill(int turn, Skills skill) = 0;
 
     virtual boost::property_tree::ptree Serialize();
 };

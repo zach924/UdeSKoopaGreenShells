@@ -98,6 +98,7 @@ int WorldState::AddPlayer(std::string playerName)
     TileBase* tile = m_map->GetTile(spawnPosition);
     tile->SetDistrict(new DistrictCityCenter(playerID));
     newPlayer->AddCityCenter(spawnPosition, m_turn);
+    newPlayer->AddScience(1000000);
     m_players.push_back(newPlayer);
     return playerID;
 }

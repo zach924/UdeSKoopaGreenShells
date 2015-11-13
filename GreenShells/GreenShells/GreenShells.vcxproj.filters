@@ -506,5 +506,8 @@
     <ClInclude Include="ButtonText.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Source Files\SkillTree</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -233,6 +233,7 @@
     <ClInclude Include="EmpireSkillTree.h" />
     <ClInclude Include="PlayerLocal.h" />
     <ClInclude Include="PlayerRemote.h" />
+    <ClInclude Include="Skills.h" />
     <ClInclude Include="SkillTreePopUp.h" />
     <ClInclude Include="ButtonText.h" />
     <ClInclude Include="UnitSettler.h" />

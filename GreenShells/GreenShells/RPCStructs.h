@@ -2,6 +2,7 @@
 
 #include <string>
 #include "Position.h"
+#include "Skills.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ enum RPCStructType
     RPC_BASIC,
     RPC_BASIC_TWO_POSITIONS,
     RPC_BASIC_CREATION,
+    RPC_BASIC_UNLOCK_SKILL
 };
 
 enum RPCClassMethodType
@@ -39,7 +41,8 @@ enum RPCClassMethodType
     Map_Attack,
     Map_CreateUnit,
     Map_CreateDistrict,
-    Player_SetReady
+    Player_SetReady,
+    Player_UnlockSkill,
 };
 
 struct RPCBasicStruct
@@ -60,10 +63,15 @@ struct RPCBasicTwoPositionsStruct : public RPCBasicStruct
     Position m_secondPosition;
 };
 
-struct RPCBasicActorCreationStruct : RPCBasicStruct
+struct RPCBasicActorCreationStruct : public RPCBasicStruct
 {
     Position m_positionToCreate;
     int m_actorType;
+};
+
+struct RPCBasicUnlockSkill : public RPCBasicStruct
+{
+    Skills m_Skill;
 };
 
 struct RPCEvent

@@ -1,0 +1,43 @@
+#pragma once
+
+enum Skills {
+    //Army
+    Militia,
+    RangerT1,
+    RangerT2,
+    RangerT3,
+    SwordT2,
+    SwordT3,
+    AxeT1,
+    AxeT2,
+    MaceT1,
+    MaceT2,
+    Fortress,
+    Shield,
+    Canon,
+    //Empire
+    Settler,
+    Monastery,
+    Farm,
+    Windmill,
+    Fishery,
+    Stable,
+    Cathedral,
+    Fort,
+    MilitaryTent,
+    InnAndTavern,
+    Warehouse,
+    RessourcesBonus,
+    //Utility
+    Watchtower,
+    ScienceUpgrade,
+    BorderGrowth,
+    MovementUpgrade,
+    Embark,
+    VisionUpgrade,
+    MountainWalking,
+    MountainConstruction,
+    ArmorUpgrade,
+    University,
+    NoFogOfWar,
+};

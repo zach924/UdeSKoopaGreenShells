@@ -29,6 +29,7 @@ public:
     virtual void AddCityCenter(Position pos, int turn);
     virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
+    virtual void UnlockSkill(int turn, Skills skill);
     static PlayerLocal* Deserialize(boost::property_tree::ptree playerNode);
 };
 

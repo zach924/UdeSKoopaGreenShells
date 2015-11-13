@@ -1,6 +1,12 @@
 #pragma once
 #include <vector>
+#include <map>
+#include <string>
+#include <functional>
 #include "PopUpWindow.h"
+#include "Button.h"
+#include "Skills.h"
+
 class ButtonText;
 
 class SkillTreePopUp
@@ -15,11 +21,15 @@ private:
     int m_rowHeight;
     int m_heightSpacer;
     int m_widthSpace;
-    std::shared_ptr<ButtonText> m_closeButton;
-    std::vector<std::shared_ptr<ButtonText>> m_buttons;
+    ButtonText* m_closeButton;
+    std::map<Skills, ButtonText*> m_Buttons;
 
-    void ShowButton(std::shared_ptr<ButtonText> button);
-
+    void ShowButton(ButtonText* button);
+    void DrawDependencies(int firstColumn, int firstRow, int secondColumn, int secondRow);
+    void DrawCostsStrings(int cost, int column);
+    void SetButtonState(Skills skill, ButtonText* button);
+    ButtonText* CreateButton(int column, int row, std::string text, std::function<void()> function, ButtonState state);
+    Texture* m_scienceTexture;
 public:
     SkillTreePopUp(const char* windowName, int width, int height);
     ~SkillTreePopUp();

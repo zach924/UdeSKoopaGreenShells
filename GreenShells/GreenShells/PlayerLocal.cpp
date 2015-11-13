@@ -190,6 +190,268 @@ void PlayerLocal::SetIsDisconnected(bool value)
     m_isDisconnected = true;
 }
 
+void PlayerLocal::UnlockSkill(int turn, Skills skill)
+{
+    switch (skill)
+    {
+    case Watchtower:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_utilitySkillTree.Watchtower = true;
+        }
+        break;
+    case ScienceUpgrade:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_utilitySkillTree.ScienceUpgrade = true;
+        }
+        break;
+    case BorderGrowth:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_utilitySkillTree.BorderGrowth = true;
+        }
+        break;
+    case MovementUpgrade:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_utilitySkillTree.MovementUpgrade = true;
+        }
+        break;
+    case Embark:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_utilitySkillTree.Embark = true;
+        }
+        break;
+    case VisionUpgrade:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_utilitySkillTree.VisionUpgrade = true;
+        }
+        break;
+    case MountainWalking:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_utilitySkillTree.MountainWalking = true;
+        }
+        break;
+    case MountainConstruction:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_utilitySkillTree.MountainConstruction = true;
+        }
+        break;
+    case ArmorUpgrade:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_utilitySkillTree.ArmorUpgrade = true;
+        }
+        break;
+    case University:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_utilitySkillTree.University = true;
+        }
+        break;
+    case NoFogOfWar:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_utilitySkillTree.NoFogOfWar = true;
+        }
+        break;
+    case Militia:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_armySkillTree.Militia = true;
+        }
+        break;
+    case RangerT1:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_armySkillTree.RangerT1 = true;
+        }
+        break;
+    case RangerT2:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.RangerT2 = true;
+        }
+        break;
+    case RangerT3:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_armySkillTree.RangerT3 = true;
+        }
+        break;
+    case SwordT2:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_armySkillTree.SwordT2 = true;
+        }
+        break;
+    case SwordT3:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.SwordT3 = true;
+        }
+        break;
+    case AxeT1:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_armySkillTree.AxeT1 = true;
+        }
+        break;
+    case AxeT2:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.AxeT2 = true;
+        }
+        break;
+    case MaceT1:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_armySkillTree.MaceT1 = true;
+        }
+        break;
+    case MaceT2:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_armySkillTree.MaceT2 = true;
+        }
+        break;
+    case Fortress:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_armySkillTree.Fortress = true;
+        }
+        break;
+    case Shield:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_armySkillTree.Shield = true;
+        }
+        break;
+    case Canon:
+        if (m_science >= SKILL_COST_TIER8)
+        {
+            m_science -= SKILL_COST_TIER8;
+            m_armySkillTree.Canon = true;
+        }
+        break;
+    case Settler:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_empireSkillTree.Settler = true;
+        }
+        break;
+    case Monastery:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_empireSkillTree.Monastery = true;
+        }
+        break;
+    case Farm:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Farm = true;
+        }
+        break;
+    case Windmill:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Windmill = true;
+        }
+        break;
+    case Fishery:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Fishery = true;
+        }
+        break;
+    case Stable:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Stable = true;
+        }
+        break;
+    case Cathedral:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Cathedral = true;
+        }
+        break;
+    case Fort:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Fort = true;
+        }
+        break;
+    case MilitaryTent:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_empireSkillTree.MilitaryTent = true;
+        }
+        break;
+    case InnAndTavern:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_empireSkillTree.InnAndTavern = true;
+        }
+        break;
+    case Warehouse:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_empireSkillTree.Warehouse = true;
+        }
+        break;
+    case RessourcesBonus:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_empireSkillTree.RessourcesBonus = true;
+        }
+        break;
+    default:
+        assert(false && "Tried unlocking a random skill...");
+        break;
+    }
+}
+
 PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 {
     PlayerLocal* player = new PlayerLocal();
