@@ -7,9 +7,9 @@ public:
     typedef Unit<UnitSettler> tBase;
 
     static int const ATTACK_DAMAGE = 5;
-    static int const HEALTH = 100;
-    static int const MOVE_RANGE = 1;
-    static int const UNIT_TYPE = 2;
+    static int const HEALTH = 50;
+    static int const MOVE_RANGE = 2;
+    static int const UNIT_TYPE = 12;
     static const char* UNIT_NAME;
 
 public:

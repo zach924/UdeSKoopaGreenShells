@@ -20,6 +20,7 @@
 #include "UnitMaceII.h"
 
 #include "UnitCannon.h"
+#include "UnitShield.h"
 
 #include "MapFilter.h"
 #include "GameSession.h"
@@ -106,6 +107,9 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
                 break;
             case UnitCannon::UNIT_TYPE:
                 tile->SetUnit(UnitCannon::Deserialize(child.second));
+                break;
+            case UnitShield::UNIT_TYPE:
+                tile->SetUnit(UnitShield::Deserialize(child.second));
                 break;
             case UnitMaceI::UNIT_TYPE:
                 tile->SetUnit(UnitMaceI::Deserialize(child.second));

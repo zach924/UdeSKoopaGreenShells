@@ -6,11 +6,11 @@ class UnitAxemanI : public Unit<UnitAxemanI>
 public:
     typedef Unit<UnitAxemanI> tBase;
 
-    static int const ATTACK_DAMAGE = 75;
+    static int const ATTACK_DAMAGE = 200;
     static int const ATTACK_RANGE = 1;
-    static int const HEALTH = 75;
-    static int const MOVE_RANGE = 1;
-    static int const UNIT_TYPE = 3;
+    static int const HEALTH = 150;
+    static int const MOVE_RANGE = 3;
+    static int const UNIT_TYPE = 6;
     static const char* UNIT_NAME;
 
     UnitAxemanI(int owner);

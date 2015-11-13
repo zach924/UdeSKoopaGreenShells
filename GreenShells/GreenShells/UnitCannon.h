@@ -6,11 +6,11 @@ class UnitCannon : public Unit<UnitCannon>
 public:
     typedef Unit<UnitCannon> tBase;
 
-    static int const ATTACK_DAMAGE = 150;
-    static int const ATTACK_RANGE = 3;
-    static int const HEALTH = 75;
+    static int const ATTACK_DAMAGE = 200;
+    static int const ATTACK_RANGE = 4;
+    static int const HEALTH = 100;
     static int const MOVE_RANGE = 1;
-    static int const UNIT_TYPE = 4;
+    static int const UNIT_TYPE = 10;
     static const char* UNIT_NAME;
 
     UnitCannon(int owner);

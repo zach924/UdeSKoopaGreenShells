@@ -24,6 +24,7 @@
 #include "UnitMaceII.h"
 
 #include "UnitCannon.h"
+#include "UnitShield.h"
 
 #include <boost\property_tree\ptree.hpp>
 #include <iostream>
@@ -204,6 +205,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         break;
     case UnitCannon::UNIT_TYPE:
         unit = new UnitCannon(owner);
+        break;
+    case UnitShield::UNIT_TYPE:
+        unit = new UnitShield(owner);
         break;
     case UnitMaceI::UNIT_TYPE:
         unit = new UnitMaceI(owner);

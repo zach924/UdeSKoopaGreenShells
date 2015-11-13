@@ -8,9 +8,9 @@ public:
 
     static int const ATTACK_DAMAGE = 75;
     static int const ATTACK_RANGE = 1;
-    static int const HEALTH = 150;
-    static int const MOVE_RANGE = 1;
-    static int const UNIT_TYPE = 11;
+    static int const HEALTH = 300;
+    static int const MOVE_RANGE = 2;
+    static int const UNIT_TYPE = 9;
     static const char* UNIT_NAME;
 
     UnitMaceII(int owner);

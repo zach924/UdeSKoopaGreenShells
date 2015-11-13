@@ -8,9 +8,9 @@ public:
 
     static int const ATTACK_DAMAGE = 100;
     static int const ATTACK_RANGE = 4;
-    static int const HEALTH = 150;
-    static int const MOVE_RANGE = 1;
-    static int const UNIT_TYPE = 10;
+    static int const HEALTH = 250;
+    static int const MOVE_RANGE = 2;
+    static int const UNIT_TYPE = 5;
     static const char* UNIT_NAME;
 
 public:

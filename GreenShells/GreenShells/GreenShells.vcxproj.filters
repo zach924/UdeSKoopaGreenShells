@@ -346,7 +346,10 @@
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="UnitMaceII.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitShield.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -588,7 +591,10 @@
       <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UnitMaceII.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitShield.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

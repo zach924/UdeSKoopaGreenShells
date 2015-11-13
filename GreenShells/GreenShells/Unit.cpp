@@ -18,6 +18,7 @@
 #include "UnitMaceII.h"
 
 #include "UnitCannon.h"
+#include "UnitShield.h"
 
 #include "UnitEmpty.h"
 
@@ -39,6 +40,7 @@ Texture UnitMaceI::tBase::m_Texture = {};
 Texture UnitMaceII::tBase::m_Texture = {};
 
 Texture UnitCannon::tBase::m_Texture = {};
+Texture UnitShield::tBase::m_Texture = {};
 
 Texture UnitEmpty::tBase::m_Texture = {};
 
@@ -60,5 +62,6 @@ bool UnitMaceI::tBase::m_forceLoading = false;
 bool UnitMaceII::tBase::m_forceLoading = false;
 
 bool UnitCannon::tBase::m_forceLoading = false;
+bool UnitShield::tBase::m_forceLoading = false;
 
 bool UnitEmpty::tBase::m_forceLoading = false;
