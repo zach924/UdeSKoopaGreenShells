@@ -84,6 +84,7 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
 bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
 {
     std::stringstream ss;
+    std::cout << "Spawning in remote" << unitType << std::endl;
 
     RPCStructType dataType{};
     dataType = RPCStructType::RPC_BASIC_CREATION;

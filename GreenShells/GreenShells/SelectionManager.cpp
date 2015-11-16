@@ -35,6 +35,20 @@
 #include "ButtonSkillTree.h"
 #include "ButtonMenu.h"
 
+#include "UnitSettler.h"
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+#include "UnitCannon.h"
+#include "UnitShield.h"
+
 SelectionManager::SelectionManager()
     :m_state(m_idle)
     , m_unitEmpty(new UnitEmpty(-1))
@@ -260,7 +274,7 @@ void SelectionManager::UpdateButtonState()
         else if (dynamic_cast<ButtonSpawnUnit*>(btn) != nullptr)
         {
             if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
-                && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
+                && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() && selectedUnit == m_unitEmpty)
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -417,6 +431,7 @@ void SelectionManager::CreateUnitPressed(int unitType)
     if (IsADistrictSelected())
     {
         m_unitTypeToCreate = unitType;
+        std::cout << "Spawning " << unitType << std::endl;
         CreateUnit(m_selectedPosition);
 
         // TODO : Change for open the window and then create the unit
@@ -529,3 +544,99 @@ void SelectionManager::DistrictRepair()
 {
     // TODO
 }
+
+
+void SelectionManager::SpawnSwordsman()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+
+    if (skillTree.SwordT3)
+    {
+        CreateUnitPressed(UnitSwordsmanIII::UNIT_TYPE);
+    }
+    else if (skillTree.SwordT2)
+    {
+        CreateUnitPressed(UnitSwordsmanII::UNIT_TYPE);
+    }
+    else
+    {
+        CreateUnitPressed(UnitSwordsmanI::UNIT_TYPE);
+    }
+}
+
+void SelectionManager::SpawnArcher()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+    if (skillTree.RangerT3)
+    {
+        CreateUnitPressed(UnitArcherIII::UNIT_TYPE);
+    }
+    else if (skillTree.RangerT2)
+    {
+        CreateUnitPressed(UnitArcherII::UNIT_TYPE);
+    }
+    else if (skillTree.RangerT1)
+    {
+        CreateUnitPressed(UnitArcherI::UNIT_TYPE);
+    }
+
+}
+
+void SelectionManager::SpawnAxeman()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+    if (skillTree.AxeT2)
+    {
+        CreateUnitPressed(UnitAxemanII::UNIT_TYPE);
+    }
+    else if (skillTree.AxeT1)
+    {
+        CreateUnitPressed(UnitAxemanI::UNIT_TYPE);
+    }
+
+}
+
+void SelectionManager::SpawnMace()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+    if (skillTree.MaceT2)
+    {
+        CreateUnitPressed(UnitMaceII::UNIT_TYPE);
+    }
+    else if (skillTree.MaceT1)
+    {
+        CreateUnitPressed(UnitMaceI::UNIT_TYPE);
+    }
+
+}
+
+void SelectionManager::SpawnCannon()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+    if (skillTree.Canon)
+    {
+        CreateUnitPressed(UnitCannon::UNIT_TYPE);
+    }
+
+}
+
+void SelectionManager::SpawnShield()
+{
+    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
+    if (skillTree.Shield)
+    {
+        CreateUnitPressed(UnitShield::UNIT_TYPE);
+    }
+
+}
+
+void SelectionManager::SpawnSettler()
+{
+    EmpireSkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetEmpireSkillTree();
+    if (skillTree.Settler)
+    {
+        CreateUnitPressed(UnitSettler::UNIT_TYPE);
+    }
+
+}
+

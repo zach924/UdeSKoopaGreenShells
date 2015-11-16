@@ -8,6 +8,7 @@ public:
     int Column;
     int Row;
 
+
     Position(int column = -1, int row = -1);
     ~Position();
     std::string ToString() const;

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <set>
 
 #include "Position.h"
 #include "TileBase.h"
@@ -30,7 +31,6 @@ public:
     std::vector<Position> GetSpawnPositions();
 
     std::vector<Position> GetArea(Position position, int distance, MapFilter filter);
-
 
     TileBase* GetTile(Position);
     virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);

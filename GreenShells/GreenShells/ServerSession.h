@@ -32,6 +32,8 @@ public:
     void StartServer(int port);
     void StopServer();
     void Replicate();
+    WorldState* GetWorldState();
 
     int AddPlayer(std::string playerName);
+
 };

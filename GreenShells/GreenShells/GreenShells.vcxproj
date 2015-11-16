@@ -164,6 +164,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="ButtonSpawnUnit.cpp" />
+    <ClCompile Include="SpawnUnitPopUp.cpp" />
     <ClCompile Include="UnitArcherII.cpp" />
     <ClCompile Include="UnitArcherIII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
@@ -196,7 +198,6 @@
     <ClCompile Include="ButtonNo.cpp" />
     <ClCompile Include="ButtonUnitSell.cpp" />
     <ClCompile Include="ButtonSkillTree.cpp" />
-    <ClCompile Include="ButtonSpawnUnit.cpp" />
     <ClCompile Include="ButtonUnitCancel.cpp" />
     <ClCompile Include="ButtonUnitHeal.cpp" />
     <ClCompile Include="ButtonUnitAttack.cpp" />
@@ -241,6 +242,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SpawnUnitPopUp.h" />
     <ClInclude Include="UnitArcherII.h" />
     <ClInclude Include="UnitArcherIII.h" />
     <ClInclude Include="UnitAxemanII.h" />

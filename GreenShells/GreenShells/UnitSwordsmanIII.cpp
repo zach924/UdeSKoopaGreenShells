@@ -8,6 +8,7 @@ const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 UnitSwordsmanIII::UnitSwordsmanIII(int owner)
     : Unit<UnitSwordsmanIII>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    std::cout << "Spwaning Unite SwordsmanIII " << std::endl;
 }
 
 UnitSwordsmanIII::~UnitSwordsmanIII()

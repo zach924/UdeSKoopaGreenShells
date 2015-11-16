@@ -10,6 +10,7 @@ public:
     static int const HEALTH = 250;
     static int const MOVE_RANGE = 2;
     static int const UNIT_TYPE = 1;
+    static int const UNIT_TIER = 2;
     static const char* UNIT_NAME;
 
 public:

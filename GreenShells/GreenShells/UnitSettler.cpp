@@ -6,6 +6,8 @@ const char* UnitSettler::UNIT_NAME = "Settler";
 UnitSettler::UnitSettler(int owner)
     : Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    std::cout << "Spwaning Unite Settler " << std::endl;
+
 }
 
 UnitSettler::~UnitSettler()

@@ -1,4 +1,6 @@
 #include "MapLocal.h"
+#include "ServerSession.h"
+#include "PlayerLocal.h"
 
 #include "TileGround.h"
 #include "TileMountain.h"
@@ -172,48 +174,62 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     {
         return false;
     }
+    Player* player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
 
     UnitBase* unit = nullptr;
     switch (unitType)
     {
     case UnitSwordsmanI::UNIT_TYPE:
         unit = new UnitSwordsmanI(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanI::UNIT_TIER));
         break;
     case UnitSwordsmanII::UNIT_TYPE:
         unit = new UnitSwordsmanII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanII::UNIT_TIER));
         break;
     case UnitSwordsmanIII::UNIT_TYPE:
         unit = new UnitSwordsmanIII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanIII::UNIT_TIER));
         break;
     case UnitArcherI::UNIT_TYPE:
         unit = new UnitArcherI(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherI::UNIT_TIER));
         break;
     case UnitArcherII::UNIT_TYPE:
         unit = new UnitArcherII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherII::UNIT_TIER));
         break;
     case UnitArcherIII::UNIT_TYPE:
         unit = new UnitArcherIII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherIII::UNIT_TIER));
         break;
     case UnitSettler::UNIT_TYPE:
         unit = new UnitSettler(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSettler::UNIT_TIER));
         break;
     case UnitAxemanI::UNIT_TYPE:
         unit = new UnitAxemanI(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanI::UNIT_TIER));
         break;
     case UnitAxemanII::UNIT_TYPE:
         unit = new UnitAxemanII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanII::UNIT_TIER));
         break;
     case UnitCannon::UNIT_TYPE:
         unit = new UnitCannon(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitCannon::UNIT_TIER));
         break;
     case UnitShield::UNIT_TYPE:
         unit = new UnitShield(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitShield::UNIT_TIER));
         break;
     case UnitMaceI::UNIT_TYPE:
         unit = new UnitMaceI(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceI::UNIT_TIER));
         break;
     case UnitMaceII::UNIT_TYPE:
         unit = new UnitMaceII(owner);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceII::UNIT_TIER));
         break;
     default:
         return false;
