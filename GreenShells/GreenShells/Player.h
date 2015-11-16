@@ -15,7 +15,7 @@ class Player
 {
 protected:
 
-    const int OFFER_DURATION = 10;
+    static const int OFFER_DURATION = 10;
     std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;

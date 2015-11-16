@@ -101,7 +101,6 @@ void PlayerLocal::SetIsAlive(bool value)
             p->AddNewRelation(m_playerID);
             AddNewRelation(p->GetPlayerID());
         }
-        m_diplomaticRelations.clear();
     }
     else
     {
