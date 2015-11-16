@@ -178,6 +178,8 @@
     <ClCompile Include="ButtonQuit.cpp" />
     <ClCompile Include="ButtonSave.cpp" />
     <ClCompile Include="ButtonText.cpp" />
+    <ClCompile Include="DiplomacyPopUp.cpp" />
+    <ClCompile Include="DiplomaticRelation.cpp" />
     <ClCompile Include="ButtonMenu.cpp" />
     <ClCompile Include="ButtonResSelect.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
@@ -254,6 +256,8 @@
     <ClInclude Include="ButtonQuit.h" />
     <ClInclude Include="ButtonSave.h" />
     <ClInclude Include="ButtonText.h" />
+    <ClInclude Include="DiplomacyPopUp.h" />
+    <ClInclude Include="DiplomaticRelation.h" />
     <ClInclude Include="ButtonMenu.h" />
     <ClInclude Include="ButtonResSelect.h" />
     <ClInclude Include="MapFilter.h" />

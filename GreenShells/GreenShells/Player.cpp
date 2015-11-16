@@ -21,7 +21,6 @@
 #include "UnitCannon.h"
 #include "UnitShield.h"
 
-
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -38,7 +37,8 @@ Player::Player()
     m_isDisconnected(false),
     m_armySkillTree(),
     m_empireSkillTree(),
-    m_utilitySkillTree()
+    m_utilitySkillTree(),
+    m_diplomaticRelations()
 {
 }
 
@@ -81,6 +81,18 @@ bool Player::IsAlive()
     return m_isAlive;
 }
 
+bool Player::IsNegociating()
+{
+    for (auto relation : m_diplomaticRelations)
+    {
+        if (relation.second.GetRelationStatus() == RelationStatus::NegocatingAlliance || relation.second.GetRelationStatus() == RelationStatus::NegociatingPeace)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Player::IsDisconnected()
 {
     return m_isDisconnected;
@@ -105,6 +117,16 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.EST", m_empireSkillTree.toString());
     playerNode.put("<xmlattr>.AST", m_armySkillTree.toString());
 
+    boost::property_tree::ptree& diplomaticRelationsNode = playerNode.add("DR", "");
+    for (auto relation = m_diplomaticRelations.begin(); relation != m_diplomaticRelations.end(); ++relation)
+    {
+        boost::property_tree::ptree& relationNode = diplomaticRelationsNode.add("R", "");
+        relationNode.put("<xmlattr>.SP", relation->first);//SP = Second Player
+        relationNode.put("<xmlattr>.RS", relation->second.GetRelationStatus());//RS = Relation Status
+        relationNode.put("<xmlattr>.MA", relation->second.GetMustAnswerPlayerId());//MA = Must Answer Player Id
+        relationNode.put("<xmlattr>.PT", relation->second.GetPropositionTurn());//PT = Proposition Turn
+    }
+
     boost::property_tree::ptree& cityCenterListNode = playerNode.add("CCL", "");
     for (auto cityCenter : m_cityCenterLocations)
     {
@@ -115,6 +137,11 @@ boost::property_tree::ptree Player::Serialize()
         cityCenterListNode.add_child("CC", cityCenterNode);
     }
     return playerNode;
+}
+
+std::map<int, DiplomaticRelation> Player::GetDiplomaticRelations()
+{
+    return m_diplomaticRelations;
 }
 
 MapFilter Player::GetMoveRestriction()
@@ -296,4 +323,3 @@ int Player::GetSettlerTier()
         return -1;
     }
 }
-
