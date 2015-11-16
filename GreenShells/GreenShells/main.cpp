@@ -123,7 +123,6 @@ int main(int argc, char* argv[])
                 return 0;
             }
         }
-        _CrtDumpMemoryLeaks();
 
         return 0;
     }

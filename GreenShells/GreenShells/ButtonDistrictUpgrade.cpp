@@ -13,7 +13,7 @@ ButtonDistrictUpgrade::~ButtonDistrictUpgrade()
 
 void ButtonDistrictUpgrade::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().DistrictUpgrade();
 }
 
 void ButtonDistrictUpgrade::LoadTextTexture(SDL_Renderer* rend)

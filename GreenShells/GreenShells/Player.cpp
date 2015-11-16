@@ -67,12 +67,6 @@ bool Player::IsDisconnected()
     return m_isDisconnected;
 }
 
-MapFilter Player::GetMoveRestriction()
-{
-    // TODO : when zach push the skill tree
-    return ALLOW_GROUND | BLOCK_ENEMIES;
-}
-
 boost::property_tree::ptree Player::Serialize()
 {
     boost::property_tree::ptree playerNode;
@@ -103,3 +97,32 @@ boost::property_tree::ptree Player::Serialize()
     }
     return playerNode;
 }
+
+MapFilter Player::GetMoveRestriction()
+{
+    MapFilter moveRestriction = ALLOW_GROUND | BLOCK_ENEMIES;
+    if (m_utilitySkillTree.Embark)
+    {
+        moveRestriction |= ALLOW_WATER;
+    }
+
+    if (m_utilitySkillTree.MountainWalking)
+    {
+        moveRestriction |= ALLOW_MOUNTAIN;
+    }
+    return moveRestriction;
+}
+
+UtilitySkillTree Player::GetUtilitySkillTree()
+{
+    return m_utilitySkillTree;
+}
+ArmySkillTree Player::GetArmySkillTree()
+{
+    return m_armySkillTree;
+}
+EmpireSkillTree Player::GetEmpireSkillTree()
+{
+    return m_empireSkillTree;
+}
+

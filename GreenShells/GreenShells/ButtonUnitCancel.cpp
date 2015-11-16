@@ -13,7 +13,7 @@ ButtonUnitCancel::~ButtonUnitCancel()
 
 void ButtonUnitCancel::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().Cancel();
 }
 
 void ButtonUnitCancel::LoadTextTexture(SDL_Renderer* rend)

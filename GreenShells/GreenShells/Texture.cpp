@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include <SDL.h>
 #include <exception>
+#include <iostream>
 #include "GameWindow.h"
 
 Texture::Texture()
@@ -55,6 +56,7 @@ bool Texture::LoadFromFile(std::string path, SDL_Renderer* rend)
     }
     m_texture = newTexture;
     m_IsLoaded = m_texture != NULL;
+
     return m_IsLoaded;
 }
 
@@ -62,15 +64,20 @@ bool Texture::CreateFromText(std::string message, TTF_Font * font, SDL_Renderer 
 {
     Free();
     SDL_Texture* newTexture = nullptr;
-    
+    SDL_Surface* surface;
     if (font == nullptr)
     {
-        font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 20);
+        TTF_Font* tempFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 20);
+        SDL_Color Color = { 255, 255, 255 };
+        surface = TTF_RenderText_Blended(const_cast<TTF_Font*>(tempFont), message.c_str(), Color);
+        TTF_CloseFont(tempFont);
+    }
+    else
+    {
+        SDL_Color Color = { 255, 255, 255 };
+        surface = TTF_RenderText_Blended(const_cast<TTF_Font*>(font), message.c_str(), Color);
     }
 
-    SDL_Color Color = { 255, 255, 255 };
-    SDL_Surface* surface = TTF_RenderText_Blended(const_cast<TTF_Font*>(font), message.c_str(), Color);
-    TTF_CloseFont(font);
     if (surface == NULL)
     {
         std::string msg(SDL_GetError());

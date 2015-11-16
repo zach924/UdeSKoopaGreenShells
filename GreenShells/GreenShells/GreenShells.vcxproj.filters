@@ -109,6 +109,12 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{c663eaa8-6fc1-4f91-99f6-f0ad1054115c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\Button\MenuButton">
+      <UniqueIdentifier>{78ab30c7-83a4-429a-9321-5549fb91d2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Button\MenuButton">
+      <UniqueIdentifier>{1631456d-5a0d-4679-aa11-a53368609351}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -246,9 +252,6 @@
     <ClCompile Include="ButtonYes.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="UnitArcher.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonNo.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
@@ -263,9 +266,6 @@
     </ClCompile>
     <ClCompile Include="YesNoPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitSwordsman.cpp">
-      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="DistrictCityCenter.cpp">
       <Filter>Source Files\Actor\District</Filter>
@@ -299,6 +299,57 @@
     </ClCompile>
     <ClCompile Include="ButtonText.cpp">
       <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonMenu.cpp">
+      <Filter>Source Files\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonResSelect.cpp">
+      <Filter>Source Files\UI\Button\MenuButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonQuit.cpp">
+      <Filter>Source Files\UI\Button\MenuButton</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonSave.cpp">
+      <Filter>Source Files\UI\Button\MenuButton</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitCannon.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSwordsmanI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSwordsmanII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitSwordsmanIII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAxemanI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitAxemanII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitArcherI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitArcherII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitArcherIII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitMaceI.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitMaceII.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitShield.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +494,6 @@
     <ClInclude Include="ButtonYes.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
-    <ClInclude Include="UnitSwordsman.h">
-      <Filter>Header Files\Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonNo.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
@@ -454,9 +502,6 @@
     </ClInclude>
     <ClInclude Include="PopUpWindow.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitArcher.h">
-      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="YesNoPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
@@ -499,6 +544,57 @@
     </ClInclude>
     <ClInclude Include="ButtonText.h">
       <Filter>Header Files\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonQuit.h">
+      <Filter>Header Files\UI\Button\MenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonMenu.h">
+      <Filter>Header Files\UI\Button\MenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonResSelect.h">
+      <Filter>Header Files\UI\Button\MenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonSave.h">
+      <Filter>Header Files\UI\Button\MenuButton</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitCannon.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitSwordsmanIII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAxemanI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitAxemanII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitArcherI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitArcherII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitArcherIII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMaceI.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMaceII.h">
+      <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitShield.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

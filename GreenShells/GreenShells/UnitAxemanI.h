@@ -1,21 +1,21 @@
 #pragma once
 #include "Unit.h"
 
-class UnitSwordsman : public Unit<UnitSwordsman>
+class UnitAxemanI : public Unit<UnitAxemanI>
 {
 public:
-    typedef Unit<UnitSwordsman> tBase;
+    typedef Unit<UnitAxemanI> tBase;
 
-    static int const ATTACK_DAMAGE = 50;
-    static int const HEALTH = 100;
-    static int const MOVE_RANGE = 2;
-    static int const UNIT_TYPE = 0;
-    static int const VIEW_RANGE = 2;
+    static int const ATTACK_DAMAGE = 200;
+    static int const ATTACK_RANGE = 1;
+    static int const HEALTH = 150;
+    static int const MOVE_RANGE = 3;
+    static int const UNIT_TYPE = 6;
+    static int const VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
-public:
-    UnitSwordsman(int owner);
-    ~UnitSwordsman();
+    UnitAxemanI(int owner);
+    virtual ~UnitAxemanI();
     virtual UnitBase* Clone();
     void LoadTexture();
 
@@ -29,5 +29,5 @@ public:
     virtual AttackNotification Attack(UnitBase* target);
     virtual AttackNotification Attack(DistrictBase* target);
 
-    static UnitSwordsman* Deserialize(boost::property_tree::ptree node);
+    static UnitAxemanI* Deserialize(boost::property_tree::ptree node);
 };

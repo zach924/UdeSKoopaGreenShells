@@ -81,6 +81,8 @@ bool GameSession::ConnectToServer(char* playerName)
 void GameSession::Save(std::string fileName)
 {
     std::ofstream fileStream;
+    fileName.insert(0, "SavedFile\\");
+    fileName += ".xml";
     fileStream.open(fileName);
 
     boost::property_tree::write_xml(fileStream, m_worldState.Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));

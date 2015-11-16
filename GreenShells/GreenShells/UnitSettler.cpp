@@ -37,12 +37,12 @@ bool UnitSettler::CanUpgrade()
 
 int UnitSettler::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * UnitSettler::GetName()
 {
-	return UNIT_NAME;
+    return UNIT_NAME;
 }
 
 int UnitSettler::GetTypeAsInt()
