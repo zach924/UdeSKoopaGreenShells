@@ -7,8 +7,7 @@
 
 void PlayerLocal::RemoveRelation(int otherPlayerId)
 {
-    auto relation = m_diplomaticRelations.find(otherPlayerId);
-    m_diplomaticRelations.erase(relation);
+    m_diplomaticRelations.erase(otherPlayerId);
 }
 
 PlayerLocal::PlayerLocal()
@@ -96,7 +95,7 @@ void PlayerLocal::SetIsAlive(bool value)
 {
     if (value)
     {
-        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayersCopy();
+        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayers();
         for (auto p : players)
         {
             p->AddNewRelation(m_playerID);
@@ -106,7 +105,7 @@ void PlayerLocal::SetIsAlive(bool value)
     }
     else
     {
-        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayersCopy();
+        auto players = ServerSession::GetInstance().GetWorldState()->GetPlayers();
         for (auto p : players)
         {
             p->RemoveRelation(m_playerID);
@@ -221,12 +220,15 @@ void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
 
 void PlayerLocal::AddCityCenter(Position pos, int turn)
 {
-    m_cityCenterLocations[pos] = turn;
+    m_cityCenterLocations.insert(map<Position, int>::value_type(pos, turn));
 }
 
 void PlayerLocal::RemoveCityCenter(Position pos)
 {
-    m_cityCenterLocations.erase(pos);
+    if (m_cityCenterLocations.find(pos) != m_cityCenterLocations.end())
+    {
+        m_cityCenterLocations.erase(pos);
+    }
 
     if (m_cityCenterLocations.size() <= 0)
     {
@@ -295,7 +297,7 @@ void PlayerLocal::ReceiveAllianceProposition(int otherPlayerId, int currentTurn)
     auto relation = m_diplomaticRelations.find(otherPlayerId);
     if (relation->second.GetRelationStatus() == RelationStatus::Peace)
     {
-        relation->second.ChangeRelationStatus(RelationStatus::NegocatingAlliance,currentTurn, m_playerID);
+        relation->second.ChangeRelationStatus(RelationStatus::NegocatingAlliance, currentTurn, m_playerID);
     }
 }
 

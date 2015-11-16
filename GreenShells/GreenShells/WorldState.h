@@ -29,6 +29,8 @@ public:
 
     std::vector<Player*> GetPlayersCopy();
 
+    std::vector<Player*> GetPlayers();
+
     void PrepareLocalGame();
     int GetCurrentTurn();
     void NotifyNewTurn();

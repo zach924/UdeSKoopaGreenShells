@@ -58,6 +58,11 @@ std::vector<Player*> WorldState::GetPlayersCopy()
     return players;
 }
 
+std::vector<Player*> WorldState::GetPlayers()
+{
+    return m_players;
+}
+
 void WorldState::PrepareLocalGame()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
