@@ -2,10 +2,6 @@
 #include "ButtonSkillTree.h"
 #include "SelectionManager.h"
 
-//TODO: to be removed
-#include "GameSession.h"
-#include "Map.h"
-
 ButtonSkillTree::ButtonSkillTree(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
 {

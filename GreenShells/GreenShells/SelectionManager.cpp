@@ -431,7 +431,6 @@ void SelectionManager::CreateUnitPressed(int unitType)
     if (IsADistrictSelected())
     {
         m_unitTypeToCreate = unitType;
-        std::cout << "Spawning " << unitType << std::endl;
         CreateUnit(m_selectedPosition);
 
         // TODO : Change for open the window and then create the unit
