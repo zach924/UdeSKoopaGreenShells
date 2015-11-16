@@ -2,6 +2,7 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 
+const double Player::BORDER_GROWTH_BONUS_RATE = 0.9f;
 
 Player::Player()
     :m_playerID(),

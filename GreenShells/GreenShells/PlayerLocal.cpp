@@ -131,45 +131,6 @@ void PlayerLocal::AddWeaponMultiplier(double multiplier)
     m_weaponMultiplier += multiplier;
 }
 
-void PlayerLocal::RemoveFoodMultiplier(double multiplier)
-{
-    // no unsigned double so valid we dont go under 0
-    if (m_foodMultiplier >= multiplier)
-    {
-        m_foodMultiplier -= multiplier;
-    }
-    else
-    {
-        m_foodMultiplier = 0.0;
-    }
-}
-
-void PlayerLocal::RemoveScienceMultiplier(double multiplier)
-{
-    // no unsigned double so valid we dont go under 0
-    if (m_scienceMultiplier >= multiplier)
-    {
-        m_scienceMultiplier -= multiplier;
-    }
-    else
-    {
-        m_scienceMultiplier = 0.0;
-    }
-}
-
-void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
-{
-    // no unsigned double so valid we dont go under 0
-    if (m_weaponMultiplier >= multiplier)
-    {
-        m_weaponMultiplier -= multiplier;
-    }
-    else
-    {
-        m_weaponMultiplier = 0.0;
-    }
-}
-
 void PlayerLocal::AddCityCenter(Position pos, int turn)
 {
     m_cityCenterLocations[pos] = turn;
@@ -206,6 +167,7 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER2;
             m_utilitySkillTree.ScienceUpgrade = true;
+            AddScienceMultiplier(0.15);
         }
         break;
     case BorderGrowth:
@@ -220,6 +182,7 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER4;
             m_utilitySkillTree.MovementUpgrade = true;
+            //TODO after merge
         }
         break;
     case Embark:
@@ -488,19 +451,19 @@ void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
     {
         std::vector<Position> ownedTiles;
         int cityCenterTier = turn - cityCenter.second;
-        if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
+        if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T4 : DistrictCityCenter::TURN_FOR_BORDER_T4 * BORDER_GROWTH_BONUS_RATE) )
         {
             ownedTiles = map->GetArea(cityCenter.first, 4, NO_FILTER);
         }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T3 : DistrictCityCenter::TURN_FOR_BORDER_T3 * BORDER_GROWTH_BONUS_RATE))
         {
             ownedTiles = map->GetArea(cityCenter.first, 3, NO_FILTER);
         }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T2 : DistrictCityCenter::TURN_FOR_BORDER_T2 * BORDER_GROWTH_BONUS_RATE))
         {
             ownedTiles = map->GetArea(cityCenter.first, 2, NO_FILTER);
         }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T1 : DistrictCityCenter::TURN_FOR_BORDER_T1 * BORDER_GROWTH_BONUS_RATE))
         {
             ownedTiles = map->GetArea(cityCenter.first, 1, NO_FILTER);
         }

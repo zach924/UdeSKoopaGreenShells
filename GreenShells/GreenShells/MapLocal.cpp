@@ -1,4 +1,10 @@
+#include <boost\property_tree\ptree.hpp>
+#include <iostream>
+#include <exception>
+
 #include "MapLocal.h"
+#include "GameSession.h"
+#include "Player.h"
 
 #include "TileGround.h"
 #include "TileMountain.h"
@@ -11,9 +17,6 @@
 #include "UnitSettler.h"
 #include "UnitSwordsman.h"
 
-#include <boost\property_tree\ptree.hpp>
-#include <iostream>
-#include <exception>
 
 MapLocal::MapLocal()
     :Map()
@@ -66,9 +69,20 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
     auto secondTile = GetTile(newLocation);
 
+    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+
+    if (secondTile->GetTypeAsInt() == TileWater::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().Embark)
+    {
+        return false;
+    }
+
+    if (secondTile->GetTypeAsInt() == TileMountain::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().MountainWalking)
+    {
+        return false;
+    }
 
     //New Location is emtpy or there is a district and it's allied. Move him
-    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
+    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (!secondTile->GetUnit() && secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
     {
         UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);

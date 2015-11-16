@@ -124,21 +124,6 @@ void PlayerRemote::AddWeaponMultiplier(double multiplier)
     assert(false && "Don't use this with player remote");
 }
 
-void PlayerRemote::RemoveFoodMultiplier(double multiplier)
-{
-    assert(false && "Don't use this with player remote");
-}
-
-void PlayerRemote::RemoveScienceMultiplier(double multiplier)
-{
-    assert(false && "Don't use this with player remote");
-}
-
-void PlayerRemote::RemoveWeaponMultiplier(double multiplier)
-{
-    assert(false && "Don't use this with player remote");
-}
-
 void PlayerRemote::AddCityCenter(Position pos, int turn)
 {
     assert(false && "Don't use this with player remote");

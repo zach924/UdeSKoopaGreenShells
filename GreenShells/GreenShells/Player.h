@@ -23,6 +23,8 @@ public:
     static const int SKILL_COST_TIER7 = 3500;
     static const int SKILL_COST_TIER8 = 5000;
 
+    static const double BORDER_GROWTH_BONUS_RATE; //
+
 protected:
     std::string m_playerName;
     int m_playerID;
@@ -80,11 +82,6 @@ public:
     virtual void AddFoodMultiplier(double multiplier) = 0;
     virtual void AddScienceMultiplier(double multiplier) = 0;
     virtual void AddWeaponMultiplier(double multiplier) = 0;
-
-    // TODO : When gameplay will be more canon, see if the multiplier can go under 1.0 (Ennemy affecting my ratio)
-    virtual void RemoveFoodMultiplier(double multiplier) = 0;
-    virtual void RemoveScienceMultiplier(double multiplier) = 0;
-    virtual void RemoveWeaponMultiplier(double multiplier) = 0;
 
     virtual void AddCityCenter(Position pos, int turn) = 0;
     virtual void RemoveCityCenter(Position pos) = 0;

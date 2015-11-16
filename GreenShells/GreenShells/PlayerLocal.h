@@ -23,9 +23,6 @@ public:
     virtual void AddFoodMultiplier(double multiplier);
     virtual void AddScienceMultiplier(double multiplier);
     virtual void AddWeaponMultiplier(double multiplier);
-    virtual void RemoveFoodMultiplier(double multiplier);
-    virtual void RemoveScienceMultiplier(double multiplier);
-    virtual void RemoveWeaponMultiplier(double multiplier);
     virtual void AddCityCenter(Position pos, int turn);
     virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
