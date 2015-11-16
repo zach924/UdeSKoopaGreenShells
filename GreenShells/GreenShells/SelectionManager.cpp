@@ -60,7 +60,13 @@ UnitBase* SelectionManager::GetSelectedUnit()
     else
     {
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        UnitBase* unitSelected = map->GetTile(m_selectedPosition)->GetUnit();
+        TileBase* tile = map->GetTile(m_selectedPosition);
+
+        UnitBase* unitSelected = nullptr;
+        if (tile->IsSeen(GameSession::GetInstance().GetCurrentPlayerID()))
+        {
+            unitSelected = tile->GetUnit();
+        }
 
         return unitSelected ? unitSelected->Clone() : m_unitEmpty;
     }
@@ -75,9 +81,16 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     else
     {
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        DistrictBase* selecteDistrict = map->GetTile(m_selectedPosition)->GetDistrict();
+        TileBase* tile = map->GetTile(m_selectedPosition);
+        
+        DistrictBase* districtSelected = nullptr;
+        
+        if (tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
+        {
+            districtSelected = tile->GetDistrict();
+        }
 
-        return selecteDistrict ? selecteDistrict->Clone() : m_districtEmpty;
+        return districtSelected ? districtSelected->Clone() : m_districtEmpty;
     }
 }
 
@@ -258,7 +271,8 @@ void SelectionManager::UpdateButtonState()
         else if (dynamic_cast<ButtonSpawnUnit*>(btn) != nullptr)
         {
             if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
-                && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
+                && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
+                && selectedUnit == m_unitEmpty)
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -394,7 +408,7 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         m_districtTypeToConstruct = districtType;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        std::vector<Position> allPositionNear = map->GetArea(m_selectedPosition, 3 /* TODO : Validate where the constant will be (MaxBorderRange) */, NO_FILTER);
+        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, 3 /* TODO : Validate where the constant will be (MaxBorderRange) */, NO_FILTER);
 
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
@@ -428,7 +442,7 @@ void SelectionManager::UnitAttackPressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
 
-        std::vector<Position> allPositionNear = map->GetArea(m_selectedPosition, GetSelectedUnit()->GetAttackRange(), NO_FILTER);
+        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, GetSelectedUnit()->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
         {
@@ -454,7 +468,7 @@ void SelectionManager::UnitMovePressed()
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         Position unitPosition = m_selectedPosition;
         Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-        std::vector<Position> allPositionNear = map->GetArea(unitPosition, GetSelectedUnit()->GetMoveRange(), player->GetMoveRestriction());
+        std::set<Position> allPositionNear = map->GetArea(unitPosition, GetSelectedUnit()->GetMoveRange(), player->GetMoveRestriction());
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
         {

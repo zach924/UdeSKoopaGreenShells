@@ -9,7 +9,6 @@ public:
     Map* Clone();
 
     void DiscoverArea(Position pos, int range, int playerId);
-    void VisionChange(Position initialPos, Position newPosition, int range, int playerId);
 
     virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
     virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);

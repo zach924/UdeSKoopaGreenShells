@@ -464,13 +464,16 @@ void GameWindow::ShowWindow()
                         SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
                     }
 
-                    //Render the unit
-                    UnitBase* unit = tile->GetUnit();
-                    if (unit)
+                    if (isSeen)
                     {
-                        Texture* unitTexture = unit->GetTexture();
-                        unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
-                        SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+                        //Render the unit
+                        UnitBase* unit = tile->GetUnit();
+                        if (unit)
+                        {
+                            Texture* unitTexture = unit->GetTexture();
+                            unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
+                            SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+                        }
                     }
                     //Render the overlay
                     if (tile->GetOverlayVisible())
@@ -619,6 +622,8 @@ void GameWindow::ShowWindow()
 
             if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
             {
+                bool isInVision = map->GetTile(selectedDistrict->GetPosition())->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
+
                 xPos += widthIcon + iconTextSpacing;
 
                 /************
@@ -646,9 +651,17 @@ void GameWindow::ShowWindow()
                 *************/
                 {
                     std::string healthText = "Health : ";
-                    healthText.append(std::to_string(selectedDistrict->GetHealth()));
-                    healthText.append("/");
-                    healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
+
+                    if (isInVision)
+                    {
+                        healthText.append(std::to_string(selectedDistrict->GetHealth()));
+                        healthText.append("/");
+                        healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
+                    }
+                    else
+                    {
+                        healthText.append("???/???");
+                    }
 
                     SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
                     assert(healthSurface != NULL && TTF_GetError());
@@ -671,7 +684,14 @@ void GameWindow::ShowWindow()
                 *************/
                 {
                     std::string attackText = "Atk dmg : ";
-                    attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+                    if (isInVision)
+                    {
+                        attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+                    }
+                    else
+                    {
+                        attackText.append("???");
+                    }
 
                     SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
                     assert(attackSurface != NULL && TTF_GetError());
@@ -692,6 +712,7 @@ void GameWindow::ShowWindow()
                 /************
                 ACTION
                 *************/
+                if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
                 {
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedDistrict->GetActionPointsRemaining()));
@@ -812,6 +833,7 @@ void GameWindow::ShowWindow()
                 /************
                 ACTION
                 *************/
+                if (selectedUnit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
                 {
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedUnit->GetActionPointsRemaining()));

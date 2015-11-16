@@ -224,7 +224,7 @@ void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
 {
     for (auto cityCenter : m_cityCenterLocations)
     {
-        std::vector<Position> ownedTiles;
+        std::set<Position> ownedTiles;
         int cityCenterTier = turn - cityCenter.second;
         if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
         {

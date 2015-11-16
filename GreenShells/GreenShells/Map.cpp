@@ -80,16 +80,16 @@ std::vector<Position> Map::GetSpawnPositions()
     return m_spawnPositions;
 }
 
-std::vector<Position> Map::GetArea(Position position, int distance, MapFilter filter)
+std::set<Position> Map::GetArea(Position position, int distance, MapFilter filter)
 {
-    std::vector<Position> area;
+    std::set<Position> area;
     std::vector<Position> currentLevel;
     currentLevel.emplace_back(position);
     GetAreaIntern(distance, currentLevel, area, filter);
     return area;
 }
 
-void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vector<Position>& alreadyVisited, MapFilter filter)
+void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter)
 {
     if (distance > 0 )
     {
@@ -97,7 +97,10 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
 
         for (Position pos : toVisit)
         {
-            alreadyVisited.emplace_back(pos);
+            if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), pos) != alreadyVisited.end()))
+            {
+                alreadyVisited.insert(pos);
+            }
 
             int topRow = (pos.Row + 1) % ROWS;
             int rightCol = (pos.Column + 1) % COLUMNS;
@@ -106,12 +109,12 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
 
             if (botRow < 0)
             {
-                botRow = ROWS;
+                botRow = ROWS - 1;
             }
 
             if (LeftCol < 0)
             {
-                LeftCol = ROWS;
+                LeftCol = COLUMNS - 1;
             }
 
             // Find the four tiles
@@ -153,7 +156,11 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::vecto
         // This is the last call, add the lasts ones
         for (Position pos : toVisit)
         {
-            alreadyVisited.emplace_back(pos);
+
+            if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), pos) != alreadyVisited.end()))
+            {
+                alreadyVisited.insert(pos);
+            }
         }
     }
 }

@@ -274,7 +274,6 @@ boost::property_tree::ptree TileBase::Serialize()
     tileNode.put("<xmlattr>.TT", GetTypeAsInt());
     tileNode.put("<xmlattr>.O", m_owner);
     tileNode.put("<xmlattr>.D", m_playerDiscovered);
-    tileNode.put("<xmlattr>.S", m_playerSee);
 
     if (m_unit)
     {

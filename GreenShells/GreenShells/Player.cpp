@@ -69,8 +69,8 @@ bool Player::IsDisconnected()
 
 MapFilter Player::GetMoveRestriction()
 {
-	// TODO : when zach push the skill tree
-	return ALLOW_GROUND | BLOCK_ENEMIES;
+    // TODO : when zach push the skill tree
+    return ALLOW_GROUND | BLOCK_ENEMIES;
 }
 
 boost::property_tree::ptree Player::Serialize()

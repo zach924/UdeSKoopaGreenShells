@@ -30,7 +30,7 @@ private:
 
     int m_actionPointsLeft;
 
-	int m_viewRange;
+    int m_viewRange;
 
 public:
     UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange);
@@ -45,8 +45,8 @@ public:
     int GetMoveRange();
     int GetOwnerID();
 
-	virtual int GetMaxHealth() = 0;
-	virtual const char* GetName() = 0;
+    virtual int GetMaxHealth() = 0;
+    virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
     virtual int GetViewRange() = 0;
 
