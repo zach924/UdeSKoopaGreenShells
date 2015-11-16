@@ -83,6 +83,7 @@ public:
 
     virtual void AddCityCenter(Position pos, int turn) = 0;
     virtual void RemoveCityCenter(Position pos) = 0;
+    std::map<Position, int> GetCityCenterLocations();
 
     //Diplomacy
     std::map<int, DiplomaticRelation> GetDiplomaticRelations();
