@@ -164,15 +164,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
+    <ClCompile Include="UnitArcherII.cpp" />
+    <ClCompile Include="UnitArcherIII.cpp" />
+    <ClCompile Include="UnitAxemanII.cpp" />
+    <ClCompile Include="UnitMaceII.cpp" />
+    <ClCompile Include="UnitShield.cpp" />
+    <ClCompile Include="UnitSwordsmanII.cpp" />
+    <ClCompile Include="UnitCannon.cpp" />
+    <ClCompile Include="UnitAxemanI.cpp" />
     <ClCompile Include="ButtonNextTurn.cpp" />
+    <ClCompile Include="ButtonQuit.cpp" />
+    <ClCompile Include="ButtonSave.cpp" />
     <ClCompile Include="ButtonText.cpp" />
     <ClCompile Include="DiplomacyPopUp.cpp" />
     <ClCompile Include="DiplomaticRelation.cpp" />
+    <ClCompile Include="ButtonMenu.cpp" />
+    <ClCompile Include="ButtonResSelect.cpp" />
     <ClCompile Include="EmpireSkillTree.cpp" />
     <ClCompile Include="PlayerLocal.cpp" />
+    <ClCompile Include="MenuPopUp.cpp" />
     <ClCompile Include="PlayerRemote.cpp" />
+    <ClCompile Include="UnitMaceI.cpp" />
     <ClCompile Include="UnitSettler.cpp" />
-    <ClCompile Include="UnitArcher.cpp" />
+    <ClCompile Include="UnitArcherI.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonDistrictSell.cpp" />
     <ClCompile Include="ButtonDistrictUpgrade.cpp" />
@@ -212,7 +226,7 @@
     <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="SelectionManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
-    <ClCompile Include="UnitSwordsman.cpp" />
+    <ClCompile Include="UnitSwordsmanI.cpp" />
     <ClCompile Include="TCPConnection.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -223,22 +237,37 @@
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitBase.cpp" />
     <ClCompile Include="UnitEmpty.cpp" />
+    <ClCompile Include="UnitSwordsmanIII.cpp" />
     <ClCompile Include="UtilitySkillTree.cpp" />
     <ClCompile Include="WorldState.cpp" />
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UnitArcherII.h" />
+    <ClInclude Include="UnitArcherIII.h" />
+    <ClInclude Include="UnitAxemanII.h" />
+    <ClInclude Include="UnitMaceII.h" />
+    <ClInclude Include="UnitShield.h" />
+    <ClInclude Include="UnitSwordsmanII.h" />
+    <ClInclude Include="UnitCannon.h" />
+    <ClInclude Include="UnitAxemanI.h" />
+    <ClInclude Include="ButtonQuit.h" />
+    <ClInclude Include="ButtonSave.h" />
     <ClInclude Include="ButtonText.h" />
     <ClInclude Include="DiplomacyPopUp.h" />
     <ClInclude Include="DiplomaticRelation.h" />
+    <ClInclude Include="ButtonMenu.h" />
+    <ClInclude Include="ButtonResSelect.h" />
     <ClInclude Include="MapFilter.h" />
     <ClInclude Include="ArmySkillTree.h" />
     <ClInclude Include="ButtonNextTurn.h" />
     <ClInclude Include="EmpireSkillTree.h" />
+    <ClInclude Include="MenuPopUp.h" />
     <ClInclude Include="PlayerLocal.h" />
     <ClInclude Include="PlayerRemote.h" />
+    <ClInclude Include="UnitMaceI.h" />
     <ClInclude Include="UnitSettler.h" />
-    <ClInclude Include="UnitArcher.h" />
+    <ClInclude Include="UnitArcherI.h" />
     <ClInclude Include="AttackNotification.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonDistrictSell.h" />
@@ -280,7 +309,7 @@
     <ClInclude Include="RPCStructs.h" />
     <ClInclude Include="SelectionManager.h" />
     <ClInclude Include="ServerSession.h" />
-    <ClInclude Include="UnitSwordsman.h" />
+    <ClInclude Include="UnitSwordsmanI.h" />
     <ClInclude Include="SynchronizedQueue.h" />
     <ClInclude Include="TCPConnection.h" />
     <ClInclude Include="Texture.h" />
@@ -292,6 +321,7 @@
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitBase.h" />
     <ClInclude Include="UnitEmpty.h" />
+    <ClInclude Include="UnitSwordsmanIII.h" />
     <ClInclude Include="UtilitySkillTree.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="YesNoPopUp.h" />

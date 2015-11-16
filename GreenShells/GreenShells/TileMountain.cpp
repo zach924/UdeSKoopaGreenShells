@@ -2,10 +2,25 @@
 #include <string>
 #include <iostream>
 #include "District.h"
-#include "Unit.h"
-#include "UnitArcher.h"
-#include "UnitSwordsman.h"
+
 #include "UnitSettler.h"
+
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
 
 #include "MapFilter.h"
 #include "GameSession.h"
@@ -63,14 +78,44 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
         {
             switch (child.second.get<int>("<xmlattr>.T"))
             {
-            case UnitSwordsman::UNIT_TYPE:
-                tile->SetUnit(UnitSwordsman::Deserialize(child.second));
+            case UnitSwordsmanI::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanI::Deserialize(child.second));
                 break;
-            case UnitArcher::UNIT_TYPE:
-                tile->SetUnit(UnitArcher::Deserialize(child.second));
+            case UnitSwordsmanII::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanII::Deserialize(child.second));
+                break;
+            case UnitSwordsmanIII::UNIT_TYPE:
+                tile->SetUnit(UnitSwordsmanIII::Deserialize(child.second));
+                break;
+            case UnitArcherI::UNIT_TYPE:
+                tile->SetUnit(UnitArcherI::Deserialize(child.second));
+                break;
+            case UnitArcherII::UNIT_TYPE:
+                tile->SetUnit(UnitArcherII::Deserialize(child.second));
+                break;
+            case UnitArcherIII::UNIT_TYPE:
+                tile->SetUnit(UnitArcherIII::Deserialize(child.second));
                 break;
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            case UnitAxemanI::UNIT_TYPE:
+                tile->SetUnit(UnitAxemanI::Deserialize(child.second));
+                break;
+            case UnitAxemanII::UNIT_TYPE:
+                tile->SetUnit(UnitAxemanII::Deserialize(child.second));
+                break;
+            case UnitCannon::UNIT_TYPE:
+                tile->SetUnit(UnitCannon::Deserialize(child.second));
+                break;
+            case UnitShield::UNIT_TYPE:
+                tile->SetUnit(UnitShield::Deserialize(child.second));
+                break;
+            case UnitMaceI::UNIT_TYPE:
+                tile->SetUnit(UnitMaceI::Deserialize(child.second));
+                break;
+            case UnitMaceII::UNIT_TYPE:
+                tile->SetUnit(UnitMaceII::Deserialize(child.second));
                 break;
             }
         }

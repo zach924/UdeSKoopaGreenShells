@@ -43,5 +43,5 @@ public:
     virtual void GoToAlliance(int otherPlayerId, int currentTurn);
     virtual void GoToWar(int otherPlayerId, int currentTurn);
     static PlayerRemote* Deserialize(boost::property_tree::ptree playerNode);
-};
+  };
 

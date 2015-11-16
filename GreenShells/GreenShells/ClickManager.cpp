@@ -23,6 +23,11 @@ void ClickManager::AddButton(Button* button)
     m_buttons.emplace_back(button);
 }
 
+void ClickManager::ClearButtons()
+{
+    m_buttons.clear(); // std::vector::clear() calls destructor for each element in the vector.
+}
+
 const std::vector<Button*>& ClickManager::GetButtons()
 {
     return m_buttons;

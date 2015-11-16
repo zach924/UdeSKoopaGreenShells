@@ -13,7 +13,7 @@ ButtonUnitUpgrade::~ButtonUnitUpgrade()
 
 void ButtonUnitUpgrade::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().UnitUpgrade();
 }
 
 void ButtonUnitUpgrade::LoadTextTexture(SDL_Renderer* rend)

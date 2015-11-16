@@ -13,7 +13,7 @@ ButtonSkillTree::~ButtonSkillTree()
 
 void ButtonSkillTree::DoAction()
 {
-	// TODO: do action
+    // TODO: do action
 }
 
 void ButtonSkillTree::LoadTextTexture(SDL_Renderer* rend)

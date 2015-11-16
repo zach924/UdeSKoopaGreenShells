@@ -8,3 +8,7 @@
 Texture DistrictCityCenter::tBase::m_Texture = {};
 Texture DistrictFarm::tBase::m_Texture = {};
 Texture DistrictEmpty::tBase::m_Texture = {};
+
+bool DistrictCityCenter::tBase::m_forceLoading = false;
+bool DistrictFarm::tBase::m_forceLoading = false;
+bool DistrictEmpty::tBase::m_forceLoading = false;

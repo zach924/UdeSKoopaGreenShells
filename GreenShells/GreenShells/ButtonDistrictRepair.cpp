@@ -13,7 +13,7 @@ ButtonDistrictRepair::~ButtonDistrictRepair()
 
 void ButtonDistrictRepair::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().DistrictRepair();
 }
 
 void ButtonDistrictRepair::LoadTextTexture(SDL_Renderer* rend)

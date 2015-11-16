@@ -13,7 +13,7 @@ ButtonGeneralCancel::~ButtonGeneralCancel()
 
 void ButtonGeneralCancel::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().Cancel();
 }
 
 void ButtonGeneralCancel::LoadTextTexture(SDL_Renderer* rend)

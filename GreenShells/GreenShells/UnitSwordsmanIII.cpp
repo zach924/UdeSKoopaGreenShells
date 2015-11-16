@@ -1,27 +1,29 @@
-#include "UnitSwordsman.h"
+#include "UnitSwordsmanIII.h"
 #include <iostream>
+#include "GameSession.h"
+#include "Player.h"
 
-const char* UnitSwordsman::UNIT_NAME = "Swordsman";
+const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 
-UnitSwordsman::UnitSwordsman(int owner)
-    : Unit<UnitSwordsman>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+UnitSwordsmanIII::UnitSwordsmanIII(int owner)
+    : Unit<UnitSwordsmanIII>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
 }
 
-UnitSwordsman::~UnitSwordsman()
+UnitSwordsmanIII::~UnitSwordsmanIII()
 {
 }
 
-UnitBase* UnitSwordsman::Clone()
+UnitBase* UnitSwordsmanIII::Clone()
 {
-    return new UnitSwordsman{ *this };
+    return new UnitSwordsmanIII{ *this };
 }
 
-void UnitSwordsman::LoadTexture()
+void UnitSwordsmanIII::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword.bmp");
+        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\sword3.bmp");
     }
     catch (std::exception e)
     {
@@ -30,33 +32,33 @@ void UnitSwordsman::LoadTexture()
     }
 }
 
-bool UnitSwordsman::CanUpgrade()
+bool UnitSwordsmanIII::CanUpgrade()
 {
-    return false; // TODO :  Get bit field in player
+    return false;
 }
 
-int UnitSwordsman::GetMaxHealth()
+int UnitSwordsmanIII::GetMaxHealth()
 {
     return HEALTH;
 }
 
-const char * UnitSwordsman::GetName()
+const char * UnitSwordsmanIII::GetName()
 {
     return UNIT_NAME;
 }
 
-int UnitSwordsman::GetTypeAsInt()
+int UnitSwordsmanIII::GetTypeAsInt()
 {
     return UNIT_TYPE;
 }
 
-void UnitSwordsman::Heal(int health)
+void UnitSwordsmanIII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
-AttackNotification UnitSwordsman::Attack(UnitBase * target)
+AttackNotification UnitSwordsmanIII::Attack(UnitBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -67,7 +69,7 @@ AttackNotification UnitSwordsman::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitSwordsman::Attack(DistrictBase * target)
+AttackNotification UnitSwordsmanIII::Attack(DistrictBase * target)
 {
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
@@ -78,10 +80,12 @@ AttackNotification UnitSwordsman::Attack(DistrictBase * target)
     return targetNotification;
 }
 
-UnitSwordsman * UnitSwordsman::Deserialize(boost::property_tree::ptree node)
+UnitSwordsmanIII * UnitSwordsmanIII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitSwordsman* swordsman = new UnitSwordsman(node.get<int>("<xmlattr>.O"));
+    UnitSwordsmanIII* swordsman = new UnitSwordsmanIII(node.get<int>("<xmlattr>.O"));
     swordsman->m_health = node.get<int>("<xmlattr>.H");
     
     return swordsman;
 }
+
+
