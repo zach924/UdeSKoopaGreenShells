@@ -2,6 +2,7 @@
 #include "MapRemote.h"
 #include "RPCStructs.h"
 #include "GameSession.h"
+#include "Player.h"
 
 #include "DistrictBase.h"
 #include "UnitBase.h"
@@ -25,6 +26,10 @@ MapRemote::~MapRemote()
 
 void MapRemote::VisionChange(int playerId)
 {
+    std::unique_ptr<Player> player{ GameSession::GetInstance().GetCurrentPlayerCopy() };
+    auto utilitySK = player->GetUtilitySkillTree();
+    int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
+
     for (int row = 0; row < ROWS; ++row)
     {
         for (int column = 0; column < COLUMNS; ++column)
@@ -42,7 +47,7 @@ void MapRemote::VisionChange(int playerId)
 
             if (district && district->GetOwnerID() == playerId)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange(), NO_FILTER);
+                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
 
                 for (Position pos : positionGotVision)
                 {
@@ -51,7 +56,7 @@ void MapRemote::VisionChange(int playerId)
             }
             if (unit && unit->GetOwnerID() == playerId)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange(), NO_FILTER);
+                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
 
                 for (Position pos : positionGotVision)
                 {
