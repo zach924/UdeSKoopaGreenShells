@@ -35,6 +35,9 @@
 #include "ButtonSkillTree.h"
 #include "ButtonMenu.h"
 
+#include "YesNoPopUp.h"
+#include "GameWindow.h"
+
 SelectionManager::SelectionManager()
     :m_state(m_idle)
     , m_unitEmpty(new UnitEmpty(-1))
@@ -296,7 +299,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonNextTurn*>(btn) != nullptr)
         {
-            if (GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->IsPlayerReadyForNextTurn())
+            if (GameSession::GetInstance().GetCurrentPlayerCopy()->IsPlayerReadyForNextTurn())
             {
                 btn->SetButtonState(ButtonState::Disabled);
             }
@@ -335,7 +338,35 @@ void SelectionManager::Idle(Position pos)
 
 void SelectionManager::Attack(Position pos)
 {
-    GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos);
+    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+    UnitBase* unit = map->GetTile(pos)->GetUnit();
+    int actorOwner;
+    if (unit != nullptr)
+    {
+        actorOwner = unit->GetOwnerID();
+    }
+    else
+    {
+        DistrictBase* district = map->GetTile(pos)->GetDistrict();
+        assert(district != nullptr && "We should never get this far is there are no district or unit in the tile");
+        actorOwner = district->GetOwnerID();
+    }
+
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+    int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+
+    if (actorOwner >= 0
+        && actorOwner != currentPlayerId
+        && GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[actorOwner].GetRelationStatus() == RelationStatus::War)
+    {
+        GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos);
+    }
+    else
+    {
+        std::string msg = "Do you want to declare war on " + GameSession::GetInstance().GetWorldState()->GetPlayer(actorOwner)->GetPlayerName() + " ?";
+        auto window = new YesNoPopUp(msg.c_str(), 300, 150, [actorOwner, currentTurn]() {GameSession::GetInstance().GetCurrentPlayerCopy()->GoToWar(actorOwner, currentTurn); });
+        GameWindow::GetInstance().AddPopUpWindow(window);
+    }
     EndAction();
 }
 
@@ -353,7 +384,23 @@ void SelectionManager::CreateUnit(Position pos)
 
 void SelectionManager::Move(Position pos)
 {
-    GameSession::GetInstance().GetWorldState()->MoveUnit(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos);
+    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+    int tileOwner = map->GetTile(pos)->GetPlayerOwnerId();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+    int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+
+    if (tileOwner < 0 
+        || tileOwner== currentPlayerId
+        || GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[tileOwner].GetRelationStatus() == RelationStatus::War)
+    {
+        GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos);
+    }
+    else 
+    {
+        std::string msg = "Do you want to declare war on " + GameSession::GetInstance().GetWorldState()->GetPlayer(tileOwner)->GetPlayerName() + " ?";
+        auto window = new YesNoPopUp(msg.c_str(), 300, 150, [tileOwner, currentTurn]() {GameSession::GetInstance().GetCurrentPlayerCopy()->GoToWar(tileOwner, currentTurn); });
+        GameWindow::GetInstance().AddPopUpWindow(window);
+    }
     EndAction();
 }
 
@@ -472,7 +519,7 @@ void SelectionManager::UnitMovePressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         Position unitPosition = m_selectedPosition;
-        Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+        std::unique_ptr<Player> player{ GameSession::GetInstance().GetCurrentPlayerCopy() };
         std::set<Position> allPositionNear = map->GetArea(unitPosition, GetSelectedUnit()->GetMoveRange(), player->GetMoveRestriction());
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)

@@ -93,6 +93,11 @@ void ServerSession::Replicate()
     m_rpcServerManager->SendToClients(data.str());
 }
 
+WorldState * ServerSession::GetWorldState()
+{
+    return &m_worldState;
+}
+
 int ServerSession::AddPlayer(std::string playerName)
 {
     return m_worldState.AddPlayer(playerName);

@@ -6,6 +6,7 @@
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
+#include "DiplomaticRelation.h"
 #include "Position.h"
 
 class Map;
@@ -13,6 +14,8 @@ class Map;
 class Player
 {
 protected:
+
+    static const int OFFER_DURATION = 10;
     std::string m_playerName;
     int m_playerID;
     bool m_isReadyForNewTurn;
@@ -35,6 +38,8 @@ protected:
     ArmySkillTree m_armySkillTree;
     EmpireSkillTree m_empireSkillTree;
 
+    //Diplomacy
+    std::map<int, DiplomaticRelation> m_diplomaticRelations;
 
 public:
     Player();
@@ -54,6 +59,7 @@ public:
 
     virtual void SetIsAlive(bool value) = 0;
     bool IsAlive();
+    bool IsNegociating();
     int GetFood();
     int GetScience();
     int GetWeapon();
@@ -77,6 +83,21 @@ public:
 
     virtual void AddCityCenter(Position pos, int turn) = 0;
     virtual void RemoveCityCenter(Position pos) = 0;
+
+    //Diplomacy
+    std::map<int, DiplomaticRelation> GetDiplomaticRelations();
+    virtual void AddNewRelation(int otherPlayerId, int currentTurn = 0, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1) = 0;
+    virtual void RemoveRelation(int otherPlayerId) = 0;
+    virtual void SendPeaceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void ReceivePeaceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void RespondPeaceProposition(int otherPlayerId, int currentTurn, bool answer) = 0;
+    virtual void GoToPeace(int otherPlayerId, int currentTurn) = 0;
+
+    virtual void SendAllianceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void ReceiveAllianceProposition(int otherPlayerId, int currentTurn) = 0;
+    virtual void GoToAlliance(int otherPlayerId, int currentTurn) = 0;
+    virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer) = 0;
+    virtual void GoToWar(int otherPlayerId, int currentTurn) = 0;
 
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();

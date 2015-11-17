@@ -12,20 +12,20 @@ void ClientConnection::ReadSocket()
 
             switch (newEvent.structType)
             {
-            case RPCStructType::RPC_BASIC:
-            {
-                RPCBasicStruct* data = new RPCBasicStruct;
-                m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicStruct)));
-                newEvent.data = data;
-                break;
-            }
-            case RPCStructType::RPC_BASIC_TWO_POSITIONS:
-            {
-                RPCBasicTwoPositionsStruct* data = new RPCBasicTwoPositionsStruct;
-                m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsStruct)));
-                newEvent.data = data;
-                break;
-            }
+                case RPCStructType::RPC_BASIC:
+                {
+                    RPCBasicStruct* data = new RPCBasicStruct;
+                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicStruct)));
+                    newEvent.data = data;
+                    break;
+                }
+                case RPCStructType::RPC_BASIC_TWO_POSITIONS:
+                {
+                    RPCBasicTwoPositionsStruct* data = new RPCBasicTwoPositionsStruct;
+                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsStruct)));
+                    newEvent.data = data;
+                    break;
+                }
                 case RPCStructType::RPC_BASIC_CREATION:
                 {
                     RPCBasicActorCreationStruct* data = new RPCBasicActorCreationStruct;
@@ -33,6 +33,23 @@ void ClientConnection::ReadSocket()
                     newEvent.data = data;
                     break;
                 }
+                case RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST:
+                {
+                    RPCBasicDiplomaticRequestStruct* data = new RPCBasicDiplomaticRequestStruct;
+                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicDiplomaticRequestStruct)));
+                    newEvent.data = data;
+                    break;
+                }
+                case RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE:
+                {
+                    RPCBasicDiplomaticResponseStruct* data = new RPCBasicDiplomaticResponseStruct;
+                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicDiplomaticResponseStruct)));
+                    newEvent.data = data;
+                    break;
+                }
+                default:
+                    assert(false && "You must cast your new RPCStruct type here");
+                    break;
             }
 
             m_queue->push(newEvent);
