@@ -111,9 +111,7 @@ int WorldState::AddPlayer(std::string playerName)
     Player* newPlayer = new PlayerLocal();
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
-    Position spawnPosition = m_map->GetSpawnPositions()[playerID];
-    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
-    newPlayer->AddCityCenter(spawnPosition, m_turn);
+
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);
@@ -121,6 +119,9 @@ int WorldState::AddPlayer(std::string playerName)
     }
     m_players.push_back(newPlayer);
 
+    Position spawnPosition = m_map->GetSpawnPositions()[playerID];
+    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
+    
     return playerID;
 }
 

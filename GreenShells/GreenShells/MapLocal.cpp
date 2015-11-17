@@ -33,6 +33,7 @@
 #include <exception>
 #include "Player.h"
 #include "ServerSession.h"
+#include "GameSession.h"
 
 MapLocal::MapLocal()
     :Map()
@@ -276,6 +277,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
         district = new DistrictCityCenter(owner);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
     case DistrictFarm::DISTRICT_TYPE:
         district = new DistrictFarm(owner);
