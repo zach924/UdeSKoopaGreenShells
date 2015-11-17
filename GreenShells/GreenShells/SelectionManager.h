@@ -75,4 +75,12 @@ public:
 
     void UnitHeal();
     void DistrictRepair();
+
+    void SpawnSwordsman();
+    void SpawnArcher();
+    void SpawnAxeman();
+    void SpawnMace();
+    void SpawnCannon();
+    void SpawnShield();
+    void SpawnSettler();
 };

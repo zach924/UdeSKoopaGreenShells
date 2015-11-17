@@ -42,6 +42,10 @@ protected:
     std::map<int, DiplomaticRelation> m_diplomaticRelations;
 
 public:
+    static const unsigned int UNIT_TIER_ONE_COST = 50;
+    static const unsigned int UNIT_TIER_TWO_COST = 100;
+    static const unsigned int UNIT_TIER_THREE_COST = 200;
+    static const unsigned int UNIT_TIER_FOUR_COST = 400;
     Player();
     ~Player();
 
@@ -110,4 +114,16 @@ public:
     virtual UtilitySkillTree GetUtilitySkillTree() ; 
     virtual ArmySkillTree GetArmySkillTree();
     virtual EmpireSkillTree GetEmpireSkillTree();
+
+    bool HasRessourcesFor(int tier);
+    unsigned int GetWeaponCostForTier(int tier);
+    int GetSwordsmanTier();
+    int GetArcherTier();
+    int GetAxemanTier();
+    int GetMaceTier();
+    int GetCannonTier();
+    int GetShieldTier();
+    int GetSettlerTier();
+
+
 };

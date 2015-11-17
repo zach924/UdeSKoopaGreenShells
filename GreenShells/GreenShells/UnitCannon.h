@@ -11,6 +11,7 @@ public:
     static int const HEALTH = 100;
     static int const MOVE_RANGE = 1;
     static int const UNIT_TYPE = 10;
+    static int const UNIT_TIER = 3;
     static const char* UNIT_NAME;
 
     UnitCannon(int owner);

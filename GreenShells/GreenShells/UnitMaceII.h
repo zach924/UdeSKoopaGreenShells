@@ -11,6 +11,7 @@ public:
     static int const HEALTH = 300;
     static int const MOVE_RANGE = 2;
     static int const UNIT_TYPE = 9;
+    static int const UNIT_TIER = 4;
     static const char* UNIT_NAME;
 
     UnitMaceII(int owner);
