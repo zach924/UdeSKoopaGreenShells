@@ -33,6 +33,7 @@
 #include "ButtonSpawnUnit.h"
 #include "ButtonGeneralCancel.h"
 #include "ButtonSkillTree.h"
+#include "ButtonMenu.h"
 
 SelectionManager::SelectionManager()
     :m_state(m_idle)
@@ -59,9 +60,10 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
     else
     {
-        UnitBase* selectedUnit = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetUnit();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        UnitBase* unitSelected = map->GetTile(m_selectedPosition)->GetUnit();
 
-        return selectedUnit ? selectedUnit : m_unitEmpty;
+        return unitSelected ? unitSelected->Clone() : m_unitEmpty;
     }
 }
 
@@ -73,9 +75,10 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     }
     else
     {
-        DistrictBase* selecteDistrict = GameSession::GetInstance().GetWorldState()->GetMapCopy()->GetTile(m_selectedPosition)->GetDistrict();
+        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        DistrictBase* selecteDistrict = map->GetTile(m_selectedPosition)->GetDistrict();
 
-        return selecteDistrict ? selecteDistrict : m_districtEmpty;
+        return selecteDistrict ? selecteDistrict->Clone() : m_districtEmpty;
     }
 }
 
@@ -88,12 +91,13 @@ void SelectionManager::Cancel()
 {
     m_state = m_idle;
     m_actionPossibleTiles.clear();
+    UpdateButtonState();
 }
 
 void SelectionManager::UpdateButtonState()
 {
-    UnitBase* selectedUnit = GetSelectedUnit();
-    DistrictBase* selectedDistrict = GetSelectedDistrict();
+    UnitBase* selectedUnit{ GetSelectedUnit() };
+    DistrictBase* selectedDistrict{ GetSelectedDistrict() };
 
     std::vector<Button*> buttons = ClickManager::GetInstance().GetButtons();
 
@@ -155,7 +159,7 @@ void SelectionManager::UpdateButtonState()
             if (selectedUnit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
                 && selectedUnit->GetActionPointsRemaining() > 0
                 && m_state == m_idle
-                && selectedUnit->GetHealth() < 100) // TODO : get max health for unit
+                && selectedUnit->GetHealth() < selectedUnit->GetMaxHealth())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -195,7 +199,7 @@ void SelectionManager::UpdateButtonState()
         {
             if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
                 && selectedDistrict->GetActionPointsRemaining() > 0
-                && selectedDistrict->GetHealth() < 200) // TODO : GetMaxHeatlh
+                && selectedDistrict->GetHealth() < selectedDistrict->GetMaxHealth())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -287,11 +291,25 @@ void SelectionManager::UpdateButtonState()
                 btn->SetButtonState(ButtonState::Unpressed);
             }
         }
+        else if (dynamic_cast<ButtonMenu*>(btn) != nullptr)
+        {
+            btn->SetButtonState(ButtonState::Unpressed);
+        }
         else
         {
             assert(false && "You must implement this for your button!");
         }
     }
+
+    if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+    {
+        delete selectedDistrict;
+    }
+    if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+    {
+        delete selectedUnit;
+    }
+
 }
 
 
@@ -336,7 +354,6 @@ void SelectionManager::EndAction()
 
 void SelectionManager::HandleSelection(Position pos)
 {
-    //TODO taskID 8.2 Processus de selection
     Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
     TileBase* tile = map->GetTile(pos);
 
@@ -408,13 +425,14 @@ void SelectionManager::CreateUnitPressed(int unitType)
 
 void SelectionManager::UnitAttackPressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager attack State" << std::endl;
 
         m_state = m_unitAttacking;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+
         std::vector<Position> allPositionNear = map->GetArea(m_selectedPosition, GetSelectedUnit()->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
@@ -432,7 +450,7 @@ void SelectionManager::UnitAttackPressed()
 
 void SelectionManager::UnitMovePressed()
 {
-    if (IsAnUnitSelected())
+    if (IsAUnitSelected())
     {
         std::cout << "Selection Manager Move State" << std::endl;
 
@@ -441,7 +459,7 @@ void SelectionManager::UnitMovePressed()
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         Position unitPosition = m_selectedPosition;
         Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-        std::vector<Position> allPositionNear = map->GetArea(unitPosition, GetSelectedUnit()->GetMoveRange(), player->GetMoveRestriction());
+        std::vector<Position> allPositionNear = map->GetArea(unitPosition, GetSelectedUnit()->GetActionPointsRemaining(), player->GetMoveRestriction());
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
         {
@@ -458,17 +476,56 @@ void SelectionManager::UnitMovePressed()
     }
 }
 
-bool SelectionManager::IsAnUnitSelected()
+bool SelectionManager::IsAUnitSelected()
 {
-    return dynamic_cast<UnitEmpty*>(GetSelectedUnit()) == nullptr;
+    UnitBase* unit = GetSelectedUnit();
+    bool isUnitSelected = false;
+    if (unit != m_unitEmpty)
+    {
+        delete unit;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 bool SelectionManager::IsADistrictSelected()
 {
-    return dynamic_cast<DistrictEmpty*>(GetSelectedDistrict()) == nullptr;
+    DistrictBase* district = GetSelectedDistrict();
+    bool isUnitSelected = false;
+    if (district != m_districtEmpty)
+    {
+        delete district;
+        isUnitSelected = true;
+    }
+    return isUnitSelected;
 }
 
 void SelectionManager::UnitSell()
 {
     // TODO: Sell Unit
+}
+
+void SelectionManager::DistrictSell()
+{
+    // TODO: Sell District
+}
+
+void SelectionManager::UnitUpgrade()
+{
+    // TODO: unit upgrade
+}
+
+void SelectionManager::DistrictUpgrade()
+{
+    // TODO: unit upgrade
+}
+
+void SelectionManager::UnitHeal()
+{
+    // TODO
+}
+
+void SelectionManager::DistrictRepair()
+{
+    // TODO
 }

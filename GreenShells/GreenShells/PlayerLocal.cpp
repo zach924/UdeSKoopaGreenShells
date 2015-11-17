@@ -395,6 +395,13 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
             m_empireSkillTree.InnAndTavern = true;
         }
         break;
+    case School:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_empireSkillTree.School = true;
+        }
+        break;
     case Warehouse:
         if (m_science >= SKILL_COST_TIER6)
         {
@@ -451,19 +458,19 @@ void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
     {
         std::vector<Position> ownedTiles;
         int cityCenterTier = turn - cityCenter.second;
-        if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T4 : DistrictCityCenter::TURN_FOR_BORDER_T4 * BORDER_GROWTH_BONUS_RATE) )
+        if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T4 * BORDER_GROWTH_BONUS_RATE : DistrictCityCenter::TURN_FOR_BORDER_T4) )
         {
             ownedTiles = map->GetArea(cityCenter.first, 4, NO_FILTER);
         }
-        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T3 : DistrictCityCenter::TURN_FOR_BORDER_T3 * BORDER_GROWTH_BONUS_RATE))
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T3 * BORDER_GROWTH_BONUS_RATE : DistrictCityCenter::TURN_FOR_BORDER_T3))
         {
             ownedTiles = map->GetArea(cityCenter.first, 3, NO_FILTER);
         }
-        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T2 : DistrictCityCenter::TURN_FOR_BORDER_T2 * BORDER_GROWTH_BONUS_RATE))
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T2 * BORDER_GROWTH_BONUS_RATE : DistrictCityCenter::TURN_FOR_BORDER_T2))
         {
             ownedTiles = map->GetArea(cityCenter.first, 2, NO_FILTER);
         }
-        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T1 : DistrictCityCenter::TURN_FOR_BORDER_T1 * BORDER_GROWTH_BONUS_RATE))
+        else if (cityCenterTier > (m_utilitySkillTree.BorderGrowth ? DistrictCityCenter::TURN_FOR_BORDER_T1 * BORDER_GROWTH_BONUS_RATE : DistrictCityCenter::TURN_FOR_BORDER_T1))
         {
             ownedTiles = map->GetArea(cityCenter.first, 1, NO_FILTER);
         }

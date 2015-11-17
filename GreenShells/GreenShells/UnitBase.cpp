@@ -4,21 +4,25 @@
 #include "UnitBase.h"
 #include "DistrictBase.h"
 
-UnitBase::UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage)
+UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage)
     : m_ownerID(owner),
     m_health(health),
     m_foodCost(0),
     m_scienceCost(0),
     m_weaponCost(0),
-    m_moveRange(moveRange),
     m_attackRange(attackRange),
     m_attackDamage(attackDamage),
-    m_actionPointsLeft(1)
+    m_actionPointsLeft(actionPoints)
 {
 }
 
 UnitBase::~UnitBase()
 {
+}
+
+void UnitBase::UseActionPoints(int points)
+{
+    m_actionPointsLeft = std::max(0, m_actionPointsLeft - points);
 }
 
 int UnitBase::GetActionPointsRemaining()
@@ -39,11 +43,6 @@ int UnitBase::GetAttackRange()
 int UnitBase::GetHealth()
 {
     return m_health;
-}
-
-int UnitBase::GetMoveRange()
-{
-    return m_moveRange;
 }
 
 int UnitBase::GetOwnerID()
@@ -73,6 +72,7 @@ AttackNotification UnitBase::ReceiveDamage(int damage)
 
 AttackNotification UnitBase::Attack(UnitBase * target)
 {
+    UseActionPoints(10);
     AttackNotification targetNotification = target->ReceiveDamage(GetAttackDamage());
 
     return targetNotification;
@@ -80,6 +80,7 @@ AttackNotification UnitBase::Attack(UnitBase * target)
 
 AttackNotification UnitBase::Attack(DistrictBase * target)
 {
+    UseActionPoints(10);
     AttackNotification targetNotification = target->ReceiveDamage(GetAttackDamage());
 
     return targetNotification;
@@ -95,6 +96,7 @@ boost::property_tree::ptree UnitBase::Serialize()
     unitNode.put("<xmlattr>.T", GetTypeAsInt());
     unitNode.put("<xmlattr>.O", m_ownerID);
     unitNode.put("<xmlattr>.H", m_health);
+    unitNode.put("<xmlattr>.APL", m_actionPointsLeft);
 
     return unitNode;
 }

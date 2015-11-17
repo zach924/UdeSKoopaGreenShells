@@ -13,10 +13,31 @@
 #include "DistrictCityCenter.h"
 #include "DistrictFarm.h"
 
-#include "UnitArcher.h"
 #include "UnitSettler.h"
-#include "UnitSwordsman.h"
 
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
+#include "Position.h"
+
+
+int MapLocal::GetDistance(Position pos1, Position pos2)
+{
+    return std::max(std::abs(pos1.Column - pos2.Column), std::abs(pos1.Row - pos2.Row));
+}
 
 MapLocal::MapLocal()
     :Map()
@@ -87,6 +108,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);
         tempUnit->SetPosition(newLocation);
+        tempUnit->UseActionPoints(GetDistance(unitLocation, newLocation));
         secondTile->SetUnit(tempUnit);
         return true;
     }
@@ -175,14 +197,44 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     UnitBase* unit = nullptr;
     switch (unitType)
     {
-    case UnitSwordsman::UNIT_TYPE:
-        unit = new UnitSwordsman(owner);
+    case UnitSwordsmanI::UNIT_TYPE:
+        unit = new UnitSwordsmanI(owner);
         break;
-    case UnitArcher::UNIT_TYPE:
-        unit = new UnitArcher(owner);
+    case UnitSwordsmanII::UNIT_TYPE:
+        unit = new UnitSwordsmanII(owner);
+        break;
+    case UnitSwordsmanIII::UNIT_TYPE:
+        unit = new UnitSwordsmanIII(owner);
+        break;
+    case UnitArcherI::UNIT_TYPE:
+        unit = new UnitArcherI(owner);
+        break;
+    case UnitArcherII::UNIT_TYPE:
+        unit = new UnitArcherII(owner);
+        break;
+    case UnitArcherIII::UNIT_TYPE:
+        unit = new UnitArcherIII(owner);
         break;
     case UnitSettler::UNIT_TYPE:
         unit = new UnitSettler(owner);
+        break;
+    case UnitAxemanI::UNIT_TYPE:
+        unit = new UnitAxemanI(owner);
+        break;
+    case UnitAxemanII::UNIT_TYPE:
+        unit = new UnitAxemanII(owner);
+        break;
+    case UnitCannon::UNIT_TYPE:
+        unit = new UnitCannon(owner);
+        break;
+    case UnitShield::UNIT_TYPE:
+        unit = new UnitShield(owner);
+        break;
+    case UnitMaceI::UNIT_TYPE:
+        unit = new UnitMaceI(owner);
+        break;
+    case UnitMaceII::UNIT_TYPE:
+        unit = new UnitMaceII(owner);
         break;
     default:
         return false;

@@ -198,6 +198,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     case RangerT3:
     case MaceT2:
     case Warehouse:
+    case School:
         if (m_science < SKILL_COST_TIER6)
         {
             return;
@@ -220,6 +221,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
         }
         break;
     default:
+        assert(false && "Tried unlocking a random skill...");
         return;
     }
 

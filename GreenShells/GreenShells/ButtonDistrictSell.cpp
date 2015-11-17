@@ -13,7 +13,7 @@ ButtonDistrictSell::~ButtonDistrictSell()
 
 void ButtonDistrictSell::DoAction()
 {
-    //TODO NOT IMPLEMENTED
+    SelectionManager::GetInstance().DistrictSell();
 }
 
 void ButtonDistrictSell::LoadTextTexture(SDL_Renderer* rend)

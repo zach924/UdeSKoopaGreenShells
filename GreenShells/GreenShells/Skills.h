@@ -26,6 +26,7 @@ enum Skills {
     Fort,
     MilitaryTent,
     InnAndTavern,
+    School,
     Warehouse,
     RessourcesBonus,
     //Utility

@@ -39,12 +39,12 @@ void DistrictCityCenter::ChangeOwner(int owner)
 
 int DistrictCityCenter::GetMaxHealth()
 {
-	return HEALTH;
+    return HEALTH;
 }
 
 const char * DistrictCityCenter::GetName()
 {
-	return NAME;
+    return NAME;
 }
 
 int DistrictCityCenter::GetTypeAsInt()
@@ -59,7 +59,7 @@ void DistrictCityCenter::Repair(int repairValue)
 
 bool DistrictCityCenter::CanUpgrade()
 {
-    return false; // TODO :  Need to get the skill tree flag
+    return false; // City center cannot be upgraded
 }
 
 DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)

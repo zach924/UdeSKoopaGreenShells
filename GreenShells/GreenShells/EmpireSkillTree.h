@@ -15,6 +15,7 @@ public:
     bool Cathedral : 1;
     bool Fort : 1;
     bool MilitaryTent : 1;
+    bool School : 1;
     bool InnAndTavern : 1;
     bool Warehouse : 1;
     bool RessourcesBonus : 1;

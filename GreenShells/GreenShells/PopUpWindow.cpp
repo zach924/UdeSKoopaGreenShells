@@ -39,7 +39,7 @@ PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
 
         lastPos = (pos == std::string::npos) ? pos : lastPos;
         std::string aLine = windowText.substr(0, lastPos);
-		int numberOfSpceToFill = numberOfCharPerLine - static_cast<int>( aLine.length());
+        int numberOfSpceToFill = numberOfCharPerLine - static_cast<int>( aLine.length());
         aLine.append(numberOfSpceToFill, ' ');
         allLines.emplace_back(aLine);
         windowText.erase(0, lastPos + delimiter.length());
@@ -54,6 +54,10 @@ PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
         assert(textTexture != NULL && TTF_GetError());
 
         m_texts.emplace_back(textTexture);
+
+
+        SDL_DestroyTexture(textTexture);
+        SDL_FreeSurface(surf);
     }
 }
 
@@ -64,7 +68,7 @@ PopUpWindow::~PopUpWindow()
 
 void PopUpWindow::Close()
 {
-	//Destroy window    
+    //Destroy window    
     for (auto t : m_texts)
     {
         if (t != NULL)
@@ -75,12 +79,12 @@ void PopUpWindow::Close()
     }
     TTF_CloseFont(m_font);
     SDL_FreeSurface(m_screenSurface);
-	SDL_DestroyRenderer(m_rend);
-	SDL_DestroyWindow(m_wind);
+    SDL_DestroyRenderer(m_rend);
+    SDL_DestroyWindow(m_wind);
     m_font = NULL;
     m_screenSurface = NULL;
-	m_wind = NULL;
-	m_rend = NULL;
+    m_wind = NULL;
+    m_rend = NULL;
 }
 
 SDL_Window * PopUpWindow::GetWindow()

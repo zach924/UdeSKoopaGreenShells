@@ -30,5 +30,5 @@ public:
     virtual void SetIsDisconnected(bool value = true);
     virtual void UnlockSkill(int turn, Skills skill);
     static PlayerRemote* Deserialize(boost::property_tree::ptree playerNode);
-};
+  };
 

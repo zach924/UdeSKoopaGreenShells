@@ -64,8 +64,15 @@ public:
     void UnitAttackPressed();
     void UnitMovePressed();
 
-    bool IsAnUnitSelected();
+    bool IsAUnitSelected();
     bool IsADistrictSelected();
 
     void UnitSell();
+    void DistrictSell();
+
+    void UnitUpgrade();
+    void DistrictUpgrade();
+
+    void UnitHeal();
+    void DistrictRepair();
 };

@@ -89,13 +89,12 @@ public:
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
-	MapFilter GetMoveRestriction();
-
-    UtilitySkillTree GetUtilitySkillTree();
-    ArmySkillTree GetArmySkillTree();
-    EmpireSkillTree GetEmpireSkillTree();
-
     virtual void UnlockSkill(int turn, Skills skill) = 0;
-
     virtual boost::property_tree::ptree Serialize();
+
+    virtual MapFilter GetMoveRestriction();
+
+    virtual UtilitySkillTree GetUtilitySkillTree() ; 
+    virtual ArmySkillTree GetArmySkillTree();
+    virtual EmpireSkillTree GetEmpireSkillTree();
 };

@@ -42,19 +42,19 @@ DistrictEmpty::~DistrictEmpty()
 
 void DistrictEmpty::Repair(int repairValue)
 {
-	assert(false && "Should be in an Empty District. It cannot be placed on the map");
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
 }
 
 int DistrictEmpty::GetMaxHealth()
 {
-	assert(false && "Should be in an Empty District. It cannot be placed on the map");
-	return 0;
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
+    return 0;
 }
 
 const char * DistrictEmpty::GetName()
 {
-	assert(false && "Should be in an Empty District. It cannot be placed on the map");
-	return nullptr;
+    assert(false && "Should be in an Empty District. It cannot be placed on the map");
+    return nullptr;
 }
 
 boost::property_tree::ptree DistrictEmpty::Serialize()

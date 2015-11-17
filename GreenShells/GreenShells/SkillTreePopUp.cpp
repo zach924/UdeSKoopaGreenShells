@@ -48,8 +48,9 @@ SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     m_Buttons.emplace(Skills::Cathedral, CreateButton(4,3, "Cathedral", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Cathedral); }, currentEmpireTree.Cathedral ? ButtonState::Pressed :   canResearchEmpireTree.Cathedral ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Fort, CreateButton(5,3, "Fort", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Fort); }, currentEmpireTree.Fort ? ButtonState::Pressed :   canResearchEmpireTree.Fort ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::MilitaryTent, CreateButton(3,4, "Military Tent", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::MilitaryTent); }, currentEmpireTree.MilitaryTent ? ButtonState::Pressed :   canResearchEmpireTree.MilitaryTent ? ButtonState::Unpressed : ButtonState::Disabled));
-    m_Buttons.emplace(Skills::InnAndTavern, CreateButton(5,4, "Inns & Taverns", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::InnAndTavern); }, currentEmpireTree.InnAndTavern ? ButtonState::Pressed :   canResearchEmpireTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled));
-    m_Buttons.emplace(Skills::Warehouse, CreateButton(4,5, "Warehouse", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Warehouse); }, currentEmpireTree.Warehouse ? ButtonState::Pressed :   canResearchEmpireTree.Warehouse ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::InnAndTavern, CreateButton(4,4, "Inns & Taverns", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::InnAndTavern); }, currentEmpireTree.InnAndTavern ? ButtonState::Pressed :   canResearchEmpireTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::School, CreateButton(3, 5, "School", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::School); }, currentEmpireTree.School ? ButtonState::Pressed : canResearchEmpireTree.School ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::Warehouse, CreateButton(5,5, "Warehouse", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Warehouse); }, currentEmpireTree.Warehouse ? ButtonState::Pressed :   canResearchEmpireTree.Warehouse ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::RessourcesBonus, CreateButton(4,6, "Bonus Res.", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::RessourcesBonus); }, currentEmpireTree.RessourcesBonus ? ButtonState::Pressed :   canResearchEmpireTree.RessourcesBonus ? ButtonState::Unpressed : ButtonState::Disabled));
 
     //Utility Tree
@@ -203,6 +204,9 @@ void SkillTreePopUp::SetButtonState(Skills skill, ButtonText* button)
     case InnAndTavern:
         button->SetButtonState(currentEmpireTree.InnAndTavern ? ButtonState::Pressed : canResearchEmpireTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
+    case School:
+        button->SetButtonState(currentEmpireTree.School ? ButtonState::Pressed : canResearchEmpireTree.School ? ButtonState::Unpressed : ButtonState::Disabled);
+        break;
     case Warehouse:
         button->SetButtonState(currentEmpireTree.Warehouse ? ButtonState::Pressed : canResearchEmpireTree.Warehouse ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
@@ -352,10 +356,12 @@ void SkillTreePopUp::ShowWindow(SDL_Renderer * rend)
     DrawDependencies(5,2,5,3);
     DrawDependencies(3,3,3,4);
     DrawDependencies(4,3,3,4);
-    DrawDependencies(4,3,5,4);
-    DrawDependencies(5,3,5,4);
-    DrawDependencies(5,4,4,5);
-    DrawDependencies(4,5,4,6);
+    DrawDependencies(4,3,4,4);
+    DrawDependencies(5,3,4,4);
+    DrawDependencies(4,4,5,5);
+    DrawDependencies(4, 4, 3, 5);
+
+    DrawDependencies(5,5,4,6);
 
     //Utility dependencies
     DrawDependencies(7,0,7,1);
