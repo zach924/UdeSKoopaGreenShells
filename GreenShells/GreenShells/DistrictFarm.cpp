@@ -6,7 +6,7 @@
 const char* DistrictFarm::NAME = "Farm";
 
 DistrictFarm::DistrictFarm(int owner)
-    : District<DistrictFarm>(owner, HEALTH, NORMAL_DISTRICT_ATTACK_DMG)
+    : District<DistrictFarm>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
 {
 }
 

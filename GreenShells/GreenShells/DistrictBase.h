@@ -8,7 +8,6 @@ class Texture;
 class DistrictBase
 {
 public:
-    static const int NORMAL_DISTRICT_ATTACK_DMG = 0;
 
 protected:
     int m_ownerID;
@@ -18,19 +17,17 @@ private:
     Position m_position;
 
     int m_foodCost;
-    int m_scienceCost;
-    int m_weaponCost;
 
-    double m_foodRatioBonus;
-    double m_scienceRatioBonus;
-    double m_weaponRatioBonus;
+    int m_foodRatioBonus;
+    int m_scienceBonus;
+    int m_weaponBonus;
 
     int m_attackDamage;
 
     int m_actionPointsLeft;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage);
+    DistrictBase(int owner, int health, int attackDamage, int foodCost, int foodBonus, int scienceBonus, int weaponBonus);
     virtual ~DistrictBase();
 
     virtual DistrictBase* Clone() = 0;

@@ -27,7 +27,26 @@
 
 
 #include "DistrictCityCenter.h"
+
+#include "DistrictHunter.h"
 #include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+#include "DistrictWarehouse.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+#include "DistrictFortress.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+#include "DistrictUniversity.h"
+
+#include "DistrictWatchTower.h"
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
 
 #include <boost\property_tree\ptree.hpp>
 
@@ -126,8 +145,50 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
             case DistrictCityCenter::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictCityCenter::Deserialize(child.second));
                 break;
+            case DistrictHunter::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictHunter::Deserialize(child.second));
+                break;
             case DistrictFarm::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictFarm::Deserialize(child.second));
+                break;
+            case DistrictWindMill::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictWindMill::Deserialize(child.second));
+                break;
+            case DistrictWarehouse::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictWarehouse::Deserialize(child.second));
+                break;
+            case DistrictBlacksmith::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictBlacksmith::Deserialize(child.second));
+                break;
+            case DistrictStable::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictStable::Deserialize(child.second));
+                break;
+            case DistrictFort::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictFort::Deserialize(child.second));
+                break;
+            case DistrictMonastery::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictMonastery::Deserialize(child.second));
+                break;
+            case DistrictCathedral::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictCathedral::Deserialize(child.second));
+                break;
+            case DistrictSchool::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictSchool::Deserialize(child.second));
+                break;
+            case DistrictUniversity::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictUniversity::Deserialize(child.second));
+                break;
+            case DistrictWatchTower::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictWatchTower::Deserialize(child.second));
+                break;
+            case DistrictInn::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictInn::Deserialize(child.second));
+                break;
+            case DistrictTavern::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictTavern::Deserialize(child.second));
+                break;
+            case DistrictMilitaryTent::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictMilitaryTent::Deserialize(child.second));
                 break;
             }
         }

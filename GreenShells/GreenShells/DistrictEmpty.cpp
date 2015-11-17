@@ -2,7 +2,7 @@
 #include <iostream>
 
 DistrictEmpty::DistrictEmpty(int owner)
-    : District<DistrictEmpty>(owner, 0, 0)
+    : District<DistrictEmpty>(owner, 0, 0, 0, 0, 0, 0)
 {
 }
 

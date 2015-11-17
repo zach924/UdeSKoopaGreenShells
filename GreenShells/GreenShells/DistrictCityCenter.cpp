@@ -2,10 +2,10 @@
 #include <algorithm>
 #include <iostream>
 
-const char* DistrictCityCenter::NAME = "CityCenter";
+const char* DistrictCityCenter::NAME = "City Center";
 
 DistrictCityCenter::DistrictCityCenter(int owner)
-    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
+    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE,FOOD_COST,FOOD_BONUS,SCIENCE_BONUS,WEAPON_BONUS)
 {
 }
 

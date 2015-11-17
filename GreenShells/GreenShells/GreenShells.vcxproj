@@ -165,6 +165,21 @@
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonSpawnUnit.cpp" />
+    <ClCompile Include="DistrictBlacksmith.cpp" />
+    <ClCompile Include="DistrictCathedral.cpp" />
+    <ClCompile Include="DistrictFort.cpp" />
+    <ClCompile Include="DistrictFortress.cpp" />
+    <ClCompile Include="DistrictHunter.cpp" />
+    <ClCompile Include="DistrictInn.cpp" />
+    <ClCompile Include="DistrictMilitaryTent.cpp" />
+    <ClCompile Include="DistrictMonastery.cpp" />
+    <ClCompile Include="DistrictSchool.cpp" />
+    <ClCompile Include="DistrictStable.cpp" />
+    <ClCompile Include="DistrictTavern.cpp" />
+    <ClCompile Include="DistrictUniversity.cpp" />
+    <ClCompile Include="DistrictWarehouse.cpp" />
+    <ClCompile Include="DistrictWatchTower.cpp" />
+    <ClCompile Include="DistrictWindMill.cpp" />
     <ClCompile Include="SpawnUnitPopUp.cpp" />
     <ClCompile Include="UnitArcherII.cpp" />
     <ClCompile Include="UnitArcherIII.cpp" />
@@ -244,6 +259,21 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DistrictBlacksmith.h" />
+    <ClInclude Include="DistrictCathedral.h" />
+    <ClInclude Include="DistrictFort.h" />
+    <ClInclude Include="DistrictFortress.h" />
+    <ClInclude Include="DistrictHunter.h" />
+    <ClInclude Include="DistrictInn.h" />
+    <ClInclude Include="DistrictMilitaryTent.h" />
+    <ClInclude Include="DistrictMonastery.h" />
+    <ClInclude Include="DistrictSchool.h" />
+    <ClInclude Include="DistrictStable.h" />
+    <ClInclude Include="DistrictTavern.h" />
+    <ClInclude Include="DistrictUniversity.h" />
+    <ClInclude Include="DistrictWarehouse.h" />
+    <ClInclude Include="DistrictWatchTower.h" />
+    <ClInclude Include="DistrictWindMill.h" />
     <ClInclude Include="SpawnUnitPopUp.h" />
     <ClInclude Include="UnitArcherII.h" />
     <ClInclude Include="UnitArcherIII.h" />

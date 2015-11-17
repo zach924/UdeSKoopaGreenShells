@@ -1,25 +1,25 @@
 #pragma once
 #include "District.h"
 
-class DistrictFarm : public District<DistrictFarm>
+class DistrictStable : public District<DistrictStable>
 {
 public:
-    typedef District<DistrictFarm> tBase;
-    static const int DISTRICT_TYPE = 2;
+    typedef District<DistrictStable> tBase;
+    static const int DISTRICT_TYPE = 5;
 
-    static const int ATTACK_DAMAGE = 0;
+    static const int ATTACK_DAMAGE = 75;
     static const int HEALTH = 300;
 
     static const int FOOD_COST = 200;
-    static const int FOOD_BONUS = 100;
+    static const int FOOD_BONUS = 0;
     static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 0;
+    static const int WEAPON_BONUS = 100;
 
     static const char* NAME;
 
 public:
-    DistrictFarm(int owner);
-    ~DistrictFarm();
+    DistrictStable(int owner);
+    ~DistrictStable();
     virtual DistrictBase* Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
@@ -29,5 +29,8 @@ public:
     virtual const char* GetName();
     virtual int GetTypeAsInt();
 
-    static DistrictFarm* Deserialize(boost::property_tree::ptree node);
+    static DistrictStable* Deserialize(boost::property_tree::ptree node);
 };
+
+
+

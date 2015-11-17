@@ -2,16 +2,13 @@
 #include <iostream>
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int foodCost, int foodBonus, int scienceBonus, int weaponBonus)
     : m_ownerID(owner),
     m_health(health),
     m_attackDamage(attackDamage),
-    m_foodCost(0),
-    m_scienceCost(0),
-    m_weaponCost(0),
-    m_foodRatioBonus(0.0),
-    m_scienceRatioBonus(0.0),
-    m_weaponRatioBonus(0.0),
+    m_foodCost(foodCost),
+    m_scienceBonus(scienceBonus),
+    m_weaponBonus(weaponBonus),
     m_actionPointsLeft(1)
 {
 }

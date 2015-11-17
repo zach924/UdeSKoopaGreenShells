@@ -8,8 +8,15 @@ public:
     static const int DISTRICT_TYPE = 0;
 
     static const int ATTACK_DAMAGE = 50;
-    static const int HEALTH = 200;
+    static const int HEALTH = 1000;
     static const char* NAME;
+
+    static const int FOOD_COST = 200;
+    static const int FOOD_BONUS = 50;
+    static const int SCIENCE_BONUS = 0;
+    static const int WEAPON_BONUS = 0;
+
+
     static const int TURN_FOR_BORDER_T1 = 5; // 1 Tile
     static const int TURN_FOR_BORDER_T2 = 50; // 2 Tile
     static const int TURN_FOR_BORDER_T3 = 100; // 3 Tile

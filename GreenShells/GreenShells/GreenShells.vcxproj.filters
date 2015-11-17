@@ -360,6 +360,51 @@
     <ClCompile Include="ButtonSpawnUnit.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
+    <ClCompile Include="DistrictHunter.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictWindMill.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictWarehouse.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictBlacksmith.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictStable.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictFort.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictFortress.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictMonastery.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictCathedral.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictSchool.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictUniversity.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictWatchTower.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictInn.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictTavern.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictMilitaryTent.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -559,7 +604,7 @@
     </ClInclude>
     <ClInclude Include="DiplomaticRelation.h">
       <Filter>Header Files\Player</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ButtonQuit.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>
@@ -613,6 +658,51 @@
     </ClInclude>
     <ClInclude Include="SpawnUnitPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictHunter.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictWindMill.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictWarehouse.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictBlacksmith.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictStable.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictFort.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictFortress.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictMonastery.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictCathedral.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictSchool.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictUniversity.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictWatchTower.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictInn.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictTavern.h">
+      <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictMilitaryTent.h">
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
