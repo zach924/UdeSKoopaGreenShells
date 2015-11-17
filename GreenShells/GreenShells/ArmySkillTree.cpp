@@ -42,8 +42,8 @@ ArmySkillTree ArmySkillTree::GetReadyForResearch()
 std::string ArmySkillTree::toString()
 {
     std::stringstream ss;
-    ss << Militia << RangerT1 << RangerT1 << RangerT1
-        << SwordT2 << SwordT2 << AxeT1 << AxeT1
-        << MaceT1 << MaceT1 << Fortress << Shield << Canon;
+    ss << Militia << RangerT1 << RangerT2 << RangerT3
+        << SwordT2 << SwordT3 << AxeT1 << AxeT2
+        << MaceT1 << MaceT2 << Fortress << Shield << Canon;
     return ss.str();
 }

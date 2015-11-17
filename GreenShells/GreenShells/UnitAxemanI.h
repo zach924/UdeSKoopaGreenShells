@@ -11,6 +11,7 @@ public:
     static int const HEALTH = 150;
     static int const MOVE_RANGE = 3;
     static int const UNIT_TYPE = 6;
+    static int const UNIT_TIER = 2;
     static int const VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
