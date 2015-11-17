@@ -32,40 +32,40 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     int currentY = m_fontSize + buffer;
     int buttonWidth = 200;
     int buttonHeight = 50;
-    Player* CurrentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    Player* currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
 
-    ButtonState state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetSwordsmanTier())? ButtonState::Unpressed : ButtonState::Disabled;
+    ButtonState state = currentPlayer->HasRessourcesFor(currentPlayer->GetSwordsmanTier())? ButtonState::Unpressed : ButtonState::Disabled;
     std::function<void()> spawnUnit = []() {SelectionManager::GetInstance().SpawnSwordsman(); };
     m_allButtons[0] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetAxemanTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetAxemanTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnAxeman(); };
     m_allButtons[1] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetCannonTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetCannonTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnCannon(); };
     m_allButtons[2] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetSettlerTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetSettlerTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnSettler(); };
     m_allButtons[3] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Settler", spawnUnit, nullptr, state);
     
     currentX += buttonWidth + buffer;
     currentY = m_fontSize + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetArcherTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetArcherTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnArcher(); };
     m_allButtons[4] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Archer", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetMaceTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetMaceTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnMace(); };
     m_allButtons[5] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Mace", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
-    state = CurrentPlayer->HasRessourcesFor(CurrentPlayer->GetShieldTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasRessourcesFor(currentPlayer->GetShieldTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnShield(); };
     m_allButtons[6] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Shield", spawnUnit, nullptr, state);
     
@@ -102,7 +102,7 @@ void SpawnUnitPopUp::ShowWindow(SDL_Renderer * rend)
     int height = m_fontSize;
 
     Texture menuHeader;
-    menuHeader.CreateFromText("SpawnUnit", m_font, m_rend);
+    menuHeader.CreateFromText("Spawn Unit", m_font, m_rend);
     SDL_Rect menuHeaderRect{ horizontalPos, verticalPos, menuHeader.GetWidth(), menuHeader.GetHeight() };
     SDL_RenderCopy(m_rend, menuHeader.GetTexture(), NULL, &menuHeaderRect);
 
