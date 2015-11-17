@@ -23,6 +23,12 @@ int UnitEmpty::GetTypeAsInt()
     return -1;
 }
 
+int UnitEmpty::GetUnitTier()
+{
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    return -1;
+}
+
 void UnitEmpty::LoadTexture()
 {
     try

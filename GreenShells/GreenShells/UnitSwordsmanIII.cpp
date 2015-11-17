@@ -52,6 +52,11 @@ int UnitSwordsmanIII::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitSwordsmanIII::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitSwordsmanIII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

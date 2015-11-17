@@ -53,6 +53,11 @@ int UnitCannon::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitCannon::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitCannon::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

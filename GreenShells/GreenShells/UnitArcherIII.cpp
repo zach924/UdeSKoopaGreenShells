@@ -53,6 +53,11 @@ int UnitArcherIII::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitArcherIII::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitArcherIII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

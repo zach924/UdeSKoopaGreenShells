@@ -50,6 +50,11 @@ int UnitSettler::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitSettler::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitSettler::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

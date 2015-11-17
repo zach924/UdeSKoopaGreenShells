@@ -23,6 +23,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetUnitTier();
     virtual void Heal(int health);
 
     virtual AttackNotification Attack(UnitBase* target);

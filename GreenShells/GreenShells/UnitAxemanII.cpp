@@ -53,6 +53,11 @@ int UnitAxemanII::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitAxemanII::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitAxemanII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

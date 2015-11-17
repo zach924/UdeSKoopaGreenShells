@@ -18,6 +18,22 @@ void RPCDispatcher::Dispatch(RPCBasicStruct * data)
     }
 }
 
+void RPCDispatcher::Dispatch(RPCBasicOnePositionStruct * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
+    case RPCClassMethodType::Map_SellDistrict:
+        m_worldState->GetMap()->SellDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_SellUnit:
+        m_worldState->GetMap()->SellUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    default:
+        assert(false && "You must add your code here");
+    }
+
+}
+
 void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 {
     switch (data->m_RPCClassMethod)
@@ -113,6 +129,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
         {
         case RPCStructType::RPC_BASIC:
             Dispatch(event.data);
+            break;
+        case RPCStructType::RPC_BASIC_ONE_POSITION:
+            Dispatch(dynamic_cast<RPCBasicOnePositionStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
             Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));

@@ -25,6 +25,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetUnitTier();
     virtual void Heal(int health);
 
     static UnitArcherIII* Deserialize(boost::property_tree::ptree node);
