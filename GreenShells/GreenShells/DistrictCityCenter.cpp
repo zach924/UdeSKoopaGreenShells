@@ -33,7 +33,7 @@ DistrictCityCenter::~DistrictCityCenter()
 
 void DistrictCityCenter::ChangeOwner(int newOwner)
 {
-    District::ChangeOwner(newOwner);
+    DistrictBase::ChangeOwner(newOwner);
     m_health = HEALTH;
 }
 

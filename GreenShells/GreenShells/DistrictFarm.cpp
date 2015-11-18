@@ -17,7 +17,7 @@ DistrictBase* DistrictFarm::Clone()
 
 void DistrictFarm::ChangeOwner(int newOwner)
 {
-    District::ChangeOwner(newOwner);
+    DistrictBase::ChangeOwner(newOwner);
     m_health = HEALTH;
 }
 

@@ -23,11 +23,6 @@ public:
     {
     }
 
-    virtual void ChangeOwner(int newOwner)
-    {
-        DistrictBase::ChangeOwner(newOwner);
-    }
-
     virtual DistrictBase* Clone() = 0;
 
     virtual District* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
