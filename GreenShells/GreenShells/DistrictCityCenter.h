@@ -15,7 +15,7 @@ public:
     static const int FOOD_BONUS = 50;
     static const int SCIENCE_BONUS = 0;
     static const int WEAPON_BONUS = 0;
-
+    static int const VIEW_RANGE = 5;
 
     static const int TURN_FOR_BORDER_T1 = 5; // 1 Tile
     static const int TURN_FOR_BORDER_T2 = 50; // 2 Tile

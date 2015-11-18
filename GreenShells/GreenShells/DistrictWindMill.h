@@ -14,7 +14,7 @@ public:
     static const int FOOD_BONUS = 175;
     static const int SCIENCE_BONUS = 0;
     static const int WEAPON_BONUS = 0;
-
+    static int const VIEW_RANGE = 5;
     static const char* NAME;
 
 public:
