@@ -101,6 +101,31 @@ GameWindow::GameWindow(ScreenResolution res)
     SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     CreateButtons();
     LoadLocalTextures();
+
+    auto cityCenterMap = GameSession::GetInstance().GetCurrentPlayerCopy()->GetCityCenterLocations();
+
+    assert(cityCenterMap.begin() != cityCenterMap.end() && "The current player should have a city center when creating a window for the first time");
+
+    m_currentLeftmostColumn = cityCenterMap.begin()->first.Column - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
+    if (m_currentLeftmostColumn < 0)
+    {
+        m_currentLeftmostColumn += Map::COLUMNS;
+    }
+    else if (m_currentLeftmostColumn >= Map::COLUMNS)
+    {
+        m_currentLeftmostColumn -= Map::COLUMNS;
+    }
+
+    m_currentLowestRow = cityCenterMap.begin()->first.Row - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
+    if (m_currentLowestRow < 0)
+    {
+        m_currentLowestRow += Map::ROWS;
+    }
+    else if (m_currentLowestRow >= Map::ROWS)
+    {
+        m_currentLowestRow -= Map::ROWS;
+    }
+
 }
 
 GameWindow::~GameWindow()
@@ -124,7 +149,7 @@ void GameWindow::CreateButtons()
     ClickManager::GetInstance().AddButton(new ButtonSpawnUnit(0, 1, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
     ClickManager::GetInstance().AddButton(new ButtonConstructDistrict(0, 2, 2, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
     ClickManager::GetInstance().AddButton(new ButtonGeneralCancel(0, 2, 3, m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET, m_CurrentScreenResolution.BUTTON_VERTICAL_OFFSET));
-    
+
     //Next turn
     ClickManager::GetInstance().AddButton(new ButtonNextTurn(m_CurrentScreenResolution.MINIMAP_BORDER_X,
         m_CurrentScreenResolution.MINIMAP_BORDER_Y - m_CurrentScreenResolution.NEXT_TURN_BUTTON_HEIGHT,
@@ -268,7 +293,7 @@ void GameWindow::ShowWindow()
                     {
                         m_currentLowestRow = Map::ROWS - 1;
                     }
-                                break;
+                               break;
                 case (SDLK_LEFT) :
                     if (m_currentLeftmostColumn > 0)
                     {
@@ -278,7 +303,7 @@ void GameWindow::ShowWindow()
                     {
                         m_currentLeftmostColumn = Map::COLUMNS - 1;
                     }
-                                    break;
+                                 break;
                 case (SDLK_RIGHT) :
                     m_currentLeftmostColumn = (m_currentLeftmostColumn + 1) % (Map::COLUMNS);
                     break;
@@ -328,7 +353,7 @@ void GameWindow::ShowWindow()
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            unique_ptr<Player> currentPlayer { GameSession::GetInstance().GetCurrentPlayerCopy() };
+            unique_ptr<Player> currentPlayer{ GameSession::GetInstance().GetCurrentPlayerCopy() };
 
             /************
                 FOOD
@@ -856,7 +881,7 @@ void GameWindow::ShowWindow()
     }
 
     Close();
-    
+
 }
 
 SDL_Renderer * GameWindow::GetRenderer()

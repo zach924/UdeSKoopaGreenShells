@@ -139,6 +139,11 @@ boost::property_tree::ptree Player::Serialize()
     return playerNode;
 }
 
+std::map<Position, int> Player::GetCityCenterLocations()
+{
+    return m_cityCenterLocations;
+}
+
 std::map<int, DiplomaticRelation> Player::GetDiplomaticRelations()
 {
     return m_diplomaticRelations;
