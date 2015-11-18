@@ -9,6 +9,11 @@ const char* UnitCannon::UNIT_NAME = "Cannon";
 UnitCannon::UnitCannon(int owner)
     : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitCannon::~UnitCannon()
@@ -61,8 +66,8 @@ void UnitCannon::Heal(int health)
 void UnitCannon::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

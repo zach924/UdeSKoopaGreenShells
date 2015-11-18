@@ -8,6 +8,11 @@ const char* UnitSwordsmanII::UNIT_NAME = "Swordsman MK2";
 UnitSwordsmanII::UnitSwordsmanII(int owner)
     : Unit<UnitSwordsmanII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitSwordsmanII::~UnitSwordsmanII()
@@ -34,7 +39,7 @@ void UnitSwordsmanII::LoadTexture()
 
 bool UnitSwordsmanII::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetArmySkillTree().SwordT3;
 }
 
@@ -61,8 +66,8 @@ void UnitSwordsmanII::Heal(int health)
 void UnitSwordsmanII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

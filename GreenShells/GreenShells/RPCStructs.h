@@ -31,7 +31,9 @@ enum RPCStructType
     RPC_BASIC,
     RPC_BASIC_TWO_POSITIONS,
     RPC_BASIC_CREATION,
-    RPC_BASIC_UNLOCK_SKILL
+    RPC_BASIC_UNLOCK_SKILL,
+    RPC_BASIC_DIPLOMACY_REQUEST,
+    RPC_BASIC_DIPLOMACY_RESPONSE,
 };
 
 enum RPCClassMethodType
@@ -43,6 +45,11 @@ enum RPCClassMethodType
     Map_CreateDistrict,
     Player_SetReady,
     Player_UnlockSkill,
+    Player_SendPeaceRequest,
+    Player_SendAllianceRequest,
+    Player_RespondPeace,
+    Player_RespondAlliance,
+    Player_DeclareWar,
 };
 
 struct RPCBasicStruct
@@ -72,6 +79,16 @@ struct RPCBasicActorCreationStruct : public RPCBasicStruct
 struct RPCBasicUnlockSkill : public RPCBasicStruct
 {
     Skills m_Skill;
+};
+
+struct RPCBasicDiplomaticRequestStruct : RPCBasicStruct
+{
+    int m_otherPlayerId;
+};
+
+struct RPCBasicDiplomaticResponseStruct : RPCBasicDiplomaticRequestStruct
+{
+    bool m_response;
 };
 
 struct RPCEvent

@@ -74,7 +74,7 @@ GameWindow::GameWindow(ScreenResolution res)
     m_window = SDL_CreateWindow("GreenShells", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_CurrentScreenResolution.MAX_WIDTH, m_CurrentScreenResolution.MAX_HEIGHT, windowType);
     assert(m_window != NULL && SDL_GetError());
 
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);//VSYNC caps at 60 fps
     assert(m_renderer != NULL && SDL_GetError());
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
@@ -132,8 +132,8 @@ void GameWindow::CreateButtons()
 
 void GameWindow::LoadLocalTextures()
 {
-    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
-    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", 16);
+    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 20);
+    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     assert(m_ressourcesFont != NULL && TTF_GetError());
     assert(m_infoFont != NULL && TTF_GetError());
 
@@ -163,7 +163,6 @@ void GameWindow::LoadLocalTextures()
 
 void GameWindow::ShowWindow()
 {
-
     while (!m_doQuit)
     {
         SDL_Event e;
@@ -305,13 +304,12 @@ void GameWindow::ShowWindow()
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
-
         //Render UI
         //Render ressources and turns
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            unique_ptr<Player> currentPlayer { GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+            auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
             /************
                 FOOD
@@ -410,7 +408,6 @@ void GameWindow::ShowWindow()
             SDL_RenderCopy(m_renderer, turnTextTexture, NULL, &renderQuadTurnValue);
             SDL_DestroyTexture(turnTextTexture);
             SDL_FreeSurface(turnSurf);
-
         }
 
 
@@ -829,15 +826,14 @@ void GameWindow::ShowWindow()
                 delete selectedUnit;
             }
         }
-
-        //Draw screen
-        SDL_RenderPresent(m_renderer);
-
         //Render the different popUps
         for (PopUpWindow* popUp : m_activePopUpWindow)
         {
             popUp->ShowWindow(m_renderer);
         }
+
+        //Draw screen
+        SDL_RenderPresent(m_renderer);
     }
 
     Close();

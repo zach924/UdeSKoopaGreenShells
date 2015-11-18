@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "Skills.h"
 
+class Player;
 class ButtonText;
 
 class SkillTreePopUp
@@ -27,9 +28,10 @@ private:
     void ShowButton(ButtonText* button);
     void DrawDependencies(int firstColumn, int firstRow, int secondColumn, int secondRow);
     void DrawCostsStrings(int cost, int column);
-    void SetButtonState(Skills skill, ButtonText* button);
+    void SetButtonState(std::shared_ptr<Player> player, Skills skill, ButtonText* button);
     ButtonText* CreateButton(int column, int row, std::string text, std::function<void()> function, ButtonState state);
     Texture* m_scienceTexture;
+    TTF_Font* m_font;
 public:
     SkillTreePopUp(const char* windowName, int width, int height);
     ~SkillTreePopUp();

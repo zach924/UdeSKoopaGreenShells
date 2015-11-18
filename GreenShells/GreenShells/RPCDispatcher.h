@@ -14,6 +14,8 @@ class RPCDispatcher
     void Dispatch(RPCBasicTwoPositionsStruct* data);
     void Dispatch(RPCBasicActorCreationStruct* data);
     void Dispatch(RPCBasicUnlockSkill* data);
+    void Dispatch(RPCBasicDiplomaticRequestStruct* data);
+    void Dispatch(RPCBasicDiplomaticResponseStruct* data);
     void Dispatch(RPCEvent);
 
 public:

@@ -57,6 +57,11 @@ void GameSession::SetCurrentPlayerID(int player)
     m_currentPlayerID = player;
 }
 
+std::shared_ptr<Player> GameSession::GetCurrentPlayerCopy()
+{
+    return shared_ptr<Player> { m_worldState.GetPlayerCopy(m_currentPlayerID) };
+}
+
 bool GameSession::ConnectToServer(char* playerName)
 {
     bool result = RPCBase::EstablishConnection(m_serverIP, std::to_string(m_port));

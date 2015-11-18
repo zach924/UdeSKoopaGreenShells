@@ -9,6 +9,11 @@ const char* UnitArcherIII::UNIT_NAME = "Archer MK3";
 UnitArcherIII::UnitArcherIII(int owner)
     : Unit<UnitArcherIII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitArcherIII::~UnitArcherIII()
@@ -61,8 +66,8 @@ void UnitArcherIII::Heal(int health)
 void UnitArcherIII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

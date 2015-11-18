@@ -9,6 +9,11 @@ const char* UnitAxemanII::UNIT_NAME = "Axeman MK2";
 UnitAxemanII::UnitAxemanII(int owner)
     : Unit<UnitAxemanII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitAxemanII::~UnitAxemanII()
@@ -61,8 +66,8 @@ void UnitAxemanII::Heal(int health)
 void UnitAxemanII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

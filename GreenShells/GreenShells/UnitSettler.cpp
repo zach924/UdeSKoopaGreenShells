@@ -8,6 +8,11 @@ const char* UnitSettler::UNIT_NAME = "Settler";
 UnitSettler::UnitSettler(int owner)
     : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitSettler::~UnitSettler()
@@ -34,7 +39,7 @@ void UnitSettler::LoadTexture()
 
 bool UnitSettler::CanUpgrade()
 {
-    return true; // TODO :  Validate if its true by default for settler
+    return true;
 }
 
 int UnitSettler::GetMaxHealth()
@@ -60,8 +65,8 @@ void UnitSettler::Heal(int health)
 void UnitSettler::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

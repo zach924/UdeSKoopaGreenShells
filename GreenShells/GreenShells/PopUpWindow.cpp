@@ -15,7 +15,7 @@ PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
 
     SDL_SetRenderDrawColor(m_rend, 80, 80, 80, 0);
 
-    m_font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Thin.ttf", m_fontSize);
+    m_font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Regular.ttf", m_fontSize);
     assert(m_font != NULL && TTF_GetError());
 
     SDL_Color textColor = { 255, 255, 255 };
@@ -54,9 +54,6 @@ PopUpWindow::PopUpWindow(std::string windowText, int width, int height)
         assert(textTexture != NULL && TTF_GetError());
 
         m_texts.emplace_back(textTexture);
-
-
-        SDL_DestroyTexture(textTexture);
         SDL_FreeSurface(surf);
     }
 }

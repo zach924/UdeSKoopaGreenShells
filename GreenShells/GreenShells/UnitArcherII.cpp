@@ -9,6 +9,11 @@ const char* UnitArcherII::UNIT_NAME = "Archer MK2";
 UnitArcherII::UnitArcherII(int owner)
     : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitArcherII::~UnitArcherII()
@@ -35,7 +40,7 @@ void UnitArcherII::LoadTexture()
 
 bool UnitArcherII::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetArmySkillTree().RangerT3;
 }
 
@@ -62,8 +67,8 @@ void UnitArcherII::Heal(int health)
 void UnitArcherII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }

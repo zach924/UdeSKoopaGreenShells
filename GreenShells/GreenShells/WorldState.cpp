@@ -40,10 +40,27 @@ Player* WorldState::GetPlayer(int playerID)
     return m_players.at(playerID);
 }
 
-Player* WorldState::GetPlayerCopy(int playerID)
+shared_ptr<Player> WorldState::GetPlayerCopy(int playerID)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_players.at(playerID)->Clone();
+    return shared_ptr<Player> { m_players.at(playerID)->Clone() };
+}
+
+std::vector<Player*> WorldState::GetPlayersCopy()
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    std::vector<Player*> players;
+
+    for (auto p : m_players)
+    {
+        players.emplace_back(p->Clone());
+    }
+    return players;
+}
+
+std::vector<Player*> WorldState::GetPlayers()
+{
+    return m_players;
 }
 
 void WorldState::PrepareLocalGame()
@@ -99,6 +116,11 @@ int WorldState::AddPlayer(std::string playerName)
     tile->SetDistrict(new DistrictCityCenter(playerID));
     newPlayer->AddCityCenter(spawnPosition, m_turn);
     newPlayer->AddScience(1000000);
+    for (auto p : m_players)
+    {
+        p->AddNewRelation(playerID);
+        newPlayer->AddNewRelation(p->GetPlayerID());
+    }
     m_players.push_back(newPlayer);
     return playerID;
 }

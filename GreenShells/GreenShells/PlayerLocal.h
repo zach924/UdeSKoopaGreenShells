@@ -3,8 +3,10 @@
 class PlayerLocal :
     public Player
 {
+    
 private:
     void UpdateTilesOwned(int turn, Map* map);
+
 public:
     PlayerLocal();
     ~PlayerLocal();
@@ -27,6 +29,17 @@ public:
     virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
     virtual void UnlockSkill(int turn, Skills skill);
+    virtual void AddNewRelation(int otherPlayerId, int currentTurn = 0, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1);
+    virtual void RemoveRelation(int otherPlayerId);
+    virtual void SendPeaceProposition(int otherPlayerId, int currentTurn);
+    virtual void ReceivePeaceProposition(int otherPlayerId, int currentTurn);
+    virtual void RespondPeaceProposition(int otherPlayerId, int currentTurn, bool answer);
+    virtual void GoToPeace(int otherPlayerId, int currentTurn);
+    virtual void SendAllianceProposition(int otherPlayerId, int currentTurn);
+    virtual void ReceiveAllianceProposition(int otherPlayerId, int currentTurn);
+    virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer);
+    virtual void GoToAlliance(int otherPlayerId, int currentTurn);
+    virtual void GoToWar(int otherPlayerId, int currentTurn);
     static PlayerLocal* Deserialize(boost::property_tree::ptree playerNode);
 };
 

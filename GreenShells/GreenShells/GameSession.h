@@ -5,6 +5,8 @@
 
 #include "WorldState.h"
 
+class Player;
+
 class GameSession
 {
     WorldState m_worldState;
@@ -36,6 +38,8 @@ public:
 
     int GetCurrentPlayerID();
     void SetCurrentPlayerID(int player);
+
+    std::shared_ptr<Player> GetCurrentPlayerCopy();
 
     bool ConnectToServer(char* playerName);
 

@@ -300,6 +300,12 @@
     <ClCompile Include="SkillTreePopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
+    <ClCompile Include="DiplomacyPopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="DiplomaticRelation.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
     <ClCompile Include="ButtonText.cpp">
       <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
@@ -548,9 +554,15 @@
     <ClInclude Include="SkillTreePopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
+    <ClInclude Include="DiplomacyPopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
     <ClInclude Include="ButtonText.h">
       <Filter>Header Files\UI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="DiplomaticRelation.h">
+      <Filter>Header Files\Player</Filter>
+	</ClInclude>
     <ClInclude Include="ButtonQuit.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 #include "SkillTreePopUp.h"
 #include "ButtonText.h"
 #include "GameSession.h"
@@ -11,13 +12,14 @@ SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     m_colomnWidth((width - COST_WIDTH) / 8), // 3 for army + 3 for empire + 2 for utility
     m_rowHeight((height - HEADER_HEIGHT) / 8) // 8 tiers
 {
+    m_font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 18);
     m_scienceTexture = new Texture();
     m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_rend);
 
     m_heightSpacer = (m_rowHeight - BUTTON_HEIGHT) / 2;
     m_widthSpace = (m_colomnWidth - BUTTON_WIDTH) / 2;
 
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+    auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
     //Army Tree
     auto currentArmyTree = currentPlayer->GetArmySkillTree();
@@ -119,19 +121,16 @@ void SkillTreePopUp::DrawCostsStrings(int cost, int column)
 
 ButtonText * SkillTreePopUp::CreateButton(int column, int row, std::string text, std::function<void()> function, ButtonState state)
 {
-    return new ButtonText(COST_WIDTH + (column * m_colomnWidth) + m_widthSpace, HEADER_HEIGHT + (row * m_rowHeight) + m_heightSpacer, BUTTON_WIDTH, BUTTON_HEIGHT, text, function, state);
+    return new ButtonText(COST_WIDTH + (column * m_colomnWidth) + m_widthSpace, HEADER_HEIGHT + (row * m_rowHeight) + m_heightSpacer, BUTTON_WIDTH, BUTTON_HEIGHT, text, function, m_font, state);
 }
 
-void SkillTreePopUp::SetButtonState(Skills skill, ButtonText* button)
+void SkillTreePopUp::SetButtonState(std::shared_ptr<Player> player, Skills skill, ButtonText* button)
 {
-    std::unique_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
-
-    //Army Tree
-    auto currentArmyTree = currentPlayer->GetArmySkillTree();
+    auto currentArmyTree = player->GetArmySkillTree();
     auto canResearchArmyTree = currentArmyTree.GetReadyForResearch();
-    auto currentEmpireTree = currentPlayer->GetEmpireSkillTree();
+    auto currentEmpireTree = player->GetEmpireSkillTree();
     auto canResearchEmpireTree = currentEmpireTree.GetReadyForResearch();
-    auto currentUtilityTree = currentPlayer->GetUtilitySkillTree();
+    auto currentUtilityTree = player->GetUtilitySkillTree();
     auto canResearchUtilityTree = currentUtilityTree.GetReadyForResearch();
     switch (skill)
     {
@@ -247,6 +246,7 @@ void SkillTreePopUp::SetButtonState(Skills skill, ButtonText* button)
         button->SetButtonState(currentUtilityTree.NoFogOfWar ? ButtonState::Pressed : canResearchUtilityTree.NoFogOfWar ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
     default:
+        assert(false && "No button to set state too.");
         break;
     }
 }
@@ -376,10 +376,11 @@ void SkillTreePopUp::ShowWindow(SDL_Renderer * rend)
     DrawDependencies(6,5,6,6);
     DrawDependencies(6,5,7,6);
 
+    auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
     ShowButton(m_closeButton);
     for (auto button : m_Buttons)
     {
-        SetButtonState(button.first, button.second);
+        SetButtonState(currentPlayer, button.first, button.second);
         ShowButton(button.second);
     }
 

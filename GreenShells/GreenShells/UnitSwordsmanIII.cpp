@@ -8,6 +8,11 @@ const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 UnitSwordsmanIII::UnitSwordsmanIII(int owner)
     : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitSwordsmanIII::~UnitSwordsmanIII()
@@ -60,8 +65,8 @@ void UnitSwordsmanIII::Heal(int health)
 void UnitSwordsmanIII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID) };
-    if (currentPlayer->GetUtilitySkillTree().MovementUpgrade)
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
     }
@@ -98,7 +103,7 @@ UnitSwordsmanIII * UnitSwordsmanIII::Deserialize(boost::property_tree::ptree nod
     UnitSwordsmanIII* swordsman = new UnitSwordsmanIII(node.get<int>("<xmlattr>.O"));
     swordsman->m_health = node.get<int>("<xmlattr>.H");
     swordsman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
-
+    
     return swordsman;
 }
 

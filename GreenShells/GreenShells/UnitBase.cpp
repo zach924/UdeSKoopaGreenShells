@@ -3,6 +3,8 @@
 #include <boost\property_tree\ptree.hpp>
 #include "UnitBase.h"
 #include "DistrictBase.h"
+#include "ServerSession.h"
+#include "Player.h"
 
 UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage)
     : m_ownerID(owner),
@@ -62,10 +64,11 @@ void UnitBase::SetPosition(Position pos)
 
 AttackNotification UnitBase::ReceiveDamage(int damage)
 {
+    if (ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID)->GetUtilitySkillTree().ArmorUpgrade)
+    {
+        damage = static_cast<int>(damage * 0.85);
+    }
     m_health -= damage;
-
-    if (m_health <= 0)
-        std::cout << "An unit die : Player " << m_ownerID << std::endl;
 
     return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
 }
