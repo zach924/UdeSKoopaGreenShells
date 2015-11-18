@@ -10,6 +10,7 @@ public:
     static int const HEALTH = 200;
     static int const ACTION_POINTS = 2;
     static int const UNIT_TYPE = 0;
+    static int const UNIT_TIER = 1;
     static const char* UNIT_NAME;
 
 public:

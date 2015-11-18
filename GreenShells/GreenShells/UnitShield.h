@@ -11,6 +11,7 @@ public:
     static int const HEALTH = 400;
     static int const ACTION_POINTS = 1;
     static int const UNIT_TYPE = 11;
+    static int const UNIT_TIER = 3;
     static const char* UNIT_NAME;
 
     UnitShield(int owner);

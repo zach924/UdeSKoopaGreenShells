@@ -1,8 +1,30 @@
 #include "Player.h"
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
+#include "UnitSettler.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
+
+#include "DistrictCityCenter.h"
+#include "Map.h"
 
 const double Player::BORDER_GROWTH_BONUS_RATE = 0.85f;
+
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -75,6 +97,33 @@ bool Player::IsNegociating()
     return false;
 }
 
+std::vector<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
+{
+    std::vector<Position> ownedTiles;
+    auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
+    if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 4, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 3, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 2, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 1, NO_FILTER);
+    }
+    else
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER);
+    }
+    return ownedTiles;
+}
+
 bool Player::IsDisconnected()
 {
     return m_isDisconnected;
@@ -121,6 +170,11 @@ boost::property_tree::ptree Player::Serialize()
     return playerNode;
 }
 
+std::map<Position, int> Player::GetCityCenterLocations()
+{
+    return m_cityCenterLocations;
+}
+
 std::map<int, DiplomaticRelation> Player::GetDiplomaticRelations()
 {
     return m_diplomaticRelations;
@@ -152,4 +206,156 @@ ArmySkillTree Player::GetArmySkillTree()
 EmpireSkillTree Player::GetEmpireSkillTree()
 {
     return m_empireSkillTree;
+}
+
+bool Player::HasRessourcesFor(int tier)
+{
+    if (tier == 1)
+    {
+        return m_weapon >= UNIT_TIER_ONE_COST;
+    }
+    else if (tier == 2)
+    {
+        return m_weapon >= UNIT_TIER_TWO_COST;
+
+    }
+    else if (tier == 3)
+    {
+        return m_weapon >= UNIT_TIER_THREE_COST;
+
+    }
+    else if (tier == 4)
+    {
+        return m_weapon >= UNIT_TIER_FOUR_COST;
+    }
+    return false;
+}
+
+unsigned int Player::GetWeaponCostForTier(int tier)
+{
+    if (tier == 1)
+    {
+        return UNIT_TIER_ONE_COST;
+    }
+    else if (tier == 2)
+    {
+        return UNIT_TIER_TWO_COST;
+
+    }
+    else if (tier == 3)
+    {
+        return UNIT_TIER_THREE_COST;
+
+    }
+    else if (tier == 4)
+    {
+        return UNIT_TIER_FOUR_COST;
+    }
+    return 0;
+}
+
+int Player::GetSwordsmanTier()
+{
+    if (m_armySkillTree.SwordT3)
+    {
+        return UnitSwordsmanIII::UNIT_TIER;
+    }
+    else if (m_armySkillTree.SwordT2)
+    {
+        return UnitSwordsmanII::UNIT_TIER;
+    }
+    else
+    {
+        return UnitSwordsmanI::UNIT_TIER;
+    }
+}
+
+int Player::GetArcherTier()
+{
+    if (m_armySkillTree.RangerT3)
+    {
+        return UnitArcherIII::UNIT_TIER;
+    }
+    else if (m_armySkillTree.RangerT2)
+    {
+        return UnitArcherII::UNIT_TIER;
+    }
+    else if (m_armySkillTree.RangerT1)
+    {
+        return UnitArcherI::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetAxemanTier()
+{
+    if (m_armySkillTree.AxeT2)
+    {
+        return UnitAxemanII::UNIT_TIER;
+    }
+    else if (m_armySkillTree.AxeT1)
+    {
+        return UnitAxemanI::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetMaceTier()
+{
+    if (m_armySkillTree.MaceT2)
+    {
+        return UnitMaceII::UNIT_TIER;
+    }
+    else if (m_armySkillTree.MaceT1)
+    {
+        return UnitMaceI::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetCannonTier()
+{
+    if (m_armySkillTree.Canon)
+    {
+        return UnitCannon::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+
+
+}
+
+int Player::GetShieldTier()
+{
+    if (m_armySkillTree.Shield)
+    {
+        return UnitShield::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetSettlerTier()
+{
+    if (m_empireSkillTree.Settler)
+    {
+        return UnitSettler::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
 }

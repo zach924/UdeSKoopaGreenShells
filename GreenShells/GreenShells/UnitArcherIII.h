@@ -11,6 +11,7 @@ public:
     static int const HEALTH = 250;
     static int const ACTION_POINTS = 2;
     static int const UNIT_TYPE = 5;
+    static int const UNIT_TIER = 3;
     static const char* UNIT_NAME;
 
 public:

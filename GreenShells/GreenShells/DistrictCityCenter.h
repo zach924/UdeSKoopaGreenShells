@@ -25,7 +25,7 @@ public:
     virtual DistrictBase* Clone();
     void LoadTexture();
 
-    void ChangeOwner(int owner);
+    virtual void ChangeOwner(int newOwner);
 
     virtual int GetMaxHealth();
     virtual const char* GetName();
