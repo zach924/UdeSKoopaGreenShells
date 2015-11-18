@@ -11,6 +11,7 @@ public:
     DistrictEmpty(int owner);
     ~DistrictEmpty();
     virtual DistrictBase* Clone();
+    virtual void ChangeOwner(int newOwner);
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual int GetMaxHealth();

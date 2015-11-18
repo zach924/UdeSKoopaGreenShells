@@ -15,6 +15,12 @@ DistrictBase* DistrictFarm::Clone()
     return new DistrictFarm{ *this };
 }
 
+void DistrictFarm::ChangeOwner(int newOwner)
+{
+    District::ChangeOwner(newOwner);
+    m_health = HEALTH;
+}
+
 void DistrictFarm::LoadTexture()
 {
     try
