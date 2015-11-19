@@ -11,6 +11,11 @@ DistrictBase* DistrictEmpty::Clone()
     return new DistrictEmpty{ *this };
 }
 
+void DistrictEmpty::ChangeOwner(int newOwner)
+{
+    assert(false && "Don't try to change the owner of an empty district");
+}
+
 void DistrictEmpty::LoadTexture()
 {
     try

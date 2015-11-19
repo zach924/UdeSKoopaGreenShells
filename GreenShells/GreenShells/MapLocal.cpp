@@ -164,11 +164,28 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
         {
             if (attacker && notification.CanMove && districtTargeted->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
             {
-                int turn = ServerSession::GetInstance().GetWorldState()->GetCurrentTurn();
-                ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID())->RemoveCityCenter(districtTargeted->GetPosition());
-                static_cast<DistrictCityCenter*>(districtTargeted)->ChangeOwner(ownerID);
-                ServerSession::GetInstance().GetWorldState()->GetPlayer(ownerID)->AddCityCenter(districtTargeted->GetPosition(), turn);
-                // for now player wont move on the citycenter if they take control of it
+                int currentTurn = ServerSession::GetInstance().GetWorldState()->GetCurrentTurn();
+                Player* playerThatLostACity = ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID());
+                auto allPlayerCityCenters = playerThatLostACity->GetCityCenterLocations();
+                int turnCreated = allPlayerCityCenters[districtTargeted->GetPosition()];
+
+                //Flip the borders and district belonging to the city center
+                auto ownedTilesPos = playerThatLostACity->GetCityCenterTilesOwned(currentTurn, this, districtTargeted->GetPosition());
+                for (auto tilePos : ownedTilesPos)
+                {
+                    TileBase* tile = GetTile(tilePos);
+                    DistrictBase* district = tile->GetDistrict();
+                    if (district != nullptr)
+                    {
+                        district->ChangeOwner(ownerID);
+                    }
+                    tile->SetPlayerOwnerId(ownerID);
+                }
+
+                //Change the owner of the city center
+                playerThatLostACity->RemoveCityCenter(districtTargeted->GetPosition());
+                districtTargeted->ChangeOwner(ownerID);
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(ownerID)->AddCityCenter(districtTargeted->GetPosition(), turnCreated);
             }
             else if (districtTargeted->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {

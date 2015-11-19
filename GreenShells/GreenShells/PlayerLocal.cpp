@@ -374,30 +374,8 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 void PlayerLocal::UpdateTilesOwned(int turn, Map* map)
 {
     for (auto cityCenter : m_cityCenterLocations)
-    {
-        std::set<Position> ownedTiles;
-        int cityCenterTier = turn - cityCenter.second;
-        if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
-        {
-            ownedTiles = map->GetArea(cityCenter.first, 4, NO_FILTER);
-        }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
-        {
-            ownedTiles = map->GetArea(cityCenter.first, 3, NO_FILTER);
-        }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
-        {
-            ownedTiles = map->GetArea(cityCenter.first, 2, NO_FILTER);
-        }
-        else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
-        {
-            ownedTiles = map->GetArea(cityCenter.first, 1, NO_FILTER);
-        }
-        else
-        {
-            ownedTiles = map->GetArea(cityCenter.first, 0, NO_FILTER);
-        }
-
+    {       
+        auto ownedTiles = GetCityCenterTilesOwned(turn, map, cityCenter.first);
         for (auto position : ownedTiles)
         {
             if (map->GetTile(position)->GetPlayerOwnerId() == -1)

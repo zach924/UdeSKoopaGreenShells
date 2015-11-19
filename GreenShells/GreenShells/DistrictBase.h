@@ -37,6 +37,7 @@ public:
 
     virtual DistrictBase* Clone() = 0;
 
+    virtual void ChangeOwner(int newOwner);
     int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetHealth();

@@ -31,9 +31,9 @@ DistrictCityCenter::~DistrictCityCenter()
 {
 }
 
-void DistrictCityCenter::ChangeOwner(int owner)
+void DistrictCityCenter::ChangeOwner(int newOwner)
 {
-    m_ownerID = owner;
+    DistrictBase::ChangeOwner(newOwner);
     m_health = HEALTH;
 }
 
