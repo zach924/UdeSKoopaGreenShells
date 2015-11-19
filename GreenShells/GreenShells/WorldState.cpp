@@ -111,7 +111,6 @@ int WorldState::AddPlayer(std::string playerName)
     Player* newPlayer = new PlayerLocal();
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
-    newPlayer->AddWeapon(500);
 
     for (auto p : m_players)
     {
