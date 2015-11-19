@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="ArmySkillTree.cpp" />
     <ClCompile Include="ButtonSpawnUnit.cpp" />
+    <ClCompile Include="ConstructDistrictPopUp.cpp" />
     <ClCompile Include="DistrictBlacksmith.cpp" />
     <ClCompile Include="DistrictCathedral.cpp" />
     <ClCompile Include="DistrictFort.cpp" />
@@ -259,6 +260,7 @@
     <ClCompile Include="YesNoPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstructDistrictPopUp.h" />
     <ClInclude Include="DistrictBlacksmith.h" />
     <ClInclude Include="DistrictCathedral.h" />
     <ClInclude Include="DistrictFort.h" />

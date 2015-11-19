@@ -2,6 +2,8 @@
 #include "ButtonConstructDistrict.h"
 #include "SelectionManager.h"
 #include "DistrictFarm.h"
+#include "ConstructDistrictPopUp.h"
+#include "GameWindow.h"
 
 ButtonConstructDistrict::ButtonConstructDistrict(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffset, int buttonVOffset, ButtonState state)
     :Button(sectionOffset, columnIndex, rowIndex, buttonHOffset, buttonVOffset, state)
@@ -14,8 +16,9 @@ ButtonConstructDistrict::~ButtonConstructDistrict()
 
 void ButtonConstructDistrict::DoAction()
 {
-    // TODO : add the popup window for selection, and move that line in popup window
-    SelectionManager::GetInstance().CreateDistrictPressed(DistrictFarm::DISTRICT_TYPE);
+    ConstructDistrictPopUp* popUp = new ConstructDistrictPopUp("", 500, 550);
+
+    GameWindow::GetInstance().AddPopUpWindow(popUp);
 }
 
 void ButtonConstructDistrict::LoadTextTexture(SDL_Renderer* rend)

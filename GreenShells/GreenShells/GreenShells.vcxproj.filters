@@ -405,6 +405,9 @@
     <ClCompile Include="DistrictMilitaryTent.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
+    <ClCompile Include="ConstructDistrictPopUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -703,6 +706,9 @@
     </ClInclude>
     <ClInclude Include="DistrictMilitaryTent.h">
       <Filter>Header Files\Actor\District</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructDistrictPopUp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

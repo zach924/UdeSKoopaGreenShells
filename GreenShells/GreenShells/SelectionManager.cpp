@@ -498,8 +498,6 @@ void SelectionManager::CreateUnitPressed(int unitType)
     {
         m_unitTypeToCreate = unitType;
         CreateUnit(m_selectedPosition);
-
-        // TODO : Change for open the window and then create the unit
     }
 }
 

@@ -116,6 +116,7 @@ public:
     virtual EmpireSkillTree GetEmpireSkillTree();
 
     bool HasRessourcesFor(int tier);
+    bool HasRessourcesForDistrict(int DistrictType);
     unsigned int GetWeaponCostForTier(int tier);
     int GetSwordsmanTier();
     int GetArcherTier();

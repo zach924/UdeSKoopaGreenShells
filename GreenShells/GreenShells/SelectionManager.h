@@ -83,4 +83,6 @@ public:
     void SpawnCannon();
     void SpawnShield();
     void SpawnSettler();
+
+    void SpawnDistrict(int districtType);
 };
