@@ -17,6 +17,11 @@ DistrictBase::~DistrictBase()
 {
 }
 
+void DistrictBase::ChangeOwner(int newOwner)
+{
+    m_ownerID = newOwner;
+}
+
 int DistrictBase::GetActionPointsRemaining()
 {
     return m_actionPointsLeft;

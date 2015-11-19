@@ -21,6 +21,7 @@ public:
     DistrictFarm(int owner);
     ~DistrictFarm();
     virtual DistrictBase* Clone();
+    virtual void ChangeOwner(int newOwner);
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();

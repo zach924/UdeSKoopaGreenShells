@@ -21,6 +21,8 @@
 #include "UnitCannon.h"
 #include "UnitShield.h"
 
+#include "Map.h"
+
 #include "DistrictCityCenter.h"
 
 #include "DistrictHunter.h"
@@ -109,6 +111,33 @@ bool Player::IsNegociating()
         }
     }
     return false;
+}
+
+std::vector<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
+{
+    std::vector<Position> ownedTiles;
+    auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
+    if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 4, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 3, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 2, NO_FILTER);
+    }
+    else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 1, NO_FILTER);
+    }
+    else
+    {
+        ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER);
+    }
+    return ownedTiles;
 }
 
 bool Player::IsDisconnected()
