@@ -43,6 +43,6 @@ public:
     virtual boost::property_tree::ptree Serialize();
 
 private:
-    void GetAreaIntern(int distance, std::vector<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter);
+    void GetAreaIntern(int distance, std::set<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter);
 
 };

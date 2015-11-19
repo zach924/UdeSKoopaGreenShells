@@ -455,7 +455,7 @@ void GameWindow::ShowWindow()
                 TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
                 Texture* tileTexture = tile->GetTexture();
 
-                bool isDiscover = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
+                bool isDiscovered = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
                 bool isSeen = tile->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
 
                 //Position the tile on the screen
@@ -463,7 +463,7 @@ void GameWindow::ShowWindow()
                 int yPos = m_CurrentScreenResolution.HUD_HEIGHT + (row * m_CurrentScreenResolution.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                if (!isDiscover)
+                if (!isDiscovered)
                 {
                     tileTexture->SetColor(MAP_FOW);
                 }
@@ -483,7 +483,7 @@ void GameWindow::ShowWindow()
                 //Render the tile
                 SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
-                if (isDiscover)
+                if (isDiscovered)
                 {
                     //Render the district
                     DistrictBase* district = tile->GetDistrict();
@@ -544,7 +544,7 @@ void GameWindow::ShowWindow()
                 TileBase* tile = map->GetTile(Position(column, row));
                 Color tileColor;
 
-                if (!tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
+                if (!tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
                 {
                     tileColor = MAP_FOW;
                 }

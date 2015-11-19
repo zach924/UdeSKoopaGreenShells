@@ -83,24 +83,21 @@ std::vector<Position> Map::GetSpawnPositions()
 std::set<Position> Map::GetArea(Position position, int distance, MapFilter filter)
 {
     std::set<Position> area;
-    std::vector<Position> currentLevel;
-    currentLevel.emplace_back(position);
+    std::set<Position> currentLevel;
+    currentLevel.insert(position);
     GetAreaIntern(distance, currentLevel, area, filter);
     return area;
 }
 
-void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter)
+void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter)
 {
     if (distance > 0 )
     {
-        std::vector<Position> nextToVisit;
+        std::set<Position> nextToVisit;
 
         for (Position pos : toVisit)
         {
-            if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), pos) != alreadyVisited.end()))
-            {
-                alreadyVisited.insert(pos);
-            }
+            alreadyVisited.insert(pos);
 
             int topRow = (pos.Row + 1) % ROWS;
             int rightCol = (pos.Column + 1) % COLUMNS;
@@ -139,11 +136,12 @@ void Map::GetAreaIntern(int distance, std::vector<Position>& toVisit, std::set<P
 
             for (Position position : positions)
             {
-                if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
+                if (GetTile(position)->CanTraverse(filter))
                 {
-                    if (GetTile(position)->CanTraverse(filter))
+                    // Still need to validate if not inside the alreadyVisited position, cause we don't want to visit a position we already visited
+                    if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
                     {
-                        nextToVisit.emplace_back(position);
+                        nextToVisit.insert(position);
                     }
                 }
             }

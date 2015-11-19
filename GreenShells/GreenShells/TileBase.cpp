@@ -112,6 +112,7 @@ void TileBase::PlayerDiscover(int playerId)
         m_playerDiscovered |= PLAYER_EIGHT_SEEN;
         break;
     default:
+        assert(false && "Select a player from 0 to 7 to discover a tile.");
         break;
     }
 }
@@ -147,6 +148,7 @@ bool TileBase::IsDiscovered(int playerId)
         isDiscover = (m_playerDiscovered & PLAYER_EIGHT_SEEN) != 0;
         break;
     default:
+        assert(false && "Select a player from 0 to 7 to know if has discover a tile.");
         break;
     }
 
@@ -182,6 +184,7 @@ void TileBase::PlayerSee(int playerId)
         m_playerSee |= PLAYER_EIGHT_SEEN;
         break;
     default:
+        assert(false && "Select a player from 0 to 7 to add vision to a tile.");
         break;
     }
 }
@@ -215,6 +218,7 @@ void TileBase::PlayerDontSeeAnymore(int playerId)
         m_playerSee &= ~PLAYER_EIGHT_SEEN;
         break;
     default:
+        assert(false && "Select a player from 0 to 7 to know if a tile is not seen anymore.");
         break;
     }
 }
@@ -250,6 +254,7 @@ bool TileBase::IsSeen(int playerId)
         isSeen = (m_playerSee & PLAYER_EIGHT_SEEN) != 0;
         break;
     default:
+        assert(false && "Select a player from 0 to 7 to know if a tile is seen.");
         break;
     }
 
