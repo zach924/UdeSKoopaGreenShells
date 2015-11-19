@@ -404,7 +404,7 @@ void SelectionManager::Move(Position pos)
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
 
     if (tileOwner < 0 
-        || tileOwner== currentPlayerId
+        || tileOwner == currentPlayerId
         || GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[tileOwner].GetRelationStatus() == RelationStatus::War)
     {
         GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos);
@@ -579,12 +579,30 @@ bool SelectionManager::IsADistrictSelected()
 
 void SelectionManager::UnitSell()
 {
-    // TODO: Sell Unit
+    UnitBase* unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->SellUnit(m_selectedPosition, currentPlayerId);
+
+        delete unitSelected;
+    }
 }
 
 void SelectionManager::DistrictSell()
 {
-    // TODO: Sell District
+    DistrictBase* districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty 
+        && districtSelected->GetOwnerID() == currentPlayerId
+        && districtSelected->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
+    {
+        GameSession::GetInstance().GetWorldState()->SellUnit(m_selectedPosition, currentPlayerId);
+
+        delete districtSelected;
+    }
 }
 
 void SelectionManager::UnitUpgrade()

@@ -313,6 +313,95 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     return true;
 }
 
+bool MapLocal::SellDistrict(Position pos, int owner)
+{
+    DistrictBase* district = GetTile(pos)->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    int refund = 50;
+    // TODO : uncomment when julien has push
+    //switch (district->GetDistrictTier())
+    //{
+    //case 1:
+    //    refund = Player::DISTRICT_TIER_ONE_COST / 3;
+    //    break;
+    //case 2:
+    //    refund = Player::DISTRICT_TIER_TWO_COST / 3;
+    //    break;
+    //case 3:
+    //    refund = Player::DISTRICT_TIER_THREE_COST / 3;
+    //    break;
+    //case 4:
+    //    refund = Player::DISTRICT_TIER_FOUR_COST / 3;
+    //    break;
+    //default:
+    //    break;
+    //}
+    ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFood(refund);
+
+    GetTile(pos)->SetDistrict(nullptr);
+    delete district;
+
+    return true;
+}
+
+bool MapLocal::SellUnit(Position pos, int owner)
+{
+    UnitBase* unit = GetTile(pos)->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    int refund = 0;
+    switch (unit->GetUnitTier())
+    {
+    case 1:
+        refund = Player::UNIT_TIER_ONE_COST / 3;
+        break;
+    case 2:
+        refund = Player::UNIT_TIER_TWO_COST / 3;
+        break;
+    case 3:
+        refund = Player::UNIT_TIER_THREE_COST / 3;
+        break;
+    case 4:
+        refund = Player::UNIT_TIER_FOUR_COST / 3;
+        break;
+    default:
+        break;
+    }
+    ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeapon(refund);
+
+    delete unit;
+    GetTile(pos)->SetUnit(nullptr);
+
+    return true;
+}
+
+bool MapLocal::UpgradeUnit(Position pos, int owner)
+{
+    return false;
+}
+
+bool MapLocal::UpgradeDistrict(Position pos, int owner)
+{
+    return false;
+}
+
+bool MapLocal::HealUnit(Position pos, int owner)
+{
+    return false;
+}
+
+bool MapLocal::RepairDistrict(Position pos, int owner)
+{
+    return false;
+}
+
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)
 {
     MapLocal* map = new MapLocal();

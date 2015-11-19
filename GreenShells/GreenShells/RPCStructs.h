@@ -28,6 +28,7 @@ struct PlayerInfoStruct
 enum RPCStructType
 {
     RPC_BASIC,
+    RPC_BASIC_ONE_POSITION,
     RPC_BASIC_TWO_POSITIONS,
     RPC_BASIC_CREATION,
     RPC_BASIC_DIPLOMACY_REQUEST,
@@ -41,6 +42,8 @@ enum RPCClassMethodType
     Map_Attack,
     Map_CreateUnit,
     Map_CreateDistrict,
+    Map_SellUnit,
+    Map_SellDistrict,
     Player_SetReady,
     Player_SendPeaceRequest,
     Player_SendAllianceRequest,
@@ -59,6 +62,11 @@ struct RPCBasicStruct
     {
         return false;
     }
+};
+
+struct RPCBasicOnePositionStruct : public RPCBasicStruct
+{
+    Position m_position;
 };
 
 struct RPCBasicTwoPositionsStruct : public RPCBasicStruct

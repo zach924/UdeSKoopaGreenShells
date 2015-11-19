@@ -11,6 +11,7 @@ public:
     void LoadTexture() {};
     static bool m_forceLoading;
     virtual int GetTypeAsInt() = 0;
+    virtual int GetUnitTier() = 0;
 
 public:
     Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage, int viewRange)

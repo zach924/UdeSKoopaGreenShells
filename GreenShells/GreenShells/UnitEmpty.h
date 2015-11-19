@@ -20,6 +20,7 @@ public:
     virtual const char* GetName();
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
+    virtual int GetUnitTier();
 
     virtual  boost::property_tree::ptree Serialize();
 };

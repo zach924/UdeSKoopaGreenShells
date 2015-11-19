@@ -58,6 +58,11 @@ int UnitSwordsmanII::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitSwordsmanII::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitSwordsmanII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

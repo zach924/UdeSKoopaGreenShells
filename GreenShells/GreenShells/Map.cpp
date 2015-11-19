@@ -203,27 +203,3 @@ boost::property_tree::ptree Map::Serialize()
 
     return mapNode;
 }
-
-bool Map::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
-{
-    assert(false && "Virtual method is not implemented");
-    return false;
-}
-
-bool Map::Attack(int ownerID, Position attackerPosition, Position targetPosition)
-{
-    assert(false && "Virtual method is not implemented");
-    return false;
-}
-
-bool Map::CreateDistrict(int unitType, Position pos, int owner)
-{
-    assert(false && "Virtual method is not implemented");
-    return false;
-}
-
-bool Map::CreateUnit(int districtType, Position pos, int owner)
-{
-    assert(false && "Virtual method is not implemented");
-    return false;
-}

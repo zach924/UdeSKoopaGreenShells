@@ -49,6 +49,7 @@ public:
     virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
     virtual int GetViewRange() = 0;
+    virtual int GetUnitTier() = 0;
 
     Position GetPosition();
     void SetPosition(Position pos);

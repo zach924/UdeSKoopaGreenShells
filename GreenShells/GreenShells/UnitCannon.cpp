@@ -58,6 +58,11 @@ int UnitCannon::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitCannon::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitCannon::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

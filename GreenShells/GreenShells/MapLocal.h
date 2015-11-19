@@ -14,6 +14,12 @@ public:
     virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
     virtual bool CreateUnit(int unitType, Position pos, int owner);
     virtual bool CreateDistrict(int districtType, Position pos, int owner);
+    virtual bool SellDistrict(Position pos, int owner);
+    virtual bool SellUnit(Position pos, int owner);
+    virtual bool UpgradeUnit(Position pos, int owner);
+    virtual bool UpgradeDistrict(Position pos, int owner);
+    virtual bool HealUnit(Position pos, int owner);
+    virtual bool RepairDistrict(Position pos, int owner);
 
     static MapLocal* Deserialize(boost::property_tree::ptree mapNode);
 };

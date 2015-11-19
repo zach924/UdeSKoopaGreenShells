@@ -26,6 +26,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetUnitTier();
     virtual int GetViewRange();
     virtual void Heal(int health);
 

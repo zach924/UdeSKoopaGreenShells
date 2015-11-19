@@ -25,6 +25,7 @@ public:
     virtual const char* GetName();
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
+    virtual int GetUnitTier();
     virtual void Heal(int health);
 
     virtual AttackNotification Attack(UnitBase* target);

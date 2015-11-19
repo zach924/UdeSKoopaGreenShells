@@ -59,6 +59,11 @@ int UnitMaceI::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitMaceI::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitMaceI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

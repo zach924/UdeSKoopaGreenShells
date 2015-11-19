@@ -55,6 +55,11 @@ int UnitSettler::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitSettler::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitSettler::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

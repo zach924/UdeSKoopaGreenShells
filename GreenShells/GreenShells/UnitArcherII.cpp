@@ -59,6 +59,11 @@ int UnitArcherII::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitArcherII::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitArcherII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

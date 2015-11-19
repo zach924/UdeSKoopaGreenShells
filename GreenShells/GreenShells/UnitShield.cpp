@@ -58,6 +58,11 @@ int UnitShield::GetViewRange()
     return VIEW_RANGE;
 }
 
+int UnitShield::GetUnitTier()
+{
+    return UNIT_TIER;
+}
+
 void UnitShield::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);

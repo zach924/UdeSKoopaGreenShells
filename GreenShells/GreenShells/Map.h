@@ -34,10 +34,16 @@ public:
 
 
     TileBase* GetTile(Position);
-    virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
-    virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
-    virtual bool CreateUnit(int unitType, Position pos, int owner);
-    virtual bool CreateDistrict(int districtType, Position pos, int owner);
+    virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation) = 0;
+    virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition) = 0;
+    virtual bool CreateUnit(int unitType, Position pos, int owner) = 0;
+    virtual bool CreateDistrict(int districtType, Position pos, int owner) = 0;
+    virtual bool SellDistrict(Position pos, int owner) = 0;
+    virtual bool SellUnit(Position pos, int owner) = 0;
+    virtual bool UpgradeUnit(Position pos, int owner) = 0;
+    virtual bool UpgradeDistrict(Position pos, int owner) = 0;
+    virtual bool HealUnit(Position pos, int owner) = 0;
+    virtual bool RepairDistrict(Position pos, int owner) = 0;
     void NotifyNewTurn(int turn);
 
     virtual boost::property_tree::ptree Serialize();

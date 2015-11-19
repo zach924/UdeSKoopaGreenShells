@@ -226,6 +226,42 @@ bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
     return m_map->CreateDistrict(districtType, pos, owner);
 }
 
+bool WorldState::SellUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->SellUnit(pos, ownerId);
+}
+
+bool WorldState::SellDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->SellDistrict(pos, ownerId);
+}
+
+bool WorldState::UpgradeUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->UpgradeUnit(pos, ownerId);
+}
+
+bool WorldState::UpgradeDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->UpgradeDistrict(pos, ownerId);
+}
+
+bool WorldState::HealUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->HealUnit(pos, ownerId);
+}
+
+bool WorldState::RepairDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->RepairDistrict(pos, ownerId);
+}
+
 bool WorldState::AreAllPlayerReady()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
