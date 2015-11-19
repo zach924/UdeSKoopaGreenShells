@@ -384,7 +384,92 @@ bool MapLocal::SellUnit(Position pos, int owner)
 
 bool MapLocal::UpgradeUnit(Position pos, int owner)
 {
-    return false;
+    TileBase* tile = GetTile(pos);
+    UnitBase* unit = tile->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    if (unit->CanUpgrade())
+    {
+        auto player = GameSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
+        switch (unit->GetTypeAsInt())
+        {
+        case UnitSwordsmanI::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_ONE_COST);
+                tile->SetUnit(new UnitSwordsmanII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+        case UnitSwordsmanII::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
+                tile->SetUnit(new UnitSwordsmanIII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+        case UnitArcherI::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_ONE_COST);
+                tile->SetUnit(new UnitArcherII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+        case UnitArcherII::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
+                tile->SetUnit(new UnitArcherIII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+        case UnitSettler::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                if (tile->GetDistrict() == nullptr)
+                {
+                    tile->SetDistrict(new DistrictCityCenter(unit->GetOwnerID()));
+                    delete unit;
+                }
+            }
+
+            break;
+        case UnitAxemanI::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
+                tile->SetUnit(new UnitAxemanII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+        case UnitMaceI::UNIT_TYPE:
+            if (player->HasRessourcesFor(unit->GetUnitTier()))
+            {
+                player->ConsumeWeapon(Player::UNIT_TIER_THREE_COST);
+                tile->SetUnit(new UnitMaceII(unit->GetOwnerID()));
+                delete unit;
+            }
+            break;
+
+        case UnitSwordsmanIII::UNIT_TYPE:
+        case UnitArcherIII::UNIT_TYPE:
+        case UnitCannon::UNIT_TYPE:
+        case UnitShield::UNIT_TYPE:
+        case UnitMaceII::UNIT_TYPE:
+        case UnitAxemanII::UNIT_TYPE:
+        default:
+            assert(false && "Trying to upgrade an unit that is not suppose tobe upgrade");
+            break;
+        }
+    }
+
+    return true;
 }
 
 bool MapLocal::UpgradeDistrict(Position pos, int owner)
@@ -394,12 +479,28 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
 
 bool MapLocal::HealUnit(Position pos, int owner)
 {
-    return false;
+    TileBase* tile = GetTile(pos);
+    UnitBase* unit = tile->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    unit->Heal(50); // TODO : Heal full?
+    return true;
 }
 
 bool MapLocal::RepairDistrict(Position pos, int owner)
 {
-    return false;
+    TileBase* tile = GetTile(pos);
+    DistrictBase* district = tile->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    district->Repair(50); // TODO : Heal full?
+    return true;
 }
 
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)

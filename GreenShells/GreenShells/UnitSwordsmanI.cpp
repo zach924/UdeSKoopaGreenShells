@@ -34,8 +34,9 @@ void UnitSwordsmanI::LoadTexture()
 
 bool UnitSwordsmanI::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetArmySkillTree().SwordT2;
+    //Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    //return player->GetArmySkillTree().SwordT2;
+    return true;
 }
 
 int UnitSwordsmanI::GetMaxHealth()

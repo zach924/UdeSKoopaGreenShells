@@ -209,22 +209,78 @@ bool MapRemote::SellUnit(Position pos, int owner)
 
 bool MapRemote::UpgradeUnit(Position pos, int owner)
 {
-    return false;
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_ONE_POSITION;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicOnePositionStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Map_UpgradeUnit;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = owner;
+    data.m_position = pos;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+    return SendData(ss.str());
 }
 
 bool MapRemote::UpgradeDistrict(Position pos, int owner)
 {
-    return false;
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_ONE_POSITION;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicOnePositionStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Map_UpgradeDistrict;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = owner;
+    data.m_position = pos;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+    return SendData(ss.str());
 }
 
 bool MapRemote::HealUnit(Position pos, int owner)
 {
-    return false;
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_ONE_POSITION;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicOnePositionStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Map_HealUnit;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = owner;
+    data.m_position = pos;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+    return SendData(ss.str());
 }
 
 bool MapRemote::RepairDistrict(Position pos, int owner)
 {
-    return false;
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_ONE_POSITION;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicOnePositionStruct data;
+    data.m_RPCClassMethod = RPCClassMethodType::Map_RepairDistrict;
+    data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    data.m_requestingPlayerID = owner;
+    data.m_position = pos;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+
+    return SendData(ss.str());
 }
 
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)

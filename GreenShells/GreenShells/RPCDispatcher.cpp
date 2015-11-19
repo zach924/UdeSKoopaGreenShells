@@ -28,6 +28,18 @@ void RPCDispatcher::Dispatch(RPCBasicOnePositionStruct * data)
     case RPCClassMethodType::Map_SellUnit:
         m_worldState->GetMap()->SellUnit(data->m_position, data->m_requestingPlayerID);
         break;
+    case RPCClassMethodType::Map_HealUnit:
+        m_worldState->GetMap()->HealUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_RepairDistrict:
+        m_worldState->GetMap()->RepairDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeDistrict:
+        m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeUnit:
+        m_worldState->GetMap()->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
+        break;
     default:
         assert(false && "You must add your code here");
     }

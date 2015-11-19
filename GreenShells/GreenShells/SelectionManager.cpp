@@ -599,7 +599,7 @@ void SelectionManager::DistrictSell()
         && districtSelected->GetOwnerID() == currentPlayerId
         && districtSelected->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
     {
-        GameSession::GetInstance().GetWorldState()->SellUnit(m_selectedPosition, currentPlayerId);
+        GameSession::GetInstance().GetWorldState()->SellDistrict(m_selectedPosition, currentPlayerId);
 
         delete districtSelected;
     }
@@ -607,22 +607,54 @@ void SelectionManager::DistrictSell()
 
 void SelectionManager::UnitUpgrade()
 {
-    // TODO: unit upgrade
+    UnitBase* unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeUnit(m_selectedPosition, currentPlayerId);
+
+        delete unitSelected;
+    }
 }
 
 void SelectionManager::DistrictUpgrade()
 {
-    // TODO: unit upgrade
+    DistrictBase* districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeDistrict(m_selectedPosition, currentPlayerId);
+
+        delete districtSelected;
+    }
 }
 
 void SelectionManager::UnitHeal()
 {
-    // TODO
+    UnitBase* unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->HealUnit(m_selectedPosition, currentPlayerId);
+
+        delete unitSelected;
+    }
 }
 
 void SelectionManager::DistrictRepair()
 {
-    // TODO
+    DistrictBase* districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->RepairDistrict(m_selectedPosition, currentPlayerId);
+
+        delete districtSelected;
+    }
 }
 
 
