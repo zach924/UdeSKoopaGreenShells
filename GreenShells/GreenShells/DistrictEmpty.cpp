@@ -6,9 +6,9 @@ DistrictEmpty::DistrictEmpty(int owner)
 {
 }
 
-DistrictBase* DistrictEmpty::Clone()
+std::shared_ptr<DistrictBase> DistrictEmpty::Clone()
 {
-    return new DistrictEmpty{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictEmpty{ *this } };
 }
 
 void DistrictEmpty::ChangeOwner(int newOwner)

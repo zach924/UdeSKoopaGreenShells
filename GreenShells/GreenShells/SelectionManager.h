@@ -50,8 +50,8 @@ public:
     }
 
     void UpdateButtonState();
-    UnitBase* GetSelectedUnit();
-    DistrictBase* GetSelectedDistrict();
+    std::shared_ptr<UnitBase> GetSelectedUnit();
+    std::shared_ptr<DistrictBase> GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
 
     void Cancel();

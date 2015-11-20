@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "AttackNotification.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
@@ -32,7 +33,7 @@ public:
     UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange);
     virtual ~UnitBase();
 
-    virtual UnitBase* Clone() = 0;
+    virtual std::shared_ptr<UnitBase> Clone() = 0;
 
     void UseActionPoints(int points);
     int GetActionPointsRemaining();

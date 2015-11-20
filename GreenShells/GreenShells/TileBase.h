@@ -21,8 +21,8 @@ private :
 
 protected:
     bool m_OverlayVisible;
-    DistrictBase* m_district;
-    UnitBase* m_unit;
+    std::shared_ptr<DistrictBase> m_district;
+    std::shared_ptr<UnitBase> m_unit;
     int m_owner;
     Position m_position;
 
@@ -44,9 +44,9 @@ public:
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
     virtual void NotifyNewTurn(int turn);
     virtual DistrictBase* GetDistrict();
-    virtual void SetDistrict(DistrictBase* district);
+    virtual void SetDistrict(std::shared_ptr<DistrictBase> district);
     virtual UnitBase* GetUnit();
-    virtual void SetUnit(UnitBase* unit);
+    virtual void SetUnit(std::shared_ptr<UnitBase> unit);
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);
 

@@ -14,7 +14,7 @@ public:
 public:
     DistrictFarm(int owner);
     ~DistrictFarm();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     virtual void ChangeOwner(int newOwner);
     void LoadTexture();
     virtual void Repair(int repairValue);

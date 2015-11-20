@@ -23,7 +23,7 @@ public:
 public:
     DistrictCityCenter(int owner);
     ~DistrictCityCenter();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
 
     virtual void ChangeOwner(int newOwner);

@@ -9,9 +9,9 @@ DistrictCityCenter::DistrictCityCenter(int owner)
 {
 }
 
-DistrictBase* DistrictCityCenter::Clone()
+std::shared_ptr<DistrictBase> DistrictCityCenter::Clone()
 {
-    return new DistrictCityCenter{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictCityCenter{ *this } };
 }
 
 void DistrictCityCenter::LoadTexture()

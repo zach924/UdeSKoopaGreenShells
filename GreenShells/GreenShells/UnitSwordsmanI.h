@@ -17,7 +17,7 @@ public:
 public:
     UnitSwordsmanI(int owner);
     ~UnitSwordsmanI();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();

@@ -11,10 +11,10 @@ UnitEmpty::~UnitEmpty()
 {
 }
 
-UnitBase* UnitEmpty::Clone()
+std::shared_ptr<UnitBase> UnitEmpty::Clone()
 {
     assert(false && "Why you trying to clone an empty unit >.>");
-    return new UnitEmpty{ *this };
+    return std::shared_ptr<UnitBase> { new UnitEmpty{ *this } };
 }
 
 int UnitEmpty::GetTypeAsInt()

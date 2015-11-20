@@ -69,7 +69,7 @@ SelectionManager::~SelectionManager()
     delete m_districtEmpty;
 }
 
-UnitBase* SelectionManager::GetSelectedUnit()
+std::shared_ptr<UnitBase> SelectionManager::GetSelectedUnit()
 {
     if (m_selectedPosition == Position(-1, -1))
     {
@@ -77,7 +77,7 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
     else
     {
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         TileBase* tile = map->GetTile(m_selectedPosition);
 
         UnitBase* unitSelected = nullptr;
@@ -90,7 +90,7 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
 }
 
-DistrictBase* SelectionManager::GetSelectedDistrict()
+std::shared_ptr<DistrictBase> SelectionManager::GetSelectedDistrict()
 {
     if (m_selectedPosition == Position(-1, -1))
     {
@@ -98,7 +98,7 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     }
     else
     {
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         TileBase* tile = map->GetTile(m_selectedPosition);
         
         DistrictBase* districtSelected = nullptr;
@@ -352,7 +352,7 @@ void SelectionManager::Idle(Position pos)
 
 void SelectionManager::Attack(Position pos)
 {
-    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     UnitBase* unit = map->GetTile(pos)->GetUnit();
     int actorOwner;
     if (unit != nullptr)
@@ -398,7 +398,7 @@ void SelectionManager::CreateUnit(Position pos)
 
 void SelectionManager::Move(Position pos)
 {
-    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     int tileOwner = map->GetTile(pos)->GetPlayerOwnerId();
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
@@ -473,7 +473,7 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         m_state = m_createDistrict;
         m_districtTypeToConstruct = districtType;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
 
         m_actionPossibleTiles.clear();
@@ -504,7 +504,7 @@ void SelectionManager::UnitAttackPressed()
 
         m_state = m_unitAttacking;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
 
         std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
@@ -530,7 +530,7 @@ void SelectionManager::UnitMovePressed()
 
         m_state = m_unitMoving;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         Position unitPosition = m_selectedPosition;
 
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };

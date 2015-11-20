@@ -17,7 +17,7 @@ public:
 
     UnitShield(int owner);
     virtual ~UnitShield();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();

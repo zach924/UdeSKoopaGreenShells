@@ -1,5 +1,6 @@
 #include "UnitSettler.h"
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 #include <iostream>
 
@@ -8,7 +9,7 @@ const char* UnitSettler::UNIT_NAME = "Settler";
 UnitSettler::UnitSettler(int owner)
     : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -19,9 +20,9 @@ UnitSettler::~UnitSettler()
 {
 }
 
-UnitBase* UnitSettler::Clone()
+std::shared_ptr<UnitBase> UnitSettler::Clone()
 {
-    return new UnitSettler{ *this };
+    return std::shared_ptr<UnitBase> { new UnitSettler{ *this } };
 }
 
 void UnitSettler::LoadTexture()
@@ -70,7 +71,7 @@ void UnitSettler::Heal(int health)
 void UnitSettler::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;

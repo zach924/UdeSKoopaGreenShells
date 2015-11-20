@@ -10,9 +10,9 @@ DistrictFarm::DistrictFarm(int owner)
 {
 }
 
-DistrictBase* DistrictFarm::Clone()
+std::shared_ptr<DistrictBase> DistrictFarm::Clone()
 {
-    return new DistrictFarm{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictFarm{ *this } };
 }
 
 void DistrictFarm::ChangeOwner(int newOwner)

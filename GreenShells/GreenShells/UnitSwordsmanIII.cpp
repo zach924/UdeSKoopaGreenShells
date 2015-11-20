@@ -1,6 +1,7 @@
 #include "UnitSwordsmanIII.h"
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
@@ -8,7 +9,7 @@ const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 UnitSwordsmanIII::UnitSwordsmanIII(int owner)
     : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -19,9 +20,9 @@ UnitSwordsmanIII::~UnitSwordsmanIII()
 {
 }
 
-UnitBase* UnitSwordsmanIII::Clone()
+std::shared_ptr<UnitBase> UnitSwordsmanIII::Clone()
 {
-    return new UnitSwordsmanIII{ *this };
+    return std::shared_ptr<UnitBase> { new UnitSwordsmanIII{ *this } };
 }
 
 void UnitSwordsmanIII::LoadTexture()
@@ -70,7 +71,7 @@ void UnitSwordsmanIII::Heal(int health)
 void UnitSwordsmanIII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;

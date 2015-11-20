@@ -21,7 +21,7 @@ public:
     //Temp Hack
     Map* GetMap();
     //Returns a copy of the map for drawing
-    Map* GetMapCopy();
+    std::shared_ptr<Map> GetMapCopy();
     //Temp Hack
     Player* GetPlayer(int playerID);
     //Returns a copy of a player for drawing

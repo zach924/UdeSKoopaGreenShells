@@ -17,7 +17,7 @@ public:
 
     UnitAxemanI(int owner);
     virtual ~UnitAxemanI();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();

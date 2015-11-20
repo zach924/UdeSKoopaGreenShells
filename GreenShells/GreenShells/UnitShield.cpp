@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitShield::UNIT_NAME = "Shield";
@@ -9,7 +10,7 @@ const char* UnitShield::UNIT_NAME = "Shield";
 UnitShield::UnitShield(int owner)
     : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -20,9 +21,9 @@ UnitShield::~UnitShield()
 {
 }
 
-UnitBase* UnitShield::Clone()
+std::shared_ptr<UnitBase> UnitShield::Clone()
 {
-    return new UnitShield{ *this };
+    return std::shared_ptr<UnitBase> { new UnitShield{ *this } };
 }
 
 void UnitShield::LoadTexture()
@@ -71,7 +72,7 @@ void UnitShield::Heal(int health)
 void UnitShield::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;

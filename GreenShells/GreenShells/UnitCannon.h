@@ -17,7 +17,7 @@ public:
 
     UnitCannon(int owner);
     virtual ~UnitCannon();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();

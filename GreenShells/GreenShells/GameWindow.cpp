@@ -437,7 +437,7 @@ void GameWindow::ShowWindow()
 
 
         //Render Map
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
         //Set overlay visible to true
         std::vector<Position> overlayTiles = SelectionManager::GetInstance().GetOverlayTiles();

@@ -19,7 +19,7 @@ public:
 
     UnitArcherIII(int owner);
     virtual ~UnitArcherIII();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
