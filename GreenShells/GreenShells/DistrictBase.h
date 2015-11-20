@@ -13,13 +13,14 @@ public:
 protected:
     int m_ownerID;
     int m_health;
+    int m_weaponYield;
+    int m_foodYield;
+    int m_scienceYield;
 
 private:
     Position m_position;
 
     int m_foodCost;
-    int m_scienceCost;
-    int m_weaponCost;
 
     double m_foodRatioBonus;
     double m_scienceRatioBonus;
@@ -32,7 +33,7 @@ private:
     int m_viewRange;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage, int viewRange);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield);
     virtual ~DistrictBase();
 
     virtual DistrictBase* Clone() = 0;

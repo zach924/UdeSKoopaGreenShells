@@ -10,6 +10,10 @@ public:
     static const int ATTACK_DAMAGE = 50;
     static const int HEALTH = 200;
     static const char* NAME;
+    static const int WEAPON_YIELD = 75;
+    static const int FOOD_YIELD = 75;
+    static const int SCIENCE_YIELD = 1;
+    static const int FOOD_COST = 300;
     static const int TURN_FOR_BORDER_T1 = 5; // 1 Tile
     static const int T1_BORDER_SIZE = 1;
     static const int TURN_FOR_BORDER_T2 = 50; // 2 Tile

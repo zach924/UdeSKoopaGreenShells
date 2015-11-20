@@ -6,6 +6,10 @@ class DistrictFarm : public District<DistrictFarm>
 public:
     typedef District<DistrictFarm> tBase;
     static const int DISTRICT_TYPE = 1;
+    static const int FOOD_YIELD = 3;
+    static const int WEAPON_YIELD = 0;
+    static const int SCIENCE_YIELD = 0;
+    static const int FOOD_COST = 0;
 
     static const int HEALTH = 75;
     static const char* NAME;

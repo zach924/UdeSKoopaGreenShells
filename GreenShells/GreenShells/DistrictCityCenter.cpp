@@ -5,7 +5,7 @@
 const char* DistrictCityCenter::NAME = "CityCenter";
 
 DistrictCityCenter::DistrictCityCenter(int owner)
-    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE)
+    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 

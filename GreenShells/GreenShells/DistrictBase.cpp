@@ -1,14 +1,17 @@
 #include "DistrictBase.h"
 #include <iostream>
+#include "ServerSession.h"
+#include "Player.h"
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield)
     : m_ownerID(owner),
     m_health(health),
     m_attackDamage(attackDamage),
-    m_foodCost(0),
-    m_scienceCost(0),
-    m_weaponCost(0),
+    m_weaponYield(weaponYield),
+    m_foodYield(foodYield),
+    m_scienceYield(scienceYield),
+    m_foodCost(foodCost),
     m_foodRatioBonus(0.0),
     m_scienceRatioBonus(0.0),
     m_weaponRatioBonus(0.0),
@@ -68,6 +71,10 @@ AttackNotification DistrictBase::ReceiveDamage(int damage)
 
 void DistrictBase::NotifyNewTurn(int turn)
 {
+    Player* player = ServerSession::GetInstance().GetWorldState()->GetPlayer(GetOwnerID());
+    player->AddWeapon(m_weaponYield);
+    player->AddFood(m_foodYield);
+    player->AddScience(m_scienceYield);
 }
 
 boost::property_tree::ptree DistrictBase::Serialize()

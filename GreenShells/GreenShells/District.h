@@ -14,8 +14,8 @@ public:
     virtual int GetTypeAsInt() = 0;
 
 public:
-    District(int ownerID, int health, int attackDamage, int viewRange)
-        : DistrictBase(ownerID, health, attackDamage, viewRange)
+    District(int ownerID, int health, int attackDamage, int viewRange, int foodCost = 0, int weaponYield = 0, int foodYield = 0, int scienceYield = 0)
+        : DistrictBase(ownerID, health, attackDamage, viewRange, foodCost, weaponYield, foodYield, scienceYield)
     {
     }
 
