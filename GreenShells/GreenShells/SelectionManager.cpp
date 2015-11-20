@@ -100,9 +100,9 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     {
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         TileBase* tile = map->GetTile(m_selectedPosition);
-        
+
         DistrictBase* districtSelected = nullptr;
-        
+
         if (tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
         {
             districtSelected = tile->GetDistrict();
@@ -403,13 +403,13 @@ void SelectionManager::Move(Position pos)
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
 
-    if (tileOwner < 0 
-        || tileOwner== currentPlayerId
+    if (tileOwner < 0
+        || tileOwner == currentPlayerId
         || GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[tileOwner].GetRelationStatus() == RelationStatus::War)
     {
         GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos);
     }
-    else 
+    else
     {
         std::string msg = "Do you want to declare war on " + GameSession::GetInstance().GetWorldState()->GetPlayer(tileOwner)->GetPlayerName() + " ?";
         auto window = new YesNoPopUp(msg.c_str(), 300, 150, [tileOwner, currentTurn]() {GameSession::GetInstance().GetCurrentPlayerCopy()->GoToWar(tileOwner, currentTurn); });
@@ -429,7 +429,7 @@ void SelectionManager::EndAction()
 
 void SelectionManager::HandleSelection(Position pos)
 {
-    Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     TileBase* tile = map->GetTile(pos);
 
     // If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
@@ -460,6 +460,84 @@ void SelectionManager::HandleSelection(Position pos)
     default:
         break;
     }
+
+    UpdateButtonState();
+}
+
+void SelectionManager::HandleRightClickPressed(Position pos)
+{
+    //we have nothing selected, we do nothing
+    if (m_selectedPosition == Position(-1, -1))
+    {
+        Cancel();
+        return;
+    }
+
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+    TileBase* selectedTile = map->GetTile(m_selectedPosition);
+
+    //we have no unit selected, we do nothing
+    if (selectedTile->GetUnit() == nullptr)
+    {
+        Cancel();
+        return;
+    }
+
+    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+    m_actionPossibleTiles.clear();
+
+    for (Position currentPos : allPositionsNear)
+    {
+        TileBase* currentTile = map->GetTile(currentPos);
+
+        if (currentPos != m_selectedPosition &&
+            currentTile->GetUnit() == nullptr &&
+            (currentTile->GetDistrict() == nullptr || //no district
+                (currentTile->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() && //a district that belongs to the current player and
+                    currentTile->GetUnit() == nullptr)))//is free of units
+        {
+            m_actionPossibleTiles.push_back(currentPos);
+        }
+    }
+}
+
+void SelectionManager::HandleRightClickUnpressed(Position pos)
+{
+    //we have nothing selected, we do nothing
+    if (m_selectedPosition == Position(-1, -1))
+    {
+        Cancel();
+        return;
+    }
+
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+    TileBase* selectedTile = map->GetTile(m_selectedPosition);
+
+    //we have no unit selected, we do nothing
+    if (selectedTile->GetUnit() == nullptr)
+    {
+        Cancel();
+        return;
+    }
+
+    TileBase* tile = map->GetTile(pos);
+
+    //if we are in the middle of an action OR if the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
+    if (m_state != m_idle || std::find(m_actionPossibleTiles.begin(), m_actionPossibleTiles.end(), tile->GetPosition()) == m_actionPossibleTiles.end())
+    {
+        Cancel();
+        return;
+    }
+
+    std::cout << "Right clicking somewhere";
+    if (pos != m_selectedPosition &&
+        (tile->IsFree() ||
+            (tile->GetDistrict() != nullptr &&
+                tile->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())))
+    {
+        Move(pos);
+    }
+
 
     UpdateButtonState();
 }

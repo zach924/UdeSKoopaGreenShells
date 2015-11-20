@@ -57,6 +57,8 @@ public:
     void Cancel();
 
     void HandleSelection(Position pos);
+    void HandleRightClickPressed(Position pos);
+    void HandleRightClickUnpressed(Position pos);
 
     void CreateDistrictPressed(int districtType);
     void CreateUnitPressed(int unitType);

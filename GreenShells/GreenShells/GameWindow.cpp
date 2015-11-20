@@ -199,10 +199,9 @@ void GameWindow::ShowWindow()
             {
                 m_doQuit = true;
             }
-            else if (e.type == SDL_MOUSEBUTTONUP)
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
             {
-                std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
-                if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
+                if (e.button.button == SDL_BUTTON_RIGHT)
                 {
                     if (IsClickInMap(e.button.x, e.button.y))
                     {
@@ -212,52 +211,87 @@ void GameWindow::ShowWindow()
                         int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
                         posRow %= Map::ROWS;
 
-                        ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
-                    }
-                    else if (IsClickInMinimap(e.button.x, e.button.y))
-                    {
-                        int posCol = ((e.button.x - m_CurrentScreenResolution.MINIMAP_POSX) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
-                        if (posCol < 0)
-                        {
-                            posCol += Map::COLUMNS;
-                        }
-
-                        m_currentLeftmostColumn = posCol;
-
-                        int posRow = ((e.button.y - m_CurrentScreenResolution.MINIMAP_POSY) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
-                        if (posRow < 0)
-                        {
-                            posRow += Map::ROWS;
-                        }
-                        m_currentLowestRow = posRow;
-                    }
-                    else
-                    {
-                        ClickManager::GetInstance().ManageMenuClick(e.button.x, e.button.y);
+                        ClickManager::GetInstance().ManageMapRightClickPressed(Position(posCol, posRow));
                     }
                 }
-                else
+            }
+            else if (e.type == SDL_MOUSEBUTTONUP)
+            {
+                if (e.button.button == SDL_BUTTON_LEFT)
                 {
-                    PopUpWindow* popUpToRemove = nullptr;
-                    for (PopUpWindow* popUp : m_activePopUpWindow)
+                    std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
+                    if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
                     {
-                        SDL_RaiseWindow(popUp->GetWindow());
-                        if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
+                        if (IsClickInMap(e.button.x, e.button.y))
                         {
-                            if (popUp->handleEvent(e))
+                            int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
+                            posCol %= Map::COLUMNS;
+
+                            int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
+                            posRow %= Map::ROWS;
+
+                            ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
+                        }
+                        else if (IsClickInMinimap(e.button.x, e.button.y))
+                        {
+                            int posCol = ((e.button.x - m_CurrentScreenResolution.MINIMAP_POSX) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
+                            if (posCol < 0)
                             {
-                                popUpToRemove = popUp;
+                                posCol += Map::COLUMNS;
                             }
-                            break;
+
+                            m_currentLeftmostColumn = posCol;
+
+                            int posRow = ((e.button.y - m_CurrentScreenResolution.MINIMAP_POSY) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
+                            if (posRow < 0)
+                            {
+                                posRow += Map::ROWS;
+                            }
+                            m_currentLowestRow = posRow;
+                        }
+                        else
+                        {
+                            ClickManager::GetInstance().ManageMenuClick(e.button.x, e.button.y);
                         }
                     }
 
-                    if (popUpToRemove != nullptr)
+
+                    else
                     {
-                        //Remove it from the vector
-                        m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
-                        popUpToRemove->Close();
-                        SelectionManager::GetInstance().UpdateButtonState();
+                        PopUpWindow* popUpToRemove = nullptr;
+                        for (PopUpWindow* popUp : m_activePopUpWindow)
+                        {
+                            SDL_RaiseWindow(popUp->GetWindow());
+                            if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
+                            {
+                                if (popUp->handleEvent(e))
+                                {
+                                    popUpToRemove = popUp;
+                                }
+                                break;
+                            }
+                        }
+
+                        if (popUpToRemove != nullptr)
+                        {
+                            //Remove it from the vector
+                            m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
+                            popUpToRemove->Close();
+                            SelectionManager::GetInstance().UpdateButtonState();
+                        }
+                    }
+                }
+                else if (e.button.button == SDL_BUTTON_RIGHT)
+                {
+                    if (IsClickInMap(e.button.x, e.button.y))
+                    {
+                        int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
+                        posCol %= Map::COLUMNS;
+
+                        int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
+                        posRow %= Map::ROWS;
+
+                        ClickManager::GetInstance().ManageMapRightClickUnpressed(Position(posCol, posRow));
                     }
                 }
             }
