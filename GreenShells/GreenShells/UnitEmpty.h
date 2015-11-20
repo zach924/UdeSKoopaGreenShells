@@ -19,6 +19,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
 
     virtual  boost::property_tree::ptree Serialize();
 };

@@ -210,6 +210,9 @@
     <ClCompile Include="ButtonSkillTree.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonSpawnUnit.cpp">
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
+    </ClCompile>
     <ClCompile Include="DistrictBase.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
@@ -359,9 +362,6 @@
     </ClCompile>
     <ClCompile Include="SpawnUnitPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonSpawnUnit.cpp">
-      <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,7 +565,7 @@
     </ClInclude>
     <ClInclude Include="DiplomaticRelation.h">
       <Filter>Header Files\Player</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ButtonQuit.h">
       <Filter>Header Files\UI\Button\MenuButton</Filter>
     </ClInclude>

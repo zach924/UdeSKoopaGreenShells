@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <set>
 #include <map>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
@@ -115,7 +116,7 @@ public:
     virtual void GoToAlliance(int otherPlayerId, int currentTurn) = 0;
     virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer) = 0;
     virtual void GoToWar(int otherPlayerId, int currentTurn) = 0;
-    virtual std::vector<Position> GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos);
+    virtual std::set<Position> GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos);
 
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();

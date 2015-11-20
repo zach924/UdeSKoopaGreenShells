@@ -29,8 +29,10 @@ private:
 
     int m_actionPointsLeft;
 
+    int m_viewRange;
+
 public:
-    DistrictBase(int owner, int health, int attackDamage);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange);
     virtual ~DistrictBase();
 
     virtual DistrictBase* Clone() = 0;
@@ -46,6 +48,7 @@ public:
     virtual int GetMaxHealth() = 0;
     virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
+    virtual int GetViewRange() = 0;
     virtual bool CanUpgrade() = 0;
 
     virtual void Repair(int repairValue) = 0;

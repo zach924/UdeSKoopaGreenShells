@@ -6,7 +6,7 @@
 #include "ServerSession.h"
 #include "Player.h"
 
-UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage)
+UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange)
     : m_ownerID(owner),
     m_health(health),
     m_foodCost(0),
@@ -14,7 +14,8 @@ UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int
     m_weaponCost(0),
     m_attackRange(attackRange),
     m_attackDamage(attackDamage),
-    m_actionPointsLeft(actionPoints)
+    m_actionPointsLeft(actionPoints),
+    m_viewRange(viewRange)
 {
 }
 

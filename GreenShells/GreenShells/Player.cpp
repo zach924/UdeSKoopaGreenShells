@@ -97,9 +97,9 @@ bool Player::IsNegociating()
     return false;
 }
 
-std::vector<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
+std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
 {
-    std::vector<Position> ownedTiles;
+    std::set<Position> ownedTiles;
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {

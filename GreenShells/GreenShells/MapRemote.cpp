@@ -2,6 +2,10 @@
 #include "MapRemote.h"
 #include "RPCStructs.h"
 #include "GameSession.h"
+#include "Player.h"
+
+#include "DistrictBase.h"
+#include "UnitBase.h"
 
 #include "TileGround.h"
 #include "TileMountain.h"
@@ -17,6 +21,49 @@ MapRemote::MapRemote()
 
 MapRemote::~MapRemote()
 {
+}
+
+
+void MapRemote::VisionChange(int playerId)
+{
+    auto utilitySK = GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree();
+    int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
+
+    for (int row = 0; row < ROWS; ++row)
+    {
+        for (int column = 0; column < COLUMNS; ++column)
+        {
+            m_tiles[row][column]->PlayerDontSeeAnymore(playerId);
+        }
+    }
+
+    for (int row = 0; row < ROWS; ++row)
+    {
+        for (int column = 0; column < COLUMNS; ++column)
+        {
+            DistrictBase* district = m_tiles[row][column]->GetDistrict();
+            UnitBase* unit = m_tiles[row][column]->GetUnit();
+
+            if (district && district->GetOwnerID() == playerId)
+            {
+                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
+
+                for (Position pos : positionGotVision)
+                {
+                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                }
+            }
+            if (unit && unit->GetOwnerID() == playerId)
+            {
+                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
+
+                for (Position pos : positionGotVision)
+                {
+                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                }
+            }
+        }
+    }
 }
 
 Map* MapRemote::Clone()
@@ -170,6 +217,8 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
             row++;
         }
     }
+
+    map->VisionChange(GameSession::GetInstance().GetCurrentPlayerID());
 
     return map;
 }

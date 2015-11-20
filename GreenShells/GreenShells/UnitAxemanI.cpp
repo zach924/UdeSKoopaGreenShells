@@ -7,7 +7,7 @@
 const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
 
 UnitAxemanI::UnitAxemanI(int owner)
-    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -57,6 +57,11 @@ const char * UnitAxemanI::GetName()
 int UnitAxemanI::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitAxemanI::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitAxemanI::Heal(int health)

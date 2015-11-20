@@ -7,7 +7,7 @@
 const char* UnitMaceI::UNIT_NAME = "Mace MK1";
 
 UnitMaceI::UnitMaceI(int owner)
-    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -57,6 +57,11 @@ const char * UnitMaceI::GetName()
 int UnitMaceI::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitMaceI::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitMaceI::Heal(int health)

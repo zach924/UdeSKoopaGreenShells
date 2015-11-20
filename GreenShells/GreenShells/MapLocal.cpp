@@ -39,6 +39,7 @@ int MapLocal::GetDistance(Position pos1, Position pos2)
 {
     return std::max(std::abs(pos1.Column - pos2.Column), std::abs(pos1.Row - pos2.Row));
 }
+#include "GameSession.h"
 
 MapLocal::MapLocal()
     :Map()
@@ -70,6 +71,16 @@ Map* MapLocal::Clone()
         }
     }
     return map;
+}
+
+void MapLocal::DiscoverArea(Position pos, int range, int playerId)
+{
+    auto positionToDiscover = GetArea(pos, range, NO_FILTER);
+
+    for (Position pos : positionToDiscover)
+    {
+        GetTile(pos)->PlayerDiscover(playerId);
+    }
 }
 
 bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
@@ -111,6 +122,8 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         tempUnit->SetPosition(newLocation);
         tempUnit->UseActionPoints(GetDistance(unitLocation, newLocation));
         secondTile->SetUnit(tempUnit);
+
+        DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
         return true;
     }
 
@@ -280,6 +293,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
+
+        DiscoverArea(pos, unit->GetViewRange(), owner);
+
     }
     return true;
 }
@@ -296,6 +312,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
         district = new DistrictCityCenter(owner);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
     case DistrictFarm::DISTRICT_TYPE:
         district = new DistrictFarm(owner);
@@ -308,6 +325,8 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     if (district)
     {
         GetTile(pos)->SetDistrict(district);
+
+        DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
 }

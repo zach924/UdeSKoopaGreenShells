@@ -5,7 +5,7 @@
 const char* DistrictCityCenter::NAME = "CityCenter";
 
 DistrictCityCenter::DistrictCityCenter(int owner)
-    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE)
+    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE)
 {
 }
 
@@ -50,6 +50,11 @@ const char * DistrictCityCenter::GetName()
 int DistrictCityCenter::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictCityCenter::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void DistrictCityCenter::Repair(int repairValue)

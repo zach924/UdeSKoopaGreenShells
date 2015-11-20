@@ -13,8 +13,8 @@ public:
     virtual int GetTypeAsInt() = 0;
 
 public:
-    Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage)
-        : UnitBase(ownerID, health, moveRange, attackRange, attackDamage)
+    Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage, int viewRange)
+        : UnitBase(ownerID, health, moveRange, attackRange, attackDamage, viewRange)
     {
     }
 

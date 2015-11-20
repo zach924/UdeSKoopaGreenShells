@@ -6,7 +6,7 @@
 const char* UnitSettler::UNIT_NAME = "Settler";
 
 UnitSettler::UnitSettler(int owner)
-    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -55,6 +55,11 @@ const char * UnitSettler::GetName()
 int UnitSettler::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitSettler::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitSettler::Heal(int health)

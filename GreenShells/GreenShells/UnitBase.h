@@ -26,8 +26,10 @@ protected:
     int m_attackDamage;
     int m_attackRange;
 
+    int m_viewRange;
+
 public:
-    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
+    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange);
     virtual ~UnitBase();
 
     virtual UnitBase* Clone() = 0;
@@ -42,6 +44,7 @@ public:
     virtual int GetMaxHealth() = 0;
     virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
+    virtual int GetViewRange() = 0;
 
     Position GetPosition();
     void SetPosition(Position pos);

@@ -71,6 +71,7 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
 {
     TileMountain* tile = new TileMountain{ pos };
     tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+    tile->m_playerDiscovered = tileNode.get<int>("<xmlattr>.D");
 
     for each(auto child in tileNode)
     {

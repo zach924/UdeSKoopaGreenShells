@@ -7,7 +7,7 @@
 const char* UnitCannon::UNIT_NAME = "Cannon";
 
 UnitCannon::UnitCannon(int owner)
-    : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -56,6 +56,11 @@ const char * UnitCannon::GetName()
 int UnitCannon::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitCannon::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitCannon::Heal(int health)

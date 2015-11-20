@@ -7,7 +7,7 @@
 const char* UnitArcherI::UNIT_NAME = "Archer MK1";
 
 UnitArcherI::UnitArcherI(int owner)
-    : Unit<UnitArcherI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitArcherI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -57,6 +57,11 @@ const char * UnitArcherI::GetName()
 int UnitArcherI::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitArcherI::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitArcherI::Heal(int health)

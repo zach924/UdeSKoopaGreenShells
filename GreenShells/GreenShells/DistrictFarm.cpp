@@ -6,7 +6,7 @@
 const char* DistrictFarm::NAME = "Farm";
 
 DistrictFarm::DistrictFarm(int owner)
-    : District<DistrictFarm>(owner, HEALTH, NORMAL_DISTRICT_ATTACK_DMG)
+    : District<DistrictFarm>(owner, HEALTH, NORMAL_DISTRICT_ATTACK_DMG, VIEW_RANGE)
 {
 }
 
@@ -62,6 +62,11 @@ const char * DistrictFarm::GetName()
 int DistrictFarm::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictFarm::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictFarm * DistrictFarm::Deserialize(boost::property_tree::ptree node)

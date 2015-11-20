@@ -7,7 +7,7 @@
 const char* UnitShield::UNIT_NAME = "Shield";
 
 UnitShield::UnitShield(int owner)
-    : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -56,6 +56,11 @@ const char * UnitShield::GetName()
 int UnitShield::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitShield::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitShield::Heal(int health)

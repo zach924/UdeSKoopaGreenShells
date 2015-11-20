@@ -6,7 +6,7 @@
 const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 
 UnitSwordsmanIII::UnitSwordsmanIII(int owner)
-    : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -55,6 +55,11 @@ const char * UnitSwordsmanIII::GetName()
 int UnitSwordsmanIII::GetTypeAsInt()
 {
     return UNIT_TYPE;
+}
+
+int UnitSwordsmanIII::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 void UnitSwordsmanIII::Heal(int health)

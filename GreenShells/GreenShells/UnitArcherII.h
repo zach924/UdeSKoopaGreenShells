@@ -12,6 +12,7 @@ public:
     static int const ACTION_POINTS = 2;
     static int const UNIT_TYPE = 4;
     static int const UNIT_TIER = 2;
+    static int const VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
 public:
@@ -25,6 +26,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 

@@ -57,7 +57,7 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     currentY = m_fontSize + buffer;
     state = currentPlayer->HasRessourcesFor(currentPlayer->GetArcherTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnArcher(); };
-    m_allButtons[4] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Archer", spawnUnit, nullptr, state);
+    m_allButtons[4] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Ranger", spawnUnit, nullptr, state);
 
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesFor(currentPlayer->GetMaceTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
