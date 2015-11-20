@@ -36,7 +36,7 @@ SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     m_Buttons.emplace(Skills::MaceT2, CreateButton(2, 5, "Mace MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::MaceT2); }, currentArmyTree.MaceT2 ? ButtonState::Pressed : canResearchArmyTree.MaceT2 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Fortress, CreateButton(0, 6, "Fortress", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Fortress); }, currentArmyTree.Fortress ? ButtonState::Pressed : canResearchArmyTree.Fortress ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Shield, CreateButton(1, 6, "Shield", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Shield); }, currentArmyTree.Shield ? ButtonState::Pressed : canResearchArmyTree.Shield ? ButtonState::Unpressed : ButtonState::Disabled));
-    m_Buttons.emplace(Skills::Canon, CreateButton(1, 7, "Cannons", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Canon); }, currentArmyTree.Canon ? ButtonState::Pressed : canResearchArmyTree.Canon ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::Cannon, CreateButton(1, 7, "Cannon", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Cannon); }, currentArmyTree.Canon ? ButtonState::Pressed : canResearchArmyTree.Canon ? ButtonState::Unpressed : ButtonState::Disabled));
 
     //Empire Tree
     auto currentEmpireTree = currentPlayer->GetEmpireSkillTree();
@@ -170,7 +170,7 @@ void SkillTreePopUp::SetButtonState(std::shared_ptr<Player> player, Skills skill
     case Shield:
         button->SetButtonState(currentArmyTree.Shield ? ButtonState::Pressed : canResearchArmyTree.Shield ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
-    case Canon:
+    case Cannon:
         button->SetButtonState(currentArmyTree.Canon ? ButtonState::Pressed : canResearchArmyTree.Canon ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
     case Settler:

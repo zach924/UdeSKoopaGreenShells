@@ -14,7 +14,7 @@ enum Skills {
     MaceT2,
     Fortress,
     Shield,
-    Canon,
+    Cannon,
     //Empire
     Settler,
     Monastery,

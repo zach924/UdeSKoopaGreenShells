@@ -178,6 +178,21 @@ void PlayerLocal::AddWeaponMultiplier(double multiplier)
     m_weaponMultiplier += multiplier;
 }
 
+void PlayerLocal::RemoveFoodMultiplier(double multiplier)
+{
+    m_foodMultiplier -= multiplier;
+}
+
+void PlayerLocal::RemoveScienceMultiplier(double multiplier)
+{
+    m_scienceMultiplier -= multiplier;
+}
+
+void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
+{
+    m_weaponMultiplier -= multiplier;
+}
+
 void PlayerLocal::AddCityCenter(Position pos, int turn)
 {
     m_cityCenterLocations.insert(map<Position, int>::value_type(pos, turn));
@@ -372,7 +387,7 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
             m_armySkillTree.Shield = true;
         }
         break;
-    case Canon:
+    case Cannon:
         if (m_science >= SKILL_COST_TIER8)
         {
             m_science -= SKILL_COST_TIER8;

@@ -93,6 +93,10 @@ public:
     virtual void AddScienceMultiplier(double multiplier) = 0;
     virtual void AddWeaponMultiplier(double multiplier) = 0;
 
+    virtual void RemoveFoodMultiplier(double multiplier) = 0;
+    virtual void RemoveScienceMultiplier(double multiplier) = 0;
+    virtual void RemoveWeaponMultiplier(double multiplier) = 0;
+
     virtual void AddCityCenter(Position pos, int turn) = 0;
     virtual void RemoveCityCenter(Position pos) = 0;
     std::map<Position, int> GetCityCenterLocations();

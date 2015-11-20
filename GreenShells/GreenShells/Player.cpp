@@ -103,19 +103,19 @@ std::vector<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map,
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 4, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 3, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T3_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 2, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T2_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 1, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T1_BORDER_SIZE, NO_FILTER);
     }
     else
     {
