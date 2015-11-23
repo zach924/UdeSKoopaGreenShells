@@ -65,9 +65,9 @@ int DistrictStable::GetViewRange()
 
 DistrictStable * DistrictStable::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictStable* stabel = new DistrictStable(node.get<int>("<xmlattr>.O"));
-    stabel->m_health = node.get<int>("<xmlattr>.H");
+    DistrictStable* stable = new DistrictStable(node.get<int>("<xmlattr>.O"));
+    stable->m_health = node.get<int>("<xmlattr>.H");
 
-    return stabel;
+    return stable;
 }
 
