@@ -57,6 +57,11 @@ int DistrictFortress::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictFortress::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictFortress * DistrictFortress::Deserialize(boost::property_tree::ptree node)
 {
     DistrictFortress* fort = new DistrictFortress(node.get<int>("<xmlattr>.O"));

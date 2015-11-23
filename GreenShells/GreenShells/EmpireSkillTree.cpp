@@ -4,7 +4,7 @@
 EmpireSkillTree::EmpireSkillTree() :
     Settler(false), Monastery(false), Farm(false), Windmill(false), Fishery(false),
     Stable(false), Cathedral(false), Fort(false), MilitaryTent(false), InnAndTavern(false),
-    Warehouse(false), RessourcesBonus(false)
+    Warehouse(false), RessourcesBonus(false), School(false)
 {
 }
 
@@ -13,7 +13,7 @@ EmpireSkillTree::EmpireSkillTree(std::string value) :
     Windmill(value.at(3) != '0'), Fishery(value.at(4) != '0'), Stable(value.at(5) != '0'),
     Cathedral(value.at(6) != '0'), Fort(value.at(7) != '0'), MilitaryTent(value.at(8) != '0'),
     InnAndTavern(value.at(9) != '0'), Warehouse(value.at(10) != '0'),
-    RessourcesBonus(value.at(11) != '0')
+    RessourcesBonus(value.at(11) != '0'), School(value.at(12) != '0')
 {
 }
 
@@ -32,6 +32,7 @@ EmpireSkillTree EmpireSkillTree::GetReadyForResearch()
     canResearch.InnAndTavern = Fort || Cathedral || Windmill;
     canResearch.MilitaryTent = Cathedral || Fort || Windmill;
     canResearch.Warehouse = InnAndTavern;
+    canResearch.School = InnAndTavern;
     canResearch.RessourcesBonus = Warehouse;
 
     return canResearch;
@@ -42,6 +43,6 @@ std::string EmpireSkillTree::toString()
     std::stringstream ss;
     ss << Settler << Monastery << Farm << Windmill
         << Fishery << Stable << Cathedral << Fort
-        << MilitaryTent << InnAndTavern << Warehouse << RessourcesBonus;
+        << MilitaryTent << InnAndTavern << Warehouse << RessourcesBonus << School;
     return ss.str();
 }

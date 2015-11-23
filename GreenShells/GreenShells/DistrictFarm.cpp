@@ -6,7 +6,7 @@
 const char* DistrictFarm::NAME = "Farm";
 
 DistrictFarm::DistrictFarm(int owner)
-    : District<DistrictFarm>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictFarm>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -45,7 +45,7 @@ void DistrictFarm::Repair(int repairValue)
 
 bool DistrictFarm::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetEmpireSkillTree().Windmill;
 }
 
@@ -62,6 +62,11 @@ const char * DistrictFarm::GetName()
 int DistrictFarm::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictFarm::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictFarm * DistrictFarm::Deserialize(boost::property_tree::ptree node)

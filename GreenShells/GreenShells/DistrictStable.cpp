@@ -39,7 +39,7 @@ void DistrictStable::Repair(int repairValue)
 
 bool DistrictStable::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetEmpireSkillTree().Fort;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictStable::GetName()
 int DistrictStable::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictStable::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictStable * DistrictStable::Deserialize(boost::property_tree::ptree node)

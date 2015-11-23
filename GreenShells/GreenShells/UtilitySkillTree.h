@@ -5,6 +5,7 @@
 class UtilitySkillTree
 {
 public:
+
     bool Watchtower : 1;
     bool ScienceUpgrade : 1;
     bool BorderGrowth : 1;

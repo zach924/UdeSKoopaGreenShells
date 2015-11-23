@@ -6,6 +6,9 @@ class DistrictFarm : public District<DistrictFarm>
 public:
     typedef District<DistrictFarm> tBase;
     static const int DISTRICT_TYPE = 2;
+    static const int FOOD_YIELD = 3;
+    static const int WEAPON_YIELD = 0;
+    static const int SCIENCE_YIELD = 0;
 
     static const int ATTACK_DAMAGE = 0;
     static const int HEALTH = 300;
@@ -29,6 +32,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
 
     static DistrictFarm* Deserialize(boost::property_tree::ptree node);
 };

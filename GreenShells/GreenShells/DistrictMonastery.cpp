@@ -39,7 +39,7 @@ void DistrictMonastery::Repair(int repairValue)
 
 bool DistrictMonastery::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetEmpireSkillTree().Cathedral;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictMonastery::GetName()
 int DistrictMonastery::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictMonastery::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictMonastery * DistrictMonastery::Deserialize(boost::property_tree::ptree node)

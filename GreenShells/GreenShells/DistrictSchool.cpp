@@ -39,7 +39,7 @@ void DistrictSchool::Repair(int repairValue)
 
 bool DistrictSchool::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetUtilitySkillTree().University;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictSchool::GetName()
 int DistrictSchool::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictSchool::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictSchool * DistrictSchool::Deserialize(boost::property_tree::ptree node)

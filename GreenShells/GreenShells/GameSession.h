@@ -39,7 +39,7 @@ public:
     int GetCurrentPlayerID();
     void SetCurrentPlayerID(int player);
 
-    Player* GetCurrentPlayerCopy();
+    std::shared_ptr<Player> GetCurrentPlayerCopy();
 
     bool ConnectToServer(char* playerName);
 

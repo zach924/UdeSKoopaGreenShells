@@ -6,7 +6,7 @@ class ConstructDistrictPopUp :
     public PopUpWindow
 {
 private:
-    ButtonText* m_allButtons[7];
+    ButtonText* m_allButtons[6];
 
 public:
     ConstructDistrictPopUp(const char* windowName, int width, int height);

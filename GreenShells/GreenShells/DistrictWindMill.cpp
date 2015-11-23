@@ -39,7 +39,7 @@ void DistrictWindMill::Repair(int repairValue)
 
 bool DistrictWindMill::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetEmpireSkillTree().Warehouse;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictWindMill::GetName()
 int DistrictWindMill::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictWindMill::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictWindMill * DistrictWindMill::Deserialize(boost::property_tree::ptree node)

@@ -7,8 +7,13 @@
 const char* UnitMaceI::UNIT_NAME = "Mace MK1";
 
 UnitMaceI::UnitMaceI(int owner)
-    : Unit<UnitMaceI>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitMaceI::~UnitMaceI()
@@ -35,7 +40,7 @@ void UnitMaceI::LoadTexture()
 
 bool UnitMaceI::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetArmySkillTree().MaceT2;
 }
 
@@ -54,21 +59,39 @@ int UnitMaceI::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitMaceI::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 void UnitMaceI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitMaceI::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitMaceI * UnitMaceI::Deserialize(boost::property_tree::ptree node)
 {
     UnitMaceI* mace = new UnitMaceI(node.get<int>("<xmlattr>.O"));
     mace->m_health = node.get<int>("<xmlattr>.H");
+    mace->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return mace;
 }
 
 AttackNotification UnitMaceI::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -80,6 +103,7 @@ AttackNotification UnitMaceI::Attack(UnitBase * target)
 
 AttackNotification UnitMaceI::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

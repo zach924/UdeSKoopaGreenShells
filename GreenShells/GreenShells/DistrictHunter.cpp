@@ -39,7 +39,7 @@ void DistrictHunter::Repair(int repairValue)
 
 bool DistrictHunter::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetEmpireSkillTree().Farm;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictHunter::GetName()
 int DistrictHunter::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictHunter::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictHunter * DistrictHunter::Deserialize(boost::property_tree::ptree node)

@@ -39,7 +39,7 @@ void DistrictCathedral::Repair(int repairValue)
 
 bool DistrictCathedral::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     //TODO: need schoool 
     return true;
     //return player->GetEmpireSkillTree().School;
@@ -58,6 +58,11 @@ const char * DistrictCathedral::GetName()
 int DistrictCathedral::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictCathedral::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictCathedral * DistrictCathedral::Deserialize(boost::property_tree::ptree node)

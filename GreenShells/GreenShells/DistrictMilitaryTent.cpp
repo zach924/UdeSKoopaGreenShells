@@ -57,6 +57,11 @@ int DistrictMilitaryTent::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictMilitaryTent::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictMilitaryTent * DistrictMilitaryTent::Deserialize(boost::property_tree::ptree node)
 {
     DistrictMilitaryTent* militaryTent = new DistrictMilitaryTent(node.get<int>("<xmlattr>.O"));

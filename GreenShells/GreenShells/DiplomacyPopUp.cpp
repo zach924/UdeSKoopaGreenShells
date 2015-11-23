@@ -88,7 +88,7 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
     ////*********
     //Players
     ////*********
-    std::unique_ptr<Player> player{ GameSession::GetInstance().GetCurrentPlayerCopy() };
+    auto player = GameSession::GetInstance().GetCurrentPlayerCopy();
     auto diplomaticRelations = player->GetDiplomaticRelations();
 
     for (auto relation = diplomaticRelations.begin(); relation != diplomaticRelations.end(); ++relation)

@@ -30,15 +30,13 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
     int buttonWidth = 200;
     int buttonHeight = 50;
     int index = 0;
-    Player* currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     EmpireSkillTree empSkillTree = currentPlayer->GetEmpireSkillTree();
 
-    ButtonState state = currentPlayer->HasRessourcesForDistrict(DistrictCityCenter::DISTRICT_TYPE) ? ButtonState::Unpressed : ButtonState::Disabled;
-    std::function<void()> spawnDistrict = []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictCityCenter::DISTRICT_TYPE); };
-    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "City Center", spawnDistrict, nullptr, state);
+    ButtonState state;
+    std::function<void()> spawnDistrict;
+    m_allButtons[index];
 
-    currentY += buttonHeight + buffer;
-    ++index;
     if (empSkillTree.Windmill)
     {
         state = currentPlayer->HasRessourcesForDistrict(DistrictWindMill::DISTRICT_TYPE) ? ButtonState::Unpressed : ButtonState::Disabled;

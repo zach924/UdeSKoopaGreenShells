@@ -39,7 +39,7 @@ void DistrictFort::Repair(int repairValue)
 
 bool DistrictFort::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetArmySkillTree().Fortress;
 }
 
@@ -56,6 +56,11 @@ const char * DistrictFort::GetName()
 int DistrictFort::GetTypeAsInt()
 {
     return DISTRICT_TYPE;
+}
+
+int DistrictFort::GetViewRange()
+{
+    return VIEW_RANGE;
 }
 
 DistrictFort * DistrictFort::Deserialize(boost::property_tree::ptree node)

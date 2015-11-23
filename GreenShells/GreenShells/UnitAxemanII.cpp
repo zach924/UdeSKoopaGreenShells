@@ -7,8 +7,13 @@
 const char* UnitAxemanII::UNIT_NAME = "Axeman MK2";
 
 UnitAxemanII::UnitAxemanII(int owner)
-    : Unit<UnitAxemanII>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitAxemanII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitAxemanII::~UnitAxemanII()
@@ -53,21 +58,39 @@ int UnitAxemanII::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitAxemanII::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 void UnitAxemanII::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitAxemanII::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitAxemanII * UnitAxemanII::Deserialize(boost::property_tree::ptree node)
 {
     UnitAxemanII* axeman = new UnitAxemanII(node.get<int>("<xmlattr>.O"));
     axeman->m_health = node.get<int>("<xmlattr>.H");
+    axeman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return axeman;
 }
 
 AttackNotification UnitAxemanII::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -79,6 +102,7 @@ AttackNotification UnitAxemanII::Attack(UnitBase * target)
 
 AttackNotification UnitAxemanII::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

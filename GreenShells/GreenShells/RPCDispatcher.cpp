@@ -105,6 +105,16 @@ void RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
     }
 }
 
+void RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
+    case RPCClassMethodType::Player_UnlockSkill:
+        m_worldState->GetPlayer(data->m_requestingPlayerID)->UnlockSkill(data->m_turn, data->m_Skill);
+        break;
+    }
+}
+
 void RPCDispatcher::Dispatch(RPCEvent event)
 {
     if (event.data->m_turn == m_worldState->GetCurrentTurn())
@@ -119,6 +129,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
             break;
         case RPCStructType::RPC_BASIC_CREATION:
             Dispatch(dynamic_cast<RPCBasicActorCreationStruct*>(event.data));
+            break;
+        case RPCStructType::RPC_BASIC_UNLOCK_SKILL:
+            Dispatch(dynamic_cast<RPCBasicUnlockSkill*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST:
             Dispatch(dynamic_cast<RPCBasicDiplomaticRequestStruct*>(event.data));

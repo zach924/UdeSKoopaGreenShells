@@ -57,6 +57,11 @@ int DistrictInn::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictInn::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictInn * DistrictInn::Deserialize(boost::property_tree::ptree node)
 {
     DistrictInn* inn = new DistrictInn(node.get<int>("<xmlattr>.O"));

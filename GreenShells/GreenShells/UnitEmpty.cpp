@@ -3,7 +3,7 @@
 #include <iostream>
 
 UnitEmpty::UnitEmpty(int owner)
-    : Unit<UnitEmpty>(owner, 0, 0, 0, 0)
+    : Unit<UnitEmpty>(owner, 0, 0, 0, 0, 0)
 {
 }
 
@@ -21,6 +21,12 @@ int UnitEmpty::GetTypeAsInt()
 {
     assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
     return -1;
+}
+
+int UnitEmpty::GetViewRange()
+{
+    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
+    return 0;
 }
 
 void UnitEmpty::LoadTexture()

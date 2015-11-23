@@ -28,6 +28,7 @@ public:
     virtual int GetMaxHealth();
     virtual const char* GetName();
     virtual int GetTypeAsInt();
+    virtual int GetViewRange();
 
     static DistrictFortress* Deserialize(boost::property_tree::ptree node);
 };

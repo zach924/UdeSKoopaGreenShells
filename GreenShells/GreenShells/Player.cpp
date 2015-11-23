@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
-
 #include "UnitSettler.h"
 
 #include "UnitSwordsmanI.h"
@@ -40,7 +39,7 @@
 #include "DistrictInn.h"
 #include "DistrictTavern.h"
 #include "DistrictMilitaryTent.h"
-
+const double Player::BORDER_GROWTH_BONUS_RATE = 0.85f;
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -113,25 +112,25 @@ bool Player::IsNegociating()
     return false;
 }
 
-std::vector<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
+std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
 {
-    std::vector<Position> ownedTiles;
+    std::set<Position> ownedTiles;
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 4, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 3, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T3_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 2, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T2_BORDER_SIZE, NO_FILTER);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
     {
-        ownedTiles = map->GetArea(cityCenterPos, 1, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T1_BORDER_SIZE, NO_FILTER);
     }
     else
     {
@@ -224,7 +223,7 @@ EmpireSkillTree Player::GetEmpireSkillTree()
     return m_empireSkillTree;
 }
 
-bool Player::HasRessourcesFor(int tier)
+bool Player::HasRessourcesForUnit(int tier)
 {
     if (tier == 1)
     {
@@ -252,42 +251,43 @@ bool Player::HasRessourcesForDistrict(int DistrictType)
     switch (DistrictType)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
-        return m_food >= 700;
+        return m_food >= CITY_CENTER_COST;
         break;
     case DistrictHunter::DISTRICT_TYPE:
-        return m_food >= 150;
+        return m_food >= HUNTER_COST;
         break;
     case DistrictFarm::DISTRICT_TYPE:
-        return m_food >= 200;
+        return m_food >= FARM_COST;
         break;
     case DistrictWindMill::DISTRICT_TYPE:
-        return m_food >= 400;
+        return m_food >= WIND_MILL_COST;
         break;
     case DistrictBlacksmith::DISTRICT_TYPE:
-        return m_food >= 150;
+        return m_food >= BLACKSMITH_COST;
         break;
     case DistrictStable::DISTRICT_TYPE:
-        return m_food >= 200;
+        return m_food >= STABLE_COST;
         break;
     case DistrictFort::DISTRICT_TYPE:
-        return m_food >= 400;
+        return m_food >= FORT_COST;
         break;
     case DistrictMonastery::DISTRICT_TYPE:
-        return m_food >= 150;
+        return m_food >= MONASTERY_COST;
         break;
     case DistrictCathedral::DISTRICT_TYPE:
-        return m_food >= 200;
+        return m_food >= CATHEDRAL_COST;
         break;
     case DistrictSchool::DISTRICT_TYPE:
-        return m_food >= 400;
+        return m_food >= SCHOOL_COST;
         break;
     case DistrictInn::DISTRICT_TYPE:
-        return m_food >= 250;
+        return m_food >= INN_COST;
         break;
     case DistrictTavern::DISTRICT_TYPE:
-        return m_food >= 250;
+        return m_food >= TAVERN_COST;
         break;
     default:
+        return false;
         break;
     }
 

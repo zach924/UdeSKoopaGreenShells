@@ -31,6 +31,7 @@ public:
     virtual void AddCityCenter(Position pos, int turn);
     virtual void RemoveCityCenter(Position pos);
     virtual void SetIsDisconnected(bool value = true);
+    virtual void UnlockSkill(int turn, Skills skill);
     virtual void AddNewRelation(int otherPlayerId, int currentTurn = 0, RelationStatus status = RelationStatus::Peace, int mustAnswerPlayerId = -1);
     virtual void RemoveRelation(int otherPlayerId);
     virtual void SendPeaceProposition(int otherPlayerId, int currentTurn);

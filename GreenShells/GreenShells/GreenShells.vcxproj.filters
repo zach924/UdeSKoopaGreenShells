@@ -210,6 +210,9 @@
     <ClCompile Include="ButtonSkillTree.cpp">
       <Filter>Source Files\UI\Button\GeneralPart</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonSpawnUnit.cpp">
+      <Filter>Source Files\UI\Button\GeneralPart</Filter>
+    </ClCompile>
     <ClCompile Include="DistrictBase.cpp">
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
@@ -294,6 +297,9 @@
     <ClCompile Include="PlayerRemote.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SkillTreePopUp.cpp">
+      <Filter>Source Files\UI\PopupWindow</Filter>
+    </ClCompile>
     <ClCompile Include="DiplomacyPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
@@ -356,9 +362,6 @@
     </ClCompile>
     <ClCompile Include="SpawnUnitPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonSpawnUnit.cpp">
-      <Filter>Source Files\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="DistrictHunter.cpp">
       <Filter>Source Files\Actor\District</Filter>
@@ -599,6 +602,9 @@
     <ClInclude Include="PlayerRemote.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="SkillTreePopUp.h">
+      <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
     <ClInclude Include="DiplomacyPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
@@ -658,6 +664,9 @@
     </ClInclude>
     <ClInclude Include="UnitShield.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Header Files\SkillTree</Filter>
     </ClInclude>
     <ClInclude Include="SpawnUnitPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>

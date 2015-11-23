@@ -5,6 +5,7 @@
 class EmpireSkillTree
 {
 public:
+
     bool Settler : 1;
     bool Monastery : 1;
     bool Farm : 1;
@@ -18,7 +19,6 @@ public:
     bool Warehouse : 1;
     bool RessourcesBonus : 1;
     bool School : 1;
-
 
     EmpireSkillTree();
     EmpireSkillTree(std::string value);

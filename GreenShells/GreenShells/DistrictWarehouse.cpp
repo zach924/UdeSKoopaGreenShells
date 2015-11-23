@@ -57,6 +57,11 @@ int DistrictWarehouse::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictWarehouse::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictWarehouse * DistrictWarehouse::Deserialize(boost::property_tree::ptree node)
 {
     DistrictWarehouse* warehouse = new DistrictWarehouse(node.get<int>("<xmlattr>.O"));

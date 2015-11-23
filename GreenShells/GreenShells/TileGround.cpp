@@ -91,6 +91,7 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
 {
     TileGround* tile = new TileGround{ pos };
     tile->m_owner = tileNode.get<int>("<xmlattr>.O");
+    tile->m_playerDiscovered = tileNode.get<int>("<xmlattr>.D");
 
     for each(auto child in tileNode)
     {
@@ -136,6 +137,9 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
                 break;
             case UnitMaceII::UNIT_TYPE:
                 tile->SetUnit(UnitMaceII::Deserialize(child.second));
+                break;
+            default:
+                assert(false && "Unit is not good");
                 break;
             }
         }
@@ -190,6 +194,9 @@ TileGround* TileGround::Deserialize(boost::property_tree::ptree tileNode, Positi
                 break;
             case DistrictMilitaryTent::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictMilitaryTent::Deserialize(child.second));
+                break;
+            default:
+                assert(false && "District is not good");
                 break;
             }
         }

@@ -12,6 +12,9 @@ public:
 protected:
     int m_ownerID;
     int m_health;
+    int m_weaponYield;
+    int m_foodYield;
+    int m_scienceYield;
 
 private:
     Position m_position;
@@ -26,8 +29,10 @@ private:
 
     int m_actionPointsLeft;
 
+    int m_viewRange;
+
 public:
-    DistrictBase(int owner, int health, int attackDamage, int foodCost, int foodBonus, int scienceBonus, int weaponBonus);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield);
     virtual ~DistrictBase();
 
     virtual DistrictBase* Clone() = 0;
@@ -43,6 +48,7 @@ public:
     virtual int GetMaxHealth() = 0;
     virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
+    virtual int GetViewRange() = 0;
     virtual bool CanUpgrade() = 0;
 
     virtual void Repair(int repairValue) = 0;

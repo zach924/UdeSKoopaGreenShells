@@ -57,6 +57,11 @@ int DistrictUniversity::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictUniversity::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictUniversity * DistrictUniversity::Deserialize(boost::property_tree::ptree node)
 {
     DistrictUniversity* uni = new DistrictUniversity(node.get<int>("<xmlattr>.O"));

@@ -1,11 +1,18 @@
 #include "UnitSettler.h"
+#include "GameSession.h"
+#include "Player.h"
 #include <iostream>
 
 const char* UnitSettler::UNIT_NAME = "Settler";
 
 UnitSettler::UnitSettler(int owner)
-    : Unit<UnitSettler>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitSettler::~UnitSettler()
@@ -32,7 +39,7 @@ void UnitSettler::LoadTexture()
 
 bool UnitSettler::CanUpgrade()
 {
-    return true; // TODO :  Validate if its true by default for settler
+    return true;
 }
 
 int UnitSettler::GetMaxHealth()
@@ -50,14 +57,31 @@ int UnitSettler::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitSettler::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 void UnitSettler::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitSettler::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSettler::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -69,6 +93,7 @@ AttackNotification UnitSettler::Attack(UnitBase * target)
 
 AttackNotification UnitSettler::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -82,6 +107,7 @@ UnitSettler * UnitSettler::Deserialize(boost::property_tree::ptree node)
 {
     UnitSettler* settler = new UnitSettler(node.get<int>("<xmlattr>.O"));
     settler->m_health = node.get<int>("<xmlattr>.H");
+    settler->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return settler;
 }

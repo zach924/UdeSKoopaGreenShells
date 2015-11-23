@@ -57,6 +57,11 @@ int DistrictTavern::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictTavern::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictTavern * DistrictTavern::Deserialize(boost::property_tree::ptree node)
 {
     DistrictTavern* tavern = new DistrictTavern(node.get<int>("<xmlattr>.O"));

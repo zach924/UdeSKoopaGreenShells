@@ -180,41 +180,17 @@ void PlayerLocal::AddWeaponMultiplier(double multiplier)
 
 void PlayerLocal::RemoveFoodMultiplier(double multiplier)
 {
-    // no unsigned double so valid we dont go under 0
-    if (m_foodMultiplier >= multiplier)
-    {
-        m_foodMultiplier -= multiplier;
-    }
-    else
-    {
-        m_foodMultiplier = 0.0;
-    }
+    m_foodMultiplier -= multiplier;
 }
 
 void PlayerLocal::RemoveScienceMultiplier(double multiplier)
 {
-    // no unsigned double so valid we dont go under 0
-    if (m_scienceMultiplier >= multiplier)
-    {
-        m_scienceMultiplier -= multiplier;
-    }
-    else
-    {
-        m_scienceMultiplier = 0.0;
-    }
+    m_scienceMultiplier -= multiplier;
 }
 
 void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
 {
-    // no unsigned double so valid we dont go under 0
-    if (m_weaponMultiplier >= multiplier)
-    {
-        m_weaponMultiplier -= multiplier;
-    }
-    else
-    {
-        m_weaponMultiplier = 0.0;
-    }
+    m_weaponMultiplier -= multiplier;
 }
 
 void PlayerLocal::AddCityCenter(Position pos, int turn)
@@ -238,6 +214,295 @@ void PlayerLocal::RemoveCityCenter(Position pos)
 void PlayerLocal::SetIsDisconnected(bool value)
 {
     m_isDisconnected = true;
+}
+
+void PlayerLocal::UnlockSkill(int turn, Skills skill)
+{
+    switch (skill)
+    {
+    case Watchtower:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_utilitySkillTree.Watchtower = true;
+        }
+        break;
+    case ScienceUpgrade:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_utilitySkillTree.ScienceUpgrade = true;
+            AddScienceMultiplier(0.15);
+        }
+        break;
+    case BorderGrowth:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_utilitySkillTree.BorderGrowth = true;
+        }
+        break;
+    case MovementUpgrade:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_utilitySkillTree.MovementUpgrade = true;
+        }
+        break;
+    case Embark:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_utilitySkillTree.Embark = true;
+        }
+        break;
+    case VisionUpgrade:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_utilitySkillTree.VisionUpgrade = true;
+        }
+        break;
+    case MountainWalking:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_utilitySkillTree.MountainWalking = true;
+        }
+        break;
+    case MountainConstruction:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_utilitySkillTree.MountainConstruction = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case ArmorUpgrade:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_utilitySkillTree.ArmorUpgrade = true;
+        }
+        break;
+    case University:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_utilitySkillTree.University = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case NoFogOfWar:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_utilitySkillTree.NoFogOfWar = true;
+            //TODO Set discovered for all tiles of the map
+        }
+        break;
+    case Militia:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_armySkillTree.Militia = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case RangerT1:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_armySkillTree.RangerT1 = true;
+        }
+        break;
+    case RangerT2:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.RangerT2 = true;
+        }
+        break;
+    case RangerT3:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_armySkillTree.RangerT3 = true;
+        }
+        break;
+    case SwordT2:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_armySkillTree.SwordT2 = true;
+        }
+        break;
+    case SwordT3:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.SwordT3 = true;
+        }
+        break;
+    case AxeT1:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_armySkillTree.AxeT1 = true;
+        }
+        break;
+    case AxeT2:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_armySkillTree.AxeT2 = true;
+        }
+        break;
+    case MaceT1:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_armySkillTree.MaceT1 = true;
+        }
+        break;
+    case MaceT2:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_armySkillTree.MaceT2 = true;
+        }
+        break;
+    case Fortress:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_armySkillTree.Fortress = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Shield:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_armySkillTree.Shield = true;
+        }
+        break;
+    case Cannon:
+        if (m_science >= SKILL_COST_TIER8)
+        {
+            m_science -= SKILL_COST_TIER8;
+            m_armySkillTree.Canon = true;
+        }
+        break;
+    case Settler:
+        if (m_science >= SKILL_COST_TIER1)
+        {
+            m_science -= SKILL_COST_TIER1;
+            m_empireSkillTree.Settler = true;
+        }
+        break;
+    case Monastery:
+        if (m_science >= SKILL_COST_TIER2)
+        {
+            m_science -= SKILL_COST_TIER2;
+            m_empireSkillTree.Monastery = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Farm:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Farm = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Windmill:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Windmill = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Fishery:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Fishery = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Stable:
+        if (m_science >= SKILL_COST_TIER3)
+        {
+            m_science -= SKILL_COST_TIER3;
+            m_empireSkillTree.Stable = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Cathedral:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Cathedral = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Fort:
+        if (m_science >= SKILL_COST_TIER4)
+        {
+            m_science -= SKILL_COST_TIER4;
+            m_empireSkillTree.Fort = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case MilitaryTent:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_empireSkillTree.MilitaryTent = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case InnAndTavern:
+        if (m_science >= SKILL_COST_TIER5)
+        {
+            m_science -= SKILL_COST_TIER5;
+            m_empireSkillTree.InnAndTavern = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case School:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_empireSkillTree.School = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case Warehouse:
+        if (m_science >= SKILL_COST_TIER6)
+        {
+            m_science -= SKILL_COST_TIER6;
+            m_empireSkillTree.Warehouse = true;
+            //TODO when building districts is possible
+        }
+        break;
+    case RessourcesBonus:
+        if (m_science >= SKILL_COST_TIER7)
+        {
+            m_science -= SKILL_COST_TIER7;
+            m_empireSkillTree.RessourcesBonus = true;
+            AddScienceMultiplier(0.2);
+            AddWeaponMultiplier(0.2);
+            AddFoodMultiplier(0.2);
+        }
+        break;
+    default:
+        assert(false && "Tried unlocking a random skill...");
+        break;
+    }
 }
 
 void PlayerLocal::AddNewRelation(int otherPlayerId, int currentTurn, RelationStatus status, int mustAnswerPlayerId)

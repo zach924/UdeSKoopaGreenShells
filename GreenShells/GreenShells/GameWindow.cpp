@@ -353,7 +353,7 @@ void GameWindow::ShowWindow()
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            unique_ptr<Player> currentPlayer{ GameSession::GetInstance().GetCurrentPlayerCopy() };
+            auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
             /************
                 FOOD
@@ -474,45 +474,61 @@ void GameWindow::ShowWindow()
                 TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
                 Texture* tileTexture = tile->GetTexture();
 
+                bool isDiscovered = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
+                bool isSeen = tile->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
+
                 //Position the tile on the screen
                 int xPos = m_CurrentScreenResolution.HUD_WIDTH + (column * m_CurrentScreenResolution.TILE_SIZE);
                 int yPos = m_CurrentScreenResolution.HUD_HEIGHT + (row * m_CurrentScreenResolution.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                if (tile->GetPlayerOwnerId() >= 0)
+                if (!isDiscovered)
+                {
+                    tileTexture->SetColor(MAP_FOW);
+                }
+                else if (tile->GetPlayerOwnerId() >= 0)
                 {
                     tileTexture->SetColor(PLAYER_BORDER_COLORS[tile->GetPlayerOwnerId()]);
                 }
-                else
+                else if (isSeen)
                 {
                     tileTexture->SetColor(EMPTY_COLOR);
+                }
+                else
+                {
+                    tileTexture->SetColor(MAP_NOVISIBILITY);
                 }
 
                 //Render the tile
                 SDL_RenderCopy(m_renderer, tileTexture->GetTexture(), NULL, &renderQuad);
 
+                if (isDiscovered)
+                {
+                    //Render the district
+                    DistrictBase* district = tile->GetDistrict();
+                    if (district)
+                    {
+                        Texture* districtTexture = district->GetTexture();
+                        districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
+                        SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
+                    }
 
-                //Render the district
-                DistrictBase* district = tile->GetDistrict();
-                if (district)
-                {
-                    Texture* districtTexture = district->GetTexture();
-                    districtTexture->SetColor(PLAYER_ACTOR_COLORS[district->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, districtTexture->GetTexture(), NULL, &renderQuad);
-                }
-
-                //Render the unit
-                UnitBase* unit = tile->GetUnit();
-                if (unit)
-                {
-                    Texture* unitTexture = unit->GetTexture();
-                    unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
-                    SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
-                }
-                //Render the overlay
-                if (tile->GetOverlayVisible())
-                {
-                    SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                    if (isSeen)
+                    {
+                        //Render the unit
+                        UnitBase* unit = tile->GetUnit();
+                        if (unit)
+                        {
+                            Texture* unitTexture = unit->GetTexture();
+                            unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
+                            SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
+                        }
+                    }
+                    //Render the overlay
+                    if (tile->GetOverlayVisible())
+                    {
+                        SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                    }
                 }
                 columnIndex = (columnIndex + 1) % (Map::COLUMNS);
             }
@@ -547,9 +563,9 @@ void GameWindow::ShowWindow()
                 TileBase* tile = map->GetTile(Position(column, row));
                 Color tileColor;
 
-                if (false)//TODO REPLACE WHEN FOG OF WAR IS IMPLEMENTED example: tile->IsDiscovered(GetLocalPlayerId())
+                if (!tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
                 {
-                    tileColor = MINIMAP_FOW;
+                    tileColor = MAP_FOW;
                 }
                 else if (tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
                 {
@@ -655,6 +671,8 @@ void GameWindow::ShowWindow()
 
             if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
             {
+                bool isInVision = map->GetTile(selectedDistrict->GetPosition())->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
+
                 xPos += widthIcon + iconTextSpacing;
 
                 /************
@@ -682,9 +700,17 @@ void GameWindow::ShowWindow()
                 *************/
                 {
                     std::string healthText = "Health : ";
-                    healthText.append(std::to_string(selectedDistrict->GetHealth()));
-                    healthText.append("/");
-                    healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
+
+                    if (isInVision)
+                    {
+                        healthText.append(std::to_string(selectedDistrict->GetHealth()));
+                        healthText.append("/");
+                        healthText.append(std::to_string(selectedDistrict->GetMaxHealth()));
+                    }
+                    else
+                    {
+                        healthText.append("???/???");
+                    }
 
                     SDL_Surface* healthSurface = TTF_RenderText_Solid(m_infoFont, healthText.c_str(), textColor);
                     assert(healthSurface != NULL && TTF_GetError());
@@ -707,7 +733,14 @@ void GameWindow::ShowWindow()
                 *************/
                 {
                     std::string attackText = "Atk dmg : ";
-                    attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+                    if (isInVision)
+                    {
+                        attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+                    }
+                    else
+                    {
+                        attackText.append("???");
+                    }
 
                     SDL_Surface* attackSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
                     assert(attackSurface != NULL && TTF_GetError());
@@ -728,6 +761,7 @@ void GameWindow::ShowWindow()
                 /************
                 ACTION
                 *************/
+                if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
                 {
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedDistrict->GetActionPointsRemaining()));
@@ -848,6 +882,7 @@ void GameWindow::ShowWindow()
                 /************
                 ACTION
                 *************/
+                if (selectedUnit->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
                 {
                     std::string attackText = "Action left : ";
                     attackText.append(std::to_string(selectedUnit->GetActionPointsRemaining()));

@@ -57,6 +57,11 @@ int DistrictWatchTower::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
+int DistrictWatchTower::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 DistrictWatchTower * DistrictWatchTower::Deserialize(boost::property_tree::ptree node)
 {
     DistrictWatchTower* watchtower = new DistrictWatchTower(node.get<int>("<xmlattr>.O"));

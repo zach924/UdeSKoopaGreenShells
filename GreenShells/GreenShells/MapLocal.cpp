@@ -1,4 +1,9 @@
+#include <boost\property_tree\ptree.hpp>
+#include <iostream>
+#include <exception>
+
 #include "MapLocal.h"
+#include "GameSession.h"
 #include "ServerSession.h"
 #include "PlayerLocal.h"
 
@@ -46,12 +51,14 @@
 
 #include "UnitCannon.h"
 #include "UnitShield.h"
+#include "Position.h"
 
-#include <boost\property_tree\ptree.hpp>
-#include <iostream>
-#include <exception>
-#include "Player.h"
-#include "ServerSession.h"
+
+int MapLocal::GetDistance(Position pos1, Position pos2)
+{
+    return std::max(std::abs(pos1.Column - pos2.Column), std::abs(pos1.Row - pos2.Row));
+}
+#include "GameSession.h"
 
 MapLocal::MapLocal()
     :Map()
@@ -85,6 +92,16 @@ Map* MapLocal::Clone()
     return map;
 }
 
+void MapLocal::DiscoverArea(Position pos, int range, int playerId)
+{
+    auto positionToDiscover = GetArea(pos, range, NO_FILTER);
+
+    for (Position pos : positionToDiscover)
+    {
+        GetTile(pos)->PlayerDiscover(playerId);
+    }
+}
+
 bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
@@ -104,14 +121,28 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
     auto secondTile = GetTile(newLocation);
 
+    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+
+    if (secondTile->GetTypeAsInt() == TileWater::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().Embark)
+    {
+        return false;
+    }
+
+    if (secondTile->GetTypeAsInt() == TileMountain::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().MountainWalking)
+    {
+        return false;
+    }
 
     //New Location is emtpy or there is a district and it belongs to the player. Move him
-    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
+    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (!secondTile->GetUnit() && secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
     {
         UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);
         tempUnit->SetPosition(newLocation);
+        tempUnit->UseActionPoints(GetDistance(unitLocation, newLocation));
         secondTile->SetUnit(tempUnit);
+
+        DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
         return true;
     }
 
@@ -281,6 +312,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
+
+        DiscoverArea(pos, unit->GetViewRange(), owner);
+
     }
     return true;
 }
@@ -297,6 +331,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
         district = new DistrictCityCenter(owner);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
     case DistrictHunter::DISTRICT_TYPE:
         district = new DistrictHunter(owner);
@@ -351,6 +386,8 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     if (district)
     {
         GetTile(pos)->SetDistrict(district);
+
+        DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
 }

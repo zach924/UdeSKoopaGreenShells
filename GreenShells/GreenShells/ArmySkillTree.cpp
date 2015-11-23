@@ -26,9 +26,8 @@ ArmySkillTree ArmySkillTree::GetReadyForResearch()
     canResearch.SwordT2 = Militia;
     canResearch.AxeT1 = Militia;
     canResearch.AxeT2 = AxeT1;
-    canResearch.RangerT2 = AxeT1;
+    canResearch.RangerT2 = SwordT2 || AxeT1;
     canResearch.SwordT3 = SwordT2;
-    canResearch.RangerT2 = SwordT2;
     canResearch.MaceT1 = RangerT2;
     canResearch.MaceT2 = MaceT1;
     canResearch.RangerT3 = MaceT1;

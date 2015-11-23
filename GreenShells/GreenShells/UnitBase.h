@@ -13,39 +13,38 @@ public:
     static const int MELEE_ATTACK_RANGE = 1;
 
 protected:
+    //Serialized
     int m_health;
-
-private:
     int m_ownerID;
     Position m_position;
+    int m_actionPointsLeft;
 
+    //Unit Stats
     int m_foodCost;
     int m_scienceCost;
     int m_weaponCost;
-
-    int m_moveRange;
-
     int m_attackDamage;
     int m_attackRange;
 
-    int m_actionPointsLeft;
+    int m_viewRange;
 
 public:
-    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage);
+    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange);
     virtual ~UnitBase();
 
     virtual UnitBase* Clone() = 0;
 
+    void UseActionPoints(int points);
     int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetAttackRange();
     int GetHealth();
-    int GetMoveRange();
     int GetOwnerID();
 
     virtual int GetMaxHealth() = 0;
     virtual const char* GetName() = 0;
     virtual int GetTypeAsInt() = 0;
+    virtual int GetViewRange() = 0;
 
     Position GetPosition();
     void SetPosition(Position pos);

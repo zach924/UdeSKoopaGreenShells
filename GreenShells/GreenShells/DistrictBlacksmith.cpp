@@ -39,7 +39,7 @@ void DistrictBlacksmith::Repair(int repairValue)
 
 bool DistrictBlacksmith::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
     return player->GetEmpireSkillTree().Stable;
 }
 
@@ -64,4 +64,9 @@ DistrictBlacksmith * DistrictBlacksmith::Deserialize(boost::property_tree::ptree
     blacksmith->m_health = node.get<int>("<xmlattr>.H");
 
     return blacksmith;
+}
+
+int DistrictBlacksmith::GetViewRange()
+{
+    return VIEW_RANGE;
 }

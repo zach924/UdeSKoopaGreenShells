@@ -7,8 +7,13 @@
 const char* UnitArcherI::UNIT_NAME = "Archer MK1";
 
 UnitArcherI::UnitArcherI(int owner)
-    : Unit<UnitArcherI>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE)
+    : Unit<UnitArcherI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitArcherI::~UnitArcherI()
@@ -35,7 +40,7 @@ void UnitArcherI::LoadTexture()
 
 bool UnitArcherI::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetArmySkillTree().RangerT2;
 }
 
@@ -54,15 +59,31 @@ int UnitArcherI::GetTypeAsInt()
     return UNIT_TYPE;
 }
 
+int UnitArcherI::GetViewRange()
+{
+    return VIEW_RANGE;
+}
+
 void UnitArcherI::Heal(int health)
 {
     m_health = std::min(m_health + health, HEALTH);
+}
+
+void UnitArcherI::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitArcherI * UnitArcherI::Deserialize(boost::property_tree::ptree node)
 {
     UnitArcherI* archer = new UnitArcherI(node.get<int>("<xmlattr>.O"));
     archer->m_health = node.get<int>("<xmlattr>.H");
+    archer->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return archer;
 }
