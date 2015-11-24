@@ -54,8 +54,8 @@ public:
     virtual Texture* GetTexture() = 0;
     virtual void Heal(int health) = 0;
 
-    virtual AttackNotification Attack(UnitBase* target);
-    virtual AttackNotification Attack(DistrictBase* target);
+    virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
+    virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
 
     AttackNotification ReceiveDamage(int damage);
 

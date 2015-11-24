@@ -80,9 +80,9 @@ void UnitCannon::NotifyNewTurn(int turn)
 }
 
 
-UnitCannon * UnitCannon::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitCannon> UnitCannon::Deserialize(boost::property_tree::ptree node)
 {
-    UnitCannon* cannon = new UnitCannon(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitCannon> cannon = std::shared_ptr<UnitCannon>{ new UnitCannon(node.get<int>("<xmlattr>.O")) };
     cannon->m_health = node.get<int>("<xmlattr>.H");
     cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

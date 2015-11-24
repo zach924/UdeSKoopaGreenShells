@@ -81,16 +81,16 @@ void UnitMaceI::NotifyNewTurn(int turn)
 }
 
 
-UnitMaceI * UnitMaceI::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree node)
 {
-    UnitMaceI* mace = new UnitMaceI(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitMaceI> mace = std::shared_ptr<UnitMaceI>{ new UnitMaceI(node.get<int>("<xmlattr>.O")) };
     mace->m_health = node.get<int>("<xmlattr>.H");
     mace->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return mace;
 }
 
-AttackNotification UnitMaceI::Attack(UnitBase * target)
+AttackNotification UnitMaceI::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -102,7 +102,7 @@ AttackNotification UnitMaceI::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitMaceI::Attack(DistrictBase * target)
+AttackNotification UnitMaceI::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);

@@ -67,9 +67,9 @@ bool DistrictCityCenter::CanUpgrade()
     return false; // City center cannot be upgraded
 }
 
-DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictCityCenter> DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictCityCenter* cityCenter = new DistrictCityCenter(node.get<int>("<xmlattr>.O"));
+    auto cityCenter = std::shared_ptr<DistrictCityCenter>{ new DistrictCityCenter(node.get<int>("<xmlattr>.O")) };
     cityCenter->m_health = node.get<int>("<xmlattr>.H");
 
     return cityCenter;

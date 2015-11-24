@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Texture.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
@@ -43,9 +44,9 @@ public:
     virtual int GetTypeAsInt() = 0;
     virtual TileBase* Deserialize(boost::property_tree::ptree tileNode, Position pos);
     virtual void NotifyNewTurn(int turn);
-    virtual DistrictBase* GetDistrict();
+    virtual std::shared_ptr<DistrictBase> GetDistrict();
     virtual void SetDistrict(std::shared_ptr<DistrictBase> district);
-    virtual UnitBase* GetUnit();
+    virtual std::shared_ptr<UnitBase> GetUnit();
     virtual void SetUnit(std::shared_ptr<UnitBase> unit);
     virtual int GetPlayerOwnerId();
     virtual void SetPlayerOwnerId(int id);

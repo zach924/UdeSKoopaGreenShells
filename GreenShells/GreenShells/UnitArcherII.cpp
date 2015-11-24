@@ -80,9 +80,9 @@ void UnitArcherII::NotifyNewTurn(int turn)
     }
 }
 
-UnitArcherII * UnitArcherII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitArcherII> UnitArcherII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitArcherII* archer = new UnitArcherII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitArcherII> archer = std::shared_ptr<UnitArcherII>{ new UnitArcherII(node.get<int>("<xmlattr>.O")) };
     archer->m_health = node.get<int>("<xmlattr>.H");
     archer->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

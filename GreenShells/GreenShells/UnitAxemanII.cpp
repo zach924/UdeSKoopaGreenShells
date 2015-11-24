@@ -80,16 +80,16 @@ void UnitAxemanII::NotifyNewTurn(int turn)
 }
 
 
-UnitAxemanII * UnitAxemanII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitAxemanII> UnitAxemanII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitAxemanII* axeman = new UnitAxemanII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitAxemanII> axeman = std::shared_ptr<UnitAxemanII>{ new UnitAxemanII(node.get<int>("<xmlattr>.O")) };
     axeman->m_health = node.get<int>("<xmlattr>.H");
     axeman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return axeman;
 }
 
-AttackNotification UnitAxemanII::Attack(UnitBase * target)
+AttackNotification UnitAxemanII::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -101,7 +101,7 @@ AttackNotification UnitAxemanII::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitAxemanII::Attack(DistrictBase * target)
+AttackNotification UnitAxemanII::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);

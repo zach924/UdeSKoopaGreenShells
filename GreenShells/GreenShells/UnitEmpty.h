@@ -8,7 +8,8 @@ class UnitEmpty : public Unit<UnitEmpty>
 public:
     typedef Unit<UnitEmpty> tBase;
 
-public:
+    static int const UNIT_TYPE = -1;
+
     UnitEmpty(int owner);
     ~UnitEmpty();
     virtual std::shared_ptr<UnitBase> Clone();

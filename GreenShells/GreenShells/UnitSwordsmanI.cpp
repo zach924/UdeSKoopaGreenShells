@@ -81,7 +81,7 @@ void UnitSwordsmanI::NotifyNewTurn(int turn)
 
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
-AttackNotification UnitSwordsmanI::Attack(UnitBase * target)
+AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -93,7 +93,7 @@ AttackNotification UnitSwordsmanI::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitSwordsmanI::Attack(DistrictBase * target)
+AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -105,9 +105,9 @@ AttackNotification UnitSwordsmanI::Attack(DistrictBase * target)
     return targetNotification;
 }
 
-UnitSwordsmanI * UnitSwordsmanI::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitSwordsmanI> UnitSwordsmanI::Deserialize(boost::property_tree::ptree node)
 {
-    UnitSwordsmanI* swordsman = new UnitSwordsmanI(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitSwordsmanI> swordsman = std::shared_ptr<UnitSwordsmanI>{ new UnitSwordsmanI(node.get<int>("<xmlattr>.O")) };
     swordsman->m_health = node.get<int>("<xmlattr>.H");
     swordsman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

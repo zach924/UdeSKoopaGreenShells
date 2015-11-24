@@ -30,5 +30,5 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    static UnitArcherIII* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitArcherIII> Deserialize(boost::property_tree::ptree node);
 };

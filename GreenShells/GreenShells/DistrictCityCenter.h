@@ -36,5 +36,5 @@ public:
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
 
-    static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictCityCenter> Deserialize(boost::property_tree::ptree node);
 };

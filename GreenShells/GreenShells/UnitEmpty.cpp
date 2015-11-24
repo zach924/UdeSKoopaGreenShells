@@ -19,7 +19,6 @@ std::shared_ptr<UnitBase> UnitEmpty::Clone()
 
 int UnitEmpty::GetTypeAsInt()
 {
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
     return -1;
 }
 

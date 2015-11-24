@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "TileBase.h"
 class Position;
 class UnitBase;
@@ -17,8 +18,8 @@ class SelectionManager
         m_unitAttacking
     };
 
-    UnitBase* m_unitEmpty;
-    DistrictBase* m_districtEmpty;
+    std::shared_ptr<UnitBase> m_unitEmpty;
+    std::shared_ptr<DistrictBase> m_districtEmpty;
 
     SelectionManagerState m_state;
 

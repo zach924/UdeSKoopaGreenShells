@@ -80,16 +80,16 @@ void UnitShield::NotifyNewTurn(int turn)
 }
 
 
-UnitShield * UnitShield::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitShield> UnitShield::Deserialize(boost::property_tree::ptree node)
 {
-    UnitShield* cannon = new UnitShield(node.get<int>("<xmlattr>.O"));
-    cannon->m_health = node.get<int>("<xmlattr>.H");
-    cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
+    std::shared_ptr<UnitShield> shield = std::shared_ptr<UnitShield>{ new UnitShield(node.get<int>("<xmlattr>.O")) };
+    shield->m_health = node.get<int>("<xmlattr>.H");
+    shield->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
-    return cannon;
+    return shield;
 }
 
-AttackNotification UnitShield::Attack(UnitBase * target)
+AttackNotification UnitShield::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -101,7 +101,7 @@ AttackNotification UnitShield::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitShield::Attack(DistrictBase * target)
+AttackNotification UnitShield::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);

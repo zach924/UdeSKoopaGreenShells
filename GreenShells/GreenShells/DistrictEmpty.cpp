@@ -31,7 +31,6 @@ void DistrictEmpty::LoadTexture()
 
 int DistrictEmpty::GetTypeAsInt()
 {
-    assert(false && "Should be in an Empty District. It cannot be placed on the map");
     return -1;
 }
 
