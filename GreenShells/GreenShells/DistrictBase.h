@@ -10,22 +10,22 @@ class Texture;
 class DistrictBase
 {
 public:
-    static const int NORMAL_DISTRICT_ATTACK_DMG = 0;
 
 protected:
     int m_ownerID;
     int m_health;
+    int m_weaponYield;
+    int m_foodYield;
+    int m_scienceYield;
 
 private:
     Position m_position;
 
     int m_foodCost;
-    int m_scienceCost;
-    int m_weaponCost;
 
-    double m_foodRatioBonus;
-    double m_scienceRatioBonus;
-    double m_weaponRatioBonus;
+    int m_foodRatioBonus;
+    int m_scienceBonus;
+    int m_weaponBonus;
 
     int m_attackDamage;
 
@@ -34,7 +34,7 @@ private:
     int m_viewRange;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage, int viewRange);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield);
     virtual ~DistrictBase();
 
     virtual std::shared_ptr<DistrictBase> Clone() = 0;

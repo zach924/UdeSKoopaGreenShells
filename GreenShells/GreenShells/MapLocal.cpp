@@ -12,7 +12,26 @@
 #include "TileWater.h"
 
 #include "DistrictCityCenter.h"
+
+#include "DistrictHunter.h"
 #include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+#include "DistrictWarehouse.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+#include "DistrictFortress.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+#include "DistrictUniversity.h"
+
+#include "DistrictWatchTower.h"
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
 
 #include "UnitBase.h"
 
@@ -313,8 +332,50 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         district = std::shared_ptr<DistrictBase>{ new DistrictCityCenter(owner) };
         ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
+    case DistrictHunter::DISTRICT_TYPE:
+        district = new DistrictHunter(owner);
+        break;
     case DistrictFarm::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFarm(owner) };
+        break;
+    case DistrictWindMill::DISTRICT_TYPE:
+        district = new DistrictWindMill(owner);
+        break;
+    case DistrictWarehouse::DISTRICT_TYPE:
+        district = new DistrictWarehouse(owner);
+        break;
+    case DistrictBlacksmith::DISTRICT_TYPE:
+        district = new DistrictBlacksmith(owner);
+        break;
+    case DistrictStable::DISTRICT_TYPE:
+        district = new DistrictStable(owner);
+        break;
+    case DistrictFort::DISTRICT_TYPE:
+        district = new DistrictFort(owner);
+        break;
+    case DistrictMonastery::DISTRICT_TYPE:
+        district = new DistrictMonastery(owner);
+        break;
+    case DistrictCathedral::DISTRICT_TYPE:
+        district = new DistrictCathedral(owner);
+        break;
+    case DistrictSchool::DISTRICT_TYPE:
+        district = new DistrictSchool(owner);
+        break;
+    case DistrictUniversity::DISTRICT_TYPE:
+        district = new DistrictUniversity(owner);
+        break;
+    case DistrictWatchTower::DISTRICT_TYPE:
+        district = new DistrictWatchTower(owner);
+        break;
+    case DistrictInn::DISTRICT_TYPE:
+        district = new DistrictInn(owner);
+        break;
+    case DistrictTavern::DISTRICT_TYPE:
+        district = new DistrictTavern(owner);
+        break;
+    case DistrictMilitaryTent::DISTRICT_TYPE:
+        district = new DistrictMilitaryTent(owner);
         break;
     default:
         return false;
