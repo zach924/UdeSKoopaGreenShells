@@ -1,5 +1,5 @@
 #include "Map.h"
-
+#include <math.h>
 #include "TileGround.h"
 #include "TileMountain.h"
 #include "TileWater.h"
@@ -80,16 +80,17 @@ std::vector<Position> Map::GetSpawnPositions()
     return m_spawnPositions;
 }
 
-std::set<Position> Map::GetArea(Position position, int distance, MapFilter filter)
+std::map<Position, int> Map::GetArea(Position position, int distance, MapFilter filter)
 {
-    std::set<Position> area;
+    std::map<Position, int> area;
     std::set<Position> currentLevel;
-    currentLevel.insert(position);
-    GetAreaIntern(distance, currentLevel, area, filter);
+    currentLevel.emplace(position);
+    GetAreaIntern(distance, currentLevel, area ,filter, distance);
+    
     return area;
 }
 
-void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::set<Position>& alreadyVisited, MapFilter filter)
+void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Position,int>& alreadyVisited, MapFilter filter, const int maxDistance)
 {
     if (distance > 0 )
     {
@@ -97,68 +98,66 @@ void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::set<Posi
 
         for (Position pos : toVisit)
         {
-            alreadyVisited.insert(pos);
-
-            int topRow = (pos.Row + 1) % ROWS;
-            int rightCol = (pos.Column + 1) % COLUMNS;
-            int botRow = pos.Row - 1;
-            int LeftCol = pos.Column - 1;
-
-            if (botRow < 0)
+            if (alreadyVisited.emplace(pos, std::abs(maxDistance - distance)).second) // If a real emplaceBack happened
             {
-                botRow = ROWS - 1;
-            }
 
-            if (LeftCol < 0)
-            {
-                LeftCol = COLUMNS - 1;
-            }
+                int topRow = (pos.Row + 1) % ROWS;
+                int rightCol = (pos.Column + 1) % COLUMNS;
+                int botRow = pos.Row - 1;
+                int LeftCol = pos.Column - 1;
 
-            // Find the four tiles
-            Position positions[8];
-
-            // Top pos
-            positions[0] = Position(pos.Column, topRow);
-            // TopRigt pos
-            positions[1] = Position(rightCol, topRow);
-            // Right pos
-            positions[2] = Position(rightCol, pos.Row);
-            // BotRight pos
-            positions[3] = Position(rightCol, botRow);
-            // Bot pos
-            positions[4] = Position(pos.Column, botRow);
-            // BotLeft pos
-            positions[5] = Position(LeftCol, botRow);
-            // Left pos
-            positions[6] = Position(LeftCol, pos.Row);
-            // TopLeft pos
-            positions[7] = Position(LeftCol, topRow);
-
-            for (Position position : positions)
-            {
-                if (GetTile(position)->CanTraverse(filter))
+                if (botRow < 0)
                 {
-                    // Still need to validate if not inside the alreadyVisited position, cause we don't want to visit a position we already visited
-                    if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), position) != alreadyVisited.end()))
+                    botRow = ROWS - 1;
+                }
+
+                if (LeftCol < 0)
+                {
+                    LeftCol = COLUMNS - 1;
+                }
+
+                // Find the four tiles
+                Position positions[8];
+
+                // Top pos
+                positions[0] = Position(pos.Column, topRow);
+                // TopRigt pos
+                positions[1] = Position(rightCol, topRow);
+                // Right pos
+                positions[2] = Position(rightCol, pos.Row);
+                // BotRight pos
+                positions[3] = Position(rightCol, botRow);
+                // Bot pos
+                positions[4] = Position(pos.Column, botRow);
+                // BotLeft pos
+                positions[5] = Position(LeftCol, botRow);
+                // Left pos
+                positions[6] = Position(LeftCol, pos.Row);
+                // TopLeft pos
+                positions[7] = Position(LeftCol, topRow);
+
+                for (Position position : positions)
+                {
+                    if (GetTile(position)->CanTraverse(filter))
                     {
-                        nextToVisit.insert(position);
+                        // Still need to validate if not inside the alreadyVisited position, cause we don't want to visit a position we already visited
+                        if(alreadyVisited.find(position) == alreadyVisited.end())
+                        {
+                            nextToVisit.insert(position);
+                        }
                     }
                 }
             }
 
         } // for()
-        GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter);
+        GetAreaIntern(distance - 1, nextToVisit, alreadyVisited, filter, maxDistance);
     }
     else if (distance == 0)
     {
         // This is the last call, add the lasts ones
         for (Position pos : toVisit)
         {
-
-            if (!(std::find(alreadyVisited.begin(), alreadyVisited.end(), pos) != alreadyVisited.end()))
-            {
-                alreadyVisited.insert(pos);
-            }
+            alreadyVisited.emplace(pos, std::abs(maxDistance - distance));
         }
     }
 }

@@ -49,7 +49,7 @@ Player::Player()
     m_unitCount(0),
     m_food(200),
     m_science(0),
-    m_weapon(0),
+    m_weapon(2000),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
@@ -114,8 +114,9 @@ bool Player::IsNegociating()
 
 std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
 {
-    std::set<Position> ownedTiles;
+    std::map<Position, int> ownedTiles;
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
+    std::vector<int> distancesNotUsed;
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
         ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER);
@@ -136,7 +137,14 @@ std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Po
     {
         ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER);
     }
-    return ownedTiles;
+
+    std::set<Position> result;
+    for (const std::pair<Position, int>& pos : ownedTiles)
+    {
+        result.emplace(pos.first);
+    }
+
+    return result;
 }
 
 bool Player::IsDisconnected()

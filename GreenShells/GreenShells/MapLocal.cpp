@@ -96,9 +96,9 @@ void MapLocal::DiscoverArea(Position pos, int range, int playerId)
 {
     auto positionToDiscover = GetArea(pos, range, NO_FILTER);
 
-    for (Position pos : positionToDiscover)
+    for (const std::pair<Position, int>& pos : positionToDiscover)
     {
-        GetTile(pos)->PlayerDiscover(playerId);
+        GetTile(pos.first)->PlayerDiscover(playerId);
     }
 }
 

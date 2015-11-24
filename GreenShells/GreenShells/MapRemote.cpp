@@ -48,18 +48,18 @@ void MapRemote::VisionChange(int playerId)
             {
                 auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
 
-                for (Position pos : positionGotVision)
+                for (const std::pair<Position, int>& pos : positionGotVision)
                 {
-                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                    m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(playerId);
                 }
             }
             if (unit && unit->GetOwnerID() == playerId)
             {
                 auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
 
-                for (Position pos : positionGotVision)
+                for (const std::pair<Position, int>& pos : positionGotVision)
                 {
-                    m_tiles[pos.Row][pos.Column]->PlayerSee(playerId);
+                    m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(playerId);
                 }
             }
         }

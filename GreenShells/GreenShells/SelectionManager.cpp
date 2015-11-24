@@ -493,14 +493,14 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         m_districtTypeToConstruct = districtType;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
+        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
 
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (std::pair<Position, int> pos : allPositionNear)
         {
-            if (map->GetTile(pos)->GetPlayerOwnerId() == GameSession::GetInstance().GetCurrentPlayerID() && map->GetTile(pos)->GetDistrict() == nullptr)
+            if (map->GetTile(pos.first)->GetPlayerOwnerId() == GameSession::GetInstance().GetCurrentPlayerID() && map->GetTile(pos.first)->GetDistrict() == nullptr)
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.push_back(pos.first);
             }
         }
     }
@@ -525,15 +525,15 @@ void SelectionManager::UnitAttackPressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
-
-        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
+        std::vector<int> distancesNotUsed;
+        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (const std::pair<Position, int>& pos : allPositionNear)
         {
-            if ((map->GetTile(pos)->GetDistrict() != nullptr && map->GetTile(pos)->GetDistrict()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()) ||
-                (map->GetTile(pos)->GetUnit() != nullptr && map->GetTile(pos)->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()))
+            if ((map->GetTile(pos.first)->GetDistrict() != nullptr && map->GetTile(pos.first)->GetDistrict()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()) ||
+                (map->GetTile(pos.first)->GetUnit() != nullptr && map->GetTile(pos.first)->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()))
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.push_back(pos.first);
             }
         }
 
@@ -551,18 +551,18 @@ void SelectionManager::UnitMovePressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         Position unitPosition = m_selectedPosition;
-
+        std::vector<int> distancesNotUsed;
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
-        std::set<Position> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (const std::pair<Position, int>& pos : allPositionNear)
         {
-            if (pos != unitPosition && // Position is not the same
-                map->GetTile(pos)->GetUnit() == nullptr && // No unit on the tile already
-                (map->GetTile(pos)->GetDistrict() == nullptr || // No district on the tile
-                    (map->GetTile(pos)->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()))) // If there is a district on the tile, is it our?
+            if (pos.first != unitPosition && // Position is not the same
+                map->GetTile(pos.first)->GetUnit() == nullptr && // No unit on the tile already
+                (map->GetTile(pos.first)->GetDistrict() == nullptr || // No district on the tile
+                    (map->GetTile(pos.first)->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()))) // If there is a district on the tile, is it our?
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.push_back(pos.first);
             }
         }
 
