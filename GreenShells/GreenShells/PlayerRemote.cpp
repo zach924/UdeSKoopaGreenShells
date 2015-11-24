@@ -160,6 +160,108 @@ void PlayerRemote::SetIsDisconnected(bool value)
     assert(false && "Don't use this with player remote");
 }
 
+void PlayerRemote::UnlockSkill(int turn, Skills skill)
+{
+    switch (skill)
+    {
+    case Watchtower:
+    case RangerT1:
+    case Settler:
+        if (m_science < SKILL_COST_TIER1)
+        {
+            return;
+        }
+        break;
+    case ScienceUpgrade:
+    case Militia:
+    case Monastery:
+        if (m_science < SKILL_COST_TIER2)
+        {
+            return;
+        }
+        break;
+    case BorderGrowth:
+    case SwordT2:
+    case AxeT1:
+    case Farm:
+    case Fishery:
+    case Stable:
+        if (m_science < SKILL_COST_TIER3)
+        {
+            return;
+        }
+        break;
+    case MovementUpgrade:
+    case Embark:
+    case SwordT3:
+    case AxeT2:
+    case RangerT2:
+    case Windmill:
+    case Cathedral:
+    case Fort:
+        if (m_science < SKILL_COST_TIER4)
+        {
+            return;
+        }
+        break;
+    case VisionUpgrade:
+    case MountainWalking:
+    case MaceT1:
+    case MilitaryTent:
+    case InnAndTavern:
+        if (m_science < SKILL_COST_TIER5)
+        {
+            return;
+        }
+        break;
+    case MountainConstruction:
+    case ArmorUpgrade:
+    case RangerT3:
+    case MaceT2:
+    case Warehouse:
+    case School:
+        if (m_science < SKILL_COST_TIER6)
+        {
+            return;
+        }
+        break;
+    case University:
+    case NoFogOfWar:
+    case Fortress:
+    case Shield:
+    case RessourcesBonus:
+        if (m_science < SKILL_COST_TIER7)
+        {
+            return;
+        }
+        break;
+    case Cannon:
+        if (m_science < SKILL_COST_TIER8)
+        {
+            return;
+        }
+        break;
+    default:
+        assert(false && "Tried unlocking a random skill...");
+        return;
+    }
+
+    std::stringstream ss;
+
+    RPCStructType dataType{};
+    dataType = RPCStructType::RPC_BASIC_UNLOCK_SKILL;
+    ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
+
+    RPCBasicUnlockSkill data;
+    data.m_RPCClassMethod = RPCClassMethodType::Player_UnlockSkill;
+    data.m_turn = turn;
+    data.m_requestingPlayerID = m_playerID;
+    data.m_Skill = skill;
+
+    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+    SendData(ss.str());
+}
+
 void PlayerRemote::AddNewRelation(int otherPlayerId, int currentTurn, RelationStatus status, int mustAnswerPlayerId)
 {
     assert(false && "Don't use this with player remote");

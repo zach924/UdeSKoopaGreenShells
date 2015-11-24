@@ -7,8 +7,13 @@
 const char* UnitCannon::UNIT_NAME = "Cannon";
 
 UnitCannon::UnitCannon(int owner)
-    : Unit<UnitCannon>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitCannon::~UnitCannon()
@@ -68,10 +73,22 @@ void UnitCannon::Heal(int health)
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitCannon::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitCannon * UnitCannon::Deserialize(boost::property_tree::ptree node)
 {
     UnitCannon* cannon = new UnitCannon(node.get<int>("<xmlattr>.O"));
     cannon->m_health = node.get<int>("<xmlattr>.H");
+    cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return cannon;
 }

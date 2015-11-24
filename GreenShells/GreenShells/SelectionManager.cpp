@@ -13,7 +13,26 @@
 
 #include "DistrictEmpty.h"
 #include "DistrictCityCenter.h"
+
+#include "DistrictHunter.h"
 #include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+#include "DistrictWarehouse.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+#include "DistrictFortress.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+#include "DistrictUniversity.h"
+
+#include "DistrictWatchTower.h"
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
 
 #include "ButtonUnitAttack.h"
 #include "ButtonUnitCancel.h"
@@ -474,7 +493,7 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         m_districtTypeToConstruct = districtType;
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, 3 /* TODO : Validate where the constant will be (MaxBorderRange) */, NO_FILTER);
+        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
 
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
@@ -534,9 +553,7 @@ void SelectionManager::UnitMovePressed()
         Position unitPosition = m_selectedPosition;
 
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
-        unique_ptr<Player> player{ GameSession::GetInstance().GetCurrentPlayerCopy() };
-
-        std::set<Position> allPositionNear = map->GetArea(unitPosition, unit->GetMoveRange(), player->GetMoveRestriction());
+        std::set<Position> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
         m_actionPossibleTiles.clear();
         for (Position pos : allPositionNear)
         {

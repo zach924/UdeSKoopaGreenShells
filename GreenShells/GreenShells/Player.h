@@ -4,6 +4,7 @@
 #include <map>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
+#include "Skills.h"
 #include "UtilitySkillTree.h"
 #include "ArmySkillTree.h"
 #include "EmpireSkillTree.h"
@@ -14,6 +15,18 @@ class Map;
 
 class Player
 {
+public: 
+    static const int SKILL_COST_TIER1 = 10;
+    static const int SKILL_COST_TIER2 = 100;
+    static const int SKILL_COST_TIER3 = 250;
+    static const int SKILL_COST_TIER4 = 500;
+    static const int SKILL_COST_TIER5 = 1000;
+    static const int SKILL_COST_TIER6 = 2000;
+    static const int SKILL_COST_TIER7 = 3500;
+    static const int SKILL_COST_TIER8 = 5000;
+
+    static const double BORDER_GROWTH_BONUS_RATE; //
+
 protected:
 
     static const int OFFER_DURATION = 10;
@@ -43,10 +56,24 @@ protected:
     std::map<int, DiplomaticRelation> m_diplomaticRelations;
 
 public:
-    static const unsigned int UNIT_TIER_ONE_COST = 50;
-    static const unsigned int UNIT_TIER_TWO_COST = 100;
-    static const unsigned int UNIT_TIER_THREE_COST = 200;
-    static const unsigned int UNIT_TIER_FOUR_COST = 400;
+    static const unsigned int UNIT_TIER_ONE_COST    = 50;
+    static const unsigned int UNIT_TIER_TWO_COST    = 100;
+    static const unsigned int UNIT_TIER_THREE_COST  = 200;
+    static const unsigned int UNIT_TIER_FOUR_COST   = 400;
+
+    static const unsigned int CITY_CENTER_COST      = 700;
+    static const unsigned int HUNTER_COST           = 150;
+    static const unsigned int FARM_COST             = 200;
+    static const unsigned int WIND_MILL_COST        = 400;
+    static const unsigned int BLACKSMITH_COST       = 150;
+    static const unsigned int STABLE_COST           = 200;
+    static const unsigned int FORT_COST             = 400;
+    static const unsigned int MONASTERY_COST        = 150;
+    static const unsigned int CATHEDRAL_COST        = 200;
+    static const unsigned int SCHOOL_COST           = 400;
+    static const unsigned int INN_COST              = 250;
+    static const unsigned int TAVERN_COST           = 250;
+    
     Player();
     ~Player();
 
@@ -81,7 +108,6 @@ public:
     virtual void AddScienceMultiplier(double multiplier) = 0;
     virtual void AddWeaponMultiplier(double multiplier) = 0;
 
-    // TODO : When gameplay will be more canon, see if the multiplier can go under 1.0 (Ennemy affecting my ratio)
     virtual void RemoveFoodMultiplier(double multiplier) = 0;
     virtual void RemoveScienceMultiplier(double multiplier) = 0;
     virtual void RemoveWeaponMultiplier(double multiplier) = 0;
@@ -109,6 +135,7 @@ public:
     virtual void SetIsDisconnected(bool value = true) = 0;
     bool IsDisconnected();
 
+    virtual void UnlockSkill(int turn, Skills skill) = 0;
     virtual boost::property_tree::ptree Serialize();
 
     virtual MapFilter GetMoveRestriction();
@@ -117,7 +144,8 @@ public:
     virtual ArmySkillTree GetArmySkillTree();
     virtual EmpireSkillTree GetEmpireSkillTree();
 
-    bool HasRessourcesFor(int tier);
+    bool HasRessourcesForUnit(int tier);
+    bool HasRessourcesForDistrict(int DistrictType);
     unsigned int GetWeaponCostForTier(int tier);
     int GetSwordsmanTier();
     int GetArcherTier();

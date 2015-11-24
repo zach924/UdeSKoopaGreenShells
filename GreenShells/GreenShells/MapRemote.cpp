@@ -26,8 +26,7 @@ MapRemote::~MapRemote()
 
 void MapRemote::VisionChange(int playerId)
 {
-    std::unique_ptr<Player> player{ GameSession::GetInstance().GetCurrentPlayerCopy() };
-    auto utilitySK = player->GetUtilitySkillTree();
+    auto utilitySK = GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree();
     int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
 
     for (int row = 0; row < ROWS; ++row)

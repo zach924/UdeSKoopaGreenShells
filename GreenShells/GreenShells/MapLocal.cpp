@@ -1,4 +1,9 @@
+#include <boost\property_tree\ptree.hpp>
+#include <iostream>
+#include <exception>
+
 #include "MapLocal.h"
+#include "GameSession.h"
 #include "ServerSession.h"
 #include "PlayerLocal.h"
 
@@ -7,7 +12,26 @@
 #include "TileWater.h"
 
 #include "DistrictCityCenter.h"
+
+#include "DistrictHunter.h"
 #include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+#include "DistrictWarehouse.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+#include "DistrictFortress.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+#include "DistrictUniversity.h"
+
+#include "DistrictWatchTower.h"
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
 
 #include "UnitSettler.h"
 
@@ -27,12 +51,13 @@
 
 #include "UnitCannon.h"
 #include "UnitShield.h"
+#include "Position.h"
 
-#include <boost\property_tree\ptree.hpp>
-#include <iostream>
-#include <exception>
-#include "Player.h"
-#include "ServerSession.h"
+
+int MapLocal::GetDistance(Position pos1, Position pos2)
+{
+    return std::max(std::abs(pos1.Column - pos2.Column), std::abs(pos1.Row - pos2.Row));
+}
 #include "GameSession.h"
 
 MapLocal::MapLocal()
@@ -96,13 +121,25 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
     auto secondTile = GetTile(newLocation);
 
+    std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
+
+    if (secondTile->GetTypeAsInt() == TileWater::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().Embark)
+    {
+        return false;
+    }
+
+    if (secondTile->GetTypeAsInt() == TileMountain::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().MountainWalking)
+    {
+        return false;
+    }
 
     //New Location is emtpy or there is a district and it belongs to the player. Move him
-    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
+    if ((!secondTile->GetUnit() && !secondTile->GetDistrict()) || (!secondTile->GetUnit() && secondTile->GetDistrict() && secondTile->GetDistrict()->GetOwnerID() == ownerID))
     {
         UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);
         tempUnit->SetPosition(newLocation);
+        tempUnit->UseActionPoints(GetDistance(unitLocation, newLocation));
         secondTile->SetUnit(tempUnit);
 
         DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
@@ -296,8 +333,50 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         district = new DistrictCityCenter(owner);
         ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
+    case DistrictHunter::DISTRICT_TYPE:
+        district = new DistrictHunter(owner);
+        break;
     case DistrictFarm::DISTRICT_TYPE:
         district = new DistrictFarm(owner);
+        break;
+    case DistrictWindMill::DISTRICT_TYPE:
+        district = new DistrictWindMill(owner);
+        break;
+    case DistrictWarehouse::DISTRICT_TYPE:
+        district = new DistrictWarehouse(owner);
+        break;
+    case DistrictBlacksmith::DISTRICT_TYPE:
+        district = new DistrictBlacksmith(owner);
+        break;
+    case DistrictStable::DISTRICT_TYPE:
+        district = new DistrictStable(owner);
+        break;
+    case DistrictFort::DISTRICT_TYPE:
+        district = new DistrictFort(owner);
+        break;
+    case DistrictMonastery::DISTRICT_TYPE:
+        district = new DistrictMonastery(owner);
+        break;
+    case DistrictCathedral::DISTRICT_TYPE:
+        district = new DistrictCathedral(owner);
+        break;
+    case DistrictSchool::DISTRICT_TYPE:
+        district = new DistrictSchool(owner);
+        break;
+    case DistrictUniversity::DISTRICT_TYPE:
+        district = new DistrictUniversity(owner);
+        break;
+    case DistrictWatchTower::DISTRICT_TYPE:
+        district = new DistrictWatchTower(owner);
+        break;
+    case DistrictInn::DISTRICT_TYPE:
+        district = new DistrictInn(owner);
+        break;
+    case DistrictTavern::DISTRICT_TYPE:
+        district = new DistrictTavern(owner);
+        break;
+    case DistrictMilitaryTent::DISTRICT_TYPE:
+        district = new DistrictMilitaryTent(owner);
         break;
     default:
         return false;

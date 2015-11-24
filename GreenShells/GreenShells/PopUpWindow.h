@@ -9,11 +9,11 @@ class Button;
 
 class PopUpWindow
 {
-
 protected:
     TTF_Font * m_font;
     int m_fontSize;
     int m_width;
+    int m_height;
     SDL_Surface* m_screenSurface;
     std::vector<SDL_Texture*> m_texts;
     SDL_Renderer* m_rend;

@@ -25,7 +25,7 @@ public:
     //Temp Hack
     Player* GetPlayer(int playerID);
     //Returns a copy of a player for drawing
-    Player* GetPlayerCopy(int playerID);
+    std::shared_ptr<Player> GetPlayerCopy(int playerID);
 
     std::vector<Player*> GetPlayersCopy();
 

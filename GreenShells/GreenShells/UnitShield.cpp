@@ -7,8 +7,13 @@
 const char* UnitShield::UNIT_NAME = "Shield";
 
 UnitShield::UnitShield(int owner)
-    : Unit<UnitShield>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitShield::~UnitShield()
@@ -68,16 +73,29 @@ void UnitShield::Heal(int health)
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitShield::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitShield * UnitShield::Deserialize(boost::property_tree::ptree node)
 {
     UnitShield* cannon = new UnitShield(node.get<int>("<xmlattr>.O"));
     cannon->m_health = node.get<int>("<xmlattr>.H");
+    cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return cannon;
 }
 
 AttackNotification UnitShield::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -89,6 +107,7 @@ AttackNotification UnitShield::Attack(UnitBase * target)
 
 AttackNotification UnitShield::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

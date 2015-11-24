@@ -49,8 +49,27 @@
 
 // District
 #include "DistrictEmpty.h"
-#include "DistrictFarm.h"
 #include "DistrictCityCenter.h"
+
+#include "DistrictHunter.h"
+#include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+#include "DistrictWarehouse.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+#include "DistrictFortress.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+#include "DistrictUniversity.h"
+
+#include "DistrictWatchTower.h"
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
 
 GameWindow::GameWindow(ScreenResolution res)
     :m_window()
@@ -334,7 +353,7 @@ void GameWindow::ShowWindow()
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            unique_ptr<Player> currentPlayer{ GameSession::GetInstance().GetCurrentPlayerCopy() };
+            auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
             /************
                 FOOD

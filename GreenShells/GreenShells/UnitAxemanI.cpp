@@ -7,8 +7,13 @@
 const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
 
 UnitAxemanI::UnitAxemanI(int owner)
-    : Unit<UnitAxemanI>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitAxemanI::~UnitAxemanI()
@@ -35,7 +40,7 @@ void UnitAxemanI::LoadTexture()
 
 bool UnitAxemanI::CanUpgrade()
 {
-    Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     return player->GetArmySkillTree().AxeT2;
 }
 
@@ -69,16 +74,29 @@ void UnitAxemanI::Heal(int health)
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitAxemanI::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitAxemanI * UnitAxemanI::Deserialize(boost::property_tree::ptree node)
 {
     UnitAxemanI* axeman = new UnitAxemanI(node.get<int>("<xmlattr>.O"));
     axeman->m_health = node.get<int>("<xmlattr>.H");
+    axeman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return axeman;
 }
 
 AttackNotification UnitAxemanI::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -90,6 +108,7 @@ AttackNotification UnitAxemanI::Attack(UnitBase * target)
 
 AttackNotification UnitAxemanI::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

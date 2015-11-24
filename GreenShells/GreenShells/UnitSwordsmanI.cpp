@@ -6,8 +6,13 @@
 const char* UnitSwordsmanI::UNIT_NAME = "Swordsman MK1";
 
 UnitSwordsmanI::UnitSwordsmanI(int owner)
-    : Unit<UnitSwordsmanI>(owner, HEALTH, MOVE_RANGE, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitSwordsmanI::~UnitSwordsmanI()
@@ -34,7 +39,7 @@ void UnitSwordsmanI::LoadTexture()
 
 bool UnitSwordsmanI::CanUpgrade()
 {
-    //Player* player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    //auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     //return player->GetArmySkillTree().SwordT2;
     return true;
 }
@@ -69,9 +74,21 @@ void UnitSwordsmanI::Heal(int health)
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitSwordsmanI::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSwordsmanI::Attack(UnitBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -83,6 +100,7 @@ AttackNotification UnitSwordsmanI::Attack(UnitBase * target)
 
 AttackNotification UnitSwordsmanI::Attack(DistrictBase * target)
 {
+    UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -96,6 +114,7 @@ UnitSwordsmanI * UnitSwordsmanI::Deserialize(boost::property_tree::ptree node)
 {
     UnitSwordsmanI* swordsman = new UnitSwordsmanI(node.get<int>("<xmlattr>.O"));
     swordsman->m_health = node.get<int>("<xmlattr>.H");
+    swordsman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return swordsman;
 }

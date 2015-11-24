@@ -7,8 +7,13 @@
 const char* UnitArcherIII::UNIT_NAME = "Archer MK3";
 
 UnitArcherIII::UnitArcherIII(int owner)
-    : Unit<UnitArcherIII>(owner, HEALTH, MOVE_RANGE, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitArcherIII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 UnitArcherIII::~UnitArcherIII()
@@ -68,10 +73,22 @@ void UnitArcherIII::Heal(int health)
     m_health = std::min(m_health + health, HEALTH);
 }
 
+void UnitArcherIII::NotifyNewTurn(int turn)
+{
+    m_actionPointsLeft = ACTION_POINTS;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
+}
+
+
 UnitArcherIII * UnitArcherIII::Deserialize(boost::property_tree::ptree node)
 {
     UnitArcherIII* archer = new UnitArcherIII(node.get<int>("<xmlattr>.O"));
     archer->m_health = node.get<int>("<xmlattr>.H");
+    archer->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return archer;
 }

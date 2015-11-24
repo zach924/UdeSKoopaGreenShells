@@ -40,10 +40,10 @@ Player* WorldState::GetPlayer(int playerID)
     return m_players.at(playerID);
 }
 
-Player* WorldState::GetPlayerCopy(int playerID)
+shared_ptr<Player> WorldState::GetPlayerCopy(int playerID)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_players.at(playerID)->Clone();
+    return shared_ptr<Player> { m_players.at(playerID)->Clone() };
 }
 
 std::vector<Player*> WorldState::GetPlayersCopy()
@@ -111,8 +111,9 @@ int WorldState::AddPlayer(std::string playerName)
     Player* newPlayer = new PlayerLocal();
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
-    newPlayer->AddWeapon(500);
 
+    newPlayer->AddScience(1000000);
+    newPlayer->AddWeapon(100000);
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);

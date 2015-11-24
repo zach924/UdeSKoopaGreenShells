@@ -5,6 +5,7 @@
 class ArmySkillTree
 {
 public:
+
     bool Militia : 1;
     bool RangerT1 : 1;
     bool RangerT2 : 1;
