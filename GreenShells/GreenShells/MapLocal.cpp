@@ -333,49 +333,49 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
     case DistrictHunter::DISTRICT_TYPE:
-        district = new DistrictHunter(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictHunter(owner) };
         break;
     case DistrictFarm::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFarm(owner) };
         break;
     case DistrictWindMill::DISTRICT_TYPE:
-        district = new DistrictWindMill(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictWindMill(owner) };
         break;
     case DistrictWarehouse::DISTRICT_TYPE:
-        district = new DistrictWarehouse(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictWarehouse(owner) };
         break;
     case DistrictBlacksmith::DISTRICT_TYPE:
-        district = new DistrictBlacksmith(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictBlacksmith(owner) };
         break;
     case DistrictStable::DISTRICT_TYPE:
-        district = new DistrictStable(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictStable(owner) };
         break;
     case DistrictFort::DISTRICT_TYPE:
-        district = new DistrictFort(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictFort(owner) };
         break;
     case DistrictMonastery::DISTRICT_TYPE:
-        district = new DistrictMonastery(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictMonastery(owner) };
         break;
     case DistrictCathedral::DISTRICT_TYPE:
-        district = new DistrictCathedral(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictCathedral(owner) };
         break;
     case DistrictSchool::DISTRICT_TYPE:
-        district = new DistrictSchool(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictSchool(owner) };
         break;
     case DistrictUniversity::DISTRICT_TYPE:
-        district = new DistrictUniversity(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictUniversity(owner) };
         break;
     case DistrictWatchTower::DISTRICT_TYPE:
-        district = new DistrictWatchTower(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictWatchTower(owner) };
         break;
     case DistrictInn::DISTRICT_TYPE:
-        district = new DistrictInn(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictInn(owner) };
         break;
     case DistrictTavern::DISTRICT_TYPE:
-        district = new DistrictTavern(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictTavern(owner) };
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
-        district = new DistrictMilitaryTent(owner);
+        district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
         break;
     default:
         return false;

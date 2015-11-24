@@ -10,9 +10,9 @@ DistrictBlacksmith::DistrictBlacksmith(int owner)
 {
 }
 
-DistrictBase* DistrictBlacksmith::Clone()
+std::shared_ptr<DistrictBase> DistrictBlacksmith::Clone()
 {
-    return new DistrictBlacksmith{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictBlacksmith{ *this } };
 }
 
 void DistrictBlacksmith::LoadTexture()
@@ -58,12 +58,12 @@ int DistrictBlacksmith::GetTypeAsInt()
     return DISTRICT_TYPE;
 }
 
-DistrictBlacksmith * DistrictBlacksmith::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictBlacksmith> DistrictBlacksmith::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictBlacksmith* blacksmith = new DistrictBlacksmith(node.get<int>("<xmlattr>.O"));
-    blacksmith->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictBlacksmith>{ new DistrictBlacksmith(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return blacksmith;
+    return district;
 }
 
 int DistrictBlacksmith::GetViewRange()

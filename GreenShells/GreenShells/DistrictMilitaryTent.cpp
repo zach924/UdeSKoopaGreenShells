@@ -10,9 +10,9 @@ DistrictMilitaryTent::DistrictMilitaryTent(int owner)
 {
 }
 
-DistrictBase* DistrictMilitaryTent::Clone()
+std::shared_ptr<DistrictBase> DistrictMilitaryTent::Clone()
 {
-    return new DistrictMilitaryTent{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictMilitaryTent{ *this } };
 }
 
 void DistrictMilitaryTent::LoadTexture()
@@ -62,12 +62,12 @@ int DistrictMilitaryTent::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictMilitaryTent * DistrictMilitaryTent::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictMilitaryTent> DistrictMilitaryTent::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictMilitaryTent* militaryTent = new DistrictMilitaryTent(node.get<int>("<xmlattr>.O"));
-    militaryTent->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictMilitaryTent>{ new DistrictMilitaryTent(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return militaryTent;
+    return district;
 }
 
 

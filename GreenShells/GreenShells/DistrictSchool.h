@@ -20,7 +20,7 @@ public:
 public:
     DistrictSchool(int owner);
     ~DistrictSchool();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -30,7 +30,7 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictSchool* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictSchool> Deserialize(boost::property_tree::ptree node);
 };
 
 
