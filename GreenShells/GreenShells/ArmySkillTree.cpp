@@ -4,7 +4,7 @@
 ArmySkillTree::ArmySkillTree() :
     Militia(false), RangerT1(false), RangerT2(false), RangerT3(false), SwordT2(false),
     SwordT3(false), AxeT1(false), AxeT2(false), MaceT1(false), MaceT2(false),
-    Fortress(false), Shield(true), Canon(false)
+    Fortress(false), Shield(false), Canon(false)
 {
 }
 

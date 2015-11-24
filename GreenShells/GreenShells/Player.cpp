@@ -49,7 +49,7 @@ Player::Player()
     m_unitCount(0),
     m_food(200),
     m_science(0),
-    m_weapon(2000),
+    m_weapon(0),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
