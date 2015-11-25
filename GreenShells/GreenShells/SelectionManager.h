@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <map>
 #include "TileBase.h"
 class Position;
 class UnitBase;
@@ -29,7 +30,7 @@ class SelectionManager
     
     SelectionManager(SelectionManager const&) = delete;
     void operator=(SelectionManager const&) = delete;
-    std::vector<Position> m_actionPossibleTiles;
+    std::map<Position,int> m_actionPossibleTiles;
     SelectionManager();
     ~SelectionManager();
 

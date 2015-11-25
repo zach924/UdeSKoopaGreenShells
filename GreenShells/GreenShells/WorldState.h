@@ -38,8 +38,8 @@ public:
     int AddPlayer(std::string playerName);
     void RemovePlayer(int id);
 
-    bool MoveUnit(int ownerID, Position unitLocation, Position newLocation);
-    bool Attack(int ownerID, Position attackerPosition, Position targetPosition);
+    bool MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
+    bool Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
     bool CreateUnit(int unitType, Position pos, int owner);
     bool CreateDistrict(int districtType, Position pos, int owner);
 

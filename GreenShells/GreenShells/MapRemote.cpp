@@ -89,39 +89,41 @@ Map* MapRemote::Clone()
     return map;
 }
 
-bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::stringstream ss;
 
     RPCStructType dataType{};
-    dataType = RPCStructType::RPC_BASIC_TWO_POSITIONS;
+    dataType = RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST;
     ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
 
-    RPCBasicTwoPositionsStruct data;
+    RPCBasicTwoPositionsAndCostStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Map_Move;
     data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
     data.m_requestingPlayerID = ownerID;
     data.m_firstPosition = unitLocation;
     data.m_secondPosition = newLocation;
+    data.m_actionCost = actionCost;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
     return SendData(ss.str());
 }
 
-bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     std::stringstream ss;
 
     RPCStructType dataType{};
-    dataType = RPCStructType::RPC_BASIC_TWO_POSITIONS;
+    dataType = RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST;
     ss.write(reinterpret_cast<char*>(&dataType), sizeof(dataType));
 
-    RPCBasicTwoPositionsStruct data;
+    RPCBasicTwoPositionsAndCostStruct data;
     data.m_RPCClassMethod = RPCClassMethodType::Map_Attack;
     data.m_turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
     data.m_requestingPlayerID = ownerID;
     data.m_firstPosition = attackerPosition;
     data.m_secondPosition = targetPosition;
+    data.m_actionCost = actionCost;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 

@@ -133,7 +133,11 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
 
 std::vector<Position> SelectionManager::GetOverlayTiles()
 {
-    return m_actionPossibleTiles;
+    std::vector<Position> v;
+    for (std::map<Position, int>::iterator it = m_actionPossibleTiles.begin(); it != m_actionPossibleTiles.end(); ++it) {
+        v.push_back(it->first);
+    }
+    return v;
 }
 
 void SelectionManager::Cancel()
@@ -387,12 +391,13 @@ void SelectionManager::Attack(Position pos)
 
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    int actionCost = m_actionPossibleTiles.find(pos)->second;
 
     if (actorOwner >= 0
         && actorOwner != currentPlayerId
         && GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[actorOwner].GetRelationStatus() == RelationStatus::War)
     {
-        GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos);
+        GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos, actionCost);
     }
     else
     {
@@ -421,12 +426,12 @@ void SelectionManager::Move(Position pos)
     int tileOwner = map->GetTile(pos)->GetPlayerOwnerId();
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
-
+    int actionCost = m_actionPossibleTiles.find(pos)->second;
     if (tileOwner < 0 
         || tileOwner== currentPlayerId
         || GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[tileOwner].GetRelationStatus() == RelationStatus::War)
     {
-        GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos);
+        GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos, actionCost);
     }
     else 
     {
@@ -452,7 +457,7 @@ void SelectionManager::HandleSelection(Position pos)
     TileBase* tile = map->GetTile(pos);
 
     // If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-    if (m_state != m_idle && std::find(m_actionPossibleTiles.begin(), m_actionPossibleTiles.end(), tile->GetPosition()) == m_actionPossibleTiles.end())
+    if (m_state != m_idle &&  (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
     {
         Cancel();
     }
@@ -500,7 +505,7 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         {
             if (map->GetTile(pos.first)->GetPlayerOwnerId() == GameSession::GetInstance().GetCurrentPlayerID() && map->GetTile(pos.first)->GetDistrict() == nullptr)
             {
-                m_actionPossibleTiles.push_back(pos.first);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
     }
@@ -532,7 +537,7 @@ void SelectionManager::UnitAttackPressed()
             if ((map->GetTile(pos.first)->GetDistrict() != nullptr && map->GetTile(pos.first)->GetDistrict()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()) ||
                 (map->GetTile(pos.first)->GetUnit() != nullptr && map->GetTile(pos.first)->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()))
             {
-                m_actionPossibleTiles.push_back(pos.first);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
 
@@ -560,7 +565,7 @@ void SelectionManager::UnitMovePressed()
                 (map->GetTile(pos.first)->GetDistrict() == nullptr || // No district on the tile
                     (map->GetTile(pos.first)->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()))) // If there is a district on the tile, is it our?
             {
-                m_actionPossibleTiles.push_back(pos.first);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
 

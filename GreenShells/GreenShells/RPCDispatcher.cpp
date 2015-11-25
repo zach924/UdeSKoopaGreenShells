@@ -22,13 +22,22 @@ void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
+    default:
+        assert(false && "You must add your code here");
+    }
+}
+
+void RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
     case RPCClassMethodType::Map_Move:
         //go move the unit
-        m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
+        m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     case RPCClassMethodType::Map_Attack:
         // Do the attack
-        m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
+        m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     default:
         assert(false && "You must add your code here");
@@ -126,6 +135,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
             Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
+            break;
+        case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
+            Dispatch(dynamic_cast<RPCBasicTwoPositionsAndCostStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_CREATION:
             Dispatch(dynamic_cast<RPCBasicActorCreationStruct*>(event.data));

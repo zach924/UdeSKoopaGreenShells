@@ -102,7 +102,7 @@ void MapLocal::DiscoverArea(Position pos, int range, int playerId)
     }
 }
 
-bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
     auto firstTile = GetTile(unitLocation);
@@ -139,7 +139,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         UnitBase* tempUnit = firstTile->GetUnit();
         firstTile->SetUnit(nullptr);
         tempUnit->SetPosition(newLocation);
-        tempUnit->UseActionPoints(GetDistance(unitLocation, newLocation));
+        tempUnit->UseActionPoints(actionCost);
         secondTile->SetUnit(tempUnit);
 
         DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
@@ -150,7 +150,7 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
     return false;
 }
 
-bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     std::cout << "Received an attack request by " << ownerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
 
@@ -234,7 +234,11 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
         // Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
         if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
         {
-            MoveUnit(ownerID, attackerPosition, targetPosition);
+            MoveUnit(ownerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
+        }
+        else
+        {
+            attacker->UseActionPoints(actionCost);
         }
     }
 
