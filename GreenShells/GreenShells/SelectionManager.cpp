@@ -525,7 +525,6 @@ void SelectionManager::UnitAttackPressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
-        std::vector<int> distancesNotUsed;
         std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
@@ -551,7 +550,6 @@ void SelectionManager::UnitMovePressed()
 
         unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
         Position unitPosition = m_selectedPosition;
-        std::vector<int> distancesNotUsed;
         unique_ptr<UnitBase> unit{ GetSelectedUnit() };
         std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
         m_actionPossibleTiles.clear();

@@ -116,7 +116,6 @@ std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Po
 {
     std::map<Position, int> ownedTiles;
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
-    std::vector<int> distancesNotUsed;
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
         ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER);
