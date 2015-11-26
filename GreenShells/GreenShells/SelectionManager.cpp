@@ -58,6 +58,7 @@
 #include "GameWindow.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
 #include "UnitSwordsmanIII.h"
@@ -704,6 +705,15 @@ void SelectionManager::SpawnSettler()
     {
         CreateUnitPressed(UnitSettler::UNIT_TYPE);
     }
+}
 
+
+void SelectionManager::SpawnBuilder()
+{
+    UtilitySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetUtilitySkillTree();
+    if (skillTree.Watchtower)
+    {
+        CreateUnitPressed(UnitBuilder::UNIT_TYPE);
+    }
 }
 

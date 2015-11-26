@@ -5,6 +5,7 @@
 #include "Unit.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitArcherI.h"
 #include "UnitArcherII.h"
@@ -118,6 +119,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
                 break;
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            case UnitBuilder::UNIT_TYPE:
+                tile->SetUnit(UnitBuilder::Deserialize(child.second));
                 break;
             case UnitAxemanI::UNIT_TYPE:
                 tile->SetUnit(UnitAxemanI::Deserialize(child.second));

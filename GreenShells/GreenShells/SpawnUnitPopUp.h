@@ -6,7 +6,7 @@ class SpawnUnitPopUp :
     public PopUpWindow
 {
 private:
-    ButtonText* m_allButtons[8];
+    ButtonText* m_allButtons[9];
 
 public:
     SpawnUnitPopUp(const char* windowName, int width, int height);

@@ -40,9 +40,7 @@ void DistrictCathedral::Repair(int repairValue)
 bool DistrictCathedral::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    //TODO: need schoool 
-    return true;
-    //return player->GetEmpireSkillTree().School;
+    return player->GetEmpireSkillTree().School;
 }
 
 int DistrictCathedral::GetMaxHealth()

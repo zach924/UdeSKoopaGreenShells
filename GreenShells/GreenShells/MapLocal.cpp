@@ -36,6 +36,7 @@
 #include "UnitBase.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitArcherI.h"
 #include "UnitArcherII.h"
@@ -277,6 +278,10 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     case UnitSettler::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSettler::UNIT_TIER));
+        break;
+    case UnitBuilder::UNIT_TYPE:
+        unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner) };
+        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitBuilder::UNIT_TIER));
         break;
     case UnitAxemanI::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner) };

@@ -2,6 +2,7 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -47,9 +48,9 @@ Player::Player()
     m_isAlive(true),
     m_cityCenterLocations(),
     m_unitCount(0),
-    m_food(200),
-    m_science(0),
-    m_weapon(0),
+    m_food(3000),
+    m_science(1000),
+    m_weapon(5000),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
@@ -422,6 +423,18 @@ int Player::GetSettlerTier()
     if (m_empireSkillTree.Settler)
     {
         return UnitSettler::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetBuilderTier()
+{
+    if (m_utilitySkillTree.Watchtower)
+    {
+        return UnitBuilder::UNIT_TIER;
     }
     else
     {

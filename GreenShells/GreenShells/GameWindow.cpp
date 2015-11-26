@@ -40,15 +40,27 @@
 #include "ButtonMenu.h"
 #include "ButtonNextTurn.h"
 
-// Unit
-#include "UnitArcherI.h"
-#include "UnitEmpty.h"
-#include "UnitSwordsmanI.h"
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
+
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
 #include "UnitEmpty.h"
 
-// District
-#include "DistrictEmpty.h"
 #include "DistrictCityCenter.h"
 
 #include "DistrictHunter.h"
@@ -70,6 +82,7 @@
 #include "DistrictInn.h"
 #include "DistrictTavern.h"
 #include "DistrictMilitaryTent.h"
+#include "DistrictEmpty.h"
 
 GameWindow::GameWindow(ScreenResolution res)
     :m_window()
@@ -972,18 +985,48 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
     CreateButtons();
     LoadLocalTextures();
 
-    UnitArcherI::tBase::ForceReload();
-    UnitSettler::tBase::ForceReload();
-    UnitSwordsmanI::tBase::ForceReload();
+    UnitBuilder::tBase::ForceReload();
+    UnitCannon::tBase::ForceReload();
     UnitEmpty::tBase::ForceReload();
+    UnitSettler::tBase::ForceReload();
+    UnitShield::tBase::ForceReload();
+
+    UnitArcherI::tBase::ForceReload();
+    UnitArcherII::tBase::ForceReload();
+    UnitArcherIII::tBase::ForceReload();
+
+    UnitAxemanI::tBase::ForceReload();
+    UnitAxemanII::tBase::ForceReload();
+ 
+    UnitMaceI::tBase::ForceReload();
+    UnitMaceII::tBase::ForceReload();
+
+    UnitSwordsmanI::tBase::ForceReload();
+    UnitSwordsmanII::tBase::ForceReload();
+    UnitSwordsmanIII::tBase::ForceReload();
 
     TileGround::tBase::ForceReload();
     TileMountain::tBase::ForceReload();
     TileWater::tBase::ForceReload();
 
+    DistrictBlacksmith::tBase::ForceReload();
+    DistrictCathedral::tBase::ForceReload();
     DistrictCityCenter::tBase::ForceReload();
-    DistrictFarm::tBase::ForceReload();
     DistrictEmpty::tBase::ForceReload();
+    DistrictFarm::tBase::ForceReload();
+    DistrictFort::tBase::ForceReload();
+    DistrictFortress::tBase::ForceReload();
+    DistrictHunter::tBase::ForceReload();
+    DistrictInn::tBase::ForceReload();
+    DistrictMilitaryTent::tBase::ForceReload();
+    DistrictMonastery::tBase::ForceReload();
+    DistrictSchool::tBase::ForceReload();
+    DistrictStable::tBase::ForceReload();
+    DistrictTavern::tBase::ForceReload();
+    DistrictUniversity::tBase::ForceReload();
+    DistrictWarehouse::tBase::ForceReload();
+    DistrictWatchTower::tBase::ForceReload();
+    DistrictWindMill::tBase::ForceReload();
 }
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)

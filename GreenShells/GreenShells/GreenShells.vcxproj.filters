@@ -411,6 +411,9 @@
     <ClCompile Include="ConstructDistrictPopUp.cpp">
       <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
+    <ClCompile Include="UnitBuilder.cpp">
+      <Filter>Source Files\Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -718,6 +721,9 @@
     </ClInclude>
     <ClInclude Include="ConstructDistrictPopUp.h">
       <Filter>Header Files\UI\PopupWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitBuilder.h">
+      <Filter>Header Files\Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

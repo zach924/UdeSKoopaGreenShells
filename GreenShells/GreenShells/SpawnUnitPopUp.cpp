@@ -1,5 +1,6 @@
 #include "SpawnUnitPopUp.h"
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -27,6 +28,7 @@
 SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     : PopUpWindow(windowName, width, height)
 {
+    int index = 0;
     int buffer = 20;
     int currentX = 50;
     int currentY = m_fontSize + buffer;
@@ -36,43 +38,55 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
 
     ButtonState state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetSwordsmanTier())? ButtonState::Unpressed : ButtonState::Disabled;
     std::function<void()> spawnUnit = []() {SelectionManager::GetInstance().SpawnSwordsman(); };
-    m_allButtons[0] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman", spawnUnit, nullptr, state);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman", spawnUnit, nullptr, state);
 
+    ++index;
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetAxemanTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnAxeman(); };
-    m_allButtons[1] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman", spawnUnit, nullptr, state);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman", spawnUnit, nullptr, state);
 
+    ++index;
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetCannonTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnCannon(); };
-    m_allButtons[2] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon", spawnUnit, nullptr, state);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon", spawnUnit, nullptr, state);
 
+    ++index;
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetSettlerTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnSettler(); };
-    m_allButtons[3] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Settler", spawnUnit, nullptr, state);
-    
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Settler", spawnUnit, nullptr, state);
+
+    ++index;
     currentX += buttonWidth + buffer;
     currentY = m_fontSize + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetArcherTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnArcher(); };
-    m_allButtons[4] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Ranger", spawnUnit, nullptr, state);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Ranger", spawnUnit, nullptr, state);
 
+    ++index;
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetMaceTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnMace(); };
-    m_allButtons[5] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Mace", spawnUnit, nullptr, state);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Mace", spawnUnit, nullptr, state);
 
+    ++index;
     currentY += buttonHeight + buffer;
     state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetShieldTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
     spawnUnit = []() {SelectionManager::GetInstance().SpawnShield(); };
-    m_allButtons[6] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Shield", spawnUnit, nullptr, state);
-    
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Shield", spawnUnit, nullptr, state);
+
+    ++index;
     currentY += buttonHeight + buffer;
+    state = currentPlayer->HasRessourcesForUnit(currentPlayer->GetBuilderTier()) ? ButtonState::Unpressed : ButtonState::Disabled;
+    spawnUnit = []() {SelectionManager::GetInstance().SpawnBuilder(); };
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Militia", spawnUnit, nullptr, state);
+
+    ++index;
     currentY += buttonHeight + buffer;
     spawnUnit = []() {};
-    m_allButtons[7] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cancel", spawnUnit, nullptr, ButtonState::Unpressed);
+    m_allButtons[index] = new ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cancel", spawnUnit, nullptr, ButtonState::Unpressed);
 
 }
 
