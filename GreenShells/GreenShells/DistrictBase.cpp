@@ -12,9 +12,6 @@ DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRang
     m_foodYield(foodYield),
     m_scienceYield(scienceYield),
     m_foodCost(foodCost),
-    m_foodRatioBonus(0.0),
-    m_scienceRatioBonus(0.0),
-    m_weaponRatioBonus(0.0),
     m_actionPointsLeft(1),
     m_viewRange(viewRange)
 {

@@ -8,7 +8,6 @@ class Texture;
 class DistrictBase
 {
 public:
-    static const int NORMAL_DISTRICT_ATTACK_DMG = 0;
 
 protected:
     int m_ownerID;
@@ -22,9 +21,9 @@ private:
 
     int m_foodCost;
 
-    double m_foodRatioBonus;
-    double m_scienceRatioBonus;
-    double m_weaponRatioBonus;
+    int m_foodRatioBonus;
+    int m_scienceBonus;
+    int m_weaponBonus;
 
     int m_attackDamage;
 

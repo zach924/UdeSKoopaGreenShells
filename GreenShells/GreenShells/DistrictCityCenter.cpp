@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-const char* DistrictCityCenter::NAME = "CityCenter";
+const char* DistrictCityCenter::NAME = "City Center";
 
 DistrictCityCenter::DistrictCityCenter(int owner)
     : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)

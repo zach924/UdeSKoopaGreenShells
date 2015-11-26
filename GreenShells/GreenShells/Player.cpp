@@ -20,11 +20,26 @@
 #include "UnitCannon.h"
 #include "UnitShield.h"
 
-#include "DistrictCityCenter.h"
 #include "Map.h"
 
-const double Player::BORDER_GROWTH_BONUS_RATE = 0.85f;
+#include "DistrictCityCenter.h"
 
+#include "DistrictHunter.h"
+#include "DistrictFarm.h"
+#include "DistrictWindMill.h"
+
+#include "DistrictBlacksmith.h"
+#include "DistrictStable.h"
+#include "DistrictFort.h"
+
+#include "DistrictMonastery.h"
+#include "DistrictCathedral.h"
+#include "DistrictSchool.h"
+
+#include "DistrictInn.h"
+#include "DistrictTavern.h"
+#include "DistrictMilitaryTent.h"
+const double Player::BORDER_GROWTH_BONUS_RATE = 0.85f;
 Player::Player()
     :m_playerID(),
     m_playerName(),
@@ -32,7 +47,7 @@ Player::Player()
     m_isAlive(true),
     m_cityCenterLocations(),
     m_unitCount(0),
-    m_food(100),
+    m_food(200),
     m_science(0),
     m_weapon(0),
     m_foodMultiplier(1),
@@ -208,7 +223,7 @@ EmpireSkillTree Player::GetEmpireSkillTree()
     return m_empireSkillTree;
 }
 
-bool Player::HasRessourcesFor(int tier)
+bool Player::HasRessourcesForUnit(int tier)
 {
     if (tier == 1)
     {
@@ -229,6 +244,53 @@ bool Player::HasRessourcesFor(int tier)
         return m_weapon >= UNIT_TIER_FOUR_COST;
     }
     return false;
+}
+
+bool Player::HasRessourcesForDistrict(int DistrictType)
+{
+    switch (DistrictType)
+    {
+    case DistrictCityCenter::DISTRICT_TYPE:
+        return m_food >= CITY_CENTER_COST;
+        break;
+    case DistrictHunter::DISTRICT_TYPE:
+        return m_food >= HUNTER_COST;
+        break;
+    case DistrictFarm::DISTRICT_TYPE:
+        return m_food >= FARM_COST;
+        break;
+    case DistrictWindMill::DISTRICT_TYPE:
+        return m_food >= WIND_MILL_COST;
+        break;
+    case DistrictBlacksmith::DISTRICT_TYPE:
+        return m_food >= BLACKSMITH_COST;
+        break;
+    case DistrictStable::DISTRICT_TYPE:
+        return m_food >= STABLE_COST;
+        break;
+    case DistrictFort::DISTRICT_TYPE:
+        return m_food >= FORT_COST;
+        break;
+    case DistrictMonastery::DISTRICT_TYPE:
+        return m_food >= MONASTERY_COST;
+        break;
+    case DistrictCathedral::DISTRICT_TYPE:
+        return m_food >= CATHEDRAL_COST;
+        break;
+    case DistrictSchool::DISTRICT_TYPE:
+        return m_food >= SCHOOL_COST;
+        break;
+    case DistrictInn::DISTRICT_TYPE:
+        return m_food >= INN_COST;
+        break;
+    case DistrictTavern::DISTRICT_TYPE:
+        return m_food >= TAVERN_COST;
+        break;
+    default:
+        return false;
+        break;
+    }
+
 }
 
 unsigned int Player::GetWeaponCostForTier(int tier)
