@@ -19,7 +19,7 @@ std::shared_ptr<UnitBase> UnitEmpty::Clone()
 
 int UnitEmpty::GetTypeAsInt()
 {
-    return -1;
+    return UNIT_TYPE;
 }
 
 int UnitEmpty::GetViewRange()

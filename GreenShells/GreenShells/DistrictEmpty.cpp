@@ -31,7 +31,7 @@ void DistrictEmpty::LoadTexture()
 
 int DistrictEmpty::GetTypeAsInt()
 {
-    return -1;
+    return DISTRICT_TYPE;
 }
 
 int DistrictEmpty::GetViewRange()
