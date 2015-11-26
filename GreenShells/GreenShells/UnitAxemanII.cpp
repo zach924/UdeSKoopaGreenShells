@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitAxemanII::UNIT_NAME = "Axeman MK2";
@@ -9,7 +10,7 @@ const char* UnitAxemanII::UNIT_NAME = "Axeman MK2";
 UnitAxemanII::UnitAxemanII(int owner)
     : Unit<UnitAxemanII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -20,9 +21,9 @@ UnitAxemanII::~UnitAxemanII()
 {
 }
 
-UnitBase* UnitAxemanII::Clone()
+std::shared_ptr<UnitBase> UnitAxemanII::Clone()
 {
-    return new UnitAxemanII{ *this };
+    return std::shared_ptr<UnitBase> { new UnitAxemanII{ *this } };
 }
 
 void UnitAxemanII::LoadTexture()
@@ -71,7 +72,7 @@ void UnitAxemanII::Heal(int health)
 void UnitAxemanII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -79,16 +80,16 @@ void UnitAxemanII::NotifyNewTurn(int turn)
 }
 
 
-UnitAxemanII * UnitAxemanII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitAxemanII> UnitAxemanII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitAxemanII* axeman = new UnitAxemanII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitAxemanII> axeman = std::shared_ptr<UnitAxemanII>{ new UnitAxemanII(node.get<int>("<xmlattr>.O")) };
     axeman->m_health = node.get<int>("<xmlattr>.H");
     axeman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
     return axeman;
 }
 
-AttackNotification UnitAxemanII::Attack(UnitBase * target)
+AttackNotification UnitAxemanII::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -100,7 +101,7 @@ AttackNotification UnitAxemanII::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitAxemanII::Attack(DistrictBase * target)
+AttackNotification UnitAxemanII::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);

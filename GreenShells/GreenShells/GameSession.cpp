@@ -59,7 +59,7 @@ void GameSession::SetCurrentPlayerID(int player)
 
 std::shared_ptr<Player> GameSession::GetCurrentPlayerCopy()
 {
-    return shared_ptr<Player> { m_worldState.GetPlayerCopy(m_currentPlayerID) };
+    return  m_worldState.GetPlayerCopy(m_currentPlayerID);
 }
 
 bool GameSession::ConnectToServer(char* playerName)

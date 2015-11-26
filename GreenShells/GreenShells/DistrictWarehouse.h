@@ -20,7 +20,7 @@ public:
 public:
     DistrictWarehouse(int owner);
     ~DistrictWarehouse();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -30,6 +30,6 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictWarehouse* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictWarehouse> Deserialize(boost::property_tree::ptree node);
 };
 

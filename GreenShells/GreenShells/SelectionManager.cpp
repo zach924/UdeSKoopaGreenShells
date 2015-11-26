@@ -84,11 +84,9 @@ SelectionManager::SelectionManager()
 
 SelectionManager::~SelectionManager()
 {
-    delete m_unitEmpty;
-    delete m_districtEmpty;
 }
 
-UnitBase* SelectionManager::GetSelectedUnit()
+std::shared_ptr<UnitBase> SelectionManager::GetSelectedUnit()
 {
     if (m_selectedPosition == Position(-1, -1))
     {
@@ -96,10 +94,10 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
     else
     {
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         TileBase* tile = map->GetTile(m_selectedPosition);
 
-        UnitBase* unitSelected = nullptr;
+        std::shared_ptr<UnitBase> unitSelected = nullptr;
         if (tile->IsSeen(GameSession::GetInstance().GetCurrentPlayerID()))
         {
             unitSelected = tile->GetUnit();
@@ -109,7 +107,7 @@ UnitBase* SelectionManager::GetSelectedUnit()
     }
 }
 
-DistrictBase* SelectionManager::GetSelectedDistrict()
+std::shared_ptr<DistrictBase> SelectionManager::GetSelectedDistrict()
 {
     if (m_selectedPosition == Position(-1, -1))
     {
@@ -117,11 +115,10 @@ DistrictBase* SelectionManager::GetSelectedDistrict()
     }
     else
     {
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         TileBase* tile = map->GetTile(m_selectedPosition);
         
-        DistrictBase* districtSelected = nullptr;
-        
+        std::shared_ptr<DistrictBase> districtSelected = nullptr;
         if (tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
         {
             districtSelected = tile->GetDistrict();
@@ -149,8 +146,8 @@ void SelectionManager::Cancel()
 
 void SelectionManager::UpdateButtonState()
 {
-    UnitBase* selectedUnit{ GetSelectedUnit() };
-    DistrictBase* selectedDistrict{ GetSelectedDistrict() };
+    auto selectedUnit = GetSelectedUnit();
+    auto selectedDistrict = GetSelectedDistrict();
 
     std::vector<Button*> buttons = ClickManager::GetInstance().GetButtons();
 
@@ -300,7 +297,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonConstructDistrict*>(btn) != nullptr)
         {
-            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
+            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
             {
                 btn->SetButtonState(ButtonState::Unpressed);
@@ -312,7 +309,7 @@ void SelectionManager::UpdateButtonState()
         }
         else if (dynamic_cast<ButtonSpawnUnit*>(btn) != nullptr)
         {
-            if (dynamic_cast<DistrictCityCenter*>(selectedDistrict) != nullptr
+            if (selectedDistrict->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE
                 && selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
                 && selectedUnit == m_unitEmpty)
             {
@@ -354,16 +351,6 @@ void SelectionManager::UpdateButtonState()
             assert(false && "You must implement this for your button!");
         }
     }
-
-    if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
-    {
-        delete selectedDistrict;
-    }
-    if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
-    {
-        delete selectedUnit;
-    }
-
 }
 
 
@@ -375,8 +362,8 @@ void SelectionManager::Idle(Position pos)
 
 void SelectionManager::Attack(Position pos)
 {
-    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-    UnitBase* unit = map->GetTile(pos)->GetUnit();
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+    auto unit = map->GetTile(pos)->GetUnit();
     int actorOwner;
     if (unit != nullptr)
     {
@@ -384,7 +371,7 @@ void SelectionManager::Attack(Position pos)
     }
     else
     {
-        DistrictBase* district = map->GetTile(pos)->GetDistrict();
+        auto district = map->GetTile(pos)->GetDistrict();
         assert(district != nullptr && "We should never get this far is there are no district or unit in the tile");
         actorOwner = district->GetOwnerID();
     }
@@ -422,7 +409,7 @@ void SelectionManager::CreateUnit(Position pos)
 
 void SelectionManager::Move(Position pos)
 {
-    unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     int tileOwner = map->GetTile(pos)->GetPlayerOwnerId();
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
@@ -497,7 +484,7 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         m_state = m_createDistrict;
         m_districtTypeToConstruct = districtType;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
 
         m_actionPossibleTiles.clear();
@@ -528,8 +515,8 @@ void SelectionManager::UnitAttackPressed()
 
         m_state = m_unitAttacking;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
-        unique_ptr<UnitBase> unit{ GetSelectedUnit() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+        shared_ptr<UnitBase> unit = GetSelectedUnit();
         std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
@@ -553,9 +540,9 @@ void SelectionManager::UnitMovePressed()
 
         m_state = m_unitMoving;
 
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         Position unitPosition = m_selectedPosition;
-        unique_ptr<UnitBase> unit{ GetSelectedUnit() };
+        shared_ptr<UnitBase> unit = GetSelectedUnit();
         std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
@@ -575,11 +562,10 @@ void SelectionManager::UnitMovePressed()
 
 bool SelectionManager::IsAUnitSelected()
 {
-    UnitBase* unit = GetSelectedUnit();
+    std::shared_ptr<UnitBase> unit = GetSelectedUnit();
     bool isUnitSelected = false;
     if (unit != m_unitEmpty)
     {
-        delete unit;
         isUnitSelected = true;
     }
     return isUnitSelected;
@@ -587,11 +573,10 @@ bool SelectionManager::IsAUnitSelected()
 
 bool SelectionManager::IsADistrictSelected()
 {
-    DistrictBase* district = GetSelectedDistrict();
+    std::shared_ptr<DistrictBase> district = GetSelectedDistrict();
     bool isUnitSelected = false;
     if (district != m_districtEmpty)
     {
-        delete district;
         isUnitSelected = true;
     }
     return isUnitSelected;

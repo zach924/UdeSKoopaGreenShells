@@ -11,16 +11,15 @@ UnitEmpty::~UnitEmpty()
 {
 }
 
-UnitBase* UnitEmpty::Clone()
+std::shared_ptr<UnitBase> UnitEmpty::Clone()
 {
     assert(false && "Why you trying to clone an empty unit >.>");
-    return new UnitEmpty{ *this };
+    return std::shared_ptr<UnitBase> { new UnitEmpty{ *this } };
 }
 
 int UnitEmpty::GetTypeAsInt()
 {
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-    return -1;
+    return UNIT_TYPE;
 }
 
 int UnitEmpty::GetViewRange()

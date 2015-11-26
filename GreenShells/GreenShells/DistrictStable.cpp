@@ -10,9 +10,9 @@ DistrictStable::DistrictStable(int owner)
 {
 }
 
-DistrictBase* DistrictStable::Clone()
+std::shared_ptr<DistrictBase> DistrictStable::Clone()
 {
-    return new DistrictStable{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictStable{ *this } };
 }
 
 void DistrictStable::LoadTexture()
@@ -63,11 +63,11 @@ int DistrictStable::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictStable * DistrictStable::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictStable> DistrictStable::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictStable* stable = new DistrictStable(node.get<int>("<xmlattr>.O"));
-    stable->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictStable>{ new DistrictStable(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return stable;
+    return district;
 }
 

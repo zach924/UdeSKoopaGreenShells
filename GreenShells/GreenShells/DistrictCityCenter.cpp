@@ -9,9 +9,9 @@ DistrictCityCenter::DistrictCityCenter(int owner)
 {
 }
 
-DistrictBase* DistrictCityCenter::Clone()
+std::shared_ptr<DistrictBase> DistrictCityCenter::Clone()
 {
-    return new DistrictCityCenter{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictCityCenter{ *this } };
 }
 
 void DistrictCityCenter::LoadTexture()
@@ -67,10 +67,10 @@ bool DistrictCityCenter::CanUpgrade()
     return false; // City center cannot be upgraded
 }
 
-DistrictCityCenter * DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictCityCenter> DistrictCityCenter::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictCityCenter* cityCenter = new DistrictCityCenter(node.get<int>("<xmlattr>.O"));
-    cityCenter->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictCityCenter>{ new DistrictCityCenter(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return cityCenter;
+    return district;
 }

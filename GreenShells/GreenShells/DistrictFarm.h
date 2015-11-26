@@ -23,7 +23,7 @@ public:
 public:
     DistrictFarm(int owner);
     ~DistrictFarm();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     virtual void ChangeOwner(int newOwner);
     void LoadTexture();
     virtual void Repair(int repairValue);
@@ -34,5 +34,5 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictFarm* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictFarm> Deserialize(boost::property_tree::ptree node);
 };

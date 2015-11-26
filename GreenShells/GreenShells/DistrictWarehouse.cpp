@@ -10,9 +10,9 @@ DistrictWarehouse::DistrictWarehouse(int owner)
 {
 }
 
-DistrictBase* DistrictWarehouse::Clone()
+std::shared_ptr<DistrictBase> DistrictWarehouse::Clone()
 {
-    return new DistrictWarehouse{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictWarehouse{ *this } };
 }
 
 void DistrictWarehouse::LoadTexture()
@@ -62,10 +62,10 @@ int DistrictWarehouse::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictWarehouse * DistrictWarehouse::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictWarehouse> DistrictWarehouse::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictWarehouse* warehouse = new DistrictWarehouse(node.get<int>("<xmlattr>.O"));
-    warehouse->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictWarehouse>{ new DistrictWarehouse(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return warehouse;
+    return district;
 }

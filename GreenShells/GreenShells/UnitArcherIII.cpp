@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitArcherIII::UNIT_NAME = "Archer MK3";
@@ -9,7 +10,7 @@ const char* UnitArcherIII::UNIT_NAME = "Archer MK3";
 UnitArcherIII::UnitArcherIII(int owner)
     : Unit<UnitArcherIII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -20,9 +21,9 @@ UnitArcherIII::~UnitArcherIII()
 {
 }
 
-UnitBase* UnitArcherIII::Clone()
+std::shared_ptr<UnitBase> UnitArcherIII::Clone()
 {
-    return new UnitArcherIII{ *this };
+    return std::shared_ptr<UnitBase> { new UnitArcherIII{ *this } };
 }
 
 void UnitArcherIII::LoadTexture()
@@ -71,7 +72,7 @@ void UnitArcherIII::Heal(int health)
 void UnitArcherIII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -79,9 +80,9 @@ void UnitArcherIII::NotifyNewTurn(int turn)
 }
 
 
-UnitArcherIII * UnitArcherIII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitArcherIII> UnitArcherIII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitArcherIII* archer = new UnitArcherIII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitArcherIII> archer = std::shared_ptr<UnitArcherIII>{ new UnitArcherIII(node.get<int>("<xmlattr>.O")) };
     archer->m_health = node.get<int>("<xmlattr>.H");
     archer->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

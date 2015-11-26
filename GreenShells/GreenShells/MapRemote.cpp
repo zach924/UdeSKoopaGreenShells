@@ -41,8 +41,8 @@ void MapRemote::VisionChange(int playerId)
     {
         for (int column = 0; column < COLUMNS; ++column)
         {
-            DistrictBase* district = m_tiles[row][column]->GetDistrict();
-            UnitBase* unit = m_tiles[row][column]->GetUnit();
+            auto district = m_tiles[row][column]->GetDistrict();
+            auto unit = m_tiles[row][column]->GetUnit();
 
             if (district && district->GetOwnerID() == playerId)
             {

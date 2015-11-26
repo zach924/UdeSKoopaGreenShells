@@ -456,7 +456,7 @@ void GameWindow::ShowWindow()
 
 
         //Render Map
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
         //Set overlay visible to true
         std::vector<Position> overlayTiles = SelectionManager::GetInstance().GetOverlayTiles();
@@ -505,7 +505,7 @@ void GameWindow::ShowWindow()
                 if (isDiscovered)
                 {
                     //Render the district
-                    DistrictBase* district = tile->GetDistrict();
+                    auto district = tile->GetDistrict();
                     if (district)
                     {
                         Texture* districtTexture = district->GetTexture();
@@ -516,7 +516,7 @@ void GameWindow::ShowWindow()
                     if (isSeen)
                     {
                         //Render the unit
-                        UnitBase* unit = tile->GetUnit();
+                        auto unit = tile->GetUnit();
                         if (unit)
                         {
                             Texture* unitTexture = unit->GetTexture();
@@ -567,7 +567,7 @@ void GameWindow::ShowWindow()
                 {
                     tileColor = MAP_FOW;
                 }
-                else if (tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
+                else if (tile->GetDistrict() != nullptr && tile->GetDistrict()->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
                 {
                     tileColor = MINIMAP_CITY;
                 }
@@ -651,7 +651,7 @@ void GameWindow::ShowWindow()
 
         //Render Selected district
         {
-            DistrictBase* selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
+            auto selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
             Texture* selectedDistrictTexture = selectedDistrict->GetTexture();
             int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreenResolution.SELECTED_DISTRICT_HEIGHT;
@@ -669,7 +669,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+            if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
             {
                 bool isInVision = map->GetTile(selectedDistrict->GetPosition())->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
 
@@ -780,15 +780,13 @@ void GameWindow::ShowWindow()
                     SDL_DestroyTexture(actionTextTexture);
                     SDL_FreeSurface(actionSurface);
                 }
-
-                delete selectedDistrict;
             }
 
         }
 
         //Render Selected unit
         {
-            UnitBase* selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
+            auto selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
             Texture* selectedUnitTexture = selectedUnit->GetTexture();
             int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreenResolution.SELECTED_UNIT_HEIGHT;
@@ -805,7 +803,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+            if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
             {
                 xPos += widthIcon + iconTextSpacing;
 
@@ -901,8 +899,6 @@ void GameWindow::ShowWindow()
                     SDL_DestroyTexture(actionTextTexture);
                     SDL_FreeSurface(actionSurface);
                 }
-
-                delete selectedUnit;
             }
         }
         //Render the different popUps

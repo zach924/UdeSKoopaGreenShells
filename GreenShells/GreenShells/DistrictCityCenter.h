@@ -29,7 +29,7 @@ public:
 public:
     DistrictCityCenter(int owner);
     ~DistrictCityCenter();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
 
     virtual void ChangeOwner(int newOwner);
@@ -42,5 +42,5 @@ public:
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
 
-    static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictCityCenter> Deserialize(boost::property_tree::ptree node);
 };

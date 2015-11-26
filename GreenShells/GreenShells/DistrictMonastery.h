@@ -20,7 +20,7 @@ public:
 public:
     DistrictMonastery(int owner);
     ~DistrictMonastery();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -30,7 +30,7 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictMonastery* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictMonastery> Deserialize(boost::property_tree::ptree node);
 };
 
 

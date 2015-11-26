@@ -10,9 +10,9 @@ DistrictSchool::DistrictSchool(int owner)
 {
 }
 
-DistrictBase* DistrictSchool::Clone()
+std::shared_ptr<DistrictBase> DistrictSchool::Clone()
 {
-    return new DistrictSchool{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictSchool{ *this } };
 }
 
 void DistrictSchool::LoadTexture()
@@ -63,12 +63,10 @@ int DistrictSchool::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictSchool * DistrictSchool::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictSchool> DistrictSchool::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictSchool* school = new DistrictSchool(node.get<int>("<xmlattr>.O"));
-    school->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictSchool>{ new DistrictSchool(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return school;
+    return district;
 }
-
-

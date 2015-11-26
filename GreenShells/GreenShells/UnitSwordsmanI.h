@@ -17,7 +17,7 @@ public:
 public:
     UnitSwordsmanI(int owner);
     ~UnitSwordsmanI();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -28,8 +28,8 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    virtual AttackNotification Attack(UnitBase* target);
-    virtual AttackNotification Attack(DistrictBase* target);
+    virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
+    virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
 
-    static UnitSwordsmanI* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitSwordsmanI> Deserialize(boost::property_tree::ptree node);
 };
