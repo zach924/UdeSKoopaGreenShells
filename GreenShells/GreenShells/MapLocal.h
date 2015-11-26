@@ -3,7 +3,6 @@
 
 class MapLocal : public Map
 {
-    int GetDistance(Position pos1, Position pos2);
 public:
     MapLocal();
     ~MapLocal();

@@ -53,11 +53,6 @@
 #include "UnitShield.h"
 #include "Position.h"
 
-
-int MapLocal::GetDistance(Position pos1, Position pos2)
-{
-    return std::max(std::abs(pos1.Column - pos2.Column), std::abs(pos1.Row - pos2.Row));
-}
 #include "GameSession.h"
 
 MapLocal::MapLocal()
