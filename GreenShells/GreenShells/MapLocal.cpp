@@ -463,7 +463,20 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
         // Upgrade override the unit on the tile by the new one (or override by nullptr (settler/watchTowerUnit)
         //   So we need to delete the object unit after
         unit->Upgrade(this);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
+
+        if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE)
+        {
+
+        }
+        //else if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE)
+        //{
+        //
+        //}
+        else
+        {
+            player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
+        }
+
         delete unit;
         return true;
     }
