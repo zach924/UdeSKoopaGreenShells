@@ -28,6 +28,7 @@ public:
     virtual int GetUnitTier();
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
+    virtual void Upgrade(Map* map);
 
     virtual AttackNotification Attack(UnitBase* target);
     virtual AttackNotification Attack(DistrictBase* target);

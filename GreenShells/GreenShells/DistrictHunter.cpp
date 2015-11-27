@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictHunter.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictFarm.h"
 
 const char* DistrictHunter::NAME = "Hunter";
 
@@ -40,7 +42,7 @@ void DistrictHunter::Repair(int repairValue)
 bool DistrictHunter::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Farm;
+    return player->GetEmpireSkillTree().Farm && player->HasRessourcesForDistrict(DistrictFarm::DISTRICT_TYPE);
 }
 
 int DistrictHunter::GetMaxHealth()
@@ -61,6 +63,11 @@ int DistrictHunter::GetTypeAsInt()
 int DistrictHunter::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictHunter::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictFarm(GetOwnerID()));
 }
 
 DistrictHunter * DistrictHunter::Deserialize(boost::property_tree::ptree node)

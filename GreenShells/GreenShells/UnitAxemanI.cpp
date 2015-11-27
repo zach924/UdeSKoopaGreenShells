@@ -3,6 +3,8 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
+#include "UnitAxemanII.h"
+#include "Map.h"
 
 const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
 
@@ -41,7 +43,7 @@ void UnitAxemanI::LoadTexture()
 bool UnitAxemanI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().AxeT2;
+    return player->GetArmySkillTree().AxeT2 && player->HasRessourcesForUnit(GetUnitTier());
 }
 
 int UnitAxemanI::GetMaxHealth()
@@ -82,6 +84,11 @@ void UnitAxemanI::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitAxemanI::Upgrade(Map* map)
+{
+    map->GetTile(GetPosition())->SetUnit(new UnitAxemanII(GetOwnerID()));
 }
 
 

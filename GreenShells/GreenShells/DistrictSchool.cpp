@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictSchool.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictUniversity.h"
 
 const char* DistrictSchool::NAME = "School";
 
@@ -40,7 +42,7 @@ void DistrictSchool::Repair(int repairValue)
 bool DistrictSchool::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetUtilitySkillTree().University;
+    return player->GetUtilitySkillTree().University && player->HasRessourcesForDistrict(DistrictUniversity::DISTRICT_TYPE);
 }
 
 int DistrictSchool::GetMaxHealth()
@@ -61,6 +63,11 @@ int DistrictSchool::GetTypeAsInt()
 int DistrictSchool::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictSchool::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictUniversity(GetOwnerID()));
 }
 
 DistrictSchool * DistrictSchool::Deserialize(boost::property_tree::ptree node)

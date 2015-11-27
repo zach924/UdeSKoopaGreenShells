@@ -2,6 +2,8 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
+#include "Map.h"
+#include "UnitSwordsmanII.h"
 
 const char* UnitSwordsmanI::UNIT_NAME = "Swordsman MK1";
 
@@ -39,9 +41,8 @@ void UnitSwordsmanI::LoadTexture()
 
 bool UnitSwordsmanI::CanUpgrade()
 {
-    //auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    //return player->GetArmySkillTree().SwordT2;
-    return true;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    return player->GetArmySkillTree().SwordT2 && player->HasRessourcesForUnit(GetUnitTier());
 }
 
 int UnitSwordsmanI::GetMaxHealth()
@@ -82,6 +83,11 @@ void UnitSwordsmanI::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitSwordsmanI::Upgrade(Map* map)
+{
+    map->GetTile(GetPosition())->SetUnit(new UnitSwordsmanII(GetOwnerID()));
 }
 
 

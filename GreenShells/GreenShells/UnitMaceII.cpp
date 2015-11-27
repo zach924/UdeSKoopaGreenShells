@@ -4,6 +4,7 @@
 #include "GameSession.h"
 #include "Player.h"
 
+
 const char* UnitMaceII::UNIT_NAME = "Mace MK2";
 
 UnitMaceII::UnitMaceII(int owner)
@@ -82,7 +83,6 @@ void UnitMaceII::NotifyNewTurn(int turn)
         m_actionPointsLeft += 1;
     }
 }
-
 
 UnitMaceII * UnitMaceII::Deserialize(boost::property_tree::ptree node)
 {

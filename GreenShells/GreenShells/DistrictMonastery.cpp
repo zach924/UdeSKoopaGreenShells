@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictMonastery.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictCathedral.h"
 
 const char* DistrictMonastery::NAME = "Monastery";
 
@@ -40,7 +42,7 @@ void DistrictMonastery::Repair(int repairValue)
 bool DistrictMonastery::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Cathedral;
+    return player->GetEmpireSkillTree().Cathedral && player->HasRessourcesForDistrict(DistrictCathedral::DISTRICT_TYPE);
 }
 
 int DistrictMonastery::GetMaxHealth()
@@ -61,6 +63,11 @@ int DistrictMonastery::GetTypeAsInt()
 int DistrictMonastery::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictMonastery::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictCathedral(GetOwnerID()));
 }
 
 DistrictMonastery * DistrictMonastery::Deserialize(boost::property_tree::ptree node)

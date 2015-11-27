@@ -2,6 +2,7 @@
 #include <iostream>
 #include "ServerSession.h"
 #include "Player.h"
+#include "Map.h"
 #include <boost\property_tree\ptree.hpp>
 
 DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield)
@@ -54,6 +55,11 @@ Position DistrictBase::GetPosition()
 void DistrictBase::SetPosition(Position pos)
 {
     m_position = pos;
+}
+
+void DistrictBase::Upgrade(Map * map)
+{
+    // Do nothing
 }
 
 AttackNotification DistrictBase::ReceiveDamage(int damage)

@@ -53,6 +53,11 @@ int UnitBase::GetOwnerID()
     return m_ownerID;
 }
 
+void UnitBase::Upgrade(Map* map)
+{
+    // Do nothing
+}
+
 Position UnitBase::GetPosition()
 {
     return m_position;

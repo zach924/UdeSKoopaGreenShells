@@ -4,6 +4,7 @@
 #include "Ptree_ForwardDeclaration.h"
 
 class Texture;
+class Map;
 
 class DistrictBase
 {
@@ -50,6 +51,7 @@ public:
     virtual int GetTypeAsInt() = 0;
     virtual int GetViewRange() = 0;
     virtual bool CanUpgrade() = 0;
+    virtual void Upgrade(Map* map);
 
     virtual void Repair(int repairValue) = 0;
     virtual AttackNotification ReceiveDamage(int damage);

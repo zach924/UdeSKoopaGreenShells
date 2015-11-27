@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictFarm.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictWindMill.h"
 
 const char* DistrictFarm::NAME = "Farm";
 
@@ -46,7 +48,7 @@ void DistrictFarm::Repair(int repairValue)
 bool DistrictFarm::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetEmpireSkillTree().Windmill;
+    return player->GetEmpireSkillTree().Windmill && player->HasRessourcesForDistrict(DistrictWindMill::DISTRICT_TYPE);
 }
 
 int DistrictFarm::GetMaxHealth()
@@ -67,6 +69,11 @@ int DistrictFarm::GetTypeAsInt()
 int DistrictFarm::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictFarm::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictWindMill(GetOwnerID()));
 }
 
 DistrictFarm * DistrictFarm::Deserialize(boost::property_tree::ptree node)

@@ -3,6 +3,8 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
+#include "Map.h"
+#include "UnitMaceII.h"
 
 const char* UnitMaceI::UNIT_NAME = "Mace MK1";
 
@@ -41,7 +43,7 @@ void UnitMaceI::LoadTexture()
 bool UnitMaceI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().MaceT2;
+    return player->GetArmySkillTree().MaceT2 && player->HasRessourcesForUnit(GetUnitTier());
 }
 
 int UnitMaceI::GetMaxHealth()
@@ -82,6 +84,11 @@ void UnitMaceI::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitMaceI::Upgrade(Map* map)
+{
+    map->GetTile(GetPosition())->SetUnit(new UnitMaceII(GetOwnerID()));
 }
 
 

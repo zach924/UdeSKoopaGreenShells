@@ -6,6 +6,7 @@
 
 class DistrictBase;
 class Texture;
+class Map;
 
 class UnitBase
 {
@@ -40,6 +41,7 @@ public:
     int GetAttackRange();
     int GetHealth();
     int GetOwnerID();
+    virtual void Upgrade(Map* map);
 
     virtual int GetMaxHealth() = 0;
     virtual const char* GetName() = 0;

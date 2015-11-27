@@ -38,7 +38,7 @@ void RPCDispatcher::Dispatch(RPCBasicOnePositionStruct * data)
         m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
         break;
     case RPCClassMethodType::Map_UpgradeUnit:
-        m_worldState->GetMap()->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
+        m_worldState->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
         break;
     default:
         assert(false && "You must add your code here");

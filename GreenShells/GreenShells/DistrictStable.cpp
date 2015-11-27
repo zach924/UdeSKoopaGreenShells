@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictStable.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictFort.h"
 
 const char* DistrictStable::NAME = "Stable";
 
@@ -40,7 +42,7 @@ void DistrictStable::Repair(int repairValue)
 bool DistrictStable::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Fort;
+    return player->GetEmpireSkillTree().Fort && player->HasRessourcesForDistrict(DistrictFort::DISTRICT_TYPE);
 }
 
 int DistrictStable::GetMaxHealth()
@@ -61,6 +63,11 @@ int DistrictStable::GetTypeAsInt()
 int DistrictStable::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictStable::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictFort(GetOwnerID()));
 }
 
 DistrictStable * DistrictStable::Deserialize(boost::property_tree::ptree node)

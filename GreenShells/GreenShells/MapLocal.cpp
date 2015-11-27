@@ -254,55 +254,42 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     {
     case UnitSwordsmanI::UNIT_TYPE:
         unit = new UnitSwordsmanI(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanI::UNIT_TIER));
         break;
     case UnitSwordsmanII::UNIT_TYPE:
         unit = new UnitSwordsmanII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanII::UNIT_TIER));
         break;
     case UnitSwordsmanIII::UNIT_TYPE:
         unit = new UnitSwordsmanIII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanIII::UNIT_TIER));
         break;
     case UnitArcherI::UNIT_TYPE:
         unit = new UnitArcherI(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherI::UNIT_TIER));
         break;
     case UnitArcherII::UNIT_TYPE:
         unit = new UnitArcherII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherII::UNIT_TIER));
         break;
     case UnitArcherIII::UNIT_TYPE:
         unit = new UnitArcherIII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherIII::UNIT_TIER));
         break;
     case UnitSettler::UNIT_TYPE:
         unit = new UnitSettler(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSettler::UNIT_TIER));
         break;
     case UnitAxemanI::UNIT_TYPE:
         unit = new UnitAxemanI(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanI::UNIT_TIER));
         break;
     case UnitAxemanII::UNIT_TYPE:
         unit = new UnitAxemanII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanII::UNIT_TIER));
         break;
     case UnitCannon::UNIT_TYPE:
         unit = new UnitCannon(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitCannon::UNIT_TIER));
         break;
     case UnitShield::UNIT_TYPE:
         unit = new UnitShield(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitShield::UNIT_TIER));
         break;
     case UnitMaceI::UNIT_TYPE:
         unit = new UnitMaceI(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceI::UNIT_TIER));
         break;
     case UnitMaceII::UNIT_TYPE:
         unit = new UnitMaceII(owner);
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceII::UNIT_TIER));
         break;
     default:
         return false;
@@ -311,10 +298,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
 
     if (unit)
     {
+        player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
         GetTile(pos)->SetUnit(unit);
-
         DiscoverArea(pos, unit->GetViewRange(), owner);
-
     }
     return true;
 }
@@ -470,89 +456,40 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
         return false;
     }
 
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
     if (unit->CanUpgrade())
     {
-        auto player = GameSession::GetInstance().GetWorldState()->GetPlayer(owner);
-
-        switch (unit->GetTypeAsInt())
-        {
-        case UnitSwordsmanI::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_ONE_COST);
-                tile->SetUnit(new UnitSwordsmanII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-        case UnitSwordsmanII::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
-                tile->SetUnit(new UnitSwordsmanIII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-        case UnitArcherI::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_ONE_COST);
-                tile->SetUnit(new UnitArcherII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-        case UnitArcherII::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
-                tile->SetUnit(new UnitArcherIII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-        case UnitSettler::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                if (tile->GetDistrict() == nullptr)
-                {
-                    tile->SetDistrict(new DistrictCityCenter(unit->GetOwnerID()));
-                    delete unit;
-                }
-            }
-
-            break;
-        case UnitAxemanI::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_TWO_COST);
-                tile->SetUnit(new UnitAxemanII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-        case UnitMaceI::UNIT_TYPE:
-            if (player->HasRessourcesFor(unit->GetUnitTier()))
-            {
-                player->ConsumeWeapon(Player::UNIT_TIER_THREE_COST);
-                tile->SetUnit(new UnitMaceII(unit->GetOwnerID()));
-                delete unit;
-            }
-            break;
-
-        case UnitSwordsmanIII::UNIT_TYPE:
-        case UnitArcherIII::UNIT_TYPE:
-        case UnitCannon::UNIT_TYPE:
-        case UnitShield::UNIT_TYPE:
-        case UnitMaceII::UNIT_TYPE:
-        case UnitAxemanII::UNIT_TYPE:
-        default:
-            assert(false && "Trying to upgrade an unit that is not suppose tobe upgrade");
-            break;
-        }
+        // Upgrade override the unit on the tile by the new one (or override by nullptr (settler/watchTowerUnit)
+        //   So we need to delete the object unit after
+        unit->Upgrade(this);
+        player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
+        delete unit;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool MapLocal::UpgradeDistrict(Position pos, int owner)
 {
+    TileBase* tile = GetTile(pos);
+    DistrictBase* district = tile->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
+    if (district->CanUpgrade())
+    {
+        district->Upgrade(this);
+        //player->ConsumeWeapon(player->GetWeaponCostForTier(district->GetUnitTier()));
+        delete district;
+        return true;
+    }
+
     return false;
 }
 

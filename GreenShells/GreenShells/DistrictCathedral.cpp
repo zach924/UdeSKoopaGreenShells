@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictCathedral.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictSchool.h"
 
 const char* DistrictCathedral::NAME = "Cathedral";
 
@@ -40,9 +42,7 @@ void DistrictCathedral::Repair(int repairValue)
 bool DistrictCathedral::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    //TODO: need schoool 
-    return true;
-    //return player->GetEmpireSkillTree().School;
+    return player->GetEmpireSkillTree().School && player->HasRessourcesForDistrict(DistrictSchool::DISTRICT_TYPE);
 }
 
 int DistrictCathedral::GetMaxHealth()
@@ -63,6 +63,11 @@ int DistrictCathedral::GetTypeAsInt()
 int DistrictCathedral::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictCathedral::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictSchool(GetOwnerID()));
 }
 
 DistrictCathedral * DistrictCathedral::Deserialize(boost::property_tree::ptree node)

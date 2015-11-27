@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictBlacksmith.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictStable.h"
 
 const char* DistrictBlacksmith::NAME = "Blacksmith";
 
@@ -40,7 +42,7 @@ void DistrictBlacksmith::Repair(int repairValue)
 bool DistrictBlacksmith::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Stable;
+    return player->GetEmpireSkillTree().Stable && player->HasRessourcesForDistrict(DistrictStable::DISTRICT_TYPE);
 }
 
 int DistrictBlacksmith::GetMaxHealth()
@@ -69,4 +71,9 @@ DistrictBlacksmith * DistrictBlacksmith::Deserialize(boost::property_tree::ptree
 int DistrictBlacksmith::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictBlacksmith::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictStable(GetOwnerID()));
 }

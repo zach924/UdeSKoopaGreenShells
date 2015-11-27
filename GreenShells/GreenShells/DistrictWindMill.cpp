@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DistrictWindMill.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictWarehouse.h"
 
 const char* DistrictWindMill::NAME = "Windmill";
 
@@ -40,7 +42,7 @@ void DistrictWindMill::Repair(int repairValue)
 bool DistrictWindMill::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Warehouse;
+    return player->GetEmpireSkillTree().Warehouse && player->HasRessourcesForDistrict(DistrictWarehouse::DISTRICT_TYPE);
 }
 
 int DistrictWindMill::GetMaxHealth()
@@ -61,6 +63,11 @@ int DistrictWindMill::GetTypeAsInt()
 int DistrictWindMill::GetViewRange()
 {
     return VIEW_RANGE;
+}
+
+void DistrictWindMill::Upgrade(Map * map)
+{
+    map->GetTile(GetPosition())->SetDistrict(new DistrictWarehouse(GetOwnerID()));
 }
 
 DistrictWindMill * DistrictWindMill::Deserialize(boost::property_tree::ptree node)

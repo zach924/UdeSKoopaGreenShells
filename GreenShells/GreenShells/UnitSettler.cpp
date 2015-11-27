@@ -2,6 +2,8 @@
 #include "GameSession.h"
 #include "Player.h"
 #include <iostream>
+#include "Map.h"
+#include "DistrictCityCenter.h"
 
 const char* UnitSettler::UNIT_NAME = "Settler";
 
@@ -80,6 +82,13 @@ void UnitSettler::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitSettler::Upgrade(Map* map)
+{
+    TileBase* tile = map->GetTile(GetPosition());
+    tile->SetUnit(nullptr);
+    tile->SetDistrict(new DistrictCityCenter(GetOwnerID()));
 }
 
 

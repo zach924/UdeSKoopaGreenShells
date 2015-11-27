@@ -33,6 +33,7 @@ public:
     virtual const char* GetName();
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
+    virtual void Upgrade(Map* map);
 
     static DistrictFarm* Deserialize(boost::property_tree::ptree node);
 };

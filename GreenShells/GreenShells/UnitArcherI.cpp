@@ -3,6 +3,8 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
+#include "UnitArcherII.h"
+#include "Map.h"
 
 const char* UnitArcherI::UNIT_NAME = "Archer MK1";
 
@@ -41,7 +43,7 @@ void UnitArcherI::LoadTexture()
 bool UnitArcherI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().RangerT2;
+    return player->GetArmySkillTree().RangerT2 && player->HasRessourcesForUnit(GetUnitTier());
 }
 
 int UnitArcherI::GetMaxHealth()
@@ -82,6 +84,11 @@ void UnitArcherI::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitArcherI::Upgrade(Map* map)
+{
+    map->GetTile(GetPosition())->SetUnit(new UnitArcherII(GetOwnerID()));
 }
 
 UnitArcherI * UnitArcherI::Deserialize(boost::property_tree::ptree node)

@@ -30,6 +30,7 @@ public:
     virtual int GetUnitTier();
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
+    virtual void Upgrade(Map* map);
 
     static UnitArcherI* Deserialize(boost::property_tree::ptree node);
 };
