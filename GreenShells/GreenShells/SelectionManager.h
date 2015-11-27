@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <map>
+#include <memory>
 #include "TileBase.h"
 class Position;
 class UnitBase;
@@ -17,8 +19,8 @@ class SelectionManager
         m_unitAttacking
     };
 
-    UnitBase* m_unitEmpty;
-    DistrictBase* m_districtEmpty;
+    std::shared_ptr<UnitBase> m_unitEmpty;
+    std::shared_ptr<DistrictBase> m_districtEmpty;
 
     SelectionManagerState m_state;
 
@@ -29,7 +31,7 @@ class SelectionManager
     
     SelectionManager(SelectionManager const&) = delete;
     void operator=(SelectionManager const&) = delete;
-    std::vector<Position> m_actionPossibleTiles;
+    std::map<Position,int> m_actionPossibleTiles;
     SelectionManager();
     ~SelectionManager();
 
@@ -50,8 +52,8 @@ public:
     }
 
     void UpdateButtonState();
-    UnitBase* GetSelectedUnit();
-    DistrictBase* GetSelectedDistrict();
+    std::shared_ptr<UnitBase> GetSelectedUnit();
+    std::shared_ptr<DistrictBase> GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
 
     void Cancel();
@@ -83,6 +85,7 @@ public:
     void SpawnCannon();
     void SpawnShield();
     void SpawnSettler();
+    void SpawnBuilder();
 
     void SpawnDistrict(int districtType);
 };

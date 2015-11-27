@@ -2,6 +2,7 @@
 #include "GameSession.h"
 #include <boost\property_tree\ptree.hpp>
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -114,7 +115,7 @@ bool Player::IsNegociating()
 
 std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Position cityCenterPos)
 {
-    std::set<Position> ownedTiles;
+    std::map<Position, int> ownedTiles;
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
@@ -136,7 +137,14 @@ std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Po
     {
         ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER);
     }
-    return ownedTiles;
+
+    std::set<Position> result;
+    for (const std::pair<Position, int>& pos : ownedTiles)
+    {
+        result.emplace(pos.first);
+    }
+
+    return result;
 }
 
 bool Player::IsDisconnected()
@@ -415,6 +423,18 @@ int Player::GetSettlerTier()
     if (m_empireSkillTree.Settler)
     {
         return UnitSettler::UNIT_TIER;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Player::GetBuilderTier()
+{
+    if (m_utilitySkillTree.Watchtower)
+    {
+        return UnitBuilder::UNIT_TIER;
     }
     else
     {

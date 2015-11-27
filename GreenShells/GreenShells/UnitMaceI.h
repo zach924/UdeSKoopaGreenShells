@@ -17,7 +17,7 @@ public:
 
     UnitMaceI(int owner);
     virtual ~UnitMaceI();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -30,8 +30,8 @@ public:
     virtual void NotifyNewTurn(int turn);
     virtual void Upgrade(Map* map);
 
-    virtual AttackNotification Attack(UnitBase* target);
-    virtual AttackNotification Attack(DistrictBase* target);
+    virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
+    virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
 
-    static UnitMaceI* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitMaceI> Deserialize(boost::property_tree::ptree node);
 };

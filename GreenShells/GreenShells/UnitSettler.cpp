@@ -1,5 +1,6 @@
 #include "UnitSettler.h"
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 #include <iostream>
 #include "Map.h"
@@ -10,7 +11,7 @@ const char* UnitSettler::UNIT_NAME = "Settler";
 UnitSettler::UnitSettler(int owner)
     : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -21,9 +22,9 @@ UnitSettler::~UnitSettler()
 {
 }
 
-UnitBase* UnitSettler::Clone()
+std::shared_ptr<UnitBase> UnitSettler::Clone()
 {
-    return new UnitSettler{ *this };
+    return std::shared_ptr<UnitBase> { new UnitSettler{ *this } };
 }
 
 void UnitSettler::LoadTexture()
@@ -77,7 +78,7 @@ void UnitSettler::Heal(int health)
 void UnitSettler::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -88,12 +89,12 @@ void UnitSettler::Upgrade(Map* map)
 {
     TileBase* tile = map->GetTile(GetPosition());
     tile->SetUnit(nullptr);
-    tile->SetDistrict(new DistrictCityCenter(GetOwnerID()));
+    tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictCityCenter(GetOwnerID())});
 }
 
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
-AttackNotification UnitSettler::Attack(UnitBase * target)
+AttackNotification UnitSettler::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -105,7 +106,7 @@ AttackNotification UnitSettler::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitSettler::Attack(DistrictBase * target)
+AttackNotification UnitSettler::Attack(std::shared_ptr<DistrictBase> target)
 {
     UseActionPoints(ACTION_POINTS);
     AttackNotification targetNotification = UnitBase::Attack(target);
@@ -117,9 +118,9 @@ AttackNotification UnitSettler::Attack(DistrictBase * target)
     return targetNotification;
 }
 
-UnitSettler * UnitSettler::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitSettler> UnitSettler::Deserialize(boost::property_tree::ptree node)
 {
-    UnitSettler* settler = new UnitSettler(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitSettler> settler = std::shared_ptr<UnitSettler>{ new UnitSettler(node.get<int>("<xmlattr>.O")) };
     settler->m_health = node.get<int>("<xmlattr>.H");
     settler->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

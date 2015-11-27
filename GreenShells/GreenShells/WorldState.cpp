@@ -11,6 +11,7 @@
 #include "MapRemote.h"
 #include "TileBase.h"
 #include "DistrictCityCenter.h"
+#include "UnitSwordsmanI.h"
 
 using namespace std;
 
@@ -29,10 +30,10 @@ Map* WorldState::GetMap()
     return m_map;
 }
 
-Map* WorldState::GetMapCopy()
+shared_ptr<Map> WorldState::GetMapCopy()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->Clone();
+    return shared_ptr<Map> { m_map->Clone() };
 }
 
 Player* WorldState::GetPlayer(int playerID)
@@ -111,9 +112,10 @@ int WorldState::AddPlayer(std::string playerName)
     Player* newPlayer = new PlayerLocal();
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
+    newPlayer->AddFood(5000);
+    newPlayer->AddWeapon(5000);
+    newPlayer->AddScience(5000);
 
-    newPlayer->AddScience(1000000);
-    newPlayer->AddWeapon(100000);
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);
@@ -123,6 +125,7 @@ int WorldState::AddPlayer(std::string playerName)
 
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
+    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID);
     
     return playerID;
 }
@@ -203,16 +206,16 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     }
 }
 
-bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->MoveUnit(ownerID, unitLocation, newLocation);
+    return m_map->MoveUnit(ownerID, unitLocation, newLocation, actionCost);
 }
 
-bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->Attack(ownerID, attackerPosition, targetPosition);
+    return m_map->Attack(ownerID, attackerPosition, targetPosition, actionCost);
 }
 
 bool WorldState::CreateUnit(int unitType, Position pos, int owner)

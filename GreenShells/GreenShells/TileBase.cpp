@@ -11,8 +11,6 @@ TileBase::TileBase(Position position)
 
 TileBase::~TileBase()
 {
-    delete m_district;
-    delete m_unit;
 }
 
 bool TileBase::GetOverlayVisible()
@@ -43,12 +41,12 @@ Position TileBase::GetPosition()
     return m_position;
 }
 
-DistrictBase* TileBase::GetDistrict()
+std::shared_ptr<DistrictBase> TileBase::GetDistrict()
 {
     return m_district;
 }
 
-void TileBase::SetDistrict(DistrictBase* district)
+void TileBase::SetDistrict(std::shared_ptr<DistrictBase> district)
 {
     if (district)
     {
@@ -58,12 +56,12 @@ void TileBase::SetDistrict(DistrictBase* district)
     m_district = district;
 }
 
-UnitBase * TileBase::GetUnit()
+std::shared_ptr<UnitBase> TileBase::GetUnit()
 {
     return m_unit;
 }
 
-void TileBase::SetUnit(UnitBase* unit)
+void TileBase::SetUnit(std::shared_ptr<UnitBase> unit)
 {
     if (unit)
     {

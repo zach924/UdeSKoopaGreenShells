@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 #include "Map.h"
 #include "UnitArcherIII.h"
@@ -11,7 +12,7 @@ const char* UnitArcherII::UNIT_NAME = "Archer MK2";
 UnitArcherII::UnitArcherII(int owner)
     : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -22,9 +23,9 @@ UnitArcherII::~UnitArcherII()
 {
 }
 
-UnitBase* UnitArcherII::Clone()
+std::shared_ptr<UnitBase> UnitArcherII::Clone()
 {
-    return new UnitArcherII{ *this };
+    return std::shared_ptr<UnitBase> { new UnitArcherII{ *this } };
 }
 
 void UnitArcherII::LoadTexture()
@@ -79,7 +80,7 @@ void UnitArcherII::Heal(int health)
 void UnitArcherII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -88,12 +89,12 @@ void UnitArcherII::NotifyNewTurn(int turn)
 
 void UnitArcherII::Upgrade(Map* map)
 {
-    map->GetTile(GetPosition())->SetUnit(new UnitArcherIII(GetOwnerID()));
+    map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitArcherIII(GetOwnerID())});
 }
 
-UnitArcherII * UnitArcherII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitArcherII> UnitArcherII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitArcherII* archer = new UnitArcherII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitArcherII> archer = std::shared_ptr<UnitArcherII>{ new UnitArcherII(node.get<int>("<xmlattr>.O")) };
     archer->m_health = node.get<int>("<xmlattr>.H");
     archer->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

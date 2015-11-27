@@ -19,7 +19,7 @@ public:
 
     UnitArcherII(int owner);
     virtual ~UnitArcherII();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -32,5 +32,5 @@ public:
     virtual void NotifyNewTurn(int turn);
     virtual void Upgrade(Map* map);
 
-    static UnitArcherII* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitArcherII> Deserialize(boost::property_tree::ptree node);
 };

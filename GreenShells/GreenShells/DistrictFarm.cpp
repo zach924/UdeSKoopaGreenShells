@@ -12,9 +12,9 @@ DistrictFarm::DistrictFarm(int owner)
 {
 }
 
-DistrictBase* DistrictFarm::Clone()
+std::shared_ptr<DistrictBase> DistrictFarm::Clone()
 {
-    return new DistrictFarm{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictFarm{ *this } };
 }
 
 void DistrictFarm::ChangeOwner(int newOwner)
@@ -73,12 +73,12 @@ int DistrictFarm::GetViewRange()
 
 void DistrictFarm::Upgrade(Map * map)
 {
-    map->GetTile(GetPosition())->SetDistrict(new DistrictWindMill(GetOwnerID()));
+    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWindMill(GetOwnerID())});
 }
 
-DistrictFarm * DistrictFarm::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictFarm> DistrictFarm::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictFarm* farm = new DistrictFarm(node.get<int>("<xmlattr>.O"));
+    auto farm = std::shared_ptr<DistrictFarm>{ new DistrictFarm(node.get<int>("<xmlattr>.O")) };
     farm->m_health = node.get<int>("<xmlattr>.H");
 
     return farm;

@@ -4,6 +4,7 @@
 #include "District.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitArcherI.h"
 #include "UnitArcherII.h"
@@ -118,6 +119,9 @@ TileMountain* TileMountain::Deserialize(boost::property_tree::ptree tileNode, Po
                 break;
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
+                break;
+            case UnitBuilder::UNIT_TYPE:
+                tile->SetUnit(UnitBuilder::Deserialize(child.second));
                 break;
             case UnitAxemanI::UNIT_TYPE:
                 tile->SetUnit(UnitAxemanI::Deserialize(child.second));

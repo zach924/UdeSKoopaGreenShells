@@ -23,9 +23,9 @@ public:
     {
     }
 
-    virtual DistrictBase* Clone() = 0;
+    virtual std::shared_ptr<DistrictBase> Clone() = 0;
 
-    virtual District* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
+    virtual std::shared_ptr<District> Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
     {
         return nullptr;
     }

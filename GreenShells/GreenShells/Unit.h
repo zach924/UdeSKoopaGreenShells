@@ -23,9 +23,9 @@ public:
     {
     }
 
-    virtual UnitBase* Clone() = 0;
+    virtual std::shared_ptr<UnitBase> Clone() = 0;
 
-    virtual Unit* Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
+    virtual std::shared_ptr<Unit> Deserialize(boost::property_tree::ptree tileNode, Position pos = Position(-1, 0))
     {
         return nullptr;
     }

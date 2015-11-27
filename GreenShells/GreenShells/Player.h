@@ -154,6 +154,6 @@ public:
     int GetCannonTier();
     int GetShieldTier();
     int GetSettlerTier();
-
+    int GetBuilderTier();
 
 };

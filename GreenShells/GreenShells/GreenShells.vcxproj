@@ -185,6 +185,7 @@
     <ClCompile Include="UnitArcherIII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
     <ClCompile Include="UnitMaceII.cpp" />
+    <ClCompile Include="UnitBuilder.cpp" />
     <ClCompile Include="UnitShield.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="UnitArcherIII.h" />
     <ClInclude Include="UnitAxemanII.h" />
     <ClInclude Include="UnitMaceII.h" />
+    <ClInclude Include="UnitBuilder.h" />
     <ClInclude Include="UnitShield.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />

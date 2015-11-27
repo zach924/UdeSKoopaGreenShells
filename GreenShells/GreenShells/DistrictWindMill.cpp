@@ -12,9 +12,9 @@ DistrictWindMill::DistrictWindMill(int owner)
 {
 }
 
-DistrictBase* DistrictWindMill::Clone()
+std::shared_ptr<DistrictBase> DistrictWindMill::Clone()
 {
-    return new DistrictWindMill{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictWindMill{ *this } };
 }
 
 void DistrictWindMill::LoadTexture()
@@ -67,13 +67,13 @@ int DistrictWindMill::GetViewRange()
 
 void DistrictWindMill::Upgrade(Map * map)
 {
-    map->GetTile(GetPosition())->SetDistrict(new DistrictWarehouse(GetOwnerID()));
+    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWarehouse(GetOwnerID())});
 }
 
-DistrictWindMill * DistrictWindMill::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictWindMill> DistrictWindMill::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictWindMill* windmill = new DistrictWindMill(node.get<int>("<xmlattr>.O"));
-    windmill->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictWindMill>{ new DistrictWindMill(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return windmill;
+    return district;
 }

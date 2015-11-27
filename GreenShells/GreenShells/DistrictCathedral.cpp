@@ -12,9 +12,9 @@ DistrictCathedral::DistrictCathedral(int owner)
 {
 }
 
-DistrictBase* DistrictCathedral::Clone()
+std::shared_ptr<DistrictBase> DistrictCathedral::Clone()
 {
-    return new DistrictCathedral{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictCathedral{ *this }};
 }
 
 void DistrictCathedral::LoadTexture()
@@ -67,15 +67,15 @@ int DistrictCathedral::GetViewRange()
 
 void DistrictCathedral::Upgrade(Map * map)
 {
-    map->GetTile(GetPosition())->SetDistrict(new DistrictSchool(GetOwnerID()));
+    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictSchool(GetOwnerID())});
 }
 
-DistrictCathedral * DistrictCathedral::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictCathedral> DistrictCathedral::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictCathedral* cath = new DistrictCathedral(node.get<int>("<xmlattr>.O"));
-    cath->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictCathedral>{ new DistrictCathedral(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return cath;
+    return district;
 }
 
 

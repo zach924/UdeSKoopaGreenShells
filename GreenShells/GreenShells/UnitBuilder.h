@@ -1,24 +1,22 @@
 #pragma once
 #include "Unit.h"
 
-class UnitArcherI : public Unit<UnitArcherI>
+class UnitBuilder : public Unit<UnitBuilder>
 {
 public:
-    typedef Unit<UnitArcherI> tBase;
+    typedef Unit<UnitBuilder> tBase;
 
-    static int const ATTACK_DAMAGE = 50;
-    static int const ATTACK_RANGE = 3;
-    static int const HEALTH = 150;
+    static int const ATTACK_DAMAGE = 25;
+    static int const ATTACK_RANGE = 1;
+    static int const HEALTH = 200;
     static int const ACTION_POINTS = 2;
-    static int const UNIT_TYPE = 3;
+    static int const UNIT_TYPE = 13;
     static int const UNIT_TIER = 1;
-    static int const VIEW_RANGE = 4;
+    static int const VIEW_RANGE = 5;
     static const char* UNIT_NAME;
 
-public:
-
-    UnitArcherI(int owner);
-    virtual ~UnitArcherI();
+    UnitBuilder(int owner);
+    virtual ~UnitBuilder();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
@@ -30,7 +28,9 @@ public:
     virtual int GetUnitTier();
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
-    virtual void Upgrade(Map* map);
 
-    static std::shared_ptr<UnitArcherI> Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitBuilder> Deserialize(boost::property_tree::ptree node);
 };
+
+
+

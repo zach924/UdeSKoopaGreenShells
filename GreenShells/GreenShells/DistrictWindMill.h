@@ -20,7 +20,7 @@ public:
 public:
     DistrictWindMill(int owner);
     ~DistrictWindMill();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -31,6 +31,6 @@ public:
     virtual int GetViewRange();
     virtual void Upgrade(Map* map);
 
-    static DistrictWindMill* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictWindMill> Deserialize(boost::property_tree::ptree node);
 };
 

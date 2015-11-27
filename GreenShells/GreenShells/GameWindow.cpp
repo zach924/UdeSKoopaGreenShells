@@ -40,15 +40,27 @@
 #include "ButtonMenu.h"
 #include "ButtonNextTurn.h"
 
-// Unit
-#include "UnitArcherI.h"
-#include "UnitEmpty.h"
-#include "UnitSwordsmanI.h"
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
+
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
 #include "UnitEmpty.h"
 
-// District
-#include "DistrictEmpty.h"
 #include "DistrictCityCenter.h"
 
 #include "DistrictHunter.h"
@@ -70,6 +82,7 @@
 #include "DistrictInn.h"
 #include "DistrictTavern.h"
 #include "DistrictMilitaryTent.h"
+#include "DistrictEmpty.h"
 
 GameWindow::GameWindow(ScreenResolution res)
     :m_window()
@@ -456,7 +469,7 @@ void GameWindow::ShowWindow()
 
 
         //Render Map
-        unique_ptr<Map> map{ GameSession::GetInstance().GetWorldState()->GetMapCopy() };
+        auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
 
         //Set overlay visible to true
         std::vector<Position> overlayTiles = SelectionManager::GetInstance().GetOverlayTiles();
@@ -505,7 +518,7 @@ void GameWindow::ShowWindow()
                 if (isDiscovered)
                 {
                     //Render the district
-                    DistrictBase* district = tile->GetDistrict();
+                    auto district = tile->GetDistrict();
                     if (district)
                     {
                         Texture* districtTexture = district->GetTexture();
@@ -516,7 +529,7 @@ void GameWindow::ShowWindow()
                     if (isSeen)
                     {
                         //Render the unit
-                        UnitBase* unit = tile->GetUnit();
+                        auto unit = tile->GetUnit();
                         if (unit)
                         {
                             Texture* unitTexture = unit->GetTexture();
@@ -567,7 +580,7 @@ void GameWindow::ShowWindow()
                 {
                     tileColor = MAP_FOW;
                 }
-                else if (tile->GetDistrict() != nullptr && dynamic_cast<DistrictCityCenter*>(tile->GetDistrict()) != nullptr)
+                else if (tile->GetDistrict() != nullptr && tile->GetDistrict()->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
                 {
                     tileColor = MINIMAP_CITY;
                 }
@@ -651,7 +664,7 @@ void GameWindow::ShowWindow()
 
         //Render Selected district
         {
-            DistrictBase* selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
+            auto selectedDistrict = SelectionManager::GetInstance().GetSelectedDistrict();
             Texture* selectedDistrictTexture = selectedDistrict->GetTexture();
             int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreenResolution.SELECTED_DISTRICT_HEIGHT;
@@ -669,7 +682,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<DistrictEmpty*>(selectedDistrict) == nullptr)
+            if (selectedDistrict->GetTypeAsInt() != DistrictEmpty::DISTRICT_TYPE)
             {
                 bool isInVision = map->GetTile(selectedDistrict->GetPosition())->IsSeen(GameSession::GetInstance().GetCurrentPlayerID());
 
@@ -780,15 +793,13 @@ void GameWindow::ShowWindow()
                     SDL_DestroyTexture(actionTextTexture);
                     SDL_FreeSurface(actionSurface);
                 }
-
-                delete selectedDistrict;
             }
 
         }
 
         //Render Selected unit
         {
-            UnitBase* selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
+            auto selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
             Texture* selectedUnitTexture = selectedUnit->GetTexture();
             int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreenResolution.SELECTED_UNIT_HEIGHT;
@@ -805,7 +816,7 @@ void GameWindow::ShowWindow()
             int heightText = 0;
             int yText = 0;
 
-            if (dynamic_cast<UnitEmpty*>(selectedUnit) == nullptr)
+            if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE)
             {
                 xPos += widthIcon + iconTextSpacing;
 
@@ -901,8 +912,6 @@ void GameWindow::ShowWindow()
                     SDL_DestroyTexture(actionTextTexture);
                     SDL_FreeSurface(actionSurface);
                 }
-
-                delete selectedUnit;
             }
         }
         //Render the different popUps
@@ -976,18 +985,48 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
     CreateButtons();
     LoadLocalTextures();
 
-    UnitArcherI::tBase::ForceReload();
-    UnitSettler::tBase::ForceReload();
-    UnitSwordsmanI::tBase::ForceReload();
+    UnitBuilder::tBase::ForceReload();
+    UnitCannon::tBase::ForceReload();
     UnitEmpty::tBase::ForceReload();
+    UnitSettler::tBase::ForceReload();
+    UnitShield::tBase::ForceReload();
+
+    UnitArcherI::tBase::ForceReload();
+    UnitArcherII::tBase::ForceReload();
+    UnitArcherIII::tBase::ForceReload();
+
+    UnitAxemanI::tBase::ForceReload();
+    UnitAxemanII::tBase::ForceReload();
+ 
+    UnitMaceI::tBase::ForceReload();
+    UnitMaceII::tBase::ForceReload();
+
+    UnitSwordsmanI::tBase::ForceReload();
+    UnitSwordsmanII::tBase::ForceReload();
+    UnitSwordsmanIII::tBase::ForceReload();
 
     TileGround::tBase::ForceReload();
     TileMountain::tBase::ForceReload();
     TileWater::tBase::ForceReload();
 
+    DistrictBlacksmith::tBase::ForceReload();
+    DistrictCathedral::tBase::ForceReload();
     DistrictCityCenter::tBase::ForceReload();
-    DistrictFarm::tBase::ForceReload();
     DistrictEmpty::tBase::ForceReload();
+    DistrictFarm::tBase::ForceReload();
+    DistrictFort::tBase::ForceReload();
+    DistrictFortress::tBase::ForceReload();
+    DistrictHunter::tBase::ForceReload();
+    DistrictInn::tBase::ForceReload();
+    DistrictMilitaryTent::tBase::ForceReload();
+    DistrictMonastery::tBase::ForceReload();
+    DistrictSchool::tBase::ForceReload();
+    DistrictStable::tBase::ForceReload();
+    DistrictTavern::tBase::ForceReload();
+    DistrictUniversity::tBase::ForceReload();
+    DistrictWarehouse::tBase::ForceReload();
+    DistrictWatchTower::tBase::ForceReload();
+    DistrictWindMill::tBase::ForceReload();
 }
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)

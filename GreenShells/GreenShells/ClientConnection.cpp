@@ -33,6 +33,13 @@ void ClientConnection::ReadSocket()
                     newEvent.data = data;
                     break;
                 }
+                case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
+                {
+                    RPCBasicTwoPositionsAndCostStruct* data = new RPCBasicTwoPositionsAndCostStruct;
+                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsAndCostStruct)));
+                    newEvent.data = data;
+                    break;
+                }
                 case RPCStructType::RPC_BASIC_CREATION:
                 {
                     RPCBasicActorCreationStruct* data = new RPCBasicActorCreationStruct;
