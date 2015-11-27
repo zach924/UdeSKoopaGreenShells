@@ -28,6 +28,7 @@ public:
     virtual int GetUnitTier();
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
+    virtual void Update(Map* map);
 
     static std::shared_ptr<UnitBuilder> Deserialize(boost::property_tree::ptree node);
 };

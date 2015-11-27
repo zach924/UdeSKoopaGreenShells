@@ -246,7 +246,6 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     {
         return false;
     }
-    Player* player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
 
     std::shared_ptr<UnitBase> unit = nullptr;
     switch (unitType)
@@ -274,7 +273,6 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         break;
     case UnitBuilder::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner) };
-        player->ConsumeWeapon(player->GetWeaponCostForTier(UnitBuilder::UNIT_TIER));
         break;
     case UnitAxemanI::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner) };
@@ -301,7 +299,7 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
 
     if (unit)
     {
-        player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->ConsumeWeapon(Player::GetWeaponCostForTier(unit->GetUnitTier()));
         GetTile(pos)->SetUnit(unit);
         DiscoverArea(pos, unit->GetViewRange(), owner);
     }
@@ -374,6 +372,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
 
     if (district)
     {
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->ConsumeFood(Player::GetDistrictCost(district->GetTypeAsInt()));
         GetTile(pos)->SetDistrict(district);
 
         DiscoverArea(pos, district->GetViewRange(), owner);
@@ -389,29 +388,10 @@ bool MapLocal::SellDistrict(Position pos, int owner)
         return false;
     }
 
-    int refund = 50;
-    // TODO : uncomment when julien has push
-    //switch (district->GetDistrictTier())
-    //{
-    //case 1:
-    //    refund = Player::DISTRICT_TIER_ONE_COST / 3;
-    //    break;
-    //case 2:
-    //    refund = Player::DISTRICT_TIER_TWO_COST / 3;
-    //    break;
-    //case 3:
-    //    refund = Player::DISTRICT_TIER_THREE_COST / 3;
-    //    break;
-    //case 4:
-    //    refund = Player::DISTRICT_TIER_FOUR_COST / 3;
-    //    break;
-    //default:
-    //    break;
-    //}
+    int refund = Player::GetDistrictCost(district->GetTypeAsInt()) / 3;
     ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFood(refund);
 
     GetTile(pos)->SetDistrict(nullptr);
-    //delete district;
 
     return true;
 }
@@ -444,7 +424,6 @@ bool MapLocal::SellUnit(Position pos, int owner)
     }
     ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeapon(refund);
 
-    //delete unit;
     GetTile(pos)->SetUnit(nullptr);
 
     return true;
@@ -469,18 +448,17 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
 
         if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE)
         {
-
+            player->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         }
-        //else if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE)
-        //{
-        //
-        //}
+        else if (unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
+        {
+        
+        }
         else
         {
-            player->ConsumeWeapon(player->GetWeaponCostForTier(unit->GetUnitTier()));
+            player->ConsumeWeapon(Player::GetWeaponCostForTier(unit->GetUnitTier()));
         }
 
-        //delete unit;
         return true;
     }
 
@@ -501,8 +479,7 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
     if (district->CanUpgrade())
     {
         district->Upgrade(this);
-        //player->ConsumeWeapon(player->GetWeaponCostForTier(district->GetUnitTier()));
-        //delete district;
+        player->ConsumeFood(Player::GetDistrictCost(district->GetTypeAsInt()));
         return true;
     }
 

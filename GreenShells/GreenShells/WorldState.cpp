@@ -125,7 +125,7 @@ int WorldState::AddPlayer(std::string playerName)
 
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
     m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
-    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID);
+    //m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID);
     
     return playerID;
 }

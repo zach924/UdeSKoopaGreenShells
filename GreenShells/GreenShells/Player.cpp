@@ -324,6 +324,52 @@ unsigned int Player::GetWeaponCostForTier(int tier)
     return 0;
 }
 
+unsigned int Player::GetDistrictCost(int districtType)
+{
+    switch (districtType)
+    {
+    case DistrictCityCenter::DISTRICT_TYPE:
+        return CITY_CENTER_COST;
+        break;
+    case DistrictHunter::DISTRICT_TYPE:
+        return HUNTER_COST;
+        break;
+    case DistrictFarm::DISTRICT_TYPE:
+        return FARM_COST;
+        break;
+    case DistrictWindMill::DISTRICT_TYPE:
+        return WIND_MILL_COST;
+        break;
+    case DistrictBlacksmith::DISTRICT_TYPE:
+        return BLACKSMITH_COST;
+        break;
+    case DistrictStable::DISTRICT_TYPE:
+        return STABLE_COST;
+        break;
+    case DistrictFort::DISTRICT_TYPE:
+        return FORT_COST;
+        break;
+    case DistrictMonastery::DISTRICT_TYPE:
+        return MONASTERY_COST;
+        break;
+    case DistrictCathedral::DISTRICT_TYPE:
+        return CATHEDRAL_COST;
+        break;
+    case DistrictSchool::DISTRICT_TYPE:
+        return SCHOOL_COST;
+        break;
+    case DistrictInn::DISTRICT_TYPE:
+        return INN_COST;
+        break;
+    case DistrictTavern::DISTRICT_TYPE:
+        return TAVERN_COST;
+        break;
+    default:
+        return false;
+        break;
+    }
+}
+
 int Player::GetSwordsmanTier()
 {
     if (m_armySkillTree.SwordT3)

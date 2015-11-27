@@ -4,6 +4,8 @@
 #include "GameSession.h"
 #include "ServerSession.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictWatchTower.h"
 
 const char* UnitBuilder::UNIT_NAME = "Builder";
 
@@ -82,6 +84,13 @@ void UnitBuilder::NotifyNewTurn(int turn)
     {
         m_actionPointsLeft += 1;
     }
+}
+
+void UnitBuilder::Update(Map * map)
+{
+    TileBase* tile = map->GetTile(GetPosition());
+    tile->SetUnit(nullptr);
+    tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWatchTower(GetOwnerID())});
 }
 
 

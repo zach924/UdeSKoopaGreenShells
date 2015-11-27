@@ -146,7 +146,6 @@ public:
 
     bool HasRessourcesForUnit(int tier);
     bool HasRessourcesForDistrict(int DistrictType);
-    unsigned int GetWeaponCostForTier(int tier);
     int GetSwordsmanTier();
     int GetArcherTier();
     int GetAxemanTier();
@@ -156,4 +155,6 @@ public:
     int GetSettlerTier();
     int GetBuilderTier();
 
+    static unsigned int GetWeaponCostForTier(int tier);
+    static unsigned int GetDistrictCost(int districtType);
 };
