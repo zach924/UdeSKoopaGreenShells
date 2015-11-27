@@ -15,7 +15,7 @@ public:
     static int const VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
-    UnitAxemanII(int owner);
+    UnitAxemanII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitAxemanII();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();

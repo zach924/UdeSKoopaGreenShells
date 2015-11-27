@@ -19,9 +19,9 @@ PlayerLocal::~PlayerLocal()
 {
 }
 
-Player* PlayerLocal::Clone()
+std::shared_ptr<Player> PlayerLocal::Clone()
 {
-    PlayerLocal* player = new PlayerLocal{};
+    std::shared_ptr<PlayerLocal> player = std::shared_ptr<PlayerLocal>{ new PlayerLocal{} };
 
     player->m_playerName = m_playerName;
     player->m_playerID = m_playerID;
@@ -588,9 +588,9 @@ void PlayerLocal::GoToWar(int otherPlayerId, int currentTurn)
     }
 }
 
-PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
+std::shared_ptr<PlayerLocal> PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 {
-    PlayerLocal* player = new PlayerLocal();
+    auto player = std::shared_ptr<PlayerLocal>{ new PlayerLocal() };
 
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");

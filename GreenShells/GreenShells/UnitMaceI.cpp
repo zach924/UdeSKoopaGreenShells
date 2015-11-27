@@ -7,11 +7,10 @@
 
 const char* UnitMaceI::UNIT_NAME = "Mace MK1";
 
-UnitMaceI::UnitMaceI(int owner)
+UnitMaceI::UnitMaceI(int owner, bool hasBonusActionPoint)
     : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -92,7 +91,7 @@ std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree no
 
 AttackNotification UnitMaceI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -104,7 +103,7 @@ AttackNotification UnitMaceI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitMaceI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

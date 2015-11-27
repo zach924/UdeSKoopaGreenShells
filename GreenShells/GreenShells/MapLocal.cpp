@@ -202,7 +202,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
             if (attacker && notification.CanMove && districtTargeted->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
             {
                 int currentTurn = ServerSession::GetInstance().GetWorldState()->GetCurrentTurn();
-                Player* playerThatLostACity = ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID());
+                auto playerThatLostACity = ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID());
                 auto allPlayerCityCenters = playerThatLostACity->GetCityCenterLocations();
                 int turnCreated = allPlayerCityCenters[districtTargeted->GetPosition()];
 
@@ -246,61 +246,61 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     {
         return false;
     }
-    Player* player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
 
     std::shared_ptr<UnitBase> unit = nullptr;
     switch (unitType)
     {
     case UnitSwordsmanI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanI::UNIT_TIER));
         break;
     case UnitSwordsmanII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanII::UNIT_TIER));
         break;
     case UnitSwordsmanIII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanIII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanIII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSwordsmanIII::UNIT_TIER));
         break;
     case UnitArcherI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherI::UNIT_TIER));
         break;
     case UnitArcherII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherII::UNIT_TIER));
         break;
     case UnitArcherIII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherIII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherIII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitArcherIII::UNIT_TIER));
         break;
     case UnitSettler::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitSettler::UNIT_TIER));
         break;
     case UnitAxemanI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanI::UNIT_TIER));
         break;
     case UnitAxemanII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitAxemanII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitAxemanII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitAxemanII::UNIT_TIER));
         break;
     case UnitCannon::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitCannon(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitCannon(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitCannon::UNIT_TIER));
         break;
     case UnitShield::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitShield(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitShield(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitShield::UNIT_TIER));
         break;
     case UnitMaceI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitMaceI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitMaceI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceI::UNIT_TIER));
         break;
     case UnitMaceII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitMaceII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitMaceII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         player->ConsumeWeapon(player->GetWeaponCostForTier(UnitMaceII::UNIT_TIER));
         break;
     default:

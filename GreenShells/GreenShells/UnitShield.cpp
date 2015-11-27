@@ -7,11 +7,10 @@
 
 const char* UnitShield::UNIT_NAME = "Shield";
 
-UnitShield::UnitShield(int owner)
+UnitShield::UnitShield(int owner, bool hasBonusActionPoint)
     : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -91,7 +90,7 @@ std::shared_ptr<UnitShield> UnitShield::Deserialize(boost::property_tree::ptree 
 
 AttackNotification UnitShield::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -103,7 +102,7 @@ AttackNotification UnitShield::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitShield::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

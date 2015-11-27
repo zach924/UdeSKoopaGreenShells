@@ -15,7 +15,7 @@ public:
     static const char* UNIT_NAME;
 
 public:
-    UnitSwordsmanII(int owner);
+    UnitSwordsmanII(int owner, bool hasBonusActionPoint = false);
     ~UnitSwordsmanII();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();

@@ -76,7 +76,7 @@ AttackNotification UnitBase::ReceiveDamage(int damage)
 
 AttackNotification UnitBase::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(10);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = target->ReceiveDamage(GetAttackDamage());
 
     return targetNotification;
@@ -84,7 +84,7 @@ AttackNotification UnitBase::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitBase::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(10);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = target->ReceiveDamage(GetAttackDamage());
 
     return targetNotification;

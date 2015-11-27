@@ -7,11 +7,10 @@
 
 const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
 
-UnitAxemanI::UnitAxemanI(int owner)
+UnitAxemanI::UnitAxemanI(int owner, bool hasBonusActionPoint)
     : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -92,7 +91,7 @@ std::shared_ptr<UnitAxemanI> UnitAxemanI::Deserialize(boost::property_tree::ptre
 
 AttackNotification UnitAxemanI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -104,7 +103,7 @@ AttackNotification UnitAxemanI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitAxemanI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
