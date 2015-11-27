@@ -40,9 +40,9 @@ protected:
     std::map<Position, int> m_cityCenterLocations;
     unsigned int m_unitCount;
 
-    unsigned int m_food;
-    unsigned int m_science;
-    unsigned int m_weapon;
+    double m_food;
+    double m_science;
+    double m_weapon;
 
     double m_foodMultiplier;
     double m_scienceMultiplier;
@@ -75,9 +75,9 @@ public:
     virtual void SetIsAlive(bool value) = 0;
     bool IsAlive();
     bool IsNegociating();
-    int GetFood();
-    int GetScience();
-    int GetWeapon();
+    int GetPrintableFoodQuantity();
+    int GetPrintableScienceQuantity();
+    int GetPrintableWeaponQuantity();
 
     virtual void AddFood(unsigned int qty) = 0;
     virtual void AddScience(unsigned int qty) = 0;

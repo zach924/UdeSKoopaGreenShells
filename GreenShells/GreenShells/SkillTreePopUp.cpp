@@ -283,7 +283,7 @@ void SkillTreePopUp::ShowWindow(SDL_Renderer * rend)
         //Available science
         std::shared_ptr<Player> currentPlayer{ GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID()) };
         Texture amountScienceHeader;
-        amountScienceHeader.CreateFromText("Available Science : " + std::to_string(currentPlayer->GetScience()), m_font, m_rend);
+        amountScienceHeader.CreateFromText("Available Science : " + std::to_string(currentPlayer->GetPrintableScienceQuantity()), m_font, m_rend);
         SDL_Rect amountScienceRect{ 200, 10, amountScienceHeader.GetWidth(), amountScienceHeader.GetHeight() };
         SDL_RenderCopy(m_rend, amountScienceHeader.GetTexture(), NULL, &amountScienceRect);
 

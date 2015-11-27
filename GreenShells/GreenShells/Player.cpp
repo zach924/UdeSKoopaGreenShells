@@ -47,9 +47,9 @@ Player::Player()
     m_isAlive(true),
     m_cityCenterLocations(),
     m_unitCount(0),
-    m_food(20000),
-    m_science(0),
-    m_weapon(0),
+    m_food(20000.1),
+    m_science(0.6),
+    m_weapon(0.1),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
@@ -80,19 +80,19 @@ bool Player::IsPlayerReadyForNextTurn()
     return m_isDisconnected || m_isReadyForNewTurn;
 }
 
-int Player::GetFood()
+int Player::GetPrintableFoodQuantity()
 {
-    return m_food;
+    return (int)m_food;
 }
 
-int Player::GetScience()
+int Player::GetPrintableScienceQuantity()
 {
-    return m_science;
+    return (int)m_science;
 }
 
-int Player::GetWeapon()
+int Player::GetPrintableWeaponQuantity()
 {
-    return m_weapon;
+    return (int)m_weapon;
 }
 
 bool Player::IsAlive()

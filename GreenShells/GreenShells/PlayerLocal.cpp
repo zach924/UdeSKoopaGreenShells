@@ -117,17 +117,17 @@ void PlayerLocal::SetIsAlive(bool value)
 
 void PlayerLocal::AddFood(unsigned int qty)
 {
-    m_food += static_cast<unsigned int>(qty * m_foodMultiplier);
+    m_food += qty * m_foodMultiplier;
 }
 
 void PlayerLocal::AddScience(unsigned int qty)
 {
-    m_science += static_cast<unsigned int>(qty * m_scienceMultiplier);
+    m_science += qty * m_scienceMultiplier;
 }
 
 void PlayerLocal::AddWeapon(unsigned int qty)
 {
-    m_weapon += static_cast<unsigned int>(qty * m_weaponMultiplier);
+    m_weapon += qty * m_weaponMultiplier;
 }
 
 bool PlayerLocal::ConsumeFood(unsigned int qty)
@@ -595,9 +595,9 @@ PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
     player->m_unitCount = playerNode.get<int>("<xmlattr>.UC");
-    player->m_food = playerNode.get<int>("<xmlattr>.F");
-    player->m_science = playerNode.get<int>("<xmlattr>.S");
-    player->m_weapon = playerNode.get<int>("<xmlattr>.W");
+    player->m_food = playerNode.get<double>("<xmlattr>.F");
+    player->m_science = playerNode.get<double>("<xmlattr>.S");
+    player->m_weapon = playerNode.get<double>("<xmlattr>.W");
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
