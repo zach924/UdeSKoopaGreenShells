@@ -15,7 +15,7 @@ public:
     static const char* UNIT_NAME;
 
 public:
-    UnitSettler(int owner);
+    UnitSettler(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitSettler();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();

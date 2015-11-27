@@ -68,7 +68,7 @@ AttackNotification DistrictBase::ReceiveDamage(int damage)
 
 void DistrictBase::NotifyNewTurn(int turn)
 {
-    Player* player = ServerSession::GetInstance().GetWorldState()->GetPlayer(GetOwnerID());
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(GetOwnerID());
     player->AddWeapon(m_weaponYield);
     player->AddFood(m_foodYield);
     player->AddScience(m_scienceYield);

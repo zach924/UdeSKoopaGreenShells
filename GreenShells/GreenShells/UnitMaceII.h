@@ -15,7 +15,7 @@ public:
     static int const VIEW_RANGE = 3;
     static const char* UNIT_NAME;
 
-    UnitMaceII(int owner);
+    UnitMaceII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitMaceII();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();

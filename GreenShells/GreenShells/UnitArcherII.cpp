@@ -7,11 +7,10 @@
 
 const char* UnitArcherII::UNIT_NAME = "Archer MK2";
 
-UnitArcherII::UnitArcherII(int owner)
+UnitArcherII::UnitArcherII(int owner, bool hasBonusActionPoint)
     : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }

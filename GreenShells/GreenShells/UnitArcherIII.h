@@ -17,7 +17,7 @@ public:
 
 public:
 
-    UnitArcherIII(int owner);
+    UnitArcherIII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitArcherIII();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
