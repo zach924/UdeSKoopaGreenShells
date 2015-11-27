@@ -6,16 +6,15 @@
 #include "ServerSession.h"
 #include "Player.h"
 
-UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange)
+UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, int weaponCost, int foodCost)
     : m_ownerID(owner),
     m_health(health),
-    m_foodCost(0),
-    m_scienceCost(0),
-    m_weaponCost(0),
     m_attackRange(attackRange),
     m_attackDamage(attackDamage),
     m_actionPointsLeft(actionPoints),
-    m_viewRange(viewRange)
+    m_viewRange(viewRange),
+    m_weaponCost(weaponCost),
+    m_foodCost(foodCost)
 {
 }
 
@@ -61,6 +60,18 @@ Position UnitBase::GetPosition()
 void UnitBase::SetPosition(Position pos)
 {
     m_position = pos;
+}
+
+int UnitBase::GetWeaponCost()
+{
+    assert(m_weaponCost >= 0 && "You must set a weaponCost to your unit");
+    return m_weaponCost;
+}
+
+int UnitBase::GetFoodCost()
+{
+    assert(m_weaponCost >= 0 && "You are trying to get the food cost of a unit but didn't set any.");
+    return m_foodCost;
 }
 
 AttackNotification UnitBase::ReceiveDamage(int damage)

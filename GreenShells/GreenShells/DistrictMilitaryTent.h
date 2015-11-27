@@ -8,12 +8,11 @@ public:
     static const int DISTRICT_TYPE = 16;
 
     static const int ATTACK_DAMAGE = 100;
-    static const int HEALTH = 300;
+    static const int HEALTH = 400;
+    static const int FOOD_COST = 1000;
 
-    static const int FOOD_COST = 250;
-    static const int FOOD_BONUS = 0;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 0;
+    static constexpr double WEAPON_BONUS = 0.1;
+
     static int const VIEW_RANGE = 3;
     static const char* NAME;
 

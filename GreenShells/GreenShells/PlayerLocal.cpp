@@ -309,25 +309,25 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
             //TODO when building districts is possible
         }
         break;
-    case RangerT1:
+    case ArcherT1:
         if (m_science >= SKILL_COST_TIER1)
         {
             m_science -= SKILL_COST_TIER1;
-            m_armySkillTree.RangerT1 = true;
+            m_armySkillTree.ArcherT1 = true;
         }
         break;
-    case RangerT2:
+    case ArcherT2:
         if (m_science >= SKILL_COST_TIER4)
         {
             m_science -= SKILL_COST_TIER4;
-            m_armySkillTree.RangerT2 = true;
+            m_armySkillTree.ArcherT2 = true;
         }
         break;
-    case RangerT3:
+    case ArcherT3:
         if (m_science >= SKILL_COST_TIER6)
         {
             m_science -= SKILL_COST_TIER6;
-            m_armySkillTree.RangerT3 = true;
+            m_armySkillTree.ArcherT3 = true;
         }
         break;
     case SwordT2:

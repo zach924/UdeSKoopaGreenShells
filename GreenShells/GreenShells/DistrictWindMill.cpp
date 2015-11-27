@@ -6,7 +6,7 @@
 const char* DistrictWindMill::NAME = "Windmill";
 
 DistrictWindMill::DistrictWindMill(int owner)
-    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

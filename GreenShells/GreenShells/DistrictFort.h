@@ -7,13 +7,13 @@ public:
     typedef District<DistrictFort> tBase;
     static const int DISTRICT_TYPE = 6;
 
-    static const int ATTACK_DAMAGE = 100;
+    static const int ATTACK_DAMAGE = 200;
     static const int HEALTH = 400;
 
-    static const int FOOD_COST = 150;
-    static const int FOOD_BONUS = 0;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 175;
+    static const int FOOD_COST = 600;
+    static const int FOOD_YIELD = 0;
+    static const int SCIENCE_YIELD = 0;
+    static const int WEAPON_YIELD = 15;
     static int const VIEW_RANGE = 5;
     static const char* NAME;
 

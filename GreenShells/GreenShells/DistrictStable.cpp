@@ -6,7 +6,7 @@
 const char* DistrictStable::NAME = "Stable";
 
 DistrictStable::DistrictStable(int owner)
-    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

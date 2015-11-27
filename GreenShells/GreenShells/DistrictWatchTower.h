@@ -7,13 +7,10 @@ public:
     typedef District<DistrictWatchTower> tBase;
     static const int DISTRICT_TYPE = 10;
 
-    static const int ATTACK_DAMAGE =750;
-    static const int HEALTH = 200;
+    static const int ATTACK_DAMAGE =50;
+    static const int HEALTH = 150;
 
     static const int FOOD_COST = 75;
-    static const int FOOD_BONUS = 0;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 0;
     static int const VIEW_RANGE = 5;
     static const char* NAME;
 

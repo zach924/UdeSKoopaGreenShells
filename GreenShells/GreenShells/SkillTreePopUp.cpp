@@ -24,15 +24,15 @@ SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     //Army Tree
     auto currentArmyTree = currentPlayer->GetArmySkillTree();
     auto canResearchArmyTree = currentArmyTree.GetReadyForResearch();
-    m_Buttons.emplace(Skills::RangerT1, CreateButton(1, 0, "Ranger MK1", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::RangerT1); }, currentArmyTree.RangerT1 ? ButtonState::Pressed : canResearchArmyTree.RangerT1 ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::ArcherT1, CreateButton(1, 0, "Archer MK1", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::ArcherT1); }, currentArmyTree.ArcherT1 ? ButtonState::Pressed : canResearchArmyTree.ArcherT1 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Militia, CreateButton(1, 1, "Militia", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Militia); }, currentArmyTree.Militia ? ButtonState::Pressed : canResearchArmyTree.Militia ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::SwordT2, CreateButton(0, 2, "Sword MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::SwordT2); }, currentArmyTree.SwordT2 ? ButtonState::Pressed : canResearchArmyTree.SwordT2 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::AxeT1, CreateButton(2, 2, "Axe MK1", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::AxeT1); }, currentArmyTree.AxeT1 ? ButtonState::Pressed : canResearchArmyTree.AxeT1 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::SwordT3, CreateButton(0, 3, "Sword MK3", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::SwordT3); }, currentArmyTree.SwordT3 ? ButtonState::Pressed : canResearchArmyTree.SwordT3 ? ButtonState::Unpressed : ButtonState::Disabled));
-    m_Buttons.emplace(Skills::RangerT2, CreateButton(1, 3, "Ranger MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::RangerT2); }, currentArmyTree.RangerT2 ? ButtonState::Pressed : canResearchArmyTree.RangerT2 ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::ArcherT2, CreateButton(1, 3, "Archer MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::ArcherT2); }, currentArmyTree.ArcherT2 ? ButtonState::Pressed : canResearchArmyTree.ArcherT2 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::AxeT2, CreateButton(2, 3, "Axe MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::AxeT2); }, currentArmyTree.AxeT2 ? ButtonState::Pressed : canResearchArmyTree.AxeT2 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::MaceT1, CreateButton(1, 4, "Mace MK1", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::MaceT1); }, currentArmyTree.MaceT1 ? ButtonState::Pressed : canResearchArmyTree.MaceT1 ? ButtonState::Unpressed : ButtonState::Disabled));
-    m_Buttons.emplace(Skills::RangerT3, CreateButton(1, 5, "Ranger MK3", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::RangerT3); }, currentArmyTree.RangerT3 ? ButtonState::Pressed : canResearchArmyTree.RangerT3 ? ButtonState::Unpressed : ButtonState::Disabled));
+    m_Buttons.emplace(Skills::ArcherT3, CreateButton(1, 5, "Archer MK3", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::ArcherT3); }, currentArmyTree.ArcherT3 ? ButtonState::Pressed : canResearchArmyTree.ArcherT3 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::MaceT2, CreateButton(2, 5, "Mace MK2", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::MaceT2); }, currentArmyTree.MaceT2 ? ButtonState::Pressed : canResearchArmyTree.MaceT2 ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Fortress, CreateButton(0, 6, "Fortress", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Fortress); }, currentArmyTree.Fortress ? ButtonState::Pressed : canResearchArmyTree.Fortress ? ButtonState::Unpressed : ButtonState::Disabled));
     m_Buttons.emplace(Skills::Shield, CreateButton(1, 6, "Shield", [currentPlayer]() { currentPlayer->UnlockSkill(GameSession::GetInstance().GetWorldState()->GetCurrentTurn(), Skills::Shield); }, currentArmyTree.Shield ? ButtonState::Pressed : canResearchArmyTree.Shield ? ButtonState::Unpressed : ButtonState::Disabled));
@@ -137,14 +137,14 @@ void SkillTreePopUp::SetButtonState(std::shared_ptr<Player> player, Skills skill
     case Militia:
         button->SetButtonState(currentArmyTree.Militia ? ButtonState::Pressed : canResearchArmyTree.Militia ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
-    case RangerT1:
-        button->SetButtonState(currentArmyTree.RangerT1 ? ButtonState::Pressed : canResearchArmyTree.RangerT1 ? ButtonState::Unpressed : ButtonState::Disabled);
+    case ArcherT1:
+        button->SetButtonState(currentArmyTree.ArcherT1 ? ButtonState::Pressed : canResearchArmyTree.ArcherT1 ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
-    case RangerT2:
-        button->SetButtonState(currentArmyTree.RangerT2 ? ButtonState::Pressed : canResearchArmyTree.RangerT2 ? ButtonState::Unpressed : ButtonState::Disabled);
+    case ArcherT2:
+        button->SetButtonState(currentArmyTree.ArcherT2 ? ButtonState::Pressed : canResearchArmyTree.ArcherT2 ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
-    case RangerT3:
-        button->SetButtonState(currentArmyTree.RangerT3 ? ButtonState::Pressed : canResearchArmyTree.RangerT3 ? ButtonState::Unpressed : ButtonState::Disabled);
+    case ArcherT3:
+        button->SetButtonState(currentArmyTree.ArcherT3 ? ButtonState::Pressed : canResearchArmyTree.ArcherT3 ? ButtonState::Unpressed : ButtonState::Disabled);
         break;
     case SwordT2:
         button->SetButtonState(currentArmyTree.SwordT2 ? ButtonState::Pressed : canResearchArmyTree.SwordT2 ? ButtonState::Unpressed : ButtonState::Disabled);

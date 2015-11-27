@@ -7,7 +7,7 @@
 const char* UnitArcherII::UNIT_NAME = "Archer MK2";
 
 UnitArcherII::UnitArcherII(int owner)
-    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST)
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
@@ -41,7 +41,7 @@ void UnitArcherII::LoadTexture()
 bool UnitArcherII::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().RangerT3;
+    return player->GetArmySkillTree().ArcherT3;
 }
 
 int UnitArcherII::GetMaxHealth()

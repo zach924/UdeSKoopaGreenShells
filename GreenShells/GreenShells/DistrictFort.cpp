@@ -6,7 +6,7 @@
 const char* DistrictFort::NAME = "Fort";
 
 DistrictFort::DistrictFort(int owner)
-    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

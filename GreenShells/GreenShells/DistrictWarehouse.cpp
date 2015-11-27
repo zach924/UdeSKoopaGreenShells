@@ -6,7 +6,7 @@
 const char* DistrictWarehouse::NAME = "Warehouse";
 
 DistrictWarehouse::DistrictWarehouse(int owner)
-    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST)
 {
 }
 

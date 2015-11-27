@@ -10,7 +10,7 @@ public:
     static int const HEALTH = 250;
     static int const ACTION_POINTS = 2;
     static int const UNIT_TYPE = 1;
-    static int const UNIT_TIER = 2;
+    static int const WEAPON_COST = 100;
     static int const VIEW_RANGE = 3;
     static const char* UNIT_NAME;
 

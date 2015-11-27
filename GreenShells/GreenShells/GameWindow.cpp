@@ -218,22 +218,6 @@ void GameWindow::ShowWindow()
             {
                 m_doQuit = true;
             }
-            else if (e.type == SDL_MOUSEBUTTONDOWN)
-            {
-                if (e.button.button == SDL_BUTTON_RIGHT)
-                {
-                    if (IsClickInMap(e.button.x, e.button.y))
-                    {
-                        int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
-                        posCol %= Map::COLUMNS;
-
-                        int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
-                        posRow %= Map::ROWS;
-
-                        ClickManager::GetInstance().ManageMapRightClickPressed(Position(posCol, posRow));
-                    }
-                }
-            }
             else if (e.type == SDL_MOUSEBUTTONUP)
             {
                 if (e.button.button == SDL_BUTTON_LEFT)
@@ -311,6 +295,22 @@ void GameWindow::ShowWindow()
                         posRow %= Map::ROWS;
 
                         ClickManager::GetInstance().ManageMapRightClickUnpressed(Position(posCol, posRow));
+                    }
+                }
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (e.button.button == SDL_BUTTON_RIGHT)
+                {
+                    if (IsClickInMap(e.button.x, e.button.y))
+                    {
+                        int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
+                        posCol %= Map::COLUMNS;
+
+                        int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
+                        posRow %= Map::ROWS;
+
+                        ClickManager::GetInstance().ManageMapRightClickPressed(Position(posCol, posRow));
                     }
                 }
             }

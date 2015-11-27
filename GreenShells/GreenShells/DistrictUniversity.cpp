@@ -6,7 +6,7 @@
 const char* DistrictUniversity::NAME = "University";
 
 DistrictUniversity::DistrictUniversity(int owner)
-    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST)
 {
 }
 

@@ -6,7 +6,7 @@
 const char* DistrictCathedral::NAME = "Cathedral";
 
 DistrictCathedral::DistrictCathedral(int owner)
-    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

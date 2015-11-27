@@ -6,7 +6,7 @@
 const char* DistrictBlacksmith::NAME = "Blacksmith";
 
 DistrictBlacksmith::DistrictBlacksmith(int owner)
-    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

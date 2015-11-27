@@ -409,7 +409,7 @@
       <Filter>Source Files\Actor\District</Filter>
     </ClCompile>
     <ClCompile Include="ConstructDistrictPopUp.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI\PopupWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -717,7 +717,7 @@
       <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
     <ClInclude Include="ConstructDistrictPopUp.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI\PopupWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

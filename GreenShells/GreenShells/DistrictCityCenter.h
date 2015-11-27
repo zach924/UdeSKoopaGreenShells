@@ -8,13 +8,12 @@ public:
     static const int DISTRICT_TYPE = 0;
 
     static const int ATTACK_DAMAGE = 50;
-    static const int HEALTH = 1000;
+    static const int HEALTH = 500;
     static const char* NAME;
-    static const int WEAPON_YIELD = 75;
-    static const int FOOD_YIELD = 75;
-    static const int SCIENCE_YIELD = 1;
-    static const int FOOD_COST = 300;
-    static const int WEAPON_BONUS = 0;
+    static const int WEAPON_YIELD = 5;
+    static const int FOOD_YIELD = 5;
+    static const int SCIENCE_YIELD = 3;
+    static const int FOOD_COST = 0;
     static int const VIEW_RANGE = 5;
 
     static const int TURN_FOR_BORDER_T1 = 5; // 1 Tile

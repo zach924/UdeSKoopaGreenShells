@@ -724,15 +724,15 @@ void SelectionManager::SpawnSwordsman()
 void SelectionManager::SpawnArcher()
 {
     ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.RangerT3)
+    if (skillTree.ArcherT3)
     {
         CreateUnitPressed(UnitArcherIII::UNIT_TYPE);
     }
-    else if (skillTree.RangerT2)
+    else if (skillTree.ArcherT2)
     {
         CreateUnitPressed(UnitArcherII::UNIT_TYPE);
     }
-    else if (skillTree.RangerT1)
+    else if (skillTree.ArcherT1)
     {
         CreateUnitPressed(UnitArcherI::UNIT_TYPE);
     }

@@ -7,10 +7,11 @@ public:
     typedef Unit<UnitSettler> tBase;
 
     static int const ATTACK_DAMAGE = 5;
+    static int const WEAPON_COST = 0;
+    static int const FOOD_COST = 700;
     static int const HEALTH = 50;
     static int const ACTION_POINTS = 2;
     static int const UNIT_TYPE = 12;
-    static int const UNIT_TIER = 2;
     static int const VIEW_RANGE = 3;
     static const char* UNIT_NAME;
 

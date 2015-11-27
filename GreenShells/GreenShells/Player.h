@@ -56,24 +56,7 @@ protected:
     std::map<int, DiplomaticRelation> m_diplomaticRelations;
 
 public:
-    static const unsigned int UNIT_TIER_ONE_COST    = 50;
-    static const unsigned int UNIT_TIER_TWO_COST    = 100;
-    static const unsigned int UNIT_TIER_THREE_COST  = 200;
-    static const unsigned int UNIT_TIER_FOUR_COST   = 400;
 
-    static const unsigned int CITY_CENTER_COST      = 700;
-    static const unsigned int HUNTER_COST           = 150;
-    static const unsigned int FARM_COST             = 200;
-    static const unsigned int WIND_MILL_COST        = 400;
-    static const unsigned int BLACKSMITH_COST       = 150;
-    static const unsigned int STABLE_COST           = 200;
-    static const unsigned int FORT_COST             = 400;
-    static const unsigned int MONASTERY_COST        = 150;
-    static const unsigned int CATHEDRAL_COST        = 200;
-    static const unsigned int SCHOOL_COST           = 400;
-    static const unsigned int INN_COST              = 250;
-    static const unsigned int TAVERN_COST           = 250;
-    
     Player();
     ~Player();
 
@@ -144,16 +127,6 @@ public:
     virtual ArmySkillTree GetArmySkillTree();
     virtual EmpireSkillTree GetEmpireSkillTree();
 
-    bool HasRessourcesForUnit(int tier);
-    bool HasRessourcesForDistrict(int DistrictType);
-    unsigned int GetWeaponCostForTier(int tier);
-    int GetSwordsmanTier();
-    int GetArcherTier();
-    int GetAxemanTier();
-    int GetMaceTier();
-    int GetCannonTier();
-    int GetShieldTier();
-    int GetSettlerTier();
-
-
+    bool HasEnoughWeapons(unsigned int WeaponCost);
+    bool HasEnoughFood(unsigned int FoodCost);
 };

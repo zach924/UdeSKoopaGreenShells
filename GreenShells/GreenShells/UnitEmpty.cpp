@@ -3,7 +3,7 @@
 #include <iostream>
 
 UnitEmpty::UnitEmpty(int owner)
-    : Unit<UnitEmpty>(owner, 0, 0, 0, 0, 0)
+    : Unit<UnitEmpty>(owner, 0, 0, 0, 0, 0, 0)
 {
 }
 

@@ -6,7 +6,7 @@
 const char* DistrictWatchTower::NAME = "Watch Tower";
 
 DistrictWatchTower::DistrictWatchTower(int owner)
-    : District<DistrictWatchTower>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWatchTower>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST)
 {
 }
 

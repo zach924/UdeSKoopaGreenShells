@@ -165,7 +165,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     switch (skill)
     {
     case Watchtower:
-    case RangerT1:
+    case ArcherT1:
     case Settler:
         if (m_science < SKILL_COST_TIER1)
         {
@@ -195,7 +195,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     case Embark:
     case SwordT3:
     case AxeT2:
-    case RangerT2:
+    case ArcherT2:
     case Windmill:
     case Cathedral:
     case Fort:
@@ -216,7 +216,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
         break;
     case MountainConstruction:
     case ArmorUpgrade:
-    case RangerT3:
+    case ArcherT3:
     case MaceT2:
     case Warehouse:
     case School:

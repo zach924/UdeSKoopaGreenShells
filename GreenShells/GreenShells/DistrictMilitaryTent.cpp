@@ -6,7 +6,7 @@
 const char* DistrictMilitaryTent::NAME = "Military Tent";
 
 DistrictMilitaryTent::DistrictMilitaryTent(int owner)
-    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST)
 {
 }
 

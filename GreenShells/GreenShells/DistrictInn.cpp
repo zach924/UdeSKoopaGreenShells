@@ -6,7 +6,7 @@
 const char* DistrictInn::NAME = "Inn";
 
 DistrictInn::DistrictInn(int owner)
-    : District<DistrictInn>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictInn>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
 {
 }
 

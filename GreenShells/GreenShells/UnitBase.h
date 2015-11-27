@@ -21,7 +21,6 @@ protected:
 
     //Unit Stats
     int m_foodCost;
-    int m_scienceCost;
     int m_weaponCost;
     int m_attackDamage;
     int m_attackRange;
@@ -29,7 +28,7 @@ protected:
     int m_viewRange;
 
 public:
-    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange);
+    UnitBase(int owner, int health, int moveRange, int attackRange, int attackDamage, int viewRange, int weaponCost, int foodCost);
     virtual ~UnitBase();
 
     virtual UnitBase* Clone() = 0;
@@ -48,6 +47,8 @@ public:
 
     Position GetPosition();
     void SetPosition(Position pos);
+    int GetWeaponCost();
+    int GetFoodCost();
 
     virtual bool CanUpgrade() = 0;
     virtual Texture* GetTexture() = 0;

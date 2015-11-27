@@ -6,14 +6,14 @@ class DistrictTavern : public District<DistrictTavern>
 public:
     typedef District<DistrictTavern> tBase;
     static const int DISTRICT_TYPE = 12;
-
-    static const int ATTACK_DAMAGE = 25;
+    
+    static const int ATTACK_DAMAGE = 0;
     static const int HEALTH = 300;
 
-    static const int FOOD_COST = 250;
-    static const int FOOD_BONUS = 75;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 100;
+    static const int FOOD_COST = 800;
+    static const int FOOD_YIELD = 10;
+    static const int SCIENCE_YIELD = 0;
+    static const int WEAPON_YIELD = 10;
     static int const VIEW_RANGE = 4;
     static const char* NAME;
 

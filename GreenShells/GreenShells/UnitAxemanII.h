@@ -11,7 +11,7 @@ public:
     static int const HEALTH = 200;
     static int const ACTION_POINTS = 3;
     static int const UNIT_TYPE = 7;
-    static int const UNIT_TIER = 3;
+    static int const WEAPON_COST = 250;
     static int const VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 

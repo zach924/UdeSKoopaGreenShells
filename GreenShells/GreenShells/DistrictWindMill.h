@@ -11,9 +11,9 @@ public:
     static const int HEALTH = 350;
 
     static const int FOOD_COST = 400;
-    static const int FOOD_BONUS = 175;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 0;
+    static const int FOOD_YIELD = 15;
+    static const int SCIENCE_YIELD = 0;
+    static const int WEAPON_YIELD = 0;
     static int const VIEW_RANGE = 5;
     static const char* NAME;
 
