@@ -96,3 +96,10 @@ struct RPCEvent
     RPCStructType structType;
     RPCBasicStruct* data;
 };
+
+enum ReplicationType
+{
+    WORLDSTATE,
+    PLAYER,
+    TILE,
+};

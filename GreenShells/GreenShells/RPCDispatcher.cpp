@@ -1,41 +1,57 @@
 #include <iostream>
+#include <sstream>
 #include <assert.h>
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 
 #include "RPCDispatcher.h"
 #include "WorldState.h"
 #include "Map.h"
 #include "Player.h"
 
-void RPCDispatcher::Dispatch(RPCBasicStruct * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicStruct * data)
 {
+        std::stringstream ss;
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Player_SetReady:
         m_worldState->GetPlayer(data->m_requestingPlayerID)->SetPlayerReadyForNextTurn();
+
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+        return std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str() };
         break;
     default:
         assert(false && "You must add your code here");
     }
 }
 
-void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
+    default:
+        assert(false && "You must add your code here");
+    }
+}
+
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_Move:
         //go move the unit
-        m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
+        m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     case RPCClassMethodType::Map_Attack:
         // Do the attack
-        m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition);
+        m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     default:
         assert(false && "You must add your code here");
     }
 }
 
-void RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
@@ -50,7 +66,7 @@ void RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
     }
 }
 
-void RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
@@ -71,7 +87,7 @@ void RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
     }
 }
 
-void RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
 {
     switch (data->m_RPCClassMethod)
     {
@@ -105,7 +121,7 @@ void RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
     }
 }
 
-void RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
 {
     switch (data->m_RPCClassMethod)
     {
@@ -115,7 +131,7 @@ void RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
     }
 }
 
-void RPCDispatcher::Dispatch(RPCEvent event)
+std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCEvent event)
 {
     if (event.data->m_turn == m_worldState->GetCurrentTurn())
     {
@@ -126,6 +142,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
             Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
+            break;
+        case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
+            Dispatch(dynamic_cast<RPCBasicTwoPositionsAndCostStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_CREATION:
             Dispatch(dynamic_cast<RPCBasicActorCreationStruct*>(event.data));
@@ -174,19 +193,18 @@ SynchronizedQueue<RPCEvent>* RPCDispatcher::GetEventQueue()
     return m_queue;
 }
 
-bool RPCDispatcher::Dispatch()
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch()
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate;
     if (!m_queue->IsEmtpy())
     {
         auto eventList = m_queue->pop();
 
         for (RPCEvent event : eventList)
         {
-            Dispatch(event);
+            toReplicate.push_back(Dispatch(event));
             delete event.data;
         }
-
-        return true;
     }
-    return false;
+    return toReplicate;
 }
