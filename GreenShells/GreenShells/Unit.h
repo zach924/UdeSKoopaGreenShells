@@ -1,13 +1,15 @@
 #pragma once
 #include "UnitBase.h"
 #include "Texture.h"
+#include <iostream>
 #include <boost\property_tree\ptree.hpp>
 
 template<class T>
 class Unit : public UnitBase
 {
 public:
-    static Texture m_Texture;
+    static Texture m_unitTexture;
+    static Texture m_boatTexture;
     void LoadTexture() {};
     static bool m_forceLoading;
     virtual int GetTypeAsInt() = 0;
@@ -30,14 +32,65 @@ public:
     }
 
     //Every method must be define in header file because of the static polymorphism
-    Texture* GetTexture()
+    Texture* GetUnitTexture()
     {
-        if (!m_Texture.IsLoaded() || m_forceLoading)
+        if (m_forceLoading)
+        {
+            m_forceLoading = false;
+            static_cast<T*>(this)->LoadTexture();
+
+            try
+            {
+                m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+            }
+            catch (std::exception e)
+            {
+                std::string msg{ e.what() };
+                std::cout << msg << std::endl;
+            }
+
+        }
+        else if (!m_unitTexture.IsLoaded())
         {
             static_cast<T*>(this)->LoadTexture();
             m_forceLoading = false;
         }
-        return &m_Texture;
+
+        return &m_unitTexture;
+    }
+
+    //Every method must be define in header file because of the static polymorphism
+    Texture* GetBoatTexture()
+    {
+        if (m_forceLoading)
+        {
+            m_forceLoading = false;
+            static_cast<T*>(this)->LoadTexture();
+
+            try
+            {
+                m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+            }
+            catch (std::exception e)
+            {
+                std::string msg{ e.what() };
+                std::cout << msg << std::endl;
+            }
+
+        }
+        else if (!m_boatTexture.IsLoaded())
+        {
+            try
+            {
+                m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+            }
+            catch (std::exception e)
+            {
+                std::string msg{ e.what() };
+                std::cout << msg << std::endl;
+            }
+        }
+        return &m_boatTexture;
     }
 
     static void ForceReload()

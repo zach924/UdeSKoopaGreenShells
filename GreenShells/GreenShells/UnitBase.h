@@ -51,7 +51,8 @@ public:
     void SetPosition(Position pos);
 
     virtual bool CanUpgrade() = 0;
-    virtual Texture* GetTexture() = 0;
+    virtual Texture* GetUnitTexture() = 0;
+    virtual Texture* GetBoatTexture() = 0;
     virtual void Heal(int health) = 0;
 
     virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
