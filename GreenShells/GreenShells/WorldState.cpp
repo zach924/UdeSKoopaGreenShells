@@ -36,7 +36,7 @@ shared_ptr<Map> WorldState::GetMapCopy()
     return shared_ptr<Map> { m_map->Clone() };
 }
 
-Player* WorldState::GetPlayer(int playerID)
+std::shared_ptr<Player> WorldState::GetPlayer(int playerID)
 {
     return m_players.at(playerID);
 }
@@ -44,13 +44,13 @@ Player* WorldState::GetPlayer(int playerID)
 shared_ptr<Player> WorldState::GetPlayerCopy(int playerID)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return shared_ptr<Player> { m_players.at(playerID)->Clone() };
+    return m_players.at(playerID)->Clone();
 }
 
-std::vector<Player*> WorldState::GetPlayersCopy()
+std::vector<std::shared_ptr<Player> > WorldState::GetPlayersCopy()
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    std::vector<Player*> players;
+    std::vector<std::shared_ptr<Player> > players;
 
     for (auto p : m_players)
     {
@@ -59,7 +59,7 @@ std::vector<Player*> WorldState::GetPlayersCopy()
     return players;
 }
 
-std::vector<Player*> WorldState::GetPlayers()
+std::vector<std::shared_ptr<Player> > WorldState::GetPlayers()
 {
     return m_players;
 }
@@ -86,7 +86,7 @@ void WorldState::NotifyNewTurn()
     m_map->NotifyNewTurn(m_turn);
 
     //Notify players of a new turn
-    for (Player* player : m_players)
+    for (auto player : m_players)
     {
         player->NotifyNewTurn(m_turn, m_map);
     }
@@ -109,7 +109,7 @@ int WorldState::AddPlayer(std::string playerName)
 
     int playerID = static_cast<int>(m_players.size());
     std::cout << playerName << " has joined and his id is " << playerID << endl;
-    Player* newPlayer = new PlayerLocal();
+    std::shared_ptr<Player> newPlayer = std::shared_ptr<Player>{ new PlayerLocal() };
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
 
@@ -130,7 +130,7 @@ int WorldState::AddPlayer(std::string playerName)
 void WorldState::RemovePlayer(int id)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    for (Player* player : m_players)
+    for (auto player : m_players)
     {
         if (player->GetPlayerID() == id)
         {
@@ -150,7 +150,7 @@ boost::property_tree::ptree WorldState::Serialize()
 
     // Get Player XML to add here
     boost::property_tree::ptree& playerListNode = worldStateNode.add("Ps", "");
-    for (Player* player : m_players)
+    for (auto player : m_players)
     {
         playerListNode.add_child("P", player->Serialize());
     }
@@ -235,7 +235,7 @@ bool WorldState::AreAllPlayerReady()
         return false;
     }
 
-    for (Player* player : m_players)
+    for (auto player : m_players)
     {
         if (player->IsAlive() && !player->IsPlayerReadyForNextTurn())
         {

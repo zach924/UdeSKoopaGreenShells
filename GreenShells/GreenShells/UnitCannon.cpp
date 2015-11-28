@@ -7,11 +7,10 @@
 
 const char* UnitCannon::UNIT_NAME = "Cannon";
 
-UnitCannon::UnitCannon(int owner)
+UnitCannon::UnitCannon(int owner, bool hasBonusActionPoint)
     : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }

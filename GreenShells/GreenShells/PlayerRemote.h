@@ -11,7 +11,7 @@ public:
     PlayerRemote();
     ~PlayerRemote();
 
-    virtual Player* Clone();
+    virtual std::shared_ptr<Player> Clone();
     virtual void SetPlayerName(std::string name);
     virtual void SetPlayerID(int ID);
     virtual void NotifyNewTurn(int turn, Map* map);
@@ -44,6 +44,6 @@ public:
     virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer);
     virtual void GoToAlliance(int otherPlayerId, int currentTurn);
     virtual void GoToWar(int otherPlayerId, int currentTurn);
-    static PlayerRemote* Deserialize(boost::property_tree::ptree playerNode);
+    static std::shared_ptr<PlayerRemote> Deserialize(boost::property_tree::ptree playerNode);
   };
 

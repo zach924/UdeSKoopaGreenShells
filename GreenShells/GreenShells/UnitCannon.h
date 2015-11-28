@@ -15,7 +15,7 @@ public:
     static int const VIEW_RANGE = 5;
     static const char* UNIT_NAME;
 
-    UnitCannon(int owner);
+    UnitCannon(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitCannon();
     virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();

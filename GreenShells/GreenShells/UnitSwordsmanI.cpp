@@ -6,11 +6,10 @@
 
 const char* UnitSwordsmanI::UNIT_NAME = "Swordsman MK1";
 
-UnitSwordsmanI::UnitSwordsmanI(int owner)
+UnitSwordsmanI::UnitSwordsmanI(int owner, bool hasBonusActionPoint)
     : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -83,7 +82,7 @@ void UnitSwordsmanI::NotifyNewTurn(int turn)
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -95,7 +94,7 @@ AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
