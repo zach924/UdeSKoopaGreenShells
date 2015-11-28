@@ -167,6 +167,7 @@
     <ClCompile Include="ConstructDistrictPopUp.cpp" />
     <ClCompile Include="DistrictBlacksmith.cpp" />
     <ClCompile Include="DistrictCathedral.cpp" />
+    <ClCompile Include="DistrictFishery.cpp" />
     <ClCompile Include="DistrictFort.cpp" />
     <ClCompile Include="DistrictFortress.cpp" />
     <ClCompile Include="DistrictHunter.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="UnitArcherIII.cpp" />
     <ClCompile Include="UnitAxemanII.cpp" />
     <ClCompile Include="UnitMaceII.cpp" />
+    <ClCompile Include="UnitBuilder.cpp" />
     <ClCompile Include="UnitShield.cpp" />
     <ClCompile Include="UnitSwordsmanII.cpp" />
     <ClCompile Include="UnitCannon.cpp" />
@@ -264,6 +266,7 @@
     <ClInclude Include="ConstructDistrictPopUp.h" />
     <ClInclude Include="DistrictBlacksmith.h" />
     <ClInclude Include="DistrictCathedral.h" />
+    <ClInclude Include="DistrictFishery.h" />
     <ClInclude Include="DistrictFort.h" />
     <ClInclude Include="DistrictFortress.h" />
     <ClInclude Include="DistrictHunter.h" />
@@ -282,6 +285,7 @@
     <ClInclude Include="UnitArcherIII.h" />
     <ClInclude Include="UnitAxemanII.h" />
     <ClInclude Include="UnitMaceII.h" />
+    <ClInclude Include="UnitBuilder.h" />
     <ClInclude Include="UnitShield.h" />
     <ClInclude Include="UnitSwordsmanII.h" />
     <ClInclude Include="UnitCannon.h" />

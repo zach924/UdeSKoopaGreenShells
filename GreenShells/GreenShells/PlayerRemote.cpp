@@ -20,9 +20,9 @@ PlayerRemote::~PlayerRemote()
 }
 
 
-Player* PlayerRemote::Clone()
+std::shared_ptr<Player> PlayerRemote::Clone()
 {
-    PlayerRemote* player = new PlayerRemote{};
+    std::shared_ptr<PlayerRemote> player = std::shared_ptr<PlayerRemote>{ new PlayerRemote{} };
 
     player->m_playerName = m_playerName;
     player->m_playerID = m_playerID;
@@ -42,7 +42,7 @@ Player* PlayerRemote::Clone()
     player->m_empireSkillTree = m_empireSkillTree;
     player->m_diplomaticRelations.insert(m_diplomaticRelations.begin(), m_diplomaticRelations.end());
 
-    return player;
+    return  player;
 }
 
 void PlayerRemote::SetPlayerName(std::string name)
@@ -380,9 +380,9 @@ void PlayerRemote::GoToWar(int otherPlayerId, int currentTurn)
     SendData(ss.str());
 }
 
-PlayerRemote* PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
+std::shared_ptr<PlayerRemote> PlayerRemote::Deserialize(boost::property_tree::ptree playerNode)
 {
-    PlayerRemote* player = new PlayerRemote();
+    auto player = std::shared_ptr<PlayerRemote>{ new PlayerRemote() };
 
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");

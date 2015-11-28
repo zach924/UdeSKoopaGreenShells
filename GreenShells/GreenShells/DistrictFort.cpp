@@ -10,9 +10,9 @@ DistrictFort::DistrictFort(int owner)
 {
 }
 
-DistrictBase* DistrictFort::Clone()
+std::shared_ptr<DistrictBase> DistrictFort::Clone()
 {
-    return new DistrictFort{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictFort{ *this } };
 }
 
 void DistrictFort::LoadTexture()
@@ -63,11 +63,11 @@ int DistrictFort::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictFort * DistrictFort::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictFort> DistrictFort::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictFort* fort = new DistrictFort(node.get<int>("<xmlattr>.O"));
-    fort->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictFort>{ new DistrictFort(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return fort;
+    return district;
 }
 

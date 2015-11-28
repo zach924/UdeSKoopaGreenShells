@@ -30,6 +30,7 @@ enum RPCStructType
 {
     RPC_BASIC,
     RPC_BASIC_TWO_POSITIONS,
+    RPC_BASIC_TWO_POSITIONS_AND_COST,
     RPC_BASIC_CREATION,
     RPC_BASIC_UNLOCK_SKILL,
     RPC_BASIC_DIPLOMACY_REQUEST,
@@ -68,6 +69,11 @@ struct RPCBasicTwoPositionsStruct : public RPCBasicStruct
 {
     Position m_firstPosition;
     Position m_secondPosition;
+};
+
+struct RPCBasicTwoPositionsAndCostStruct : public RPCBasicTwoPositionsStruct
+{
+    int m_actionCost;
 };
 
 struct RPCBasicActorCreationStruct : public RPCBasicStruct

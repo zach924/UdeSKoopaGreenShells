@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include "AttackNotification.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
@@ -35,7 +37,7 @@ public:
     DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield);
     virtual ~DistrictBase();
 
-    virtual DistrictBase* Clone() = 0;
+    virtual std::shared_ptr<DistrictBase> Clone() = 0;
 
     virtual void ChangeOwner(int newOwner);
     int GetActionPointsRemaining();

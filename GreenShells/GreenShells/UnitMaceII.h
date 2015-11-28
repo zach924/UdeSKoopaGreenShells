@@ -6,18 +6,18 @@ class UnitMaceII : public Unit<UnitMaceII>
 public:
     typedef Unit<UnitMaceII> tBase;
 
-    static int const ATTACK_RANGE = 1;
-    static int const ATTACK_DAMAGE = 150;
-    static int const HEALTH = 350;
-    static int const ACTION_POINTS = 2;
-    static int const UNIT_TYPE = 9;
-    static int const WEAPON_COST = 250;
-    static int const VIEW_RANGE = 3;
+    static const int ATTACK_RANGE = 1;
+    static const int ATTACK_DAMAGE = 150;
+    static const int HEALTH = 350;
+    static const int ACTION_POINTS = 2;
+    static const int UNIT_TYPE = 9;
+    static const int WEAPON_COST = 250;
+    static const int VIEW_RANGE = 3;
     static const char* UNIT_NAME;
 
-    UnitMaceII(int owner);
+    UnitMaceII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitMaceII();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -28,8 +28,8 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    virtual AttackNotification Attack(UnitBase* target);
-    virtual AttackNotification Attack(DistrictBase* target);
+    virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
+    virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
 
-    static UnitMaceII* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitMaceII> Deserialize(boost::property_tree::ptree node);
 };

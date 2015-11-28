@@ -6,18 +6,18 @@ class UnitCannon : public Unit<UnitCannon>
 public:
     typedef Unit<UnitCannon> tBase;
 
-    static int const ATTACK_DAMAGE = 200;
-    static int const ATTACK_RANGE = 4;
-    static int const HEALTH = 150;
-    static int const ACTION_POINTS = 1;
-    static int const UNIT_TYPE = 10;
-    static int const WEAPON_COST = 450;
-    static int const VIEW_RANGE = 5;
+    static const int ATTACK_DAMAGE = 200;
+    static const int ATTACK_RANGE = 4;
+    static const int HEALTH = 150;
+    static const int ACTION_POINTS = 1;
+    static const int UNIT_TYPE = 10;
+    static const int WEAPON_COST = 450;
+    static const int VIEW_RANGE = 5;
     static const char* UNIT_NAME;
 
-    UnitCannon(int owner);
+    UnitCannon(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitCannon();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -28,6 +28,6 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    static UnitCannon* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitCannon> Deserialize(boost::property_tree::ptree node);
 };
 

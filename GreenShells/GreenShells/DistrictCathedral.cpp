@@ -10,9 +10,9 @@ DistrictCathedral::DistrictCathedral(int owner)
 {
 }
 
-DistrictBase* DistrictCathedral::Clone()
+std::shared_ptr<DistrictBase> DistrictCathedral::Clone()
 {
-    return new DistrictCathedral{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictCathedral{ *this }};
 }
 
 void DistrictCathedral::LoadTexture()
@@ -40,9 +40,7 @@ void DistrictCathedral::Repair(int repairValue)
 bool DistrictCathedral::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    //TODO: need schoool 
-    return true;
-    //return player->GetEmpireSkillTree().School;
+    return player->GetEmpireSkillTree().School;
 }
 
 int DistrictCathedral::GetMaxHealth()
@@ -65,12 +63,12 @@ int DistrictCathedral::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictCathedral * DistrictCathedral::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictCathedral> DistrictCathedral::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictCathedral* cath = new DistrictCathedral(node.get<int>("<xmlattr>.O"));
-    cath->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictCathedral>{ new DistrictCathedral(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return cath;
+    return district;
 }
 
 

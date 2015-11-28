@@ -10,9 +10,9 @@ DistrictTavern::DistrictTavern(int owner)
 {
 }
 
-DistrictBase* DistrictTavern::Clone()
+std::shared_ptr<DistrictBase> DistrictTavern::Clone()
 {
-    return new DistrictTavern{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictTavern{ *this } };
 }
 
 void DistrictTavern::LoadTexture()
@@ -62,13 +62,10 @@ int DistrictTavern::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictTavern * DistrictTavern::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictTavern> DistrictTavern::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictTavern* tavern = new DistrictTavern(node.get<int>("<xmlattr>.O"));
-    tavern->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictTavern>{ new DistrictTavern(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return tavern;
+    return district;
 }
-
-
-

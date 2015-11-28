@@ -14,13 +14,13 @@ public:
     static const int FOOD_YIELD = 0;
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 6;
-    static int const VIEW_RANGE = 3;
+    static const int VIEW_RANGE = 3;
     static const char* NAME;
 
 public:
     DistrictBlacksmith(int owner);
     ~DistrictBlacksmith();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -30,6 +30,6 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictBlacksmith* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictBlacksmith> Deserialize(boost::property_tree::ptree node);
 };
 

@@ -10,9 +10,9 @@ DistrictUniversity::DistrictUniversity(int owner)
 {
 }
 
-DistrictBase* DistrictUniversity::Clone()
+std::shared_ptr<DistrictBase> DistrictUniversity::Clone()
 {
-    return new DistrictUniversity{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictUniversity{ *this } };
 }
 
 void DistrictUniversity::LoadTexture()
@@ -62,12 +62,10 @@ int DistrictUniversity::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictUniversity * DistrictUniversity::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictUniversity> DistrictUniversity::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictUniversity* uni = new DistrictUniversity(node.get<int>("<xmlattr>.O"));
-    uni->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictUniversity>{ new DistrictUniversity(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return uni;
+    return district;
 }
-
-

@@ -2,15 +2,15 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitShield::UNIT_NAME = "Shield";
 
-UnitShield::UnitShield(int owner)
+UnitShield::UnitShield(int owner, bool hasBonusActionPoint)
     : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -20,9 +20,9 @@ UnitShield::~UnitShield()
 {
 }
 
-UnitBase* UnitShield::Clone()
+std::shared_ptr<UnitBase> UnitShield::Clone()
 {
-    return new UnitShield{ *this };
+    return std::shared_ptr<UnitBase> { new UnitShield{ *this } };
 }
 
 void UnitShield::LoadTexture()
@@ -71,7 +71,7 @@ void UnitShield::Heal(int health)
 void UnitShield::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -79,18 +79,18 @@ void UnitShield::NotifyNewTurn(int turn)
 }
 
 
-UnitShield * UnitShield::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitShield> UnitShield::Deserialize(boost::property_tree::ptree node)
 {
-    UnitShield* cannon = new UnitShield(node.get<int>("<xmlattr>.O"));
-    cannon->m_health = node.get<int>("<xmlattr>.H");
-    cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
+    std::shared_ptr<UnitShield> shield = std::shared_ptr<UnitShield>{ new UnitShield(node.get<int>("<xmlattr>.O")) };
+    shield->m_health = node.get<int>("<xmlattr>.H");
+    shield->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
-    return cannon;
+    return shield;
 }
 
-AttackNotification UnitShield::Attack(UnitBase * target)
+AttackNotification UnitShield::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -100,9 +100,9 @@ AttackNotification UnitShield::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitShield::Attack(DistrictBase * target)
+AttackNotification UnitShield::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

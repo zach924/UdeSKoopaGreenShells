@@ -1,15 +1,15 @@
 #include "UnitSwordsmanIII.h"
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
 
-UnitSwordsmanIII::UnitSwordsmanIII(int owner)
+UnitSwordsmanIII::UnitSwordsmanIII(int owner, bool hasBonusActionPoint)
     : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -19,9 +19,9 @@ UnitSwordsmanIII::~UnitSwordsmanIII()
 {
 }
 
-UnitBase* UnitSwordsmanIII::Clone()
+std::shared_ptr<UnitBase> UnitSwordsmanIII::Clone()
 {
-    return new UnitSwordsmanIII{ *this };
+    return std::shared_ptr<UnitBase> { new UnitSwordsmanIII{ *this } };
 }
 
 void UnitSwordsmanIII::LoadTexture()
@@ -70,7 +70,7 @@ void UnitSwordsmanIII::Heal(int health)
 void UnitSwordsmanIII::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -79,9 +79,9 @@ void UnitSwordsmanIII::NotifyNewTurn(int turn)
 
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
-AttackNotification UnitSwordsmanIII::Attack(UnitBase * target)
+AttackNotification UnitSwordsmanIII::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -91,9 +91,9 @@ AttackNotification UnitSwordsmanIII::Attack(UnitBase * target)
     return targetNotification;
 }
 
-AttackNotification UnitSwordsmanIII::Attack(DistrictBase * target)
+AttackNotification UnitSwordsmanIII::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -103,12 +103,12 @@ AttackNotification UnitSwordsmanIII::Attack(DistrictBase * target)
     return targetNotification;
 }
 
-UnitSwordsmanIII * UnitSwordsmanIII::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitSwordsmanIII> UnitSwordsmanIII::Deserialize(boost::property_tree::ptree node)
 {
-    UnitSwordsmanIII* swordsman = new UnitSwordsmanIII(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitSwordsmanIII> swordsman = std::shared_ptr<UnitSwordsmanIII>{ new UnitSwordsmanIII(node.get<int>("<xmlattr>.O")) };
     swordsman->m_health = node.get<int>("<xmlattr>.H");
     swordsman->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
-    
+
     return swordsman;
 }
 

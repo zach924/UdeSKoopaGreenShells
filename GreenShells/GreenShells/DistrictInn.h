@@ -14,13 +14,13 @@ public:
     static const int FOOD_YIELD = 10;
     static const int SCIENCE_YIELD = 10;
     static const int WEAPON_YIELD = 0;
-    static int const VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 4;
     static const char* NAME;
 
 public:
     DistrictInn(int owner);
     ~DistrictInn();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
@@ -30,7 +30,7 @@ public:
     virtual int GetTypeAsInt();
     virtual int GetViewRange();
 
-    static DistrictInn* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictInn> Deserialize(boost::property_tree::ptree node);
 };
 
 

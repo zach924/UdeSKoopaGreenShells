@@ -5,6 +5,7 @@
 #include "Unit.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitArcherI.h"
 #include "UnitArcherII.h"
@@ -28,6 +29,7 @@
 
 #include "DistrictCityCenter.h"
 
+#include "DistrictFishery.h"
 #include "DistrictHunter.h"
 #include "DistrictFarm.h"
 #include "DistrictWindMill.h"
@@ -119,6 +121,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
             case UnitSettler::UNIT_TYPE:
                 tile->SetUnit(UnitSettler::Deserialize(child.second));
                 break;
+            case UnitBuilder::UNIT_TYPE:
+                tile->SetUnit(UnitBuilder::Deserialize(child.second));
+                break;
             case UnitAxemanI::UNIT_TYPE:
                 tile->SetUnit(UnitAxemanI::Deserialize(child.second));
                 break;
@@ -193,6 +198,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
                 break;
             case DistrictMilitaryTent::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictMilitaryTent::Deserialize(child.second));
+                break;
+            case DistrictFishery::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictFishery::Deserialize(child.second));
                 break;
             default:
                 assert(false && "District is not good");

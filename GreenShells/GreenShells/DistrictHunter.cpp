@@ -10,9 +10,9 @@ DistrictHunter::DistrictHunter(int owner)
 {
 }
 
-DistrictBase* DistrictHunter::Clone()
+std::shared_ptr<DistrictBase> DistrictHunter::Clone()
 {
-    return new DistrictHunter{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictHunter{ *this } };
 }
 
 void DistrictHunter::LoadTexture()
@@ -63,10 +63,10 @@ int DistrictHunter::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictHunter * DistrictHunter::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictHunter> DistrictHunter::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictHunter* hunter = new DistrictHunter(node.get<int>("<xmlattr>.O"));
-    hunter->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictHunter>{ new DistrictHunter(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return hunter;
+    return district;
 }

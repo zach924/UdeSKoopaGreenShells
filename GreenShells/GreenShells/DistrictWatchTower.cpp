@@ -10,9 +10,9 @@ DistrictWatchTower::DistrictWatchTower(int owner)
 {
 }
 
-DistrictBase* DistrictWatchTower::Clone()
+std::shared_ptr<DistrictBase> DistrictWatchTower::Clone()
 {
-    return new DistrictWatchTower{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictWatchTower{ *this } };
 }
 
 void DistrictWatchTower::LoadTexture()
@@ -62,12 +62,10 @@ int DistrictWatchTower::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictWatchTower * DistrictWatchTower::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictWatchTower> DistrictWatchTower::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictWatchTower* watchtower = new DistrictWatchTower(node.get<int>("<xmlattr>.O"));
-    watchtower->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictWatchTower>{ new DistrictWatchTower(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return watchtower;
+    return district;
 }
-
-

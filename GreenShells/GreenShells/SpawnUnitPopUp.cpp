@@ -1,5 +1,6 @@
 #include "SpawnUnitPopUp.h"
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -64,23 +65,19 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     else
     {
         state = armySkillTree.AxeT1 && currentPlayer->HasEnoughWeapons(UnitAxemanI::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanI::UNIT_TYPE); }, nullptr, state));
     }
 
     currentY += buttonHeight + buffer;
-
-
+    
     state = armySkillTree.Canon && currentPlayer->HasEnoughWeapons(UnitCannon::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanI::UNIT_TYPE); }, nullptr, state));
-
+    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitCannon::UNIT_TYPE); }, nullptr, state));
 
     currentY += buttonHeight + buffer;
-
-
+    
     state = currentPlayer->GetEmpireSkillTree().Settler && currentPlayer->HasEnoughFood(UnitSettler::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
     m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Settler", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSettler::UNIT_TYPE); }, nullptr, state));
-
-
+    
     //Second column
     currentX += buttonWidth + buffer;
     currentY = m_fontSize + buffer;
@@ -120,6 +117,10 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Shield MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitShield::UNIT_TYPE); }, nullptr, state));
 
     currentY += buttonHeight + buffer;  
+
+    state = currentPlayer->HasEnoughFood(UnitBuilder::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
+    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Builder", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitBuilder::UNIT_TYPE); }, nullptr, state));
+
     currentY += buttonHeight + buffer;
 
     state = ButtonState::Unpressed;

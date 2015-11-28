@@ -12,6 +12,7 @@
 #include "DistrictMonastery.h"
 #include "DistrictCathedral.h"
 #include "DistrictSchool.h"
+#include "DistrictFishery.h"
 
 #include "DistrictInn.h"
 #include "DistrictTavern.h"
@@ -21,7 +22,6 @@
 #include "Player.h"
 #include "SelectionManager.h"
 
-#include "DistrictWarehouse.h"
 
 ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width, int height)
     : PopUpWindow(windowName, width, height)
@@ -39,8 +39,7 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
     if (empSkillTree.Windmill)
     {
         state = currentPlayer->HasEnoughFood(DistrictWindMill::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        //m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Windmill", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictWindMill::DISTRICT_TYPE); }, nullptr, state));
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Warehouse", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictWarehouse::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Windmill", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictWindMill::DISTRICT_TYPE); }, nullptr, state));
     }
     else if (empSkillTree.Farm)
     {
@@ -53,6 +52,11 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
         m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Hunter", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictHunter::DISTRICT_TYPE); }, nullptr, state));
     }
 
+    currentY += buttonHeight + buffer;
+
+    state = currentPlayer->HasEnoughFood(DistrictFishery::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
+    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Fishery", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFishery::DISTRICT_TYPE); }, nullptr, state));
+    
     currentY += buttonHeight + buffer;
 
     if (empSkillTree.Fort)

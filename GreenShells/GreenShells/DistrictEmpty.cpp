@@ -6,9 +6,9 @@ DistrictEmpty::DistrictEmpty(int owner)
 {
 }
 
-DistrictBase* DistrictEmpty::Clone()
+std::shared_ptr<DistrictBase> DistrictEmpty::Clone()
 {
-    return new DistrictEmpty{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictEmpty{ *this } };
 }
 
 void DistrictEmpty::ChangeOwner(int newOwner)
@@ -31,8 +31,7 @@ void DistrictEmpty::LoadTexture()
 
 int DistrictEmpty::GetTypeAsInt()
 {
-    assert(false && "Should be in an Empty District. It cannot be placed on the map");
-    return -1;
+    return DISTRICT_TYPE;
 }
 
 int DistrictEmpty::GetViewRange()

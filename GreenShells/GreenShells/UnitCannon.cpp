@@ -2,15 +2,15 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
+#include "ServerSession.h"
 #include "Player.h"
 
 const char* UnitCannon::UNIT_NAME = "Cannon";
 
-UnitCannon::UnitCannon(int owner)
+UnitCannon::UnitCannon(int owner, bool hasBonusActionPoint)
     : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST)
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -20,9 +20,9 @@ UnitCannon::~UnitCannon()
 {
 }
 
-UnitBase* UnitCannon::Clone()
+std::shared_ptr<UnitBase> UnitCannon::Clone()
 {
-    return new UnitCannon{ *this };
+    return std::shared_ptr<UnitBase> { new UnitCannon{ *this } };
 }
 
 void UnitCannon::LoadTexture()
@@ -71,7 +71,7 @@ void UnitCannon::Heal(int health)
 void UnitCannon::NotifyNewTurn(int turn)
 {
     m_actionPointsLeft = ACTION_POINTS;
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
     if (player->GetUtilitySkillTree().MovementUpgrade)
     {
         m_actionPointsLeft += 1;
@@ -79,9 +79,9 @@ void UnitCannon::NotifyNewTurn(int turn)
 }
 
 
-UnitCannon * UnitCannon::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<UnitCannon> UnitCannon::Deserialize(boost::property_tree::ptree node)
 {
-    UnitCannon* cannon = new UnitCannon(node.get<int>("<xmlattr>.O"));
+    std::shared_ptr<UnitCannon> cannon = std::shared_ptr<UnitCannon>{ new UnitCannon(node.get<int>("<xmlattr>.O")) };
     cannon->m_health = node.get<int>("<xmlattr>.H");
     cannon->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 

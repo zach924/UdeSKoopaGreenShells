@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <memory>
 #include "Ptree_ForwardDeclaration.h"
 #include "MapFilter.h"
 #include "Skills.h"
@@ -60,7 +61,7 @@ public:
     Player();
     ~Player();
 
-    virtual Player* Clone() = 0;
+    virtual std::shared_ptr<Player> Clone() = 0;
     virtual void SetPlayerName(std::string name) = 0;
     std::string GetPlayerName();
 

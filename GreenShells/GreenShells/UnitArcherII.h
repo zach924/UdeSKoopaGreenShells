@@ -6,20 +6,20 @@ class UnitArcherII : public Unit<UnitArcherII>
 public:
     typedef Unit<UnitArcherII> tBase;
 
-    static int const ATTACK_DAMAGE = 75;
-    static int const ATTACK_RANGE = 3;
-    static int const HEALTH = 200;
-    static int const ACTION_POINTS = 2;
-    static int const UNIT_TYPE = 4;
-    static int const WEAPON_COST = 100;
-    static int const VIEW_RANGE = 4;
+    static const int ATTACK_DAMAGE = 75;
+    static const int ATTACK_RANGE = 3;
+    static const int HEALTH = 200;
+    static const int ACTION_POINTS = 2;
+    static const int UNIT_TYPE = 4;
+    static const int WEAPON_COST = 100;
+    static const int VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
 public:
 
-    UnitArcherII(int owner);
+    UnitArcherII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitArcherII();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -30,5 +30,5 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    static UnitArcherII* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitArcherII> Deserialize(boost::property_tree::ptree node);
 };

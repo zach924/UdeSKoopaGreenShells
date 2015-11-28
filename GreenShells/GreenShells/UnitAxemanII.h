@@ -6,18 +6,18 @@ class UnitAxemanII : public Unit<UnitAxemanII>
 public:
     typedef Unit<UnitAxemanII> tBase;
 
-    static int const ATTACK_DAMAGE = 225;
-    static int const ATTACK_RANGE = 1;
-    static int const HEALTH = 200;
-    static int const ACTION_POINTS = 3;
-    static int const UNIT_TYPE = 7;
-    static int const WEAPON_COST = 250;
-    static int const VIEW_RANGE = 4;
+    static const int ATTACK_DAMAGE = 225;
+    static const int ATTACK_RANGE = 1;
+    static const int HEALTH = 200;
+    static const int ACTION_POINTS = 3;
+    static const int UNIT_TYPE = 7;
+    static const int WEAPON_COST = 250;
+    static const int VIEW_RANGE = 4;
     static const char* UNIT_NAME;
 
-    UnitAxemanII(int owner);
+    UnitAxemanII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitAxemanII();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();
@@ -28,8 +28,8 @@ public:
     virtual void Heal(int health);
     virtual void NotifyNewTurn(int turn);
 
-    virtual AttackNotification Attack(UnitBase* target);
-    virtual AttackNotification Attack(DistrictBase* target);
+    virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
+    virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
 
-    static UnitAxemanII* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<UnitAxemanII> Deserialize(boost::property_tree::ptree node);
 };

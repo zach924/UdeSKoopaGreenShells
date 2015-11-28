@@ -10,9 +10,9 @@ DistrictMonastery::DistrictMonastery(int owner)
 {
 }
 
-DistrictBase* DistrictMonastery::Clone()
+std::shared_ptr<DistrictBase> DistrictMonastery::Clone()
 {
-    return new DistrictMonastery{ *this };
+    return std::shared_ptr<DistrictBase> { new DistrictMonastery{ *this } };
 }
 
 void DistrictMonastery::LoadTexture()
@@ -63,11 +63,10 @@ int DistrictMonastery::GetViewRange()
     return VIEW_RANGE;
 }
 
-DistrictMonastery * DistrictMonastery::Deserialize(boost::property_tree::ptree node)
+std::shared_ptr<DistrictMonastery> DistrictMonastery::Deserialize(boost::property_tree::ptree node)
 {
-    DistrictMonastery* monas = new DistrictMonastery(node.get<int>("<xmlattr>.O"));
-    monas->m_health = node.get<int>("<xmlattr>.H");
+    auto district = std::shared_ptr<DistrictMonastery>{ new DistrictMonastery(node.get<int>("<xmlattr>.O")) };
+    district->m_health = node.get<int>("<xmlattr>.H");
 
-    return monas;
+    return district;
 }
-

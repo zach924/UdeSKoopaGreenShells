@@ -2,6 +2,7 @@
 #include "Texture.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
@@ -24,6 +25,7 @@
 
 
 Texture UnitSettler::tBase::m_Texture = {};
+Texture UnitBuilder::tBase::m_Texture = {};
 
 Texture UnitSwordsmanI::tBase::m_Texture = {};
 Texture UnitSwordsmanII::tBase::m_Texture = {};
@@ -46,6 +48,7 @@ Texture UnitEmpty::tBase::m_Texture = {};
 
 
 bool UnitSettler::tBase::m_forceLoading = false;
+bool UnitBuilder::tBase::m_forceLoading = false;
 
 bool UnitArcherI::tBase::m_forceLoading = false;
 bool UnitArcherII::tBase::m_forceLoading = false;

@@ -8,10 +8,11 @@ class UnitEmpty : public Unit<UnitEmpty>
 public:
     typedef Unit<UnitEmpty> tBase;
 
-public:
+    static const int UNIT_TYPE = -1;
+
     UnitEmpty(int owner);
     ~UnitEmpty();
-    virtual UnitBase* Clone();
+    virtual std::shared_ptr<UnitBase> Clone();
     void LoadTexture();
 
     virtual bool CanUpgrade();

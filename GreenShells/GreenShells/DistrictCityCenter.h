@@ -14,7 +14,7 @@ public:
     static const int FOOD_YIELD = 5;
     static const int SCIENCE_YIELD = 3;
     static const int FOOD_COST = 0;
-    static int const VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 5;
 
     static const int TURN_FOR_BORDER_T1 = 5; // 1 Tile
     static const int T1_BORDER_SIZE = 1;
@@ -28,7 +28,7 @@ public:
 public:
     DistrictCityCenter(int owner);
     ~DistrictCityCenter();
-    virtual DistrictBase* Clone();
+    virtual std::shared_ptr<DistrictBase> Clone();
     void LoadTexture();
 
     virtual void ChangeOwner(int newOwner);
@@ -41,5 +41,5 @@ public:
     virtual void Repair(int repairValue);
     virtual bool CanUpgrade();
 
-    static DistrictCityCenter* Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictCityCenter> Deserialize(boost::property_tree::ptree node);
 };
