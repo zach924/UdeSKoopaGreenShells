@@ -37,7 +37,7 @@ Map::~Map()
 
 void Map::GenerateTiles()
 {
-    std::ifstream ifs{ "Ressources\\maps\\FirstMap.txt" };
+    std::ifstream ifs{ "Ressources\\maps\\Islands.txt" };
 
     assert(ifs.good() && "Make sure you have the ressources folder beside your exe.");
 
