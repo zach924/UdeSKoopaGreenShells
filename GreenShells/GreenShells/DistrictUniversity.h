@@ -3,31 +3,22 @@
 
 class DistrictUniversity : public District<DistrictUniversity>
 {
+    static const int ATTACK_DAMAGE = 0;
+    static const int HEALTH = 400;
+    static const int VIEW_RANGE = 5;
+    static constexpr char* NAME = "University";
+
 public:
     typedef District<DistrictUniversity> tBase;
     static const int DISTRICT_TYPE = 13;
-
-    static const int ATTACK_DAMAGE = 0;
-    static const int HEALTH = 400;
-
     static const int FOOD_COST = 1000;
     static constexpr double SCIENCE_BONUS = 0.1;
-    static const int VIEW_RANGE = 5;
-    static const char* NAME;
 
-public:
     DistrictUniversity(int owner);
     ~DistrictUniversity();
     virtual std::shared_ptr<DistrictBase> Clone();
-    void LoadTexture();
-    virtual void Repair(int repairValue);
+    virtual void LoadTexture();
     virtual bool CanUpgrade();
-
-    virtual int GetMaxHealth();
-    virtual const char* GetName();
-    virtual int GetTypeAsInt();
-    virtual int GetViewRange();
-
     static std::shared_ptr<DistrictUniversity> Deserialize(boost::property_tree::ptree node);
 };
 

@@ -6,13 +6,17 @@
 #include "ServerSession.h"
 #include "Player.h"
 
-UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, int weaponCost, int foodCost)
+UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost)
     : m_ownerID(owner),
     m_health(health),
+    m_maxHealth(health),
     m_attackRange(attackRange),
     m_attackDamage(attackDamage),
     m_actionPointsLeft(actionPoints),
+    m_defaultActionPoints(actionPoints),
     m_viewRange(viewRange),
+    m_name(name),
+    m_typeAsInt(typeAsInt),
     m_weaponCost(weaponCost),
     m_foodCost(foodCost)
 {
@@ -52,6 +56,26 @@ int UnitBase::GetOwnerID()
     return m_ownerID;
 }
 
+int UnitBase::GetMaxHealth()
+{
+    return m_maxHealth;
+}
+
+const char * UnitBase::GetName()
+{
+    return m_name.c_str();
+}
+
+int UnitBase::GetTypeAsInt()
+{
+    return m_typeAsInt;
+}
+
+int UnitBase::GetViewRange()
+{
+    return m_viewRange;
+}
+
 Position UnitBase::GetPosition()
 {
     return m_position;
@@ -60,6 +84,11 @@ Position UnitBase::GetPosition()
 void UnitBase::SetPosition(Position pos)
 {
     m_position = pos;
+}
+
+void UnitBase::Heal(int health)
+{
+    m_health = std::min(m_health + health, m_maxHealth);
 }
 
 int UnitBase::GetWeaponCost()
@@ -103,6 +132,12 @@ AttackNotification UnitBase::Attack(std::shared_ptr<DistrictBase> target)
 
 void UnitBase::NotifyNewTurn(int turn)
 {
+    m_actionPointsLeft = m_defaultActionPoints;
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
+    if (player->GetUtilitySkillTree().MovementUpgrade)
+    {
+        m_actionPointsLeft += 1;
+    }
 }
 
 boost::property_tree::ptree UnitBase::Serialize()

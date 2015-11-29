@@ -3,10 +3,8 @@
 #include "DistrictMonastery.h"
 #include "Player.h"
 
-const char* DistrictMonastery::NAME = "Monastery";
-
 DistrictMonastery::DistrictMonastery(int owner)
-    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
+    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -32,35 +30,10 @@ DistrictMonastery::~DistrictMonastery()
 {
 }
 
-void DistrictMonastery::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictMonastery::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetEmpireSkillTree().Cathedral;
-}
-
-int DistrictMonastery::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictMonastery::GetName()
-{
-    return NAME;
-}
-
-int DistrictMonastery::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictMonastery::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictMonastery> DistrictMonastery::Deserialize(boost::property_tree::ptree node)

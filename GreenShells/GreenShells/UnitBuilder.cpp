@@ -2,13 +2,10 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-const char* UnitBuilder::UNIT_NAME = "Builder";
-
 UnitBuilder::UnitBuilder(int owner, bool hasBonusActionPoint)
-    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST, FOOD_COST)
+    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
 {
     if (hasBonusActionPoint)
     {
@@ -42,42 +39,6 @@ bool UnitBuilder::CanUpgrade()
 {
     return true;
 }
-
-int UnitBuilder::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitBuilder::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitBuilder::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitBuilder::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-void UnitBuilder::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitBuilder::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
 
 std::shared_ptr<UnitBuilder> UnitBuilder::Deserialize(boost::property_tree::ptree node)
 {

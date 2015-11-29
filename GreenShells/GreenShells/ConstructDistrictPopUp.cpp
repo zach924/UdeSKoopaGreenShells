@@ -32,47 +32,47 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
     int currentY = m_fontSize + buffer;
     int buttonWidth = 200;
     int buttonHeight = 50;
-    auto currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
     EmpireSkillTree empSkillTree = currentPlayer->GetEmpireSkillTree();
 
     ButtonState state;
     if (empSkillTree.Windmill)
     {
         state = currentPlayer->HasEnoughFood(DistrictWindMill::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Windmill", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictWindMill::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Windmill", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictWindMill::DISTRICT_TYPE); }, nullptr, state);
     }
     else if (empSkillTree.Farm)
     {
         state = currentPlayer->HasEnoughFood(DistrictFarm::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Farm", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFarm::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Farm", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFarm::DISTRICT_TYPE); }, nullptr, state);
     }
     else
     {
         state = currentPlayer->HasEnoughFood(DistrictHunter::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Hunter", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictHunter::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Hunter", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictHunter::DISTRICT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
 
-    state = currentPlayer->HasEnoughFood(DistrictFishery::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Fishery", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFishery::DISTRICT_TYPE); }, nullptr, state));
+    state = currentPlayer->HasEnoughFood(DistrictFishery::FOOD_COST) && empSkillTree.Fishery ? ButtonState::Unpressed : ButtonState::Disabled;
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Fishery", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFishery::DISTRICT_TYPE); }, nullptr, state);
     
     currentY += buttonHeight + buffer;
 
     if (empSkillTree.Fort)
     {
         state = currentPlayer->HasEnoughFood(DistrictFort::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Fort", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFort::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Fort", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictFort::DISTRICT_TYPE); }, nullptr, state);
     }
     else if (empSkillTree.Stable)
     {
         state = currentPlayer->HasEnoughFood(DistrictStable::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Stable", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictStable::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Stable", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictStable::DISTRICT_TYPE); }, nullptr, state);
     }
     else
     {
         state = currentPlayer->HasEnoughFood(DistrictBlacksmith::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Blacksmith", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictBlacksmith::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Blacksmith", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictBlacksmith::DISTRICT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
@@ -80,36 +80,36 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
     if (empSkillTree.School)
     {
         state = currentPlayer->HasEnoughFood(DistrictSchool::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "School", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictSchool::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "School", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictSchool::DISTRICT_TYPE); }, nullptr, state);
     }
     else if (empSkillTree.Cathedral)
     {
         state = currentPlayer->HasEnoughFood(DistrictCathedral::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cathedral", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictCathedral::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Cathedral", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictCathedral::DISTRICT_TYPE); }, nullptr, state);
     }
     else
     {
         state = currentPlayer->HasEnoughFood(DistrictMonastery::FOOD_COST) && empSkillTree.Monastery ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Monastery", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictMonastery::DISTRICT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Monastery", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictMonastery::DISTRICT_TYPE); }, nullptr, state);
     }
     
 
     currentY += buttonHeight + buffer;
 
     state = currentPlayer->HasEnoughFood(DistrictInn::FOOD_COST) && empSkillTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Inn", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictInn::DISTRICT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Inn", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictInn::DISTRICT_TYPE); }, nullptr, state);
 
 
     currentY += buttonHeight + buffer;
     
     state = currentPlayer->HasEnoughFood(DistrictTavern::FOOD_COST) && empSkillTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Tavern", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictTavern::DISTRICT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Tavern", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictTavern::DISTRICT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;
     currentX += buttonWidth + buffer;
     state = ButtonState::Unpressed;
 
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cancel", []() {}, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Cancel", []() {}, nullptr, state);
 }
 
 

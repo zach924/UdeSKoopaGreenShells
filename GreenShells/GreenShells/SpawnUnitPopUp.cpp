@@ -34,7 +34,7 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     int currentY = m_fontSize + buffer;
     int buttonWidth = 200;
     int buttonHeight = 50;
-    auto currentPlayer = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
     auto armySkillTree = currentPlayer->GetArmySkillTree();
 
     ButtonState state;
@@ -42,17 +42,17 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     if (armySkillTree.SwordT3)
     {
         state = currentPlayer->HasEnoughWeapons(UnitSwordsmanIII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK3", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanIII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK3", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanIII::UNIT_TYPE); }, nullptr, state);
     }
     else if (armySkillTree.SwordT2)
     {
         state = currentPlayer->HasEnoughWeapons(UnitSwordsmanII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanII::UNIT_TYPE); }, nullptr, state);
     }
     else
     {
         state = currentPlayer->HasEnoughWeapons(UnitSwordsmanI::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanI::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Swordsman MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSwordsmanI::UNIT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
@@ -60,23 +60,23 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     if (armySkillTree.AxeT2)
     {
         state = currentPlayer->HasEnoughWeapons(UnitAxemanII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanII::UNIT_TYPE); }, nullptr, state);
     }
     else
     {
         state = armySkillTree.AxeT1 && currentPlayer->HasEnoughWeapons(UnitAxemanI::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanI::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Axeman MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitAxemanI::UNIT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
     
     state = armySkillTree.Canon && currentPlayer->HasEnoughWeapons(UnitCannon::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cannon MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitCannon::UNIT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Cannon MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitCannon::UNIT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;
     
     state = currentPlayer->GetEmpireSkillTree().Settler && currentPlayer->HasEnoughFood(UnitSettler::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Settler", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSettler::UNIT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Settler", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitSettler::UNIT_TYPE); }, nullptr, state);
     
     //Second column
     currentX += buttonWidth + buffer;
@@ -85,17 +85,17 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     if (armySkillTree.ArcherT3)
     {
         state = currentPlayer->HasEnoughWeapons(UnitArcherIII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Archer MK3", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherIII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Archer MK3", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherIII::UNIT_TYPE); }, nullptr, state);
     }
     else if (armySkillTree.ArcherT2)
     {
         state = currentPlayer->HasEnoughWeapons(UnitArcherII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Archer MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Archer MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherII::UNIT_TYPE); }, nullptr, state);
     }
     else
     {
         state = armySkillTree.ArcherT1 && currentPlayer->HasEnoughWeapons(UnitArcherI::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Archer MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherI::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Archer MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitArcherI::UNIT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
@@ -103,28 +103,28 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
     if (armySkillTree.MaceT2)
     {
         state = currentPlayer->HasEnoughWeapons(UnitMaceII::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Mace MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitMaceII::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Mace MK2", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitMaceII::UNIT_TYPE); }, nullptr, state);
     }
     else
     {
         state = armySkillTree.MaceT1 && currentPlayer->HasEnoughWeapons(UnitMaceI::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-        m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Mace MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitMaceI::UNIT_TYPE); }, nullptr, state));
+        m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Mace MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitMaceI::UNIT_TYPE); }, nullptr, state);
     }
 
     currentY += buttonHeight + buffer;
 
     state = armySkillTree.Shield && currentPlayer->HasEnoughWeapons(UnitShield::WEAPON_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Shield MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitShield::UNIT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Shield MK1", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitShield::UNIT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;  
 
     state = currentPlayer->HasEnoughFood(UnitBuilder::FOOD_COST) ? ButtonState::Unpressed : ButtonState::Disabled;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Builder", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitBuilder::UNIT_TYPE); }, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Builder", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitBuilder::UNIT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;
 
     state = ButtonState::Unpressed;
-    m_allButtons.emplace_back(ButtonText(currentX, currentY, buttonWidth, buttonHeight, "Cancel", []() {}, nullptr, state));
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Cancel", []() {}, nullptr, state);
 }
 
 

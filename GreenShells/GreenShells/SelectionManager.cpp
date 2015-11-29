@@ -482,7 +482,6 @@ void SelectionManager::HandleRightClickPressed(Position pos)
     //we have nothing selected, we do nothing
     if (m_selectedPosition == Position(-1, -1))
     {
-        Cancel();
         return;
     }
 
@@ -492,7 +491,6 @@ void SelectionManager::HandleRightClickPressed(Position pos)
     //we have no unit selected, we do nothing
     if (selectedTile->GetUnit() == nullptr || selectedTile->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID())
     {
-        Cancel();
         return;
     }
 

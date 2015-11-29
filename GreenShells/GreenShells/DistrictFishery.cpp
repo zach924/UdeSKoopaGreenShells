@@ -3,10 +3,8 @@
 #include "DistrictFishery.h"
 #include "Player.h"
 
-const char* DistrictFishery::NAME = "Fishery";
-
 DistrictFishery::DistrictFishery(int owner)
-    : District<DistrictFishery>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_YIELD, SCIENCE_YIELD, WEAPON_YIELD)
+    : District<DistrictFishery>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -32,35 +30,9 @@ DistrictFishery::~DistrictFishery()
 {
 }
 
-void DistrictFishery::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictFishery::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetArmySkillTree().Fortress;
-}
-
-int DistrictFishery::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictFishery::GetName()
-{
-    return NAME;
-}
-
-int DistrictFishery::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictFishery::GetViewRange()
-{
-    return VIEW_RANGE;
+    return false;
 }
 
 std::shared_ptr<DistrictFishery> DistrictFishery::Deserialize(boost::property_tree::ptree node)

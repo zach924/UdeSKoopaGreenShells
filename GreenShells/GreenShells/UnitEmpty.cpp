@@ -3,7 +3,7 @@
 #include <iostream>
 
 UnitEmpty::UnitEmpty(int owner)
-    : Unit<UnitEmpty>(owner, 0, 0, 0, 0, 0, 0)
+    : Unit<UnitEmpty>(owner, 0, 0, 0, 0, 0, UNIT_NAME, UNIT_TYPE)
 {
 }
 
@@ -15,17 +15,6 @@ std::shared_ptr<UnitBase> UnitEmpty::Clone()
 {
     assert(false && "Why you trying to clone an empty unit >.>");
     return std::shared_ptr<UnitBase> { new UnitEmpty{ *this } };
-}
-
-int UnitEmpty::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitEmpty::GetViewRange()
-{
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-    return 0;
 }
 
 void UnitEmpty::LoadTexture()
@@ -47,25 +36,20 @@ bool UnitEmpty::CanUpgrade()
     return false;
 }
 
-void UnitEmpty::Heal(int health)
-{
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-}
-
-int UnitEmpty::GetMaxHealth()
-{
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-    return 0;
-}
-
-const char * UnitEmpty::GetName()
-{
-    assert(false && "Should not use an Empty Unit. It cannot be placed on the map.");
-    return nullptr;
-}
-
 boost::property_tree::ptree UnitEmpty::Serialize()
 {
     assert(false && "Should not try to serialize an empty unit. It cannot be placed on the map.");
     return boost::property_tree::ptree();
+}
+
+AttackNotification UnitEmpty::Attack(std::shared_ptr<UnitBase> target)
+{
+    assert(false && "Should not try to serialize an empty unit. It cannot be placed on the map.");
+    return AttackNotification(0, false, false);
+}
+
+AttackNotification UnitEmpty::Attack(std::shared_ptr<DistrictBase> target)
+{
+    assert(false && "Should not try to serialize an empty unit. It cannot be placed on the map.");
+    return AttackNotification(0, false, false);
 }

@@ -2,13 +2,10 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-const char* UnitCannon::UNIT_NAME = "Cannon";
-
 UnitCannon::UnitCannon(int owner, bool hasBonusActionPoint)
-    : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, WEAPON_COST)
+    : Unit<UnitCannon>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
     if (hasBonusActionPoint)
     {
@@ -42,42 +39,6 @@ bool UnitCannon::CanUpgrade()
 {
     return false;
 }
-
-int UnitCannon::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitCannon::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitCannon::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitCannon::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-void UnitCannon::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitCannon::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
 
 std::shared_ptr<UnitCannon> UnitCannon::Deserialize(boost::property_tree::ptree node)
 {

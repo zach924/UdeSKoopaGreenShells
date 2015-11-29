@@ -48,9 +48,9 @@ Player::Player()
     m_isAlive(true),
     m_cityCenterLocations(),
     m_unitCount(0),
-    m_food(20000.1),
-    m_science(1111110.6),
-    m_weapon(11111110.1),
+    m_food(100),
+    m_science(0),
+    m_weapon(0),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
@@ -83,17 +83,17 @@ bool Player::IsPlayerReadyForNextTurn()
 
 int Player::GetPrintableFoodQuantity()
 {
-    return (int)m_food;
+    return static_cast<int>(m_food);
 }
 
 int Player::GetPrintableScienceQuantity()
 {
-    return (int)m_science;
+    return static_cast<int>(m_science);
 }
 
 int Player::GetPrintableWeaponQuantity()
 {
-    return (int)m_weapon;
+    return static_cast<int>(m_weapon);
 }
 
 bool Player::IsAlive()
