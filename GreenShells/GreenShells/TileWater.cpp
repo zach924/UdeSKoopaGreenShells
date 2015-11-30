@@ -29,6 +29,7 @@
 
 #include "DistrictCityCenter.h"
 
+#include "DistrictFishery.h"
 #include "DistrictHunter.h"
 #include "DistrictFarm.h"
 #include "DistrictWindMill.h"
@@ -197,6 +198,9 @@ TileWater* TileWater::Deserialize(boost::property_tree::ptree tileNode, Position
                 break;
             case DistrictMilitaryTent::DISTRICT_TYPE:
                 tile->SetDistrict(DistrictMilitaryTent::Deserialize(child.second));
+                break;
+            case DistrictFishery::DISTRICT_TYPE:
+                tile->SetDistrict(DistrictFishery::Deserialize(child.second));
                 break;
             default:
                 assert(false && "District is not good");

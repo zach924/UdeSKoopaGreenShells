@@ -3,10 +3,8 @@
 #include "DistrictMilitaryTent.h"
 #include "Player.h"
 
-const char* DistrictMilitaryTent::NAME = "Military Tent";
-
 DistrictMilitaryTent::DistrictMilitaryTent(int owner)
-    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictMilitaryTent::~DistrictMilitaryTent()
 {
 }
 
-void DistrictMilitaryTent::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictMilitaryTent::CanUpgrade()
 {
     return false;
-}
-
-int DistrictMilitaryTent::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictMilitaryTent::GetName()
-{
-    return NAME;
-}
-
-int DistrictMilitaryTent::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictMilitaryTent::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictMilitaryTent> DistrictMilitaryTent::Deserialize(boost::property_tree::ptree node)

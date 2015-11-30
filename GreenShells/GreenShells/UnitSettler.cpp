@@ -1,18 +1,14 @@
 #include "UnitSettler.h"
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include <iostream>
 #include "Map.h"
 #include "DistrictCityCenter.h"
 
-const char* UnitSettler::UNIT_NAME = "Settler";
-
-UnitSettler::UnitSettler(int owner)
-    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitSettler::UnitSettler(int owner, bool hasBonusActionPoint)
+    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -45,46 +41,6 @@ bool UnitSettler::CanUpgrade()
     return true;
 }
 
-int UnitSettler::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitSettler::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitSettler::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitSettler::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitSettler::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitSettler::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitSettler::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
 void UnitSettler::Upgrade(Map* map)
 {
     TileBase* tile = map->GetTile(GetPosition());
@@ -92,11 +48,10 @@ void UnitSettler::Upgrade(Map* map)
     tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictCityCenter(GetOwnerID())});
 }
 
-
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSettler::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -108,7 +63,7 @@ AttackNotification UnitSettler::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitSettler::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

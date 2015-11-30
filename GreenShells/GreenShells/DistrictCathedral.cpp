@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictSchool.h"
 
-const char* DistrictCathedral::NAME = "Cathedral";
-
 DistrictCathedral::DistrictCathedral(int owner)
-    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -30,39 +28,14 @@ void DistrictCathedral::LoadTexture()
     }
 }
 
-DistrictCathedral::~DistrictCathedral()
-{
-}
-
-void DistrictCathedral::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictCathedral::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().School && player->HasRessourcesForDistrict(DistrictSchool::DISTRICT_TYPE);
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetEmpireSkillTree().School && player->HasEnoughFood(GetFoodCost());
 }
 
-int DistrictCathedral::GetMaxHealth()
+DistrictCathedral::~DistrictCathedral()
 {
-    return HEALTH;
-}
-
-const char * DistrictCathedral::GetName()
-{
-    return NAME;
-}
-
-int DistrictCathedral::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictCathedral::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 void DistrictCathedral::Upgrade(Map * map)

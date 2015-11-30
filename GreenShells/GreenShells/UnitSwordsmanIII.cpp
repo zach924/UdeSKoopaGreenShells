@@ -1,16 +1,12 @@
 #include "UnitSwordsmanIII.h"
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-const char* UnitSwordsmanIII::UNIT_NAME = "Swordsman MK3";
-
-UnitSwordsmanIII::UnitSwordsmanIII(int owner)
-    : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitSwordsmanIII::UnitSwordsmanIII(int owner, bool hasBonusActionPoint)
+    : Unit<UnitSwordsmanIII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -43,51 +39,10 @@ bool UnitSwordsmanIII::CanUpgrade()
     return false;
 }
 
-int UnitSwordsmanIII::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitSwordsmanIII::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitSwordsmanIII::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitSwordsmanIII::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitSwordsmanIII::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitSwordsmanIII::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitSwordsmanIII::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
-
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSwordsmanIII::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -99,7 +54,7 @@ AttackNotification UnitSwordsmanIII::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitSwordsmanIII::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

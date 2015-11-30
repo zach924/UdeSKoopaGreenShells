@@ -3,10 +3,8 @@
 #include "DistrictTavern.h"
 #include "Player.h"
 
-const char* DistrictTavern::NAME = "Tavern";
-
 DistrictTavern::DistrictTavern(int owner)
-    : District<DistrictTavern>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictTavern>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictTavern::~DistrictTavern()
 {
 }
 
-void DistrictTavern::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictTavern::CanUpgrade()
 {
     return false;
-}
-
-int DistrictTavern::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictTavern::GetName()
-{
-    return NAME;
-}
-
-int DistrictTavern::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictTavern::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictTavern> DistrictTavern::Deserialize(boost::property_tree::ptree node)

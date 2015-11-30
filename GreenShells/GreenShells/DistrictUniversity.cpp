@@ -3,10 +3,8 @@
 #include "DistrictUniversity.h"
 #include "Player.h"
 
-const char* DistrictUniversity::NAME = "University";
-
 DistrictUniversity::DistrictUniversity(int owner)
-    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictUniversity::~DistrictUniversity()
 {
 }
 
-void DistrictUniversity::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictUniversity::CanUpgrade()
 {
     return false;
-}
-
-int DistrictUniversity::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictUniversity::GetName()
-{
-    return NAME;
-}
-
-int DistrictUniversity::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictUniversity::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictUniversity> DistrictUniversity::Deserialize(boost::property_tree::ptree node)

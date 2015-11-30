@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictStable.h"
 
-const char* DistrictBlacksmith::NAME = "Blacksmith";
-
 DistrictBlacksmith::DistrictBlacksmith(int owner)
-    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -34,30 +32,10 @@ DistrictBlacksmith::~DistrictBlacksmith()
 {
 }
 
-void DistrictBlacksmith::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictBlacksmith::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Stable && player->HasRessourcesForDistrict(DistrictStable::DISTRICT_TYPE);
-}
-
-int DistrictBlacksmith::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictBlacksmith::GetName()
-{
-    return NAME;
-}
-
-int DistrictBlacksmith::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetEmpireSkillTree().Stable && player->HasEnoughFood(GetFoodCost());
 }
 
 std::shared_ptr<DistrictBlacksmith> DistrictBlacksmith::Deserialize(boost::property_tree::ptree node)
@@ -66,11 +44,6 @@ std::shared_ptr<DistrictBlacksmith> DistrictBlacksmith::Deserialize(boost::prope
     district->m_health = node.get<int>("<xmlattr>.H");
 
     return district;
-}
-
-int DistrictBlacksmith::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 void DistrictBlacksmith::Upgrade(Map * map)

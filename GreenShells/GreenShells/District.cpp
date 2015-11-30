@@ -3,6 +3,7 @@
 
 #include "DistrictCityCenter.h"
 
+#include "DistrictFishery.h"
 #include "DistrictHunter.h"
 #include "DistrictFarm.h"
 #include "DistrictWindMill.h"
@@ -43,6 +44,7 @@ Texture DistrictInn::tBase::m_Texture = {};
 Texture DistrictTavern::tBase::m_Texture = {};
 Texture DistrictMilitaryTent::tBase::m_Texture = {};
 Texture DistrictEmpty::tBase::m_Texture = {};
+Texture DistrictFishery::tBase::m_Texture = {};
 
 bool DistrictCityCenter::tBase::m_forceLoading = false;
 bool DistrictHunter::tBase::m_forceLoading = false;
@@ -62,4 +64,4 @@ bool DistrictInn::tBase::m_forceLoading = false;
 bool DistrictTavern::tBase::m_forceLoading = false;
 bool DistrictMilitaryTent::tBase::m_forceLoading = false;
 bool DistrictEmpty::tBase::m_forceLoading = false;
-
+bool DistrictFishery::tBase::m_forceLoading = false;

@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictFortress.h"
 
-const char* DistrictFort::NAME = "Fort";
-
 DistrictFort::DistrictFort(int owner)
-    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -34,35 +32,10 @@ DistrictFort::~DistrictFort()
 {
 }
 
-void DistrictFort::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictFort::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetArmySkillTree().Fortress && player->HasRessourcesForDistrict(DistrictFortress::DISTRICT_TYPE);
-}
-
-int DistrictFort::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictFort::GetName()
-{
-    return NAME;
-}
-
-int DistrictFort::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictFort::GetViewRange()
-{
-    return VIEW_RANGE;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetArmySkillTree().Fortress && player->HasEnoughFood(GetFoodCost());
 }
 
 void DistrictFort::Upgrade(Map * map)

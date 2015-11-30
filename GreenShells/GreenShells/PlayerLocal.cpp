@@ -19,9 +19,9 @@ PlayerLocal::~PlayerLocal()
 {
 }
 
-Player* PlayerLocal::Clone()
+std::shared_ptr<Player> PlayerLocal::Clone()
 {
-    PlayerLocal* player = new PlayerLocal{};
+    std::shared_ptr<PlayerLocal> player = std::shared_ptr<PlayerLocal>{ new PlayerLocal{} };
 
     player->m_playerName = m_playerName;
     player->m_playerID = m_playerID;
@@ -117,17 +117,17 @@ void PlayerLocal::SetIsAlive(bool value)
 
 void PlayerLocal::AddFood(unsigned int qty)
 {
-    m_food += static_cast<unsigned int>(qty * m_foodMultiplier);
+    m_food += qty * m_foodMultiplier;
 }
 
 void PlayerLocal::AddScience(unsigned int qty)
 {
-    m_science += static_cast<unsigned int>(qty * m_scienceMultiplier);
+    m_science += qty * m_scienceMultiplier;
 }
 
 void PlayerLocal::AddWeapon(unsigned int qty)
 {
-    m_weapon += static_cast<unsigned int>(qty * m_weaponMultiplier);
+    m_weapon += qty * m_weaponMultiplier;
 }
 
 bool PlayerLocal::ConsumeFood(unsigned int qty)
@@ -275,7 +275,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER6;
             m_utilitySkillTree.MountainConstruction = true;
-            //TODO when building districts is possible
         }
         break;
     case ArmorUpgrade:
@@ -290,7 +289,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER7;
             m_utilitySkillTree.University = true;
-            //TODO when building districts is possible
         }
         break;
     case NoFogOfWar:
@@ -309,25 +307,25 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
             //TODO when building districts is possible
         }
         break;
-    case RangerT1:
+    case ArcherT1:
         if (m_science >= SKILL_COST_TIER1)
         {
             m_science -= SKILL_COST_TIER1;
-            m_armySkillTree.RangerT1 = true;
+            m_armySkillTree.ArcherT1 = true;
         }
         break;
-    case RangerT2:
+    case ArcherT2:
         if (m_science >= SKILL_COST_TIER4)
         {
             m_science -= SKILL_COST_TIER4;
-            m_armySkillTree.RangerT2 = true;
+            m_armySkillTree.ArcherT2 = true;
         }
         break;
-    case RangerT3:
+    case ArcherT3:
         if (m_science >= SKILL_COST_TIER6)
         {
             m_science -= SKILL_COST_TIER6;
-            m_armySkillTree.RangerT3 = true;
+            m_armySkillTree.ArcherT3 = true;
         }
         break;
     case SwordT2:
@@ -377,7 +375,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER7;
             m_armySkillTree.Fortress = true;
-            //TODO when building districts is possible
         }
         break;
     case Shield:
@@ -406,7 +403,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER2;
             m_empireSkillTree.Monastery = true;
-            //TODO when building districts is possible
         }
         break;
     case Farm:
@@ -414,7 +410,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER3;
             m_empireSkillTree.Farm = true;
-            //TODO when building districts is possible
         }
         break;
     case Windmill:
@@ -422,7 +417,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER4;
             m_empireSkillTree.Windmill = true;
-            //TODO when building districts is possible
         }
         break;
     case Fishery:
@@ -438,7 +432,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER3;
             m_empireSkillTree.Stable = true;
-            //TODO when building districts is possible
         }
         break;
     case Cathedral:
@@ -446,7 +439,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER4;
             m_empireSkillTree.Cathedral = true;
-            //TODO when building districts is possible
         }
         break;
     case Fort:
@@ -454,7 +446,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER4;
             m_empireSkillTree.Fort = true;
-            //TODO when building districts is possible
         }
         break;
     case MilitaryTent:
@@ -462,7 +453,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER5;
             m_empireSkillTree.MilitaryTent = true;
-            //TODO when building districts is possible
         }
         break;
     case InnAndTavern:
@@ -470,7 +460,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER5;
             m_empireSkillTree.InnAndTavern = true;
-            //TODO when building districts is possible
         }
         break;
     case School:
@@ -478,7 +467,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER6;
             m_empireSkillTree.School = true;
-            //TODO when building districts is possible
         }
         break;
     case Warehouse:
@@ -486,7 +474,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER6;
             m_empireSkillTree.Warehouse = true;
-            //TODO when building districts is possible
         }
         break;
     case RessourcesBonus:
@@ -588,16 +575,16 @@ void PlayerLocal::GoToWar(int otherPlayerId, int currentTurn)
     }
 }
 
-PlayerLocal* PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
+std::shared_ptr<PlayerLocal> PlayerLocal::Deserialize(boost::property_tree::ptree playerNode)
 {
-    PlayerLocal* player = new PlayerLocal();
+    auto player = std::shared_ptr<PlayerLocal>{ new PlayerLocal() };
 
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
     player->m_unitCount = playerNode.get<int>("<xmlattr>.UC");
-    player->m_food = playerNode.get<int>("<xmlattr>.F");
-    player->m_science = playerNode.get<int>("<xmlattr>.S");
-    player->m_weapon = playerNode.get<int>("<xmlattr>.W");
+    player->m_food = playerNode.get<double>("<xmlattr>.F");
+    player->m_science = playerNode.get<double>("<xmlattr>.S");
+    player->m_weapon = playerNode.get<double>("<xmlattr>.W");
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");

@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictUniversity.h"
 
-const char* DistrictSchool::NAME = "School";
-
 DistrictSchool::DistrictSchool(int owner)
-    : District<DistrictSchool>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictSchool>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -34,35 +32,10 @@ DistrictSchool::~DistrictSchool()
 {
 }
 
-void DistrictSchool::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictSchool::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetUtilitySkillTree().University && player->HasRessourcesForDistrict(DistrictUniversity::DISTRICT_TYPE);
-}
-
-int DistrictSchool::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictSchool::GetName()
-{
-    return NAME;
-}
-
-int DistrictSchool::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictSchool::GetViewRange()
-{
-    return VIEW_RANGE;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetUtilitySkillTree().University && player->HasEnoughFood(GetFoodCost());
 }
 
 void DistrictSchool::Upgrade(Map * map)

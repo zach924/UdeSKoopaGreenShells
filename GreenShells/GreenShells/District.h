@@ -9,13 +9,11 @@ class District : public DistrictBase
 public:
     static Texture m_Texture;
     static bool m_forceLoading;
-    void LoadTexture() {};
-
-    virtual int GetTypeAsInt() = 0;
+    virtual void LoadTexture() =0;
 
 public:
-    District(int ownerID, int health, int attackDamage, int viewRange, int foodCost = 0, int weaponYield = 0, int foodYield = 0, int scienceYield = 0)
-        : DistrictBase(ownerID, health, attackDamage, viewRange, foodCost, weaponYield, foodYield, scienceYield)
+    District(int ownerID, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost = 0, int weaponYield = 0, int foodYield = 0, int scienceYield = 0)
+        : DistrictBase(ownerID, health, attackDamage, viewRange, name, typeAsInt, foodCost, weaponYield, foodYield, scienceYield)
     {
     }
 

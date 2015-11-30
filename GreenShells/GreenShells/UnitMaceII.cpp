@@ -2,17 +2,12 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-
-const char* UnitMaceII::UNIT_NAME = "Mace MK2";
-
-UnitMaceII::UnitMaceII(int owner)
-    : Unit<UnitMaceII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitMaceII::UnitMaceII(int owner, bool hasBonusActionPoint)
+    : Unit<UnitMaceII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -45,46 +40,6 @@ bool UnitMaceII::CanUpgrade()
     return false;
 }
 
-int UnitMaceII::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitMaceII::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitMaceII::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitMaceII::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitMaceII::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitMaceII::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitMaceII::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
 std::shared_ptr<UnitMaceII> UnitMaceII::Deserialize(boost::property_tree::ptree node)
 {
     std::shared_ptr<UnitMaceII> mace = std::shared_ptr<UnitMaceII>{ new UnitMaceII(node.get<int>("<xmlattr>.O")) };
@@ -96,7 +51,7 @@ std::shared_ptr<UnitMaceII> UnitMaceII::Deserialize(boost::property_tree::ptree 
 
 AttackNotification UnitMaceII::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -108,7 +63,7 @@ AttackNotification UnitMaceII::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitMaceII::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

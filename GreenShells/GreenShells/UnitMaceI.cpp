@@ -2,18 +2,14 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include "Map.h"
 #include "UnitMaceII.h"
 
-const char* UnitMaceI::UNIT_NAME = "Mace MK1";
-
-UnitMaceI::UnitMaceI(int owner)
-    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitMaceI::UnitMaceI(int owner, bool hasBonusActionPoint)
+    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -43,55 +39,14 @@ void UnitMaceI::LoadTexture()
 
 bool UnitMaceI::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().MaceT2 && player->HasRessourcesForUnit(GetUnitTier());
-}
-
-int UnitMaceI::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitMaceI::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitMaceI::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitMaceI::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitMaceI::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitMaceI::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitMaceI::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetArmySkillTree().MaceT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 void UnitMaceI::Upgrade(Map* map)
 {
     map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitMaceII(GetOwnerID())});
 }
-
 
 std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree node)
 {
@@ -104,7 +59,7 @@ std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree no
 
 AttackNotification UnitMaceI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -116,7 +71,7 @@ AttackNotification UnitMaceI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitMaceI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

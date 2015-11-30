@@ -2,18 +2,14 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include "Map.h"
 #include "UnitArcherIII.h"
 
-const char* UnitArcherII::UNIT_NAME = "Archer MK2";
-
-UnitArcherII::UnitArcherII(int owner)
-    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitArcherII::UnitArcherII(int owner, bool hasBonusActionPoint)
+    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -43,48 +39,8 @@ void UnitArcherII::LoadTexture()
 
 bool UnitArcherII::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().RangerT3 && player->HasRessourcesForUnit(GetUnitTier());
-}
-
-int UnitArcherII::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitArcherII::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitArcherII::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitArcherII::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitArcherII::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitArcherII::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitArcherII::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetArmySkillTree().ArcherT3 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 void UnitArcherII::Upgrade(Map* map)

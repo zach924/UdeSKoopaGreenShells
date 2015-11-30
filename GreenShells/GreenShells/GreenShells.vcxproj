@@ -167,6 +167,7 @@
     <ClCompile Include="ConstructDistrictPopUp.cpp" />
     <ClCompile Include="DistrictBlacksmith.cpp" />
     <ClCompile Include="DistrictCathedral.cpp" />
+    <ClCompile Include="DistrictFishery.cpp" />
     <ClCompile Include="DistrictFort.cpp" />
     <ClCompile Include="DistrictFortress.cpp" />
     <ClCompile Include="DistrictHunter.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="ConstructDistrictPopUp.h" />
     <ClInclude Include="DistrictBlacksmith.h" />
     <ClInclude Include="DistrictCathedral.h" />
+    <ClInclude Include="DistrictFishery.h" />
     <ClInclude Include="DistrictFort.h" />
     <ClInclude Include="DistrictFortress.h" />
     <ClInclude Include="DistrictHunter.h" />

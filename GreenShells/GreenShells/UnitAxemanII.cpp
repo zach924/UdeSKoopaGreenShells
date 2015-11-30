@@ -2,16 +2,12 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-const char* UnitAxemanII::UNIT_NAME = "Axeman MK2";
-
-UnitAxemanII::UnitAxemanII(int owner)
-    : Unit<UnitAxemanII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitAxemanII::UnitAxemanII(int owner, bool hasBonusActionPoint)
+    : Unit<UnitAxemanII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -44,47 +40,6 @@ bool UnitAxemanII::CanUpgrade()
     return false;
 }
 
-int UnitAxemanII::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitAxemanII::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitAxemanII::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitAxemanII::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitAxemanII::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitAxemanII::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitAxemanII::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
-
 std::shared_ptr<UnitAxemanII> UnitAxemanII::Deserialize(boost::property_tree::ptree node)
 {
     std::shared_ptr<UnitAxemanII> axeman = std::shared_ptr<UnitAxemanII>{ new UnitAxemanII(node.get<int>("<xmlattr>.O")) };
@@ -96,7 +51,7 @@ std::shared_ptr<UnitAxemanII> UnitAxemanII::Deserialize(boost::property_tree::pt
 
 AttackNotification UnitAxemanII::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -108,7 +63,7 @@ AttackNotification UnitAxemanII::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitAxemanII::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

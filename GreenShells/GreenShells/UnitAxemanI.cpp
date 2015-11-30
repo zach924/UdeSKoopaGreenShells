@@ -2,18 +2,14 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include "UnitAxemanII.h"
 #include "Map.h"
 
-const char* UnitAxemanI::UNIT_NAME = "Axeman MK1";
-
-UnitAxemanI::UnitAxemanI(int owner)
-    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitAxemanI::UnitAxemanI(int owner, bool hasBonusActionPoint)
+    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -43,55 +39,14 @@ void UnitAxemanI::LoadTexture()
 
 bool UnitAxemanI::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().AxeT2 && player->HasRessourcesForUnit(GetUnitTier());
-}
-
-int UnitAxemanI::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitAxemanI::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitAxemanI::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitAxemanI::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitAxemanI::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitAxemanI::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitAxemanI::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetArmySkillTree().AxeT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 void UnitAxemanI::Upgrade(Map* map)
 {
     map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitAxemanII(GetOwnerID())});
 }
-
 
 std::shared_ptr<UnitAxemanI> UnitAxemanI::Deserialize(boost::property_tree::ptree node)
 {
@@ -104,7 +59,7 @@ std::shared_ptr<UnitAxemanI> UnitAxemanI::Deserialize(boost::property_tree::ptre
 
 AttackNotification UnitAxemanI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -116,7 +71,7 @@ AttackNotification UnitAxemanI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitAxemanI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

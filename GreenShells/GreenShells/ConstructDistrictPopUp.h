@@ -6,7 +6,7 @@ class ConstructDistrictPopUp :
     public PopUpWindow
 {
 private:
-    ButtonText* m_allButtons[6];
+    std::vector<ButtonText> m_allButtons;
 
 public:
     ConstructDistrictPopUp(const char* windowName, int width, int height);

@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictCathedral.h"
 
-const char* DistrictMonastery::NAME = "Monastery";
-
 DistrictMonastery::DistrictMonastery(int owner)
-    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -34,35 +32,10 @@ DistrictMonastery::~DistrictMonastery()
 {
 }
 
-void DistrictMonastery::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictMonastery::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Cathedral && player->HasRessourcesForDistrict(DistrictCathedral::DISTRICT_TYPE);
-}
-
-int DistrictMonastery::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictMonastery::GetName()
-{
-    return NAME;
-}
-
-int DistrictMonastery::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictMonastery::GetViewRange()
-{
-    return VIEW_RANGE;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetEmpireSkillTree().Cathedral && player->HasEnoughFood(GetFoodCost());
 }
 
 void DistrictMonastery::Upgrade(Map * map)

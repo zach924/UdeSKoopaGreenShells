@@ -5,10 +5,8 @@
 #include "Map.h"
 #include "DistrictFarm.h"
 
-const char* DistrictHunter::NAME = "Hunter";
-
 DistrictHunter::DistrictHunter(int owner)
-    : District<DistrictHunter>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictHunter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -34,35 +32,10 @@ DistrictHunter::~DistrictHunter()
 {
 }
 
-void DistrictHunter::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictHunter::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    return player->GetEmpireSkillTree().Farm && player->HasRessourcesForDistrict(DistrictFarm::DISTRICT_TYPE);
-}
-
-int DistrictHunter::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictHunter::GetName()
-{
-    return NAME;
-}
-
-int DistrictHunter::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictHunter::GetViewRange()
-{
-    return VIEW_RANGE;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetEmpireSkillTree().Farm && player->HasEnoughFood(GetFoodCost());
 }
 
 void DistrictHunter::Upgrade(Map * map)

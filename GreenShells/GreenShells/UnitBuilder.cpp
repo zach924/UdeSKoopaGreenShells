@@ -2,18 +2,14 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include "Map.h"
 #include "DistrictWatchTower.h"
 
-const char* UnitBuilder::UNIT_NAME = "Builder";
-
-UnitBuilder::UnitBuilder(int owner)
-    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitBuilder::UnitBuilder(int owner, bool hasBonusActionPoint)
+    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -46,60 +42,19 @@ bool UnitBuilder::CanUpgrade()
     return true;
 }
 
-int UnitBuilder::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitBuilder::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitBuilder::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitBuilder::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitBuilder::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitBuilder::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitBuilder::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
-void UnitBuilder::Update(Map * map)
+void UnitBuilder::Upgrade(Map * map)
 {
     TileBase* tile = map->GetTile(GetPosition());
     tile->SetUnit(nullptr);
     tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWatchTower(GetOwnerID())});
 }
 
-
 std::shared_ptr<UnitBuilder> UnitBuilder::Deserialize(boost::property_tree::ptree node)
 {
-    std::shared_ptr<UnitBuilder> militia = std::shared_ptr<UnitBuilder>{ new UnitBuilder(node.get<int>("<xmlattr>.O")) };
-    militia->m_health = node.get<int>("<xmlattr>.H");
-    militia->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
+    std::shared_ptr<UnitBuilder> builder = std::shared_ptr<UnitBuilder>{ new UnitBuilder(node.get<int>("<xmlattr>.O")) };
+    builder->m_health = node.get<int>("<xmlattr>.H");
+    builder->m_actionPointsLeft = node.get<int>("<xmlattr>.APL");
 
-    return militia;
+    return builder;
 }
 

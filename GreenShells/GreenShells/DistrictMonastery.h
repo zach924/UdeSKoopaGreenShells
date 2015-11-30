@@ -3,34 +3,26 @@
 
 class DistrictMonastery : public District<DistrictMonastery>
 {
+    static const int ATTACK_DAMAGE = 0;
+    static const int HEALTH = 150;
+
+    static const int FOOD_YIELD = 0;
+    static const int SCIENCE_YIELD = 6;
+    static const int WEAPON_YIELD = 0;
+    static const int VIEW_RANGE = 3;
+    static constexpr char* NAME = "Monastery";
+
 public:
     typedef District<DistrictMonastery> tBase;
     static const int DISTRICT_TYPE = 7;
+    static const int FOOD_COST = 400;
 
-    static const int ATTACK_DAMAGE = 0;
-    static const int HEALTH = 250;
-
-    static const int FOOD_COST = 150;
-    static const int FOOD_BONUS = 0;
-    static const int SCIENCE_BONUS = 75;
-    static const int WEAPON_BONUS = 0;
-    static int const VIEW_RANGE = 3;
-    static const char* NAME;
-
-public:
     DistrictMonastery(int owner);
     ~DistrictMonastery();
     virtual std::shared_ptr<DistrictBase> Clone();
-    void LoadTexture();
-    virtual void Repair(int repairValue);
+    virtual void LoadTexture();
     virtual bool CanUpgrade();
-
-    virtual int GetMaxHealth();
-    virtual const char* GetName();
-    virtual int GetTypeAsInt();
-    virtual int GetViewRange();
     virtual void Upgrade(Map* map);
-
     static std::shared_ptr<DistrictMonastery> Deserialize(boost::property_tree::ptree node);
 };
 

@@ -1,18 +1,14 @@
 #include "UnitSwordsmanI.h"
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 #include "Map.h"
 #include "UnitSwordsmanII.h"
 
-const char* UnitSwordsmanI::UNIT_NAME = "Swordsman MK1";
-
-UnitSwordsmanI::UnitSwordsmanI(int owner)
-    : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+UnitSwordsmanI::UnitSwordsmanI(int owner, bool hasBonusActionPoint)
+    : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
+    if (hasBonusActionPoint)
     {
         m_actionPointsLeft += 1;
     }
@@ -42,48 +38,8 @@ void UnitSwordsmanI::LoadTexture()
 
 bool UnitSwordsmanI::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    return player->GetArmySkillTree().SwordT2 && player->HasRessourcesForUnit(GetUnitTier());
-}
-
-int UnitSwordsmanI::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitSwordsmanI::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitSwordsmanI::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitSwordsmanI::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-int UnitSwordsmanI::GetUnitTier()
-{
-    return UNIT_TIER;
-}
-
-void UnitSwordsmanI::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitSwordsmanI::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetArmySkillTree().SwordT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 void UnitSwordsmanI::Upgrade(Map* map)
@@ -91,11 +47,10 @@ void UnitSwordsmanI::Upgrade(Map* map)
     map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitSwordsmanII(GetOwnerID())});
 }
 
-
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING
 AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<UnitBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 
@@ -107,7 +62,7 @@ AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<UnitBase> target)
 
 AttackNotification UnitSwordsmanI::Attack(std::shared_ptr<DistrictBase> target)
 {
-    UseActionPoints(ACTION_POINTS);
+    UseActionPoints(m_actionPointsLeft);
     AttackNotification targetNotification = UnitBase::Attack(target);
     AttackNotification attackerNotification = ReceiveDamage(targetNotification.RiposteDamage);
 

@@ -13,6 +13,7 @@
 
 #include "DistrictCityCenter.h"
 
+#include "DistrictFishery.h"
 #include "DistrictHunter.h"
 #include "DistrictFarm.h"
 #include "DistrictWindMill.h"
@@ -140,7 +141,11 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         tempUnit->UseActionPoints(actionCost);
         secondTile->SetUnit(tempUnit);
 
-        DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
+        auto player = GameSession::GetInstance().GetCurrentPlayerCopy();
+        auto utilitySK = player->GetUtilitySkillTree();
+        int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
+
+        DiscoverArea(newLocation, tempUnit->GetViewRange() + viewModifier, ownerID);
         return true;
     }
 
@@ -148,28 +153,28 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
     return false;
 }
 
-bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
+bool MapLocal::Attack(int attackerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
-    std::cout << "Received an attack request by " << ownerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
+    std::cout << "Received an attack request by " << attackerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
 
     auto targetTile = GetTile(targetPosition);
     auto attackerTile = GetTile(attackerPosition);
     auto attacker = attackerTile->GetUnit();
 
     // No unit on the Attacker tile
-    if (!attacker) // TODO : might be useless, probably the selection manager that validate that
+    if (!attacker)
     {
         return false;
     }
 
     // Unit doesn't belong to the requester
-    if (attacker->GetOwnerID() != ownerID) // TODO : might be useless, probably the selection manager that validate that
+    if (attacker->GetOwnerID() != attackerID)
     {
         return false;
     }
 
     // Nothing to attack on target Tile
-    if (targetTile->IsFree()) // TODO : might be useless, probably the selection manager that validate that (with GetArea giving only attackable tile)
+    if (targetTile->IsFree())
     {
         return false;
     }
@@ -198,7 +203,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
             if (attacker && notification.CanMove && districtTargeted->GetTypeAsInt() == DistrictCityCenter::DISTRICT_TYPE)
             {
                 int currentTurn = ServerSession::GetInstance().GetWorldState()->GetCurrentTurn();
-                Player* playerThatLostACity = ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID());
+                auto playerThatLostACity = ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID());
                 auto allPlayerCityCenters = playerThatLostACity->GetCityCenterLocations();
                 int turnCreated = allPlayerCityCenters[districtTargeted->GetPosition()];
 
@@ -210,18 +215,46 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
                     auto district = tile->GetDistrict();
                     if (district != nullptr)
                     {
-                        district->ChangeOwner(ownerID);
+                        if (district->GetTypeAsInt() == DistrictUniversity::DISTRICT_TYPE)
+                        {
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(district->GetOwnerID())->RemoveScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(attackerID)->AddScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                        }
+                        else if (district->GetTypeAsInt() == DistrictMilitaryTent::DISTRICT_TYPE)
+                        {
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(district->GetOwnerID())->RemoveWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(attackerID)->AddWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+                        }
+                        else if (district->GetTypeAsInt() == DistrictWarehouse::DISTRICT_TYPE)
+                        {
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(district->GetOwnerID())->RemoveFoodMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                            ServerSession::GetInstance().GetWorldState()->GetPlayer(attackerID)->AddFoodMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                        }
+                        district->ChangeOwner(attackerID);
                     }
-                    tile->SetPlayerOwnerId(ownerID);
+                    tile->SetPlayerOwnerId(attackerID);
                 }
 
                 //Change the owner of the city center
                 playerThatLostACity->RemoveCityCenter(districtTargeted->GetPosition());
-                districtTargeted->ChangeOwner(ownerID);
-                ServerSession::GetInstance().GetWorldState()->GetPlayer(ownerID)->AddCityCenter(districtTargeted->GetPosition(), turnCreated);
+                districtTargeted->ChangeOwner(attackerID);
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(attackerID)->AddCityCenter(districtTargeted->GetPosition(), turnCreated);
             }
             else if (districtTargeted->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {
+                if (districtTargeted->GetTypeAsInt() == DistrictUniversity::DISTRICT_TYPE)
+                {
+                    ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID())->RemoveScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                }
+                else if (districtTargeted->GetTypeAsInt() == DistrictMilitaryTent::DISTRICT_TYPE)
+                {
+                    ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID())->RemoveWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+                }
+                else if (districtTargeted->GetTypeAsInt() == DistrictWarehouse::DISTRICT_TYPE)
+                {
+                    ServerSession::GetInstance().GetWorldState()->GetPlayer(districtTargeted->GetOwnerID())->RemoveFoodMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                }
+
                 targetTile->SetDistrict(nullptr);
             }
         }
@@ -229,7 +262,7 @@ bool MapLocal::Attack(int ownerID, Position attackerPosition, Position targetPos
         // Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
         if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
         {
-            MoveUnit(ownerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
+            MoveUnit(attackerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
         }
         else
         {
@@ -247,50 +280,54 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
         return false;
     }
 
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
     std::shared_ptr<UnitBase> unit = nullptr;
+
     switch (unitType)
     {
     case UnitSwordsmanI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitSwordsmanII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitSwordsmanIII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanIII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSwordsmanIII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitArcherI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitArcherII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitArcherIII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitArcherIII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitArcherIII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitSettler::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner, player->GetUtilitySkillTree().MovementUpgrade) };
+        player->ConsumeFood(unit->GetFoodCost());
         break;
     case UnitBuilder::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner, player->GetUtilitySkillTree().MovementUpgrade) };
+        player->ConsumeFood(unit->GetFoodCost());
         break;
     case UnitAxemanI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitAxemanII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitAxemanII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitAxemanII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitCannon::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitCannon(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitCannon(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitShield::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitShield(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitShield(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitMaceI::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitMaceI(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitMaceI(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     case UnitMaceII::UNIT_TYPE:
-        unit = std::shared_ptr<UnitBase>{ new UnitMaceII(owner) };
+        unit = std::shared_ptr<UnitBase>{ new UnitMaceII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     default:
         return false;
@@ -299,8 +336,9 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
 
     if (unit)
     {
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->ConsumeWeapon(Player::GetWeaponCostForTier(unit->GetUnitTier()));
         GetTile(pos)->SetUnit(unit);
+        player->ConsumeWeapon(unit->GetWeaponCost());
+
         DiscoverArea(pos, unit->GetViewRange(), owner);
     }
     return true;
@@ -313,7 +351,9 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         return false;
     }
 
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
     std::shared_ptr<DistrictBase> district;
+
     switch (districtType)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
@@ -331,6 +371,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         break;
     case DistrictWarehouse::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictWarehouse(owner) };
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFoodMultiplier(DistrictWarehouse::FOOD_BONUS);
         break;
     case DistrictBlacksmith::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictBlacksmith(owner) };
@@ -352,6 +393,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         break;
     case DistrictUniversity::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictUniversity(owner) };
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
         break;
     case DistrictWatchTower::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictWatchTower(owner) };
@@ -364,17 +406,21 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+        break;
+    case DistrictFishery::DISTRICT_TYPE:
+        district = std::shared_ptr<DistrictBase>{ new DistrictFishery(owner) };
         break;
     default:
+        assert(false && "Add your new district here");
         return false;
         break;
     }
 
     if (district)
     {
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->ConsumeFood(Player::GetDistrictCost(district->GetTypeAsInt()));
         GetTile(pos)->SetDistrict(district);
-
+        player->ConsumeFood(district->GetFoodCost());
         DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
@@ -388,7 +434,7 @@ bool MapLocal::SellDistrict(Position pos, int owner)
         return false;
     }
 
-    int refund = Player::GetDistrictCost(district->GetTypeAsInt()) / 3;
+    int refund = district->GetFoodCost() / 3;
     ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFood(refund);
 
     GetTile(pos)->SetDistrict(nullptr);
@@ -404,24 +450,8 @@ bool MapLocal::SellUnit(Position pos, int owner)
         return false;
     }
 
-    int refund = 0;
-    switch (unit->GetUnitTier())
-    {
-    case 1:
-        refund = Player::UNIT_TIER_ONE_COST / 3;
-        break;
-    case 2:
-        refund = Player::UNIT_TIER_TWO_COST / 3;
-        break;
-    case 3:
-        refund = Player::UNIT_TIER_THREE_COST / 3;
-        break;
-    case 4:
-        refund = Player::UNIT_TIER_FOUR_COST / 3;
-        break;
-    default:
-        break;
-    }
+    int refund = unit->GetWeaponCost() / 3;
+
     ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeapon(refund);
 
     GetTile(pos)->SetUnit(nullptr);
@@ -456,7 +486,7 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
         }
         else
         {
-            player->ConsumeWeapon(Player::GetWeaponCostForTier(unit->GetUnitTier()));
+            player->ConsumeWeapon(unit->GetWeaponCost());
         }
 
         return true;
@@ -479,7 +509,7 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
     if (district->CanUpgrade())
     {
         district->Upgrade(this);
-        player->ConsumeFood(Player::GetDistrictCost(district->GetTypeAsInt()));
+        player->ConsumeFood(district->GetFoodCost());
         return true;
     }
 
