@@ -263,7 +263,8 @@ void SelectionManager::UpdateButtonState()
         else if (dynamic_cast<ButtonDistrictSell*>(btn) != nullptr)
         {
             if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
-                && selectedDistrict->GetActionPointsRemaining() > 0)
+                && selectedDistrict->GetActionPointsRemaining() > 0
+                && selectedDistrict->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
