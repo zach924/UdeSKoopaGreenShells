@@ -950,7 +950,8 @@ void GameWindow::ShowWindow()
 
                         positionX += heightText + 2;
 
-                        std::string scienceBonusText = to_string(selectedDistrict->GetScienceYield());
+                        std::string scienceBonusText = to_string(static_cast<int>(selectedDistrict->GetScienceBonus() * 100));
+                        scienceBonusText.append("%");
                         SDL_Surface* scienceBonusTextSurface = TTF_RenderText_Solid(m_infoFont, scienceBonusText.c_str(), textColor);
                         assert(scienceBonusTextSurface != NULL && TTF_GetError());
 
@@ -978,7 +979,8 @@ void GameWindow::ShowWindow()
 
                         positionX += heightText + 2;
 
-                        std::string weaponBonusText = to_string(selectedDistrict->GetWeaponYield());
+                        std::string weaponBonusText = to_string(static_cast<int>(selectedDistrict->GetWeaponBonus() * 100));
+                        weaponBonusText.append("%");
                         SDL_Surface* weaponBonusTextSurface = TTF_RenderText_Solid(m_infoFont, weaponBonusText.c_str(), textColor);
                         assert(weaponBonusTextSurface != NULL && TTF_GetError());
 
