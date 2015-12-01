@@ -2,10 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
-const char* DistrictCityCenter::NAME = "City Center";
-
 DistrictCityCenter::DistrictCityCenter(int owner)
-    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictCityCenter>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -35,31 +33,6 @@ void DistrictCityCenter::ChangeOwner(int newOwner)
 {
     DistrictBase::ChangeOwner(newOwner);
     m_health = HEALTH;
-}
-
-int DistrictCityCenter::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictCityCenter::GetName()
-{
-    return NAME;
-}
-
-int DistrictCityCenter::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictCityCenter::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-void DistrictCityCenter::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
 }
 
 bool DistrictCityCenter::CanUpgrade()

@@ -7,9 +7,9 @@ class ArmySkillTree
 public:
 
     bool Militia : 1;
-    bool RangerT1 : 1;
-    bool RangerT2 : 1;
-    bool RangerT3 : 1;
+    bool ArcherT1 : 1;
+    bool ArcherT2 : 1;
+    bool ArcherT3 : 1;
     bool SwordT2 : 1;
     bool SwordT3 : 1;
     bool AxeT1 : 1;

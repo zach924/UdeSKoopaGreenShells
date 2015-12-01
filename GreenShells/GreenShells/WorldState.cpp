@@ -203,16 +203,16 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     }
 }
 
-bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation)
+bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->MoveUnit(ownerID, unitLocation, newLocation);
+    return m_map->MoveUnit(ownerID, unitLocation, newLocation, actionCost);
 }
 
-bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition)
+bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->Attack(ownerID, attackerPosition, targetPosition);
+    return m_map->Attack(ownerID, attackerPosition, targetPosition, actionCost);
 }
 
 bool WorldState::CreateUnit(int unitType, Position pos, int owner)

@@ -8,13 +8,12 @@ class Unit : public UnitBase
 {
 public:
     static Texture m_Texture;
-    void LoadTexture() {};
+    virtual void LoadTexture() {};
     static bool m_forceLoading;
-    virtual int GetTypeAsInt() = 0;
 
 public:
-    Unit(int ownerID, int health, int moveRange, int attackRange, int attackDamage, int viewRange)
-        : UnitBase(ownerID, health, moveRange, attackRange, attackDamage, viewRange)
+    Unit(int ownerID, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost = -1, int foodCost = -1)
+        : UnitBase(ownerID, health, actionPoints, attackRange, attackDamage, viewRange, name, typeAsInt, weaponCost, foodCost)
     {
     }
 

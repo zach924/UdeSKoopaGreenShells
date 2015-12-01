@@ -14,6 +14,7 @@
 #include "DistrictEmpty.h"
 #include "DistrictCityCenter.h"
 
+#include "DistrictFishery.h"
 #include "DistrictHunter.h"
 #include "DistrictFarm.h"
 #include "DistrictWindMill.h"
@@ -58,6 +59,7 @@
 #include "GameWindow.h"
 
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
 #include "UnitSwordsmanI.h"
 #include "UnitSwordsmanII.h"
 #include "UnitSwordsmanIII.h"
@@ -117,7 +119,7 @@ std::shared_ptr<DistrictBase> SelectionManager::GetSelectedDistrict()
     {
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         TileBase* tile = map->GetTile(m_selectedPosition);
-        
+
         std::shared_ptr<DistrictBase> districtSelected = nullptr;
         if (tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID()))
         {
@@ -130,7 +132,11 @@ std::shared_ptr<DistrictBase> SelectionManager::GetSelectedDistrict()
 
 std::vector<Position> SelectionManager::GetOverlayTiles()
 {
-    return m_actionPossibleTiles;
+    std::vector<Position> v;
+    for (std::map<Position, int>::iterator it = m_actionPossibleTiles.begin(); it != m_actionPossibleTiles.end(); ++it) {
+        v.push_back(it->first);
+    }
+    return v;
 }
 
 void SelectionManager::Cancel()
@@ -374,12 +380,13 @@ void SelectionManager::Attack(Position pos)
 
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
+    int actionCost = m_actionPossibleTiles.find(pos)->second;
 
     if (actorOwner >= 0
         && actorOwner != currentPlayerId
         && GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[actorOwner].GetRelationStatus() == RelationStatus::War)
     {
-        GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos);
+        GameSession::GetInstance().GetWorldState()->Attack(GameSession::GetInstance().GetCurrentPlayerID(), m_selectedPosition, pos, actionCost);
     }
     else
     {
@@ -408,14 +415,14 @@ void SelectionManager::Move(Position pos)
     int tileOwner = map->GetTile(pos)->GetPlayerOwnerId();
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
     int currentTurn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
-
-    if (tileOwner < 0 
-        || tileOwner== currentPlayerId
+    int actionCost = m_actionPossibleTiles.find(pos)->second;
+    if (tileOwner < 0
+        || tileOwner == currentPlayerId
         || GameSession::GetInstance().GetCurrentPlayerCopy()->GetDiplomaticRelations()[tileOwner].GetRelationStatus() == RelationStatus::War)
     {
-        GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos);
+        GameSession::GetInstance().GetWorldState()->MoveUnit(currentPlayerId, m_selectedPosition, pos, actionCost);
     }
-    else 
+    else
     {
         std::string msg = "Do you want to declare war on " + GameSession::GetInstance().GetWorldState()->GetPlayer(tileOwner)->GetPlayerName() + " ?";
         auto window = new YesNoPopUp(msg.c_str(), 300, 150, [tileOwner, currentTurn]() {GameSession::GetInstance().GetCurrentPlayerCopy()->GoToWar(tileOwner, currentTurn); });
@@ -435,11 +442,11 @@ void SelectionManager::EndAction()
 
 void SelectionManager::HandleSelection(Position pos)
 {
-    Map* map = GameSession::GetInstance().GetWorldState()->GetMap();
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     TileBase* tile = map->GetTile(pos);
 
     // If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-    if (m_state != m_idle && std::find(m_actionPossibleTiles.begin(), m_actionPossibleTiles.end(), tile->GetPosition()) == m_actionPossibleTiles.end())
+    if (m_state != m_idle &&  (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
     {
         Cancel();
     }
@@ -470,6 +477,82 @@ void SelectionManager::HandleSelection(Position pos)
     UpdateButtonState();
 }
 
+void SelectionManager::HandleRightClickPressed(Position pos)
+{
+    //we have nothing selected, we do nothing
+    if (m_selectedPosition == Position(-1, -1))
+    {
+        return;
+    }
+
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+    TileBase* selectedTile = map->GetTile(m_selectedPosition);
+
+    //we have no unit selected, we do nothing
+    if (selectedTile->GetUnit() == nullptr || selectedTile->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID())
+    {
+        return;
+    }
+
+    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+    m_actionPossibleTiles.clear();
+
+    for (std::pair<Position, int> currentPos : allPositionsNear)
+    {
+        TileBase* currentTile = map->GetTile(currentPos.first);
+
+        if (currentPos.first != m_selectedPosition &&
+            currentTile->GetUnit() == nullptr &&
+            (currentTile->GetDistrict() == nullptr || //no district
+                (currentTile->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID() && //a district that belongs to the current player and
+                    currentTile->GetUnit() == nullptr)))//is free of units
+        {
+            m_actionPossibleTiles.emplace(currentPos);
+        }
+    }
+}
+
+void SelectionManager::HandleRightClickUnpressed(Position pos)
+{
+    //we have nothing selected, we do nothing
+    if (m_selectedPosition == Position(-1, -1))
+    {
+        Cancel();
+        return;
+    }
+
+    auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
+    TileBase* selectedTile = map->GetTile(m_selectedPosition);
+
+    //we have no unit selected, we do nothing
+    if (selectedTile->GetUnit() == nullptr)
+    {
+        Cancel();
+        return;
+    }
+
+    TileBase* tile = map->GetTile(pos);
+
+    //if we are in the middle of an action OR if the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
+    if (m_state != m_idle || m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end())
+    {
+        Cancel();
+        return;
+    }
+
+    std::cout << "Right clicking somewhere";
+    if (pos != m_selectedPosition &&
+        (tile->IsFree() ||
+            (tile->GetDistrict() != nullptr &&
+                tile->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())))
+    {
+        Move(pos);
+    }
+
+
+    UpdateButtonState();
+}
+
 void SelectionManager::CreateDistrictPressed(int districtType)
 {
     if (IsADistrictSelected())
@@ -478,16 +561,23 @@ void SelectionManager::CreateDistrictPressed(int districtType)
 
         m_state = m_createDistrict;
         m_districtTypeToConstruct = districtType;
-
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
-        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : NO_FILTER);
+        std::map<Position, int> allPositionNear;
+        if (districtType == DistrictFishery::DISTRICT_TYPE)
+        {
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, ALLOW_WATER);
+        }
+        else
+        {
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : ALLOW_GROUND);
+        }
 
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (std::pair<Position, int> pos : allPositionNear)
         {
-            if (map->GetTile(pos)->GetPlayerOwnerId() == GameSession::GetInstance().GetCurrentPlayerID() && map->GetTile(pos)->GetDistrict() == nullptr)
+            if (map->GetTile(pos.first)->GetPlayerOwnerId() == GameSession::GetInstance().GetCurrentPlayerID() && map->GetTile(pos.first)->GetDistrict() == nullptr)
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
     }
@@ -512,15 +602,14 @@ void SelectionManager::UnitAttackPressed()
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-
-        std::set<Position> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
+        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (const std::pair<Position, int>& pos : allPositionNear)
         {
-            if ((map->GetTile(pos)->GetDistrict() != nullptr && map->GetTile(pos)->GetDistrict()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()) ||
-                (map->GetTile(pos)->GetUnit() != nullptr && map->GetTile(pos)->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()))
+            if ((map->GetTile(pos.first)->GetDistrict() != nullptr && map->GetTile(pos.first)->GetDistrict()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()) ||
+                (map->GetTile(pos.first)->GetUnit() != nullptr && map->GetTile(pos.first)->GetUnit()->GetOwnerID() != GameSession::GetInstance().GetCurrentPlayerID()))
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
 
@@ -538,18 +627,17 @@ void SelectionManager::UnitMovePressed()
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         Position unitPosition = m_selectedPosition;
-
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-        std::set<Position> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
         m_actionPossibleTiles.clear();
-        for (Position pos : allPositionNear)
+        for (const std::pair<Position, int>& pos : allPositionNear)
         {
-            if (pos != unitPosition && // Position is not the same
-                map->GetTile(pos)->GetUnit() == nullptr && // No unit on the tile already
-                (map->GetTile(pos)->GetDistrict() == nullptr || // No district on the tile
-                    (map->GetTile(pos)->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()))) // If there is a district on the tile, is it our?
+            if (pos.first != unitPosition && // Position is not the same
+                map->GetTile(pos.first)->GetUnit() == nullptr && // No unit on the tile already
+                (map->GetTile(pos.first)->GetDistrict() == nullptr || // No district on the tile
+                    (map->GetTile(pos.first)->GetDistrict()->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()))) // If there is a district on the tile, is it our?
             {
-                m_actionPossibleTiles.push_back(pos);
+                m_actionPossibleTiles.emplace(pos);
             }
         }
 
@@ -608,99 +696,3 @@ void SelectionManager::DistrictRepair()
 {
     // TODO
 }
-
-
-void SelectionManager::SpawnSwordsman()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-
-    if (skillTree.SwordT3)
-    {
-        CreateUnitPressed(UnitSwordsmanIII::UNIT_TYPE);
-    }
-    else if (skillTree.SwordT2)
-    {
-        CreateUnitPressed(UnitSwordsmanII::UNIT_TYPE);
-    }
-    else
-    {
-        CreateUnitPressed(UnitSwordsmanI::UNIT_TYPE);
-    }
-}
-
-void SelectionManager::SpawnArcher()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.RangerT3)
-    {
-        CreateUnitPressed(UnitArcherIII::UNIT_TYPE);
-    }
-    else if (skillTree.RangerT2)
-    {
-        CreateUnitPressed(UnitArcherII::UNIT_TYPE);
-    }
-    else if (skillTree.RangerT1)
-    {
-        CreateUnitPressed(UnitArcherI::UNIT_TYPE);
-    }
-
-}
-
-void SelectionManager::SpawnAxeman()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.AxeT2)
-    {
-        CreateUnitPressed(UnitAxemanII::UNIT_TYPE);
-    }
-    else if (skillTree.AxeT1)
-    {
-        CreateUnitPressed(UnitAxemanI::UNIT_TYPE);
-    }
-
-}
-
-void SelectionManager::SpawnMace()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.MaceT2)
-    {
-        CreateUnitPressed(UnitMaceII::UNIT_TYPE);
-    }
-    else if (skillTree.MaceT1)
-    {
-        CreateUnitPressed(UnitMaceI::UNIT_TYPE);
-    }
-
-}
-
-void SelectionManager::SpawnCannon()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.Canon)
-    {
-        CreateUnitPressed(UnitCannon::UNIT_TYPE);
-    }
-
-}
-
-void SelectionManager::SpawnShield()
-{
-    ArmySkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetArmySkillTree();
-    if (skillTree.Shield)
-    {
-        CreateUnitPressed(UnitShield::UNIT_TYPE);
-    }
-
-}
-
-void SelectionManager::SpawnSettler()
-{
-    EmpireSkillTree skillTree = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID())->GetEmpireSkillTree();
-    if (skillTree.Settler)
-    {
-        CreateUnitPressed(UnitSettler::UNIT_TYPE);
-    }
-
-}
-

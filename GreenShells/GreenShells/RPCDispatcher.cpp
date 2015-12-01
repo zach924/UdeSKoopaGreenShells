@@ -38,6 +38,15 @@ std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicTwoPosit
 {
     switch (data->m_RPCClassMethod)
     {
+    default:
+        assert(false && "You must add your code here");
+    }
+}
+
+void RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
     case RPCClassMethodType::Map_Move:
         //go move the unit
         m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);

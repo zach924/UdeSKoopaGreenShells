@@ -3,10 +3,8 @@
 #include "DistrictCathedral.h"
 #include "Player.h"
 
-const char* DistrictCathedral::NAME = "Cathedral";
-
 DistrictCathedral::DistrictCathedral(int owner)
-    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -28,41 +26,13 @@ void DistrictCathedral::LoadTexture()
     }
 }
 
-DistrictCathedral::~DistrictCathedral()
-{
-}
-
-void DistrictCathedral::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictCathedral::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
-    //TODO: need schoool 
-    return true;
-    //return player->GetEmpireSkillTree().School;
+    return false;
 }
 
-int DistrictCathedral::GetMaxHealth()
+DistrictCathedral::~DistrictCathedral()
 {
-    return HEALTH;
-}
-
-const char * DistrictCathedral::GetName()
-{
-    return NAME;
-}
-
-int DistrictCathedral::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictCathedral::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictCathedral> DistrictCathedral::Deserialize(boost::property_tree::ptree node)

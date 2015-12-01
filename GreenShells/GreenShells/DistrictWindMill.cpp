@@ -3,10 +3,8 @@
 #include "DistrictWindMill.h"
 #include "Player.h"
 
-const char* DistrictWindMill::NAME = "Windmill";
-
 DistrictWindMill::DistrictWindMill(int owner)
-    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -39,28 +37,8 @@ void DistrictWindMill::Repair(int repairValue)
 
 bool DistrictWindMill::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetEmpireSkillTree().Warehouse;
-}
-
-int DistrictWindMill::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictWindMill::GetName()
-{
-    return NAME;
-}
-
-int DistrictWindMill::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictWindMill::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictWindMill> DistrictWindMill::Deserialize(boost::property_tree::ptree node)

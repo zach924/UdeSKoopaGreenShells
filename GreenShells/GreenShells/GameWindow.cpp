@@ -40,15 +40,27 @@
 #include "ButtonMenu.h"
 #include "ButtonNextTurn.h"
 
-// Unit
-#include "UnitArcherI.h"
-#include "UnitEmpty.h"
-#include "UnitSwordsmanI.h"
 #include "UnitSettler.h"
+#include "UnitBuilder.h"
+
+#include "UnitArcherI.h"
+#include "UnitArcherII.h"
+#include "UnitArcherIII.h"
+
+#include "UnitSwordsmanI.h"
+#include "UnitSwordsmanII.h"
+#include "UnitSwordsmanIII.h"
+
+#include "UnitAxemanI.h"
+#include "UnitAxemanII.h"
+
+#include "UnitMaceI.h"
+#include "UnitMaceII.h"
+
+#include "UnitCannon.h"
+#include "UnitShield.h"
 #include "UnitEmpty.h"
 
-// District
-#include "DistrictEmpty.h"
 #include "DistrictCityCenter.h"
 
 #include "DistrictHunter.h"
@@ -70,6 +82,7 @@
 #include "DistrictInn.h"
 #include "DistrictTavern.h"
 #include "DistrictMilitaryTent.h"
+#include "DistrictEmpty.h"
 
 GameWindow::GameWindow(ScreenResolution res)
     :m_window()
@@ -220,8 +233,71 @@ void GameWindow::ShowWindow()
             }
             else if (e.type == SDL_MOUSEBUTTONUP)
             {
-                std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
-                if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
+                if (e.button.button == SDL_BUTTON_LEFT)
+                {
+                    std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
+                    if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
+                    {
+                        if (IsClickInMap(e.button.x, e.button.y))
+                        {
+                            int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
+                            posCol %= Map::COLUMNS;
+
+                            int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
+                            posRow %= Map::ROWS;
+
+                            ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
+                        }
+                        else if (IsClickInMinimap(e.button.x, e.button.y))
+                        {
+                            int posCol = ((e.button.x - m_CurrentScreenResolution.MINIMAP_POSX) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
+                            if (posCol < 0)
+                            {
+                                posCol += Map::COLUMNS;
+                            }
+
+                            m_currentLeftmostColumn = posCol;
+
+                            int posRow = ((e.button.y - m_CurrentScreenResolution.MINIMAP_POSY) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
+                            if (posRow < 0)
+                            {
+                                posRow += Map::ROWS;
+                            }
+                            m_currentLowestRow = posRow;
+                        }
+                        else
+                        {
+                            ClickManager::GetInstance().ManageMenuClick(e.button.x, e.button.y);
+                        }
+                    }
+
+
+                    else
+                    {
+                        PopUpWindow* popUpToRemove = nullptr;
+                        for (PopUpWindow* popUp : m_activePopUpWindow)
+                        {
+                            SDL_RaiseWindow(popUp->GetWindow());
+                            if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
+                            {
+                                if (popUp->handleEvent(e))
+                                {
+                                    popUpToRemove = popUp;
+                                }
+                                break;
+                            }
+                        }
+
+                        if (popUpToRemove != nullptr)
+                        {
+                            //Remove it from the vector
+                            m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
+                            popUpToRemove->Close();
+                            SelectionManager::GetInstance().UpdateButtonState();
+                        }
+                    }
+                }
+                else if (e.button.button == SDL_BUTTON_RIGHT)
                 {
                     if (IsClickInMap(e.button.x, e.button.y))
                     {
@@ -231,52 +307,23 @@ void GameWindow::ShowWindow()
                         int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
                         posRow %= Map::ROWS;
 
-                        ClickManager::GetInstance().ManageMapClick(Position(posCol, posRow));
-                    }
-                    else if (IsClickInMinimap(e.button.x, e.button.y))
-                    {
-                        int posCol = ((e.button.x - m_CurrentScreenResolution.MINIMAP_POSX) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_WIDTH / 2);
-                        if (posCol < 0)
-                        {
-                            posCol += Map::COLUMNS;
-                        }
-
-                        m_currentLeftmostColumn = posCol;
-
-                        int posRow = ((e.button.y - m_CurrentScreenResolution.MINIMAP_POSY) / m_CurrentScreenResolution.MINIMAP_TILE_SIZE) - (m_CurrentScreenResolution.NUM_TILE_HEIGHT / 2);
-                        if (posRow < 0)
-                        {
-                            posRow += Map::ROWS;
-                        }
-                        m_currentLowestRow = posRow;
-                    }
-                    else
-                    {
-                        ClickManager::GetInstance().ManageMenuClick(e.button.x, e.button.y);
+                        ClickManager::GetInstance().ManageMapRightClickUnpressed(Position(posCol, posRow));
                     }
                 }
-                else
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (e.button.button == SDL_BUTTON_RIGHT)
                 {
-                    PopUpWindow* popUpToRemove = nullptr;
-                    for (PopUpWindow* popUp : m_activePopUpWindow)
+                    if (IsClickInMap(e.button.x, e.button.y))
                     {
-                        SDL_RaiseWindow(popUp->GetWindow());
-                        if (SDL_GetWindowID(popUp->GetWindow()) == e.button.windowID)
-                        {
-                            if (popUp->handleEvent(e))
-                            {
-                                popUpToRemove = popUp;
-                            }
-                            break;
-                        }
-                    }
+                        int posCol = ((e.button.x - m_CurrentScreenResolution.HUD_WIDTH) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLeftmostColumn;
+                        posCol %= Map::COLUMNS;
 
-                    if (popUpToRemove != nullptr)
-                    {
-                        //Remove it from the vector
-                        m_activePopUpWindow.erase(std::remove(m_activePopUpWindow.begin(), m_activePopUpWindow.end(), popUpToRemove), m_activePopUpWindow.end());
-                        popUpToRemove->Close();
-                        SelectionManager::GetInstance().UpdateButtonState();
+                        int posRow = ((e.button.y - m_CurrentScreenResolution.HUD_HEIGHT) / m_CurrentScreenResolution.TILE_SIZE) + m_currentLowestRow;
+                        posRow %= Map::ROWS;
+
+                        ClickManager::GetInstance().ManageMapRightClickPressed(Position(posCol, posRow));
                     }
                 }
             }
@@ -370,7 +417,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadFood = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadFood);
 
-            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetFood()).c_str(), textColor);
+            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableFoodQuantity()).c_str(), textColor);
             assert(foodSurf != NULL && TTF_GetError());
 
             SDL_Texture* foodTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodSurf);
@@ -394,7 +441,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadWeapon = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadWeapon);
 
-            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetWeapon()).c_str(), textColor);
+            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableWeaponQuantity()).c_str(), textColor);
             assert(weaponSurf != NULL && TTF_GetError());
 
             SDL_Texture* weaponTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponSurf);
@@ -417,7 +464,7 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadScience = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
 
-            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetScience()).c_str(), textColor);
+            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableScienceQuantity()).c_str(), textColor);
             assert(scienceSurf != NULL && TTF_GetError());
 
             SDL_Texture* scienceTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceSurf);
@@ -972,18 +1019,48 @@ void GameWindow::ChangeResolution(const ScreenResolution& newRes)
     CreateButtons();
     LoadLocalTextures();
 
-    UnitArcherI::tBase::ForceReload();
-    UnitSettler::tBase::ForceReload();
-    UnitSwordsmanI::tBase::ForceReload();
+    UnitBuilder::tBase::ForceReload();
+    UnitCannon::tBase::ForceReload();
     UnitEmpty::tBase::ForceReload();
+    UnitSettler::tBase::ForceReload();
+    UnitShield::tBase::ForceReload();
+
+    UnitArcherI::tBase::ForceReload();
+    UnitArcherII::tBase::ForceReload();
+    UnitArcherIII::tBase::ForceReload();
+
+    UnitAxemanI::tBase::ForceReload();
+    UnitAxemanII::tBase::ForceReload();
+ 
+    UnitMaceI::tBase::ForceReload();
+    UnitMaceII::tBase::ForceReload();
+
+    UnitSwordsmanI::tBase::ForceReload();
+    UnitSwordsmanII::tBase::ForceReload();
+    UnitSwordsmanIII::tBase::ForceReload();
 
     TileGround::tBase::ForceReload();
     TileMountain::tBase::ForceReload();
     TileWater::tBase::ForceReload();
 
+    DistrictBlacksmith::tBase::ForceReload();
+    DistrictCathedral::tBase::ForceReload();
     DistrictCityCenter::tBase::ForceReload();
-    DistrictFarm::tBase::ForceReload();
     DistrictEmpty::tBase::ForceReload();
+    DistrictFarm::tBase::ForceReload();
+    DistrictFort::tBase::ForceReload();
+    DistrictFortress::tBase::ForceReload();
+    DistrictHunter::tBase::ForceReload();
+    DistrictInn::tBase::ForceReload();
+    DistrictMilitaryTent::tBase::ForceReload();
+    DistrictMonastery::tBase::ForceReload();
+    DistrictSchool::tBase::ForceReload();
+    DistrictStable::tBase::ForceReload();
+    DistrictTavern::tBase::ForceReload();
+    DistrictUniversity::tBase::ForceReload();
+    DistrictWarehouse::tBase::ForceReload();
+    DistrictWatchTower::tBase::ForceReload();
+    DistrictWindMill::tBase::ForceReload();
 }
 
 bool GameWindow::IsClickInMap(const int& x, const int& y)

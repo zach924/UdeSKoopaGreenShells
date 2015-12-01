@@ -4,59 +4,53 @@
 #include "AttackNotification.h"
 #include "Position.h"
 #include "Ptree_ForwardDeclaration.h"
+#include <string>
 
 class Texture;
 
 class DistrictBase
 {
-public:
-
-protected:
     int m_ownerID;
-    int m_health;
+    int m_maxHealth;
     int m_weaponYield;
     int m_foodYield;
     int m_scienceYield;
-
-private:
-    Position m_position;
-
+    int m_viewRange;
+    int m_typeAsInt;
     int m_foodCost;
-
     int m_foodRatioBonus;
     int m_scienceBonus;
     int m_weaponBonus;
-
     int m_attackDamage;
+    std::string m_name;
+    Position m_position;
 
+protected:
     int m_actionPointsLeft;
-
-    int m_viewRange;
+    int m_health;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield);
     virtual ~DistrictBase();
 
+    virtual void Repair(int repairValue);
+    virtual void ChangeOwner(int newOwner);
+    virtual AttackNotification ReceiveDamage(int damage);
+    virtual bool CanUpgrade() = 0;
+    virtual Texture* GetTexture() = 0;
     virtual std::shared_ptr<DistrictBase> Clone() = 0;
 
-    virtual void ChangeOwner(int newOwner);
+    int GetFoodCost();
     int GetActionPointsRemaining();
     int GetAttackDamage();
     int GetHealth();
     int GetOwnerID();
-    virtual Texture* GetTexture() = 0;
+    int GetTypeAsInt();
+    int GetViewRange();
+    int GetMaxHealth();
+    const char* GetName();
     Position GetPosition();
+    void NotifyNewTurn(int turn);
     void SetPosition(Position pos);
-    virtual int GetMaxHealth() = 0;
-    virtual const char* GetName() = 0;
-    virtual int GetTypeAsInt() = 0;
-    virtual int GetViewRange() = 0;
-    virtual bool CanUpgrade() = 0;
-
-    virtual void Repair(int repairValue) = 0;
-    virtual AttackNotification ReceiveDamage(int damage);
-
-    virtual void NotifyNewTurn(int turn);
-
     boost::property_tree::ptree Serialize();
 };

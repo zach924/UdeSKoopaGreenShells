@@ -6,22 +6,19 @@
 class DistrictEmpty :
     public District<DistrictEmpty>
 {
+    static constexpr char* NAME = "EMPTY_DISTRICT";
+
 public:
     static const int DISTRICT_TYPE = -1;
-
 
     typedef District<DistrictEmpty> tBase;
     DistrictEmpty(int owner);
     ~DistrictEmpty();
     virtual std::shared_ptr<DistrictBase> Clone();
     virtual void ChangeOwner(int newOwner);
-    void LoadTexture();
+    virtual void LoadTexture();
     virtual void Repair(int repairValue);
-    virtual int GetMaxHealth();
-    virtual const char* GetName();
-    virtual int GetTypeAsInt();
-    virtual int GetViewRange();
     virtual bool CanUpgrade();
-
-    virtual  boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree Serialize();
+    virtual AttackNotification ReceiveDamage(int damage);
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <map>
 #include <memory>
 #include "TileBase.h"
 class Position;
@@ -30,7 +31,7 @@ class SelectionManager
     
     SelectionManager(SelectionManager const&) = delete;
     void operator=(SelectionManager const&) = delete;
-    std::vector<Position> m_actionPossibleTiles;
+    std::map<Position,int> m_actionPossibleTiles;
     SelectionManager();
     ~SelectionManager();
 
@@ -58,6 +59,8 @@ public:
     void Cancel();
 
     void HandleSelection(Position pos);
+    void HandleRightClickPressed(Position pos);
+    void HandleRightClickUnpressed(Position pos);
 
     void CreateDistrictPressed(int districtType);
     void CreateUnitPressed(int unitType);
@@ -76,14 +79,4 @@ public:
 
     void UnitHeal();
     void DistrictRepair();
-
-    void SpawnSwordsman();
-    void SpawnArcher();
-    void SpawnAxeman();
-    void SpawnMace();
-    void SpawnCannon();
-    void SpawnShield();
-    void SpawnSettler();
-
-    void SpawnDistrict(int districtType);
 };

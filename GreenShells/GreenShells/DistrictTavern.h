@@ -3,33 +3,24 @@
 
 class DistrictTavern : public District<DistrictTavern>
 {
+    static const int ATTACK_DAMAGE = 0;
+    static const int HEALTH = 300;
+    static const int FOOD_YIELD = 10;
+    static const int SCIENCE_YIELD = 0;
+    static const int WEAPON_YIELD = 10;
+    static const int VIEW_RANGE = 4;
+    static constexpr char* NAME = "Tavern";
+
 public:
     typedef District<DistrictTavern> tBase;
     static const int DISTRICT_TYPE = 12;
-
-    static const int ATTACK_DAMAGE = 25;
-    static const int HEALTH = 300;
-
-    static const int FOOD_COST = 250;
-    static const int FOOD_BONUS = 75;
-    static const int SCIENCE_BONUS = 0;
-    static const int WEAPON_BONUS = 100;
-    static int const VIEW_RANGE = 4;
-    static const char* NAME;
-
-public:
+    static const int FOOD_COST = 800;
+    
     DistrictTavern(int owner);
     ~DistrictTavern();
     virtual std::shared_ptr<DistrictBase> Clone();
-    void LoadTexture();
-    virtual void Repair(int repairValue);
+    virtual void LoadTexture();
     virtual bool CanUpgrade();
-
-    virtual int GetMaxHealth();
-    virtual const char* GetName();
-    virtual int GetTypeAsInt();
-    virtual int GetViewRange();
-
     static std::shared_ptr<DistrictTavern> Deserialize(boost::property_tree::ptree node);
 };
 

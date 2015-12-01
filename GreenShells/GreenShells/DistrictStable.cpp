@@ -3,10 +3,8 @@
 #include "DistrictStable.h"
 #include "Player.h"
 
-const char* DistrictStable::NAME = "Stable";
-
 DistrictStable::DistrictStable(int owner)
-    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -32,35 +30,10 @@ DistrictStable::~DistrictStable()
 {
 }
 
-void DistrictStable::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictStable::CanUpgrade()
 {
-    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GameSession::GetInstance().GetCurrentPlayerID());
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetEmpireSkillTree().Fort;
-}
-
-int DistrictStable::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictStable::GetName()
-{
-    return NAME;
-}
-
-int DistrictStable::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictStable::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictStable> DistrictStable::Deserialize(boost::property_tree::ptree node)

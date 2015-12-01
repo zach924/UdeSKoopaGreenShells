@@ -3,9 +3,9 @@
 enum Skills {
     //Army
     Militia,
-    RangerT1,
-    RangerT2,
-    RangerT3,
+    ArcherT1,
+    ArcherT2,
+    ArcherT3,
     SwordT2,
     SwordT3,
     AxeT1,

@@ -26,5 +26,7 @@ public:
     const std::vector<Button*>& GetButtons();
 
     void ManageMapClick(const Position& position);
+    void ManageMapRightClickPressed(const Position& position);
+    void ManageMapRightClickUnpressed(const Position& position);
     void ManageMenuClick(const int& x, const int& y);
 };

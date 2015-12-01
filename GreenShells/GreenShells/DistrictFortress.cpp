@@ -3,10 +3,8 @@
 #include "DistrictFortress.h"
 #include "Player.h"
 
-const char* DistrictFortress::NAME = "Fortress";
-
 DistrictFortress::DistrictFortress(int owner)
-    : District<DistrictFortress>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictFortress>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictFortress::~DistrictFortress()
 {
 }
 
-void DistrictFortress::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictFortress::CanUpgrade()
 {
     return false;
-}
-
-int DistrictFortress::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictFortress::GetName()
-{
-    return NAME;
-}
-
-int DistrictFortress::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictFortress::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictFortress> DistrictFortress::Deserialize(boost::property_tree::ptree node)
