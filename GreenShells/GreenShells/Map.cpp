@@ -195,7 +195,7 @@ void Map::GetAreaIntern(int distance, Position position, std::map<Position, int>
             Position posToAdd = Position(i % COLUMNS, j % ROWS);
             if (GetTile(posToAdd)->CanTraverse(filter))
             {
-                areaOut.emplace(posToAdd, -1);
+                areaOut.emplace(posToAdd, -1); // Normally distance will not be used. If needed change it here and add your implementation of distance in position
             }
         }
     }
