@@ -82,14 +82,15 @@ void WorldState::NotifyNewTurn()
     lock_guard<recursive_mutex> lock{ m_mutex };
     m_turn++;
 
-    //Notify map of a new turn
-    m_map->NotifyNewTurn(m_turn);
-
     //Notify players of a new turn
     for (auto player : m_players)
     {
         player->NotifyNewTurn(m_turn, m_map);
     }
+
+    //Notify map of a new turn
+    m_map->NotifyNewTurn(m_turn);
+
 }
 
 int WorldState::AddPlayer(std::string playerName)

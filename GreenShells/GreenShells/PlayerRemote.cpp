@@ -34,6 +34,9 @@ std::shared_ptr<Player> PlayerRemote::Clone()
     player->m_food = m_food;
     player->m_science = m_science;
     player->m_weapon = m_weapon;
+    player->m_foodPerTurn = m_foodPerTurn;
+    player->m_sciencePerTurn = m_sciencePerTurn;
+    player->m_weaponPerTurn = m_weaponPerTurn;
     player->m_foodMultiplier = m_foodMultiplier;
     player->m_scienceMultiplier = m_scienceMultiplier;
     player->m_weaponMultiplier = m_weaponMultiplier;
@@ -390,6 +393,9 @@ std::shared_ptr<PlayerRemote> PlayerRemote::Deserialize(boost::property_tree::pt
     player->m_food = playerNode.get<double>("<xmlattr>.F");
     player->m_science = playerNode.get<double>("<xmlattr>.S");
     player->m_weapon = playerNode.get<double>("<xmlattr>.W");
+    player->m_foodPerTurn = playerNode.get<double>("<xmlattr>.FP");
+    player->m_sciencePerTurn = playerNode.get<double>("<xmlattr>.SP");
+    player->m_weaponPerTurn = playerNode.get<double>("<xmlattr>.WP");
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
