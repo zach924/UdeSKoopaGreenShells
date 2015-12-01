@@ -171,8 +171,6 @@ void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Posi
 
 void Map::GetAreaIntern(int distance, Position position, std::map<Position, int>& areaOut, MapFilter filter)
 {
-    std::vector<Position> area;
-
     //find miminum and maximum
     int maxCol = position.Column + distance;
     int maxRow = position.Row + distance;
