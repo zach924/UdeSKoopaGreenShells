@@ -273,7 +273,7 @@ bool MapLocal::Attack(int attackerID, Position attackerPosition, Position target
     return true;
 }
 
-bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
+bool MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
 {
     if (GetTile(pos)->GetUnit() != nullptr)
     {
@@ -337,15 +337,15 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
-        player->ConsumeWeapon(unit->GetWeaponCost());
-        player->ConsumeFood(unit->GetFoodCost());
+        player->ConsumeWeapon(unit->GetWeaponCost() / (upgrade ? 2 : 1));
+        player->ConsumeFood(unit->GetFoodCost() / (upgrade ? 2 : 1));
 
         DiscoverArea(pos, unit->GetViewRange(), owner);
     }
     return true;
 }
 
-bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
+bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
 {
     if (GetTile(pos)->GetDistrict() != nullptr)
     {
@@ -421,7 +421,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     if (district)
     {
         GetTile(pos)->SetDistrict(district);
-        player->ConsumeFood(district->GetFoodCost());
+        player->ConsumeFood(district->GetFoodCost() / (upgrade ? 2 : 1));
         DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
@@ -479,12 +479,12 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
         if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE || unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
         {
             GetTile(pos)->SetUnit(nullptr);
-            return CreateDistrict(unit->GetUpgradeType(), pos, owner);
+            return CreateDistrict(unit->GetUpgradeType(), pos, owner, true);
         }
         else
         {
             GetTile(pos)->SetUnit(nullptr);
-            return CreateUnit(unit->GetUpgradeType(), pos, owner);
+            return CreateUnit(unit->GetUpgradeType(), pos, owner, true);
         }
     }
 
@@ -504,7 +504,7 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
 
     if (district->CanUpgrade())
     {
-        CreateDistrict(district->GetUpgradeType(), pos, owner);
+        CreateDistrict(district->GetUpgradeType(), pos, owner, true);
 
         return true;
     }

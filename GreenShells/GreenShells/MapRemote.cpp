@@ -131,7 +131,7 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
     return SendData(ss.str());
 }
 
-bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
+bool MapRemote::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
 {
     std::stringstream ss;
 
@@ -151,7 +151,7 @@ bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
     return SendData(ss.str());
 }
 
-bool MapRemote::CreateDistrict(int districtType, Position pos, int owner)
+bool MapRemote::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
 {
     std::stringstream ss;
 

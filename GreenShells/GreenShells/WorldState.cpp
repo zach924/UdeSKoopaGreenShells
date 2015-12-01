@@ -114,6 +114,10 @@ int WorldState::AddPlayer(std::string playerName)
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
 
+    newPlayer->AddFood(5000);
+    newPlayer->AddScience(5000);
+    newPlayer->AddWeapon(5000);
+
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);
@@ -122,8 +126,8 @@ int WorldState::AddPlayer(std::string playerName)
     m_players.push_back(newPlayer);
 
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
-    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
-    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID);
+    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID, false);
+    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID, false);
     
     return playerID;
 }
@@ -219,13 +223,13 @@ bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetP
 bool WorldState::CreateUnit(int unitType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->CreateUnit(unitType, pos, owner);
+    return m_map->CreateUnit(unitType, pos, owner, false);
 }
 
 bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->CreateDistrict(districtType, pos, owner);
+    return m_map->CreateDistrict(districtType, pos, owner, false);
 }
 
 bool WorldState::SellUnit(Position pos, int ownerId)
