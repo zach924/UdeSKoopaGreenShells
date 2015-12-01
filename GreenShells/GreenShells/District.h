@@ -12,8 +12,8 @@ public:
     virtual void LoadTexture() =0;
 
 public:
-    District(int ownerID, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost = 0, int weaponYield = 0, int foodYield = 0, int scienceYield = 0, int upgradeType = NO_UPGRADE)
-        : DistrictBase(ownerID, health, attackDamage, viewRange, name, typeAsInt, foodCost, weaponYield, foodYield, scienceYield, upgradeType)
+    District(int ownerID, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost = 0, int weaponYield = 0, int foodYield = 0, int scienceYield = 0, int upgradeType = NO_UPGRADE, double foodBonus = 0, double scienceBonus = 0, double weaponBonus = 0)
+        : DistrictBase(ownerID, health, attackDamage, viewRange, name, typeAsInt, foodCost, weaponYield, foodYield, scienceYield, upgradeType, foodBonus, scienceBonus, weaponBonus)
     {
     }
 

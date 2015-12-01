@@ -113,6 +113,9 @@ int WorldState::AddPlayer(std::string playerName)
     std::shared_ptr<Player> newPlayer = std::shared_ptr<Player>{ new PlayerLocal() };
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
+    newPlayer->AddFood(50000);
+    newPlayer->AddScience(50000);
+    newPlayer->AddWeapon(50000);
 
     for (auto p : m_players)
     {

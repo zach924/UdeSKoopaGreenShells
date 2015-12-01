@@ -504,6 +504,7 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
 
     if (district->CanUpgrade())
     {
+        GetTile(pos)->SetDistrict(nullptr);
         CreateDistrict(district->GetUpgradeType(), pos, owner, true);
 
         return true;

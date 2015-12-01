@@ -138,7 +138,6 @@ GameWindow::GameWindow(ScreenResolution res)
     {
         m_currentLowestRow -= Map::ROWS;
     }
-
 }
 
 GameWindow::~GameWindow()
@@ -798,7 +797,7 @@ void GameWindow::ShowWindow()
                     std::string attackText = "Atk dmg : ";
                     if (isInVision)
                     {
-                        attackText.append(std::to_string(selectedDistrict->GetAttackDamage()));
+                        attackText.append(std::to_string(selectedDistrict->GetAttackDamage() / 2));
                     }
                     else
                     {
@@ -822,26 +821,180 @@ void GameWindow::ShowWindow()
                 yPos += heightText;
 
                 /************
-                ACTION
+                Ressource given
                 *************/
                 if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID())
                 {
-                    std::string attackText = "Action left : ";
-                    attackText.append(std::to_string(selectedDistrict->GetActionPointsRemaining()));
+                    int positionX = xPos;
 
-                    SDL_Surface* actionSurface = TTF_RenderText_Solid(m_infoFont, attackText.c_str(), textColor);
-                    assert(actionSurface != NULL && TTF_GetError());
+                    /*************
+                      Food yield
+                    *************/
+                    if (selectedDistrict->GetFoodYield() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadScience);
 
-                    SDL_Texture* actionTextTexture = SDL_CreateTextureFromSurface(m_renderer, actionSurface);
-                    assert(actionTextTexture != NULL && TTF_GetError());
+                        positionX += heightText + 2;
 
-                    widthText = actionSurface->w;
-                    heightText = actionSurface->h;
+                        std::string foodYieldText = to_string(selectedDistrict->GetFoodYield());
+                        SDL_Surface* foodYieldTextSurface = TTF_RenderText_Solid(m_infoFont, foodYieldText.c_str(), textColor);
+                        assert(foodYieldTextSurface != NULL && TTF_GetError());
 
-                    SDL_Rect renderQuadTurnValue = { xPos, yPos, widthText, heightText };
-                    SDL_RenderCopy(m_renderer, actionTextTexture, NULL, &renderQuadTurnValue);
-                    SDL_DestroyTexture(actionTextTexture);
-                    SDL_FreeSurface(actionSurface);
+                        SDL_Texture* foodYieldTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodYieldTextSurface);
+                        assert(foodYieldTextTexture != NULL && TTF_GetError());
+
+                        widthText = foodYieldTextSurface->w;
+                        heightText = foodYieldTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, foodYieldTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(foodYieldTextTexture);
+                        SDL_FreeSurface(foodYieldTextSurface);
+
+                        positionX += widthText + 5;
+                    }
+
+                    /*************
+                    Weapon yield
+                    *************/
+                    if (selectedDistrict->GetWeaponYield() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadScience);
+
+                        positionX += heightText + 2;
+
+                        std::string weaponYieldText = to_string(selectedDistrict->GetWeaponYield());
+                        SDL_Surface* weaponYieldTextSurface = TTF_RenderText_Solid(m_infoFont, weaponYieldText.c_str(), textColor);
+                        assert(weaponYieldTextSurface != NULL && TTF_GetError());
+
+                        SDL_Texture* weaponYieldTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponYieldTextSurface);
+                        assert(weaponYieldTextTexture != NULL && TTF_GetError());
+
+                        widthText = weaponYieldTextSurface->w;
+                        heightText = weaponYieldTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, weaponYieldTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(weaponYieldTextTexture);
+                        SDL_FreeSurface(weaponYieldTextSurface);
+
+                        positionX += widthText + 5;
+                    }
+
+                    /*************
+                    Science yield
+                    *************/
+                    if (selectedDistrict->GetScienceYield() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
+
+                        positionX += heightText + 2;
+
+                        std::string scienceYieldText = to_string(selectedDistrict->GetScienceYield());
+                        SDL_Surface* scienceYieldTextSurface = TTF_RenderText_Solid(m_infoFont, scienceYieldText.c_str(), textColor);
+                        assert(scienceYieldTextSurface != NULL && TTF_GetError());
+
+                        SDL_Texture* scienceYieldTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceYieldTextSurface);
+                        assert(scienceYieldTextTexture != NULL && TTF_GetError());
+
+                        widthText = scienceYieldTextSurface->w;
+                        heightText = scienceYieldTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, scienceYieldTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(scienceYieldTextTexture);
+                        SDL_FreeSurface(scienceYieldTextSurface);
+
+                        positionX += widthText + 5;
+                    }
+
+                    /*************
+                    Food bonus
+                    *************/
+                    if (selectedDistrict->GetFoodBonus() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadScience);
+
+                        positionX += heightText + 2;
+
+                        std::string foodBonusText = to_string(static_cast<int>(selectedDistrict->GetFoodBonus() * 100));
+                        foodBonusText.append("%");
+                        SDL_Surface* foodBonusTextSurface = TTF_RenderText_Solid(m_infoFont, foodBonusText.c_str(), textColor);
+                        assert(foodBonusTextSurface != NULL && TTF_GetError());
+
+                        SDL_Texture* foodBonusTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodBonusTextSurface);
+                        assert(foodBonusTextTexture != NULL && TTF_GetError());
+
+                        widthText = foodBonusTextSurface->w;
+                        heightText = foodBonusTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, foodBonusTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(foodBonusTextTexture);
+                        SDL_FreeSurface(foodBonusTextSurface);
+
+                        positionX += widthText + 5;
+                    }
+
+                    /*************
+                    Science bonus
+                    *************/
+                    if (selectedDistrict->GetScienceBonus() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
+
+                        positionX += heightText + 2;
+
+                        std::string scienceBonusText = to_string(selectedDistrict->GetScienceYield());
+                        SDL_Surface* scienceBonusTextSurface = TTF_RenderText_Solid(m_infoFont, scienceBonusText.c_str(), textColor);
+                        assert(scienceBonusTextSurface != NULL && TTF_GetError());
+
+                        SDL_Texture* scienceBonusTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceBonusTextSurface);
+                        assert(scienceBonusTextTexture != NULL && TTF_GetError());
+
+                        widthText = scienceBonusTextSurface->w;
+                        heightText = scienceBonusTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, scienceBonusTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(scienceBonusTextTexture);
+                        SDL_FreeSurface(scienceBonusTextSurface);
+
+                        positionX += widthText + 5;
+                    }
+
+                    /*************
+                    Weapon bonus
+                    *************/
+                    if (selectedDistrict->GetWeaponBonus() > 0)
+                    {
+                        SDL_Rect renderQuadScience = { positionX, yPos, heightText, heightText };
+                        SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadScience);
+
+                        positionX += heightText + 2;
+
+                        std::string weaponBonusText = to_string(selectedDistrict->GetWeaponYield());
+                        SDL_Surface* weaponBonusTextSurface = TTF_RenderText_Solid(m_infoFont, weaponBonusText.c_str(), textColor);
+                        assert(weaponBonusTextSurface != NULL && TTF_GetError());
+
+                        SDL_Texture* weaponBonusTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponBonusTextSurface);
+                        assert(weaponBonusTextTexture != NULL && TTF_GetError());
+
+                        widthText = weaponBonusTextSurface->w;
+                        heightText = weaponBonusTextSurface->h;
+
+                        SDL_Rect renderQuadTurnValue = { positionX, yPos, widthText, heightText };
+                        SDL_RenderCopy(m_renderer, weaponBonusTextTexture, NULL, &renderQuadTurnValue);
+                        SDL_DestroyTexture(weaponBonusTextTexture);
+                        SDL_FreeSurface(weaponBonusTextSurface);
+
+                        positionX += widthText + 5;
+                    }
                 }
             }
 

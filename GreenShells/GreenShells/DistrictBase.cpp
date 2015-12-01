@@ -5,7 +5,7 @@
 #include "Map.h"
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType, double foodBonus, double scienceBonus, double weaponBonus)
     : m_ownerID(owner),
     m_maxHealth(health),
     m_health(health),
@@ -18,7 +18,10 @@ DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRang
     m_foodCost(foodCost),
     m_actionPointsLeft(1),
     m_viewRange(viewRange),
-    m_upgradeType(upgradeType)
+    m_upgradeType(upgradeType),
+    m_foodBonus(foodBonus),
+    m_scienceBonus(scienceBonus),
+    m_weaponBonus(weaponBonus)
 {
 }
 
@@ -74,6 +77,36 @@ int DistrictBase::GetMaxHealth()
 int DistrictBase::GetUpgradeType()
 {
     return m_upgradeType;
+}
+
+int DistrictBase::GetWeaponYield()
+{
+    return m_weaponYield;
+}
+
+int DistrictBase::GetScienceYield()
+{
+    return m_scienceYield;
+}
+
+int DistrictBase::GetFoodYield()
+{
+    return m_foodYield;
+}
+
+double DistrictBase::GetFoodBonus()
+{
+    return m_foodBonus;
+}
+
+double DistrictBase::GetScienceBonus()
+{
+    return m_scienceBonus;
+}
+
+double DistrictBase::GetWeaponBonus()
+{
+    return m_weaponBonus;
 }
 
 const char * DistrictBase::GetName()

@@ -19,9 +19,9 @@ class DistrictBase
     int m_viewRange;
     int m_typeAsInt;
     int m_foodCost;
-    int m_foodRatioBonus;
-    int m_scienceBonus;
-    int m_weaponBonus;
+    double m_foodBonus;
+    double m_scienceBonus;
+    double m_weaponBonus;
     int m_attackDamage;
     int m_upgradeType;
     std::string m_name;
@@ -33,7 +33,7 @@ protected:
     int m_health;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType, double foodBonus, double scienceBonus, double weaponBonus);
     virtual ~DistrictBase();
 
     virtual void Repair(int repairValue);
@@ -52,6 +52,12 @@ public:
     int GetViewRange();
     int GetMaxHealth();
     int GetUpgradeType();
+    int GetWeaponYield();
+    int GetScienceYield();
+    int GetFoodYield();
+    double GetFoodBonus();
+    double GetScienceBonus();
+    double GetWeaponBonus();
     const char* GetName();
     Position GetPosition();
     void NotifyNewTurn(int turn);
