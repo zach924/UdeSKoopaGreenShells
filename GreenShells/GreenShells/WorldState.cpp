@@ -203,6 +203,26 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
     }
 }
 
+void WorldState::DeserializePlayer(boost::property_tree::ptree playerXml)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    if (m_remote)
+    {
+        auto player = PlayerRemote::Deserialize(playerXml);
+        m_players[player->GetPlayerID()] = player;
+    }
+    else
+    {
+        auto player = PlayerLocal::Deserialize(playerXml);
+        m_players[player->GetPlayerID()] = player;
+    }
+}
+
+void WorldState::DeserializeTile(boost::property_tree::ptree tileXml)
+{
+    m_map->DeserializeTile(tileXml);
+}
+
 bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };

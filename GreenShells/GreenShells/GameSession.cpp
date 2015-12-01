@@ -7,6 +7,7 @@
 #include "RPCDispatcher.h"
 #include "RPCStructs.h"
 #include "SelectionManager.h"
+#include "PlayerRemote.h"
 
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
@@ -144,14 +145,19 @@ void GameSession::FetchReplication()
     boost::property_tree::ptree pt;
     boost::property_tree::xml_parser::read_xml(dataStream, pt);
 
+    ofstream file{ "temp.xml" };
+    boost::property_tree::xml_parser::write_xml(file, pt);
+
     switch (type)
     {
     case WORLDSTATE:
         m_worldState.Deserialize(pt);
         break;
     case PLAYER:
+        m_worldState.DeserializePlayer(pt);
         break;
     case TILE:
+        m_worldState.DeserializeTile(pt);
         break;
     default:
         assert(false && "Insert replication type here");

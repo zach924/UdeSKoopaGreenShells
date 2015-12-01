@@ -42,6 +42,7 @@ public:
     void NotifyNewTurn(int turn);
 
     virtual boost::property_tree::ptree Serialize();
+    void DeserializeTile(boost::property_tree::ptree tileXml);
 
 private:
     void GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Position, int>& alreadyVisited, MapFilter filter, const int maxDistance);

@@ -11,14 +11,14 @@ class RPCDispatcher
     SynchronizedQueue<RPCEvent>* m_queue;
     WorldState* m_worldState;
 
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicTwoPositionsStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicActorCreationStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicUnlockSkill* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicDiplomaticRequestStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCBasicDiplomaticResponseStruct* data);
-    std::pair<ReplicationType, std::string> Dispatch(RPCEvent);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicActorCreationStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicUnlockSkill* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicDiplomaticRequestStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicDiplomaticResponseStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCEvent);
 
 public:
     RPCDispatcher();

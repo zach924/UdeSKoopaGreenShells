@@ -9,59 +9,67 @@
 #include "Map.h"
 #include "Player.h"
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicStruct * data)
 {
-        std::stringstream ss;
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
+    std::stringstream ss;
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Player_SetReady:
         m_worldState->GetPlayer(data->m_requestingPlayerID)->SetPlayerReadyForNextTurn();
 
         boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
-        return std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str() };
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
         break;
     default:
         assert(false && "You must add your code here");
     }
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     default:
         assert(false && "You must add your code here");
     }
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
 {
-    switch (data->m_RPCClassMethod)
-    {
-    default:
-        assert(false && "You must add your code here");
-    }
-}
-
-void RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
-{
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_Move:
-        //go move the unit
         m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     case RPCClassMethodType::Map_Attack:
-        // Do the attack
         m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     default:
         assert(false && "You must add your code here");
     }
+
+    boost::property_tree::ptree& node = m_worldState->GetMap()->GetTile(data->m_firstPosition)->Serialize();
+    boost::property_tree::write_xml(std::cout, node);
+
+
+
+
+    std::stringstream ss;
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    ss.clear();
+    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_secondPosition)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_CreateDistrict:
@@ -73,10 +81,15 @@ std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicActorCre
     default:
         assert(false && "You must add your code here");
     }
+    std::stringstream ss;
+    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicDiplomaticRequestStruct * data)
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Player_SendPeaceRequest:
@@ -94,10 +107,20 @@ std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomat
     default:
         assert(false && "You must add your code here");
     }
+
+    std::stringstream ss;
+    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    ss.clear();
+    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicDiplomaticResponseStruct * data)
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
 
@@ -128,44 +151,59 @@ std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicDiplomat
     default:
         assert(false && "You must add your code here");
     }
+
+    std::stringstream ss;
+    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    ss.clear();
+    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicUnlockSkill * data)
 {
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
+    std::stringstream ss;
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Player_UnlockSkill:
         m_worldState->GetPlayer(data->m_requestingPlayerID)->UnlockSkill(data->m_turn, data->m_Skill);
+
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+        toReplicate.emplace_back(ReplicationType::PLAYER, ss.str());
         break;
     }
+    return toReplicate;
 }
 
-std::pair<ReplicationType, std::string> RPCDispatcher::Dispatch(RPCEvent event)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCEvent event)
 {
     if (event.data->m_turn == m_worldState->GetCurrentTurn())
     {
         switch (event.structType)
         {
         case RPCStructType::RPC_BASIC:
-            Dispatch(event.data);
+            return Dispatch(event.data);
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
-            Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
-            Dispatch(dynamic_cast<RPCBasicTwoPositionsAndCostStruct*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicTwoPositionsAndCostStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_CREATION:
-            Dispatch(dynamic_cast<RPCBasicActorCreationStruct*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicActorCreationStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_UNLOCK_SKILL:
-            Dispatch(dynamic_cast<RPCBasicUnlockSkill*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicUnlockSkill*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST:
-            Dispatch(dynamic_cast<RPCBasicDiplomaticRequestStruct*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicDiplomaticRequestStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE:
-            Dispatch(dynamic_cast<RPCBasicDiplomaticResponseStruct*>(event.data));
+            return Dispatch(dynamic_cast<RPCBasicDiplomaticResponseStruct*>(event.data));
         }
     }
     else
@@ -211,7 +249,8 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch()
 
         for (RPCEvent event : eventList)
         {
-            toReplicate.push_back(Dispatch(event));
+            auto result = Dispatch(event);
+            toReplicate.insert(toReplicate.end(), result.begin(), result.end());
             delete event.data;
         }
     }

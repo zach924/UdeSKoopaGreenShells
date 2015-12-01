@@ -47,4 +47,6 @@ public:
     bool AreAllPlayerReady();
     boost::property_tree::ptree Serialize();
     void Deserialize(boost::property_tree::ptree worldStateXml);
+    void DeserializePlayer(boost::property_tree::ptree playerXml);
+    void DeserializeTile(boost::property_tree::ptree playerXml);
 };
