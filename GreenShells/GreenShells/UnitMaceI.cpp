@@ -5,7 +5,7 @@
 #include "Player.h"
 
 UnitMaceI::UnitMaceI(int owner, bool hasBonusActionPoint)
-    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -38,7 +38,7 @@ void UnitMaceI::LoadTexture()
 bool UnitMaceI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetArmySkillTree().MaceT2;
+    return player->GetArmySkillTree().MaceT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree node)

@@ -2,9 +2,11 @@
 #include <iostream>
 #include "DistrictBlacksmith.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictStable.h"
 
 DistrictBlacksmith::DistrictBlacksmith(int owner)
-    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -33,7 +35,7 @@ DistrictBlacksmith::~DistrictBlacksmith()
 bool DistrictBlacksmith::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetEmpireSkillTree().Stable;
+    return player->GetEmpireSkillTree().Stable && player->HasEnoughFood(GetFoodCost());
 }
 
 std::shared_ptr<DistrictBlacksmith> DistrictBlacksmith::Deserialize(boost::property_tree::ptree node)

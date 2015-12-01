@@ -263,7 +263,8 @@ void SelectionManager::UpdateButtonState()
         else if (dynamic_cast<ButtonDistrictSell*>(btn) != nullptr)
         {
             if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
-                && selectedDistrict->GetActionPointsRemaining() > 0)
+                && selectedDistrict->GetActionPointsRemaining() > 0
+                && selectedDistrict->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -669,30 +670,68 @@ bool SelectionManager::IsADistrictSelected()
 
 void SelectionManager::UnitSell()
 {
-    // TODO: Sell Unit
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->SellUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictSell()
 {
-    // TODO: Sell District
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty 
+        && districtSelected->GetOwnerID() == currentPlayerId
+        && districtSelected->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
+    {
+        GameSession::GetInstance().GetWorldState()->SellDistrict(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::UnitUpgrade()
 {
-    // TODO: unit upgrade
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictUpgrade()
 {
-    // TODO: unit upgrade
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeDistrict(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::UnitHeal()
 {
-    // TODO
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->HealUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictRepair()
 {
-    // TODO
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->RepairDistrict(m_selectedPosition, currentPlayerId);
+    }
 }

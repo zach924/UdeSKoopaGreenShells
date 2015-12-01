@@ -2,9 +2,10 @@
 #include <iostream>
 #include "ServerSession.h"
 #include "Player.h"
+#include "Map.h"
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType)
     : m_ownerID(owner),
     m_maxHealth(health),
     m_health(health),
@@ -16,7 +17,8 @@ DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRang
     m_scienceYield(scienceYield),
     m_foodCost(foodCost),
     m_actionPointsLeft(1),
-    m_viewRange(viewRange)
+    m_viewRange(viewRange),
+    m_upgradeType(upgradeType)
 {
 }
 
@@ -67,6 +69,11 @@ void DistrictBase::SetPosition(Position pos)
 int DistrictBase::GetMaxHealth()
 {
     return m_maxHealth;
+}
+
+int DistrictBase::GetUpgradeType()
+{
+    return m_upgradeType;
 }
 
 const char * DistrictBase::GetName()

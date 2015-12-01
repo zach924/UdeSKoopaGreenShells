@@ -2,9 +2,11 @@
 #include <iostream>
 #include "DistrictMonastery.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictCathedral.h"
 
 DistrictMonastery::DistrictMonastery(int owner)
-    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictMonastery>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -33,7 +35,7 @@ DistrictMonastery::~DistrictMonastery()
 bool DistrictMonastery::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetEmpireSkillTree().Cathedral;
+    return player->GetEmpireSkillTree().Cathedral && player->HasEnoughFood(GetFoodCost());
 }
 
 std::shared_ptr<DistrictMonastery> DistrictMonastery::Deserialize(boost::property_tree::ptree node)

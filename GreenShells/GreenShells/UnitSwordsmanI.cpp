@@ -4,7 +4,7 @@
 #include "Player.h"
 
 UnitSwordsmanI::UnitSwordsmanI(int owner, bool hasBonusActionPoint)
-    : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitSwordsmanI>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -37,7 +37,7 @@ void UnitSwordsmanI::LoadTexture()
 bool UnitSwordsmanI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetArmySkillTree().SwordT2;
+    return player->GetArmySkillTree().SwordT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING

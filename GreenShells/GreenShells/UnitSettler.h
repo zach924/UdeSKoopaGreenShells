@@ -1,5 +1,6 @@
 #pragma once
 #include "Unit.h"
+#include "DistrictCityCenter.h"
 
 class UnitSettler : public Unit<UnitSettler>
 {
@@ -7,6 +8,7 @@ class UnitSettler : public Unit<UnitSettler>
     static const int HEALTH = 50;
     static const int ACTION_POINTS = 2;
     static const int VIEW_RANGE = 3;
+    static const int UPGRADE_TYPE = DistrictCityCenter::DISTRICT_TYPE;
     static constexpr char* UNIT_NAME = "Settler";
 
 public:

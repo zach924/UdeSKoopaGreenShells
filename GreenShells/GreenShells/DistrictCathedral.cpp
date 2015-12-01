@@ -2,9 +2,11 @@
 #include <iostream>
 #include "DistrictCathedral.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictSchool.h"
 
 DistrictCathedral::DistrictCathedral(int owner)
-    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -28,7 +30,8 @@ void DistrictCathedral::LoadTexture()
 
 bool DistrictCathedral::CanUpgrade()
 {
-    return false;
+    auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
+    return player->GetEmpireSkillTree().School && player->HasEnoughFood(GetFoodCost());
 }
 
 DistrictCathedral::~DistrictCathedral()
