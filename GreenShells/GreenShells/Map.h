@@ -31,7 +31,7 @@ public:
     void GenerateTiles();
     std::vector<Position> GetSpawnPositions();
 
-    std::map<Position, int> GetArea(Position position, int distance, MapFilter filter);
+    std::map<Position, int> GetArea(Position position, int distance, MapFilter filter, bool stopIfCannotGoFurther);
 
 
     TileBase* GetTile(Position);
@@ -51,5 +51,6 @@ public:
 
 private:
     void GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Position, int>& alreadyVisited, MapFilter filter, const int maxDistance);
+    void GetAreaIntern(int distance, Position position, std::map<Position, int>& areaOut, MapFilter filter);
 
 };
