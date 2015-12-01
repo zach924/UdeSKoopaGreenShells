@@ -80,12 +80,19 @@ std::vector<Position> Map::GetSpawnPositions()
     return m_spawnPositions;
 }
 
-std::map<Position, int> Map::GetArea(Position position, int distance, MapFilter filter)
+std::map<Position, int> Map::GetArea(Position position, int distance, MapFilter filter, bool stopIfCannotGoFurther)
 {
     std::map<Position, int> area;
-    std::set<Position> currentLevel;
-    currentLevel.emplace(position);
-    GetAreaIntern(distance, currentLevel, area ,filter, distance);
+    if (stopIfCannotGoFurther)
+    {
+        std::set<Position> currentLevel;
+        currentLevel.emplace(position);
+        GetAreaIntern(distance, currentLevel, area, filter, distance);
+    }
+    else
+    {
+        GetAreaIntern(distance, position, area, filter);
+    }
     
     return area;
 }
@@ -160,6 +167,41 @@ void Map::GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Posi
             alreadyVisited.emplace(pos, std::abs(maxDistance - distance));
         }
     }
+}
+
+void Map::GetAreaIntern(int distance, Position position, std::map<Position, int>& areaOut, MapFilter filter)
+{
+    std::vector<Position> area;
+
+    //find miminum and maximum
+    int maxCol = position.Column + distance;
+    int maxRow = position.Row + distance;
+
+    int minCol = position.Column - distance;
+    if (minCol < 0)
+    {
+        minCol += COLUMNS;
+        maxCol += COLUMNS;
+    }
+    int minRow = position.Row - distance;
+    if (minRow < 0)
+    {
+        minRow += ROWS;
+        maxRow += ROWS;
+    }
+
+    for (int i = minCol; i <= maxCol; ++i)
+    {
+        for (int j = minRow; j <= maxRow; ++j)
+        {
+            Position posToAdd = Position(i % COLUMNS, j % ROWS);
+            if (GetTile(posToAdd)->CanTraverse(filter))
+            {
+                areaOut.emplace(posToAdd, -1);
+            }
+        }
+    }
+ 
 }
 
 TileBase* Map::GetTile(Position position)

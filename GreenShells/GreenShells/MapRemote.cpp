@@ -46,7 +46,7 @@ void MapRemote::VisionChange(int playerId)
 
             if (district && district->GetOwnerID() == playerId)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
+                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER, true);
 
                 for (const std::pair<Position, int>& pos : positionGotVision)
                 {
@@ -55,7 +55,7 @@ void MapRemote::VisionChange(int playerId)
             }
             if (unit && unit->GetOwnerID() == playerId)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
+                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER, true);
 
                 for (const std::pair<Position, int>& pos : positionGotVision)
                 {

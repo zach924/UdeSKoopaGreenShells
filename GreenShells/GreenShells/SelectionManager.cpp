@@ -494,7 +494,7 @@ void SelectionManager::HandleRightClickPressed(Position pos)
         return;
     }
 
-    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction(), true);
     m_actionPossibleTiles.clear();
 
     for (std::pair<Position, int> currentPos : allPositionsNear)
@@ -565,11 +565,11 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         std::map<Position, int> allPositionNear;
         if (districtType == DistrictFishery::DISTRICT_TYPE)
         {
-            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, ALLOW_WATER);
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, ALLOW_WATER, false);
         }
         else
         {
-            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : ALLOW_GROUND);
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : ALLOW_GROUND, false);
         }
 
         m_actionPossibleTiles.clear();
@@ -602,7 +602,7 @@ void SelectionManager::UnitAttackPressed()
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
+        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER, true);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
         {
@@ -628,7 +628,7 @@ void SelectionManager::UnitMovePressed()
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         Position unitPosition = m_selectedPosition;
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction(), true);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
         {

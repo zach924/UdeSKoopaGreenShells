@@ -93,7 +93,7 @@ Map* MapLocal::Clone()
 
 void MapLocal::DiscoverArea(Position pos, int range, int playerId)
 {
-    auto positionToDiscover = GetArea(pos, range, NO_FILTER);
+    auto positionToDiscover = GetArea(pos, range, NO_FILTER, true);
 
     for (const std::pair<Position, int>& pos : positionToDiscover)
     {
