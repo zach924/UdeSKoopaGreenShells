@@ -36,7 +36,8 @@ public:
     UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost, int upgradeType);
     virtual ~UnitBase();
     virtual std::shared_ptr<UnitBase> Clone() = 0;
-    virtual Texture* GetTexture() = 0;
+    virtual Texture* GetUnitTexture() = 0;
+    virtual Texture* GetBoatTexture() = 0;
     virtual bool CanUpgrade() = 0;
     virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
     virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);

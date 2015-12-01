@@ -417,7 +417,10 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadFood = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_foodTexture->GetTexture(), NULL, &renderQuadFood);
 
-            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableFoodQuantity()).c_str(), textColor);
+            std::string foodRessourceToDisplay = std::to_string(currentPlayer->GetPrintableFoodQuantity()) + " (+"
+                                               + std::to_string(currentPlayer->GetPrintableFoodPerTurn()) + ")";
+
+            SDL_Surface *foodSurf = TTF_RenderText_Solid(m_ressourcesFont, foodRessourceToDisplay.c_str(), textColor);
             assert(foodSurf != NULL && TTF_GetError());
 
             SDL_Texture* foodTextTexture = SDL_CreateTextureFromSurface(m_renderer, foodSurf);
@@ -441,7 +444,10 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadWeapon = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_weaponTexture->GetTexture(), NULL, &renderQuadWeapon);
 
-            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableWeaponQuantity()).c_str(), textColor);
+            std::string weaponRessourceToDisplay = std::to_string(currentPlayer->GetPrintableWeaponQuantity()) + " (+"
+                                                  + std::to_string(currentPlayer->GetPrintableWeaponPerTurn()) + ")";
+
+            SDL_Surface *weaponSurf = TTF_RenderText_Solid(m_ressourcesFont, weaponRessourceToDisplay.c_str(), textColor);
             assert(weaponSurf != NULL && TTF_GetError());
 
             SDL_Texture* weaponTextTexture = SDL_CreateTextureFromSurface(m_renderer, weaponSurf);
@@ -464,7 +470,10 @@ void GameWindow::ShowWindow()
             SDL_Rect renderQuadScience = { x, yIcon, widthIcon, heightIcon };
             SDL_RenderCopy(m_renderer, m_scienceTexture->GetTexture(), NULL, &renderQuadScience);
 
-            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, std::to_string(currentPlayer->GetPrintableScienceQuantity()).c_str(), textColor);
+            std::string scienceRessourceToDisplay = std::to_string(currentPlayer->GetPrintableScienceQuantity()) + " (+"
+                                                  + std::to_string(currentPlayer->GetPrintableSciencePerTurn()) + ")";
+
+            SDL_Surface *scienceSurf = TTF_RenderText_Solid(m_ressourcesFont, scienceRessourceToDisplay.c_str(), textColor);
             assert(scienceSurf != NULL && TTF_GetError());
 
             SDL_Texture* scienceTextTexture = SDL_CreateTextureFromSurface(m_renderer, scienceSurf);
@@ -566,7 +575,14 @@ void GameWindow::ShowWindow()
                         auto unit = tile->GetUnit();
                         if (unit)
                         {
-                            Texture* unitTexture = unit->GetTexture();
+                            if (map->GetTile(unit->GetPosition())->GetTypeAsInt() == TileWater::TILE_TYPE)
+                            {
+                                Texture* selectedUnitBoatTexture = unit->GetBoatTexture();
+                                selectedUnitBoatTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
+                                SDL_Rect renderQuadBoat = { xPos, yPos, selectedUnitBoatTexture->GetWidth(), selectedUnitBoatTexture->GetHeight() };
+                                SDL_RenderCopy(m_renderer, selectedUnitBoatTexture->GetTexture(), NULL, &renderQuadBoat);
+                            }
+                            Texture* unitTexture = unit->GetUnitTexture();
                             unitTexture->SetColor(PLAYER_ACTOR_COLORS[unit->GetOwnerID()]);
                             SDL_RenderCopy(m_renderer, unitTexture->GetTexture(), NULL, &renderQuad);
                         }
@@ -834,9 +850,16 @@ void GameWindow::ShowWindow()
         //Render Selected unit
         {
             auto selectedUnit = SelectionManager::GetInstance().GetSelectedUnit();
-            Texture* selectedUnitTexture = selectedUnit->GetTexture();
             int xPos = m_CurrentScreenResolution.BUTTON_HORIZONTAL_OFFSET;
             int yPos = m_CurrentScreenResolution.SELECTED_UNIT_HEIGHT;
+            if (selectedUnit->GetTypeAsInt() != UnitEmpty::UNIT_TYPE && map->GetTile(selectedUnit->GetPosition())->GetTypeAsInt() == TileWater::TILE_TYPE)
+            {
+                Texture* selectedUnitBoatTexture = selectedUnit->GetBoatTexture();
+                SDL_Rect renderQuadBoat = { xPos, yPos, selectedUnitBoatTexture->GetWidth(), selectedUnitBoatTexture->GetHeight() };
+                selectedUnitBoatTexture->SetColor(EMPTY_COLOR);
+                SDL_RenderCopy(m_renderer, selectedUnitBoatTexture->GetTexture(), NULL, &renderQuadBoat);
+            }
+            Texture* selectedUnitTexture = selectedUnit->GetUnitTexture();
             SDL_Rect renderQuad = { xPos, yPos, selectedUnitTexture->GetWidth(), selectedUnitTexture->GetHeight() };
 
             //Remove Color and render

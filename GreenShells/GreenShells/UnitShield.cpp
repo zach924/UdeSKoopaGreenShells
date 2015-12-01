@@ -26,7 +26,7 @@ void UnitShield::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\shield.bmp");
+        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\shield.bmp");
     }
     catch (std::exception e)
     {

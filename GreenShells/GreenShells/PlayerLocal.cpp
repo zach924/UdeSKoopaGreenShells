@@ -33,6 +33,9 @@ std::shared_ptr<Player> PlayerLocal::Clone()
     player->m_food = m_food;
     player->m_science = m_science;
     player->m_weapon = m_weapon;
+    player->m_foodPerTurn = m_foodPerTurn;
+    player->m_sciencePerTurn = m_sciencePerTurn;
+    player->m_weaponPerTurn = m_weaponPerTurn;
     player->m_foodMultiplier = m_foodMultiplier;
     player->m_scienceMultiplier = m_scienceMultiplier;
     player->m_weaponMultiplier = m_weaponMultiplier;
@@ -57,7 +60,9 @@ void PlayerLocal::SetPlayerID(int ID)
 void PlayerLocal::NotifyNewTurn(int turn, Map* map)
 {
     m_isReadyForNewTurn = false;
-
+    m_foodPerTurn = 0;
+    m_sciencePerTurn = 0;
+    m_weaponPerTurn = 0;
     if (m_cityCenterLocations.size() <= 0)
     {
         SetIsAlive(false);
@@ -117,16 +122,19 @@ void PlayerLocal::SetIsAlive(bool value)
 
 void PlayerLocal::AddFood(unsigned int qty)
 {
+    m_foodPerTurn += qty * m_foodMultiplier;
     m_food += qty * m_foodMultiplier;
 }
 
 void PlayerLocal::AddScience(unsigned int qty)
 {
+    m_sciencePerTurn += qty * m_scienceMultiplier;
     m_science += qty * m_scienceMultiplier;
 }
 
 void PlayerLocal::AddWeapon(unsigned int qty)
 {
+    m_weaponPerTurn += qty * m_weaponMultiplier;
     m_weapon += qty * m_weaponMultiplier;
 }
 
@@ -585,6 +593,9 @@ std::shared_ptr<PlayerLocal> PlayerLocal::Deserialize(boost::property_tree::ptre
     player->m_food = playerNode.get<double>("<xmlattr>.F");
     player->m_science = playerNode.get<double>("<xmlattr>.S");
     player->m_weapon = playerNode.get<double>("<xmlattr>.W");
+    player->m_foodPerTurn = playerNode.get<double>("<xmlattr>.FP");
+    player->m_sciencePerTurn = playerNode.get<double>("<xmlattr>.SP");
+    player->m_weaponPerTurn = playerNode.get<double>("<xmlattr>.WP");
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
