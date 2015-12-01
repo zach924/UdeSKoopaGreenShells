@@ -3,11 +3,9 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
-#include "Map.h"
-#include "UnitArcherIII.h"
 
 UnitArcherII::UnitArcherII(int owner, bool hasBonusActionPoint)
-    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, NO_FOOD_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -41,11 +39,6 @@ bool UnitArcherII::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetArmySkillTree().ArcherT3 && player->HasEnoughWeapons(GetWeaponCost());
-}
-
-void UnitArcherII::Upgrade(Map* map)
-{
-    map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitArcherIII(GetOwnerID())});
 }
 
 std::shared_ptr<UnitArcherII> UnitArcherII::Deserialize(boost::property_tree::ptree node)

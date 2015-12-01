@@ -6,7 +6,7 @@
 #include "ServerSession.h"
 #include "Player.h"
 
-UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost)
+UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost, int upgradeType)
     : m_ownerID(owner),
     m_health(health),
     m_maxHealth(health),
@@ -18,7 +18,8 @@ UnitBase::UnitBase(int owner, int health, int actionPoints, int attackRange, int
     m_name(name),
     m_typeAsInt(typeAsInt),
     m_weaponCost(weaponCost),
-    m_foodCost(foodCost)
+    m_foodCost(foodCost),
+    m_upgradeType(upgradeType)
 {
 }
 
@@ -56,9 +57,9 @@ int UnitBase::GetOwnerID()
     return m_ownerID;
 }
 
-void UnitBase::Upgrade(Map* map)
+int UnitBase::GetUpgradeType()
 {
-    // Do nothing
+    return m_upgradeType;
 }
 
 int UnitBase::GetMaxHealth()

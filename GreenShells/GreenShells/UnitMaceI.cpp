@@ -3,11 +3,9 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
-#include "Map.h"
-#include "UnitMaceII.h"
 
 UnitMaceI::UnitMaceI(int owner, bool hasBonusActionPoint)
-    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitMaceI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, NO_FOOD_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -41,11 +39,6 @@ bool UnitMaceI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetArmySkillTree().MaceT2 && player->HasEnoughWeapons(GetWeaponCost());
-}
-
-void UnitMaceI::Upgrade(Map* map)
-{
-    map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitMaceII(GetOwnerID())});
 }
 
 std::shared_ptr<UnitMaceI> UnitMaceI::Deserialize(boost::property_tree::ptree node)

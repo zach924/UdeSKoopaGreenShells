@@ -2,11 +2,9 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
-#include "Map.h"
-#include "UnitSwordsmanIII.h"
 
 UnitSwordsmanII::UnitSwordsmanII(int owner, bool hasBonusActionPoint)
-    : Unit<UnitSwordsmanII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitSwordsmanII>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, NO_FOOD_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -40,11 +38,6 @@ bool UnitSwordsmanII::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetArmySkillTree().SwordT3 && player->HasEnoughWeapons(GetWeaponCost());
-}
-
-void UnitSwordsmanII::Upgrade(Map* map)
-{
-    map->GetTile(GetPosition())->SetUnit(std::shared_ptr<UnitBase>{new UnitSwordsmanIII(GetOwnerID())});
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING

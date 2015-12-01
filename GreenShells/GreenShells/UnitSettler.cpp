@@ -2,11 +2,9 @@
 #include "GameSession.h"
 #include "Player.h"
 #include <iostream>
-#include "Map.h"
-#include "DistrictCityCenter.h"
 
 UnitSettler::UnitSettler(int owner, bool hasBonusActionPoint)
-    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
+    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -39,13 +37,6 @@ void UnitSettler::LoadTexture()
 bool UnitSettler::CanUpgrade()
 {
     return true;
-}
-
-void UnitSettler::Upgrade(Map* map)
-{
-    TileBase* tile = map->GetTile(GetPosition());
-    tile->SetUnit(nullptr);
-    tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictCityCenter(GetOwnerID())});
 }
 
 // NEED TO PUT THIS IN EVERY MELEE UNIT, SO THEY CAN REECEIVE DAMAGE WHEN ATTACKING

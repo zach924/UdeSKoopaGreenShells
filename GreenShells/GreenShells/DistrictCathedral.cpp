@@ -6,7 +6,7 @@
 #include "DistrictSchool.h"
 
 DistrictCathedral::DistrictCathedral(int owner)
-    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictCathedral>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -36,11 +36,6 @@ bool DistrictCathedral::CanUpgrade()
 
 DistrictCathedral::~DistrictCathedral()
 {
-}
-
-void DistrictCathedral::Upgrade(Map * map)
-{
-    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictSchool(GetOwnerID())});
 }
 
 std::shared_ptr<DistrictCathedral> DistrictCathedral::Deserialize(boost::property_tree::ptree node)

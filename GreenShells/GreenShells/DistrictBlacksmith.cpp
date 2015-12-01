@@ -6,7 +6,7 @@
 #include "DistrictStable.h"
 
 DistrictBlacksmith::DistrictBlacksmith(int owner)
-    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictBlacksmith>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -44,9 +44,4 @@ std::shared_ptr<DistrictBlacksmith> DistrictBlacksmith::Deserialize(boost::prope
     district->m_health = node.get<int>("<xmlattr>.H");
 
     return district;
-}
-
-void DistrictBlacksmith::Upgrade(Map * map)
-{
-    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictStable(GetOwnerID())});
 }

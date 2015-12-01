@@ -1,5 +1,6 @@
 #pragma once
 #include "District.h"
+#include "DistrictFarm.h"
 
 class DistrictHunter : public District<DistrictHunter>
 {
@@ -9,6 +10,7 @@ class DistrictHunter : public District<DistrictHunter>
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 0;
     static const int VIEW_RANGE = 3;
+    static const int UPGRADE_TYPE = DistrictFarm::DISTRICT_TYPE;
     static constexpr char* NAME = "Hunter";
 
 public:
@@ -21,7 +23,6 @@ public:
     virtual std::shared_ptr<DistrictBase> Clone();
     virtual void LoadTexture();
     virtual bool CanUpgrade();
-    virtual void Upgrade(Map* map);
     static std::shared_ptr<DistrictHunter> Deserialize(boost::property_tree::ptree node);
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Unit.h"
+#include "UnitSwordsmanII.h"
 
 class UnitSwordsmanI : public Unit<UnitSwordsmanI>
 {
@@ -7,6 +8,7 @@ class UnitSwordsmanI : public Unit<UnitSwordsmanI>
     static const int HEALTH = 200;
     static const int ACTION_POINTS = 2;
     static const int VIEW_RANGE = 3;
+    static const int UPGRADE_TYPE = UnitSwordsmanII::UNIT_TYPE;
     static constexpr char* UNIT_NAME ="Swordsman MK1";
 
 public:
@@ -19,7 +21,6 @@ public:
     virtual std::shared_ptr<UnitBase> Clone();
     virtual void LoadTexture();
     virtual bool CanUpgrade();
-    virtual void Upgrade(Map* map);
     virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
     virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
     static std::shared_ptr<UnitSwordsmanI> Deserialize(boost::property_tree::ptree node);

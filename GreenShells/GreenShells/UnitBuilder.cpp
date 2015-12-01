@@ -3,11 +3,9 @@
 #include <iostream>
 #include "GameSession.h"
 #include "Player.h"
-#include "Map.h"
-#include "DistrictWatchTower.h"
 
 UnitBuilder::UnitBuilder(int owner, bool hasBonusActionPoint)
-    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
+    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -40,13 +38,6 @@ void UnitBuilder::LoadTexture()
 bool UnitBuilder::CanUpgrade()
 {
     return true;
-}
-
-void UnitBuilder::Upgrade(Map * map)
-{
-    TileBase* tile = map->GetTile(GetPosition());
-    tile->SetUnit(nullptr);
-    tile->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWatchTower(GetOwnerID())});
 }
 
 std::shared_ptr<UnitBuilder> UnitBuilder::Deserialize(boost::property_tree::ptree node)

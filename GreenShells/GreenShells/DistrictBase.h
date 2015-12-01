@@ -23,15 +23,17 @@ class DistrictBase
     int m_scienceBonus;
     int m_weaponBonus;
     int m_attackDamage;
+    int m_upgradeType;
     std::string m_name;
     Position m_position;
 
 protected:
+    static const int NO_UPGRADE = -1;
     int m_actionPointsLeft;
     int m_health;
 
 public:
-    DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield);
+    DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield, int upgradeType);
     virtual ~DistrictBase();
 
     virtual void Repair(int repairValue);
@@ -49,10 +51,10 @@ public:
     int GetTypeAsInt();
     int GetViewRange();
     int GetMaxHealth();
+    int GetUpgradeType();
     const char* GetName();
     Position GetPosition();
     void NotifyNewTurn(int turn);
     void SetPosition(Position pos);
-    virtual void Upgrade(Map* map);
     boost::property_tree::ptree Serialize();
 };

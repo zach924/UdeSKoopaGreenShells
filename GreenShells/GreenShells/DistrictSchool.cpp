@@ -6,7 +6,7 @@
 #include "DistrictUniversity.h"
 
 DistrictSchool::DistrictSchool(int owner)
-    : District<DistrictSchool>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictSchool>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -36,11 +36,6 @@ bool DistrictSchool::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetUtilitySkillTree().University && player->HasEnoughFood(GetFoodCost());
-}
-
-void DistrictSchool::Upgrade(Map * map)
-{
-    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictUniversity(GetOwnerID())});
 }
 
 std::shared_ptr<DistrictSchool> DistrictSchool::Deserialize(boost::property_tree::ptree node)

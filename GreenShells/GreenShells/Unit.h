@@ -12,8 +12,8 @@ public:
     static bool m_forceLoading;
 
 public:
-    Unit(int ownerID, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost = -1, int foodCost = -1)
-        : UnitBase(ownerID, health, actionPoints, attackRange, attackDamage, viewRange, name, typeAsInt, weaponCost, foodCost)
+    Unit(int ownerID, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost = -1, int foodCost = -1, int upgradeType = NO_UPGRADE)
+        : UnitBase(ownerID, health, actionPoints, attackRange, attackDamage, viewRange, name, typeAsInt, weaponCost, foodCost, upgradeType)
     {
     }
 

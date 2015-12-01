@@ -6,7 +6,7 @@
 #include "DistrictWarehouse.h"
 
 DistrictWindMill::DistrictWindMill(int owner)
-    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictWindMill>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -41,11 +41,6 @@ bool DistrictWindMill::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetEmpireSkillTree().Warehouse && player->HasEnoughFood(GetFoodCost());
-}
-
-void DistrictWindMill::Upgrade(Map * map)
-{
-    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictWarehouse(GetOwnerID())});
 }
 
 std::shared_ptr<DistrictWindMill> DistrictWindMill::Deserialize(boost::property_tree::ptree node)

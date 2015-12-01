@@ -338,6 +338,7 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     {
         GetTile(pos)->SetUnit(unit);
         player->ConsumeWeapon(unit->GetWeaponCost());
+        player->ConsumeFood(unit->GetFoodCost());
 
         DiscoverArea(pos, unit->GetViewRange(), owner);
     }
@@ -449,10 +450,10 @@ bool MapLocal::SellUnit(Position pos, int owner)
     {
         return false;
     }
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
 
-    int refund = unit->GetWeaponCost() / 3;
-
-    ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeapon(refund);
+    player->AddWeapon(unit->GetWeaponCost() / 3);
+    player->AddFood(unit->GetFoodCost() / 3);
 
     GetTile(pos)->SetUnit(nullptr);
 
@@ -474,22 +475,17 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
     {
         // Upgrade override the unit on the tile by the new one (or override by nullptr (settler/watchTowerUnit)
         //   So we need to delete the object unit after
-        unit->Upgrade(this);
 
-        if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE)
+        if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE || unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
         {
-            player->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
-        }
-        else if (unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
-        {
-        
+            GetTile(pos)->SetUnit(nullptr);
+            return CreateDistrict(unit->GetUpgradeType(), pos, owner);
         }
         else
         {
-            player->ConsumeWeapon(unit->GetWeaponCost());
+            GetTile(pos)->SetUnit(nullptr);
+            return CreateUnit(unit->GetUpgradeType(), pos, owner);
         }
-
-        return true;
     }
 
     return false;
@@ -508,8 +504,8 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
 
     if (district->CanUpgrade())
     {
-        district->Upgrade(this);
-        player->ConsumeFood(district->GetFoodCost());
+        CreateDistrict(district->GetUpgradeType(), pos, owner);
+
         return true;
     }
 
@@ -525,7 +521,7 @@ bool MapLocal::HealUnit(Position pos, int owner)
         return false;
     }
 
-    unit->Heal(50); // TODO : Heal full?
+    unit->Heal(15);
     return true;
 }
 
@@ -538,7 +534,7 @@ bool MapLocal::RepairDistrict(Position pos, int owner)
         return false;
     }
 
-    district->Repair(50); // TODO : Heal full?
+    district->Repair(15);
     return true;
 }
 

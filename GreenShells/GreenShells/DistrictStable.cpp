@@ -6,7 +6,7 @@
 #include "DistrictFort.h"
 
 DistrictStable::DistrictStable(int owner)
-    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictStable>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -36,11 +36,6 @@ bool DistrictStable::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
     return player->GetEmpireSkillTree().Fort && player->HasEnoughFood(GetFoodCost());
-}
-
-void DistrictStable::Upgrade(Map * map)
-{
-    map->GetTile(GetPosition())->SetDistrict(std::shared_ptr<DistrictBase>{new DistrictFort(GetOwnerID())});
 }
 
 std::shared_ptr<DistrictStable> DistrictStable::Deserialize(boost::property_tree::ptree node)

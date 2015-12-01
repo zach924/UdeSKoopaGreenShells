@@ -130,6 +130,4 @@ public:
 
     bool HasEnoughWeapons(unsigned int WeaponCost);
     bool HasEnoughFood(unsigned int FoodCost);
-    static unsigned int GetWeaponCostForTier(int tier);
-    static unsigned int GetDistrictCost(int districtType);
 };
