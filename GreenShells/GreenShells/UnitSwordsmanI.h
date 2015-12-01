@@ -5,7 +5,7 @@ class UnitSwordsmanI : public Unit<UnitSwordsmanI>
 {
     static const int ATTACK_DAMAGE = 50;
     static const int HEALTH = 200;
-    static const int ACTION_POINTS = 20;
+    static const int ACTION_POINTS = 2;
     static const int VIEW_RANGE = 3;
     static constexpr char* UNIT_NAME ="Swordsman MK1";
 
