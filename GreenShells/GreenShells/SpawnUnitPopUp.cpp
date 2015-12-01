@@ -157,7 +157,7 @@ void SpawnUnitPopUp::ShowWindow(SDL_Renderer * rend)
     SDL_Rect menuHeaderRect{ horizontalPos, verticalPos, menuHeader.GetWidth(), menuHeader.GetHeight() };
     SDL_RenderCopy(m_rend, menuHeader.GetTexture(), NULL, &menuHeaderRect);
 
-    for (ButtonText button : m_allButtons)
+    for (ButtonText& button : m_allButtons)
     {
         //the button
         Texture* buttonTexture = button.GetButtonTexture(m_rend);
