@@ -114,10 +114,6 @@ int WorldState::AddPlayer(std::string playerName)
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
 
-    newPlayer->AddFood(5000);
-    newPlayer->AddScience(5000);
-    newPlayer->AddWeapon(5000);
-
     for (auto p : m_players)
     {
         p->AddNewRelation(playerID);
