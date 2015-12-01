@@ -48,7 +48,7 @@ Player::Player()
     m_isAlive(true),
     m_cityCenterLocations(),
     m_unitCount(0),
-    m_food(200),
+    m_food(100),
     m_science(0),
     m_weapon(0),
     m_foodMultiplier(1),
@@ -81,19 +81,19 @@ bool Player::IsPlayerReadyForNextTurn()
     return m_isDisconnected || m_isReadyForNewTurn;
 }
 
-int Player::GetFood()
+int Player::GetPrintableFoodQuantity()
 {
-    return m_food;
+    return static_cast<int>(m_food);
 }
 
-int Player::GetScience()
+int Player::GetPrintableScienceQuantity()
 {
-    return m_science;
+    return static_cast<int>(m_science);
 }
 
-int Player::GetWeapon()
+int Player::GetPrintableWeaponQuantity()
 {
-    return m_weapon;
+    return static_cast<int>(m_weapon);
 }
 
 bool Player::IsAlive()
@@ -231,213 +231,12 @@ EmpireSkillTree Player::GetEmpireSkillTree()
     return m_empireSkillTree;
 }
 
-bool Player::HasRessourcesForUnit(int tier)
+bool Player::HasEnoughWeapons(unsigned int WeaponCost)
 {
-    if (tier == 1)
-    {
-        return m_weapon >= UNIT_TIER_ONE_COST;
-    }
-    else if (tier == 2)
-    {
-        return m_weapon >= UNIT_TIER_TWO_COST;
-
-    }
-    else if (tier == 3)
-    {
-        return m_weapon >= UNIT_TIER_THREE_COST;
-
-    }
-    else if (tier == 4)
-    {
-        return m_weapon >= UNIT_TIER_FOUR_COST;
-    }
-    return false;
+    return m_weapon >= WeaponCost;
 }
 
-bool Player::HasRessourcesForDistrict(int DistrictType)
+bool Player::HasEnoughFood(unsigned int FoodCost)
 {
-    switch (DistrictType)
-    {
-    case DistrictCityCenter::DISTRICT_TYPE:
-        return m_food >= CITY_CENTER_COST;
-        break;
-    case DistrictHunter::DISTRICT_TYPE:
-        return m_food >= HUNTER_COST;
-        break;
-    case DistrictFarm::DISTRICT_TYPE:
-        return m_food >= FARM_COST;
-        break;
-    case DistrictWindMill::DISTRICT_TYPE:
-        return m_food >= WIND_MILL_COST;
-        break;
-    case DistrictBlacksmith::DISTRICT_TYPE:
-        return m_food >= BLACKSMITH_COST;
-        break;
-    case DistrictStable::DISTRICT_TYPE:
-        return m_food >= STABLE_COST;
-        break;
-    case DistrictFort::DISTRICT_TYPE:
-        return m_food >= FORT_COST;
-        break;
-    case DistrictMonastery::DISTRICT_TYPE:
-        return m_food >= MONASTERY_COST;
-        break;
-    case DistrictCathedral::DISTRICT_TYPE:
-        return m_food >= CATHEDRAL_COST;
-        break;
-    case DistrictSchool::DISTRICT_TYPE:
-        return m_food >= SCHOOL_COST;
-        break;
-    case DistrictInn::DISTRICT_TYPE:
-        return m_food >= INN_COST;
-        break;
-    case DistrictTavern::DISTRICT_TYPE:
-        return m_food >= TAVERN_COST;
-        break;
-    default:
-        return false;
-        break;
-    }
-
-}
-
-unsigned int Player::GetWeaponCostForTier(int tier)
-{
-    if (tier == 1)
-    {
-        return UNIT_TIER_ONE_COST;
-    }
-    else if (tier == 2)
-    {
-        return UNIT_TIER_TWO_COST;
-
-    }
-    else if (tier == 3)
-    {
-        return UNIT_TIER_THREE_COST;
-
-    }
-    else if (tier == 4)
-    {
-        return UNIT_TIER_FOUR_COST;
-    }
-    return 0;
-}
-
-int Player::GetSwordsmanTier()
-{
-    if (m_armySkillTree.SwordT3)
-    {
-        return UnitSwordsmanIII::UNIT_TIER;
-    }
-    else if (m_armySkillTree.SwordT2)
-    {
-        return UnitSwordsmanII::UNIT_TIER;
-    }
-    else
-    {
-        return UnitSwordsmanI::UNIT_TIER;
-    }
-}
-
-int Player::GetArcherTier()
-{
-    if (m_armySkillTree.RangerT3)
-    {
-        return UnitArcherIII::UNIT_TIER;
-    }
-    else if (m_armySkillTree.RangerT2)
-    {
-        return UnitArcherII::UNIT_TIER;
-    }
-    else if (m_armySkillTree.RangerT1)
-    {
-        return UnitArcherI::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Player::GetAxemanTier()
-{
-    if (m_armySkillTree.AxeT2)
-    {
-        return UnitAxemanII::UNIT_TIER;
-    }
-    else if (m_armySkillTree.AxeT1)
-    {
-        return UnitAxemanI::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Player::GetMaceTier()
-{
-    if (m_armySkillTree.MaceT2)
-    {
-        return UnitMaceII::UNIT_TIER;
-    }
-    else if (m_armySkillTree.MaceT1)
-    {
-        return UnitMaceI::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Player::GetCannonTier()
-{
-    if (m_armySkillTree.Canon)
-    {
-        return UnitCannon::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-
-
-}
-
-int Player::GetShieldTier()
-{
-    if (m_armySkillTree.Shield)
-    {
-        return UnitShield::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Player::GetSettlerTier()
-{
-    if (m_empireSkillTree.Settler)
-    {
-        return UnitSettler::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Player::GetBuilderTier()
-{
-    if (m_utilitySkillTree.Watchtower)
-    {
-        return UnitBuilder::UNIT_TIER;
-    }
-    else
-    {
-        return -1;
-    }
+    return m_food >= FoodCost;
 }

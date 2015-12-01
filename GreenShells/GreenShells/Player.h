@@ -41,9 +41,9 @@ protected:
     std::map<Position, int> m_cityCenterLocations;
     unsigned int m_unitCount;
 
-    unsigned int m_food;
-    unsigned int m_science;
-    unsigned int m_weapon;
+    double m_food;
+    double m_science;
+    double m_weapon;
 
     double m_foodMultiplier;
     double m_scienceMultiplier;
@@ -57,24 +57,7 @@ protected:
     std::map<int, DiplomaticRelation> m_diplomaticRelations;
 
 public:
-    static const unsigned int UNIT_TIER_ONE_COST    = 50;
-    static const unsigned int UNIT_TIER_TWO_COST    = 100;
-    static const unsigned int UNIT_TIER_THREE_COST  = 200;
-    static const unsigned int UNIT_TIER_FOUR_COST   = 400;
 
-    static const unsigned int CITY_CENTER_COST      = 700;
-    static const unsigned int HUNTER_COST           = 150;
-    static const unsigned int FARM_COST             = 200;
-    static const unsigned int WIND_MILL_COST        = 400;
-    static const unsigned int BLACKSMITH_COST       = 150;
-    static const unsigned int STABLE_COST           = 200;
-    static const unsigned int FORT_COST             = 400;
-    static const unsigned int MONASTERY_COST        = 150;
-    static const unsigned int CATHEDRAL_COST        = 200;
-    static const unsigned int SCHOOL_COST           = 400;
-    static const unsigned int INN_COST              = 250;
-    static const unsigned int TAVERN_COST           = 250;
-    
     Player();
     ~Player();
 
@@ -93,9 +76,9 @@ public:
     virtual void SetIsAlive(bool value) = 0;
     bool IsAlive();
     bool IsNegociating();
-    int GetFood();
-    int GetScience();
-    int GetWeapon();
+    int GetPrintableFoodQuantity();
+    int GetPrintableScienceQuantity();
+    int GetPrintableWeaponQuantity();
 
     virtual void AddFood(unsigned int qty) = 0;
     virtual void AddScience(unsigned int qty) = 0;
@@ -145,16 +128,6 @@ public:
     virtual ArmySkillTree GetArmySkillTree();
     virtual EmpireSkillTree GetEmpireSkillTree();
 
-    bool HasRessourcesForUnit(int tier);
-    bool HasRessourcesForDistrict(int DistrictType);
-    unsigned int GetWeaponCostForTier(int tier);
-    int GetSwordsmanTier();
-    int GetArcherTier();
-    int GetAxemanTier();
-    int GetMaceTier();
-    int GetCannonTier();
-    int GetShieldTier();
-    int GetSettlerTier();
-    int GetBuilderTier();
-
+    bool HasEnoughWeapons(unsigned int WeaponCost);
+    bool HasEnoughFood(unsigned int FoodCost);
 };

@@ -165,7 +165,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     switch (skill)
     {
     case Watchtower:
-    case RangerT1:
+    case ArcherT1:
     case Settler:
         if (m_science < SKILL_COST_TIER1)
         {
@@ -195,7 +195,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     case Embark:
     case SwordT3:
     case AxeT2:
-    case RangerT2:
+    case ArcherT2:
     case Windmill:
     case Cathedral:
     case Fort:
@@ -216,7 +216,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
         break;
     case MountainConstruction:
     case ArmorUpgrade:
-    case RangerT3:
+    case ArcherT3:
     case MaceT2:
     case Warehouse:
     case School:
@@ -387,9 +387,9 @@ std::shared_ptr<PlayerRemote> PlayerRemote::Deserialize(boost::property_tree::pt
     player->m_playerID = playerNode.get<int>("<xmlattr>.PId");
     player->m_playerName = playerNode.get<std::string>("<xmlattr>.PName");
     player->m_unitCount = playerNode.get<int>("<xmlattr>.UC");
-    player->m_food = playerNode.get<int>("<xmlattr>.F");
-    player->m_science = playerNode.get<int>("<xmlattr>.S");
-    player->m_weapon = playerNode.get<int>("<xmlattr>.W");
+    player->m_food = playerNode.get<double>("<xmlattr>.F");
+    player->m_science = playerNode.get<double>("<xmlattr>.S");
+    player->m_weapon = playerNode.get<double>("<xmlattr>.W");
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");

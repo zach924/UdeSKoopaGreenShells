@@ -1,26 +1,26 @@
 #pragma once
 #include "District.h"
-
-class DistrictHunter : public District<DistrictHunter>
+class DistrictFishery : public District<DistrictFishery>
 {
     static const int ATTACK_DAMAGE = 0;
     static const int HEALTH = 150;
+
     static const int FOOD_YIELD = 6;
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 0;
     static const int VIEW_RANGE = 3;
-    static constexpr char* NAME = "Hunter";
+    static constexpr char* NAME = "Fishery";
 
 public:
-    typedef District<DistrictHunter> tBase;
-    static const int DISTRICT_TYPE = 1;
+    typedef District<DistrictFishery> tBase;
+    static const int DISTRICT_TYPE = 17;
     static const int FOOD_COST = 150;
-    
-    DistrictHunter(int owner);
-    ~DistrictHunter();
+
+    DistrictFishery(int owner);
+    ~DistrictFishery();
     virtual std::shared_ptr<DistrictBase> Clone();
     virtual void LoadTexture();
     virtual bool CanUpgrade();
-    static std::shared_ptr<DistrictHunter> Deserialize(boost::property_tree::ptree node);
+    static std::shared_ptr<DistrictFishery> Deserialize(boost::property_tree::ptree node);
 };
 

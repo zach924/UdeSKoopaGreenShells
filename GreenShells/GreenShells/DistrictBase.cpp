@@ -4,9 +4,12 @@
 #include "Player.h"
 #include <boost\property_tree\ptree.hpp>
 
-DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, int foodCost, int weaponYield, int foodYield, int scienceYield)
+DistrictBase::DistrictBase(int owner, int health, int attackDamage, int viewRange, const char* name, int typeAsInt, int foodCost, int weaponYield, int foodYield, int scienceYield)
     : m_ownerID(owner),
+    m_maxHealth(health),
     m_health(health),
+    m_name(name),
+    m_typeAsInt(typeAsInt),
     m_attackDamage(attackDamage),
     m_weaponYield(weaponYield),
     m_foodYield(foodYield),
@@ -24,6 +27,11 @@ DistrictBase::~DistrictBase()
 void DistrictBase::ChangeOwner(int newOwner)
 {
     m_ownerID = newOwner;
+}
+
+int DistrictBase::GetFoodCost()
+{
+    return m_foodCost;
 }
 
 int DistrictBase::GetActionPointsRemaining()
@@ -54,6 +62,31 @@ Position DistrictBase::GetPosition()
 void DistrictBase::SetPosition(Position pos)
 {
     m_position = pos;
+}
+
+int DistrictBase::GetMaxHealth()
+{
+    return m_maxHealth;
+}
+
+const char * DistrictBase::GetName()
+{
+    return m_name.c_str();
+}
+
+int DistrictBase::GetTypeAsInt()
+{
+    return m_typeAsInt;
+}
+
+int DistrictBase::GetViewRange()
+{
+    return m_viewRange;
+}
+
+void DistrictBase::Repair(int repairValue)
+{
+    m_health = std::min(m_health + repairValue, m_maxHealth);
 }
 
 AttackNotification DistrictBase::ReceiveDamage(int damage)

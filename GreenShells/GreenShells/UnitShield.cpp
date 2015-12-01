@@ -2,13 +2,10 @@
 #include <algorithm>
 #include <iostream>
 #include "GameSession.h"
-#include "ServerSession.h"
 #include "Player.h"
 
-const char* UnitShield::UNIT_NAME = "Shield";
-
 UnitShield::UnitShield(int owner, bool hasBonusActionPoint)
-    : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE)
+    : Unit<UnitShield>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
 {
     if (hasBonusActionPoint)
     {
@@ -42,42 +39,6 @@ bool UnitShield::CanUpgrade()
 {
     return false;
 }
-
-int UnitShield::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * UnitShield::GetName()
-{
-    return UNIT_NAME;
-}
-
-int UnitShield::GetTypeAsInt()
-{
-    return UNIT_TYPE;
-}
-
-int UnitShield::GetViewRange()
-{
-    return VIEW_RANGE;
-}
-
-void UnitShield::Heal(int health)
-{
-    m_health = std::min(m_health + health, HEALTH);
-}
-
-void UnitShield::NotifyNewTurn(int turn)
-{
-    m_actionPointsLeft = ACTION_POINTS;
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID);
-    if (player->GetUtilitySkillTree().MovementUpgrade)
-    {
-        m_actionPointsLeft += 1;
-    }
-}
-
 
 std::shared_ptr<UnitShield> UnitShield::Deserialize(boost::property_tree::ptree node)
 {

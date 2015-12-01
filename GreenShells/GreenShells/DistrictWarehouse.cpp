@@ -3,10 +3,8 @@
 #include "DistrictWarehouse.h"
 #include "Player.h"
 
-const char* DistrictWarehouse::NAME = "Warehouse";
-
 DistrictWarehouse::DistrictWarehouse(int owner)
-    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictWarehouse::~DistrictWarehouse()
 {
 }
 
-void DistrictWarehouse::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictWarehouse::CanUpgrade()
 {
     return false;
-}
-
-int DistrictWarehouse::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictWarehouse::GetName()
-{
-    return NAME;
-}
-
-int DistrictWarehouse::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictWarehouse::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictWarehouse> DistrictWarehouse::Deserialize(boost::property_tree::ptree node)

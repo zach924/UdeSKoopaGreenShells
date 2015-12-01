@@ -3,32 +3,22 @@
 
 class UnitArcherIII : public Unit<UnitArcherIII>
 {
+    static const int ATTACK_DAMAGE = 100;
+    static const int ATTACK_RANGE = 4;
+    static const int HEALTH = 250;
+    static const int ACTION_POINTS = 2;
+    static const int VIEW_RANGE = 5;
+    static constexpr char* UNIT_NAME = "Archer MK3";
+
 public:
     typedef Unit<UnitArcherIII> tBase;
-
-    static int const ATTACK_DAMAGE = 100;
-    static int const ATTACK_RANGE = 4;
-    static int const HEALTH = 250;
-    static int const ACTION_POINTS = 2;
-    static int const UNIT_TYPE = 5;
-    static int const UNIT_TIER = 3;
-    static int const VIEW_RANGE = 5;
-    static const char* UNIT_NAME;
-
-public:
-
+    static const int UNIT_TYPE = 5;
+    static const int WEAPON_COST = 250;
+    
     UnitArcherIII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitArcherIII();
     virtual std::shared_ptr<UnitBase> Clone();
-    void LoadTexture();
-
+    virtual void LoadTexture();
     virtual bool CanUpgrade();
-    virtual int GetMaxHealth();
-    virtual const char* GetName();
-    virtual int GetTypeAsInt();
-    virtual int GetViewRange();
-    virtual void Heal(int health);
-    virtual void NotifyNewTurn(int turn);
-
     static std::shared_ptr<UnitArcherIII> Deserialize(boost::property_tree::ptree node);
 };

@@ -59,6 +59,8 @@ public:
     void Cancel();
 
     void HandleSelection(Position pos);
+    void HandleRightClickPressed(Position pos);
+    void HandleRightClickUnpressed(Position pos);
 
     void CreateDistrictPressed(int districtType);
     void CreateUnitPressed(int unitType);
@@ -77,15 +79,4 @@ public:
 
     void UnitHeal();
     void DistrictRepair();
-
-    void SpawnSwordsman();
-    void SpawnArcher();
-    void SpawnAxeman();
-    void SpawnMace();
-    void SpawnCannon();
-    void SpawnShield();
-    void SpawnSettler();
-    void SpawnBuilder();
-
-    void SpawnDistrict(int districtType);
 };

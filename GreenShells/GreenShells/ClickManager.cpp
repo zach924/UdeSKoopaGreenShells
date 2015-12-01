@@ -39,6 +39,15 @@ void ClickManager::ManageMapClick(const Position& position)
     SelectionManager::GetInstance().HandleSelection(position);
 }
 
+void ClickManager::ManageMapRightClickPressed(const Position & position)
+{
+    SelectionManager::GetInstance().HandleRightClickPressed(position);
+}
+
+void ClickManager::ManageMapRightClickUnpressed(const Position & position)
+{
+    SelectionManager::GetInstance().HandleRightClickUnpressed(position);
+}
 
 void ClickManager::ManageMenuClick(const int & x, const int & y)
 {

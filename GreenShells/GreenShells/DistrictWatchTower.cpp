@@ -3,10 +3,8 @@
 #include "DistrictWatchTower.h"
 #include "Player.h"
 
-const char* DistrictWatchTower::NAME = "Watch Tower";
-
 DistrictWatchTower::DistrictWatchTower(int owner)
-    : District<DistrictWatchTower>(owner, HEALTH, ATTACK_DAMAGE, FOOD_COST, FOOD_BONUS, SCIENCE_BONUS, WEAPON_BONUS)
+    : District<DistrictWatchTower>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
 {
 }
 
@@ -32,34 +30,9 @@ DistrictWatchTower::~DistrictWatchTower()
 {
 }
 
-void DistrictWatchTower::Repair(int repairValue)
-{
-    m_health = std::min(m_health + repairValue, HEALTH);
-}
-
 bool DistrictWatchTower::CanUpgrade()
 {
     return false;
-}
-
-int DistrictWatchTower::GetMaxHealth()
-{
-    return HEALTH;
-}
-
-const char * DistrictWatchTower::GetName()
-{
-    return NAME;
-}
-
-int DistrictWatchTower::GetTypeAsInt()
-{
-    return DISTRICT_TYPE;
-}
-
-int DistrictWatchTower::GetViewRange()
-{
-    return VIEW_RANGE;
 }
 
 std::shared_ptr<DistrictWatchTower> DistrictWatchTower::Deserialize(boost::property_tree::ptree node)

@@ -414,6 +414,9 @@
     <ClCompile Include="UnitBuilder.cpp">
       <Filter>Source Files\Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="DistrictFishery.cpp">
+      <Filter>Source Files\Actor\District</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameSession.h">
@@ -724,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="UnitBuilder.h">
       <Filter>Header Files\Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictFishery.h">
+      <Filter>Header Files\Actor\District</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
