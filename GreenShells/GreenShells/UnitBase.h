@@ -33,7 +33,7 @@ public:
     static const int NO_UPGRADE = -1;
     static const int MELEE_ATTACK_RANGE = 1;
 
-    UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost, int upgradeType);
+    UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int upgradeType, int foodCost);
     virtual ~UnitBase();
     virtual std::shared_ptr<UnitBase> Clone() = 0;
     virtual Texture* GetUnitTexture() = 0;
