@@ -18,7 +18,7 @@ class RPCDispatcher
     void Dispatch(RPCBasicUnlockSkill* data);
     void Dispatch(RPCBasicDiplomaticRequestStruct* data);
     void Dispatch(RPCBasicDiplomaticResponseStruct* data);
-    void Dispatch(RPCEvent);
+    void Dispatch(RPCEvent event);
 
 public:
     RPCDispatcher();

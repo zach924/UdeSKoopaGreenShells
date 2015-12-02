@@ -27,9 +27,22 @@ void ClientConnection::ReadSocket()
                 }
                 case RPCStructType::RPC_BASIC_ONE_POSITION:
                 {
-                    RPCBasicOnePositionStruct* data = new RPCBasicOnePositionStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsStruct)));
-                    newEvent.data = data;
+                    RPCBasicOnePositionStruct* data = new RPCBasicOnePositionStruct;                    
+                    int theoreticalSize = sizeof(RPCBasicOnePositionStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
+                    //Temp hack
+                    RPCBasicOnePositionStruct* secondData = new RPCBasicOnePositionStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_position = data->m_position;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_TWO_POSITIONS:
@@ -42,7 +55,15 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicTwoPositionsStruct* secondData = new RPCBasicTwoPositionsStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_firstPosition = data->m_firstPosition;
+                    secondData->m_secondPosition = data->m_secondPosition;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
@@ -55,7 +76,16 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicTwoPositionsAndCostStruct* secondData = new RPCBasicTwoPositionsAndCostStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_firstPosition = data->m_firstPosition;
+                    secondData->m_secondPosition = data->m_secondPosition;
+                    secondData->m_actionCost = data->m_actionCost;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_CREATION:
@@ -68,7 +98,15 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicActorCreationStruct* secondData = new RPCBasicActorCreationStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_actorType = data->m_actorType;
+                    secondData->m_positionToCreate = data->m_positionToCreate;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST:
@@ -81,7 +119,14 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicDiplomaticRequestStruct* secondData = new RPCBasicDiplomaticRequestStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_otherPlayerId = data->m_otherPlayerId;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_UNLOCK_SKILL:
@@ -94,7 +139,14 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicUnlockSkill* secondData = new RPCBasicUnlockSkill;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_Skill = data->m_Skill;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE:
@@ -107,7 +159,15 @@ void ClientConnection::ReadSocket()
                         int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
                         actualSize += receivedSize;
                     }
-                    newEvent.data = data;
+                    //Temp hack
+                    RPCBasicDiplomaticResponseStruct* secondData = new RPCBasicDiplomaticResponseStruct;
+                    secondData->m_RPCClassMethod = data->m_RPCClassMethod;
+                    secondData->m_turn = data->m_turn;
+                    secondData->m_requestingPlayerID = data->m_requestingPlayerID;
+                    secondData->m_otherPlayerId = data->m_otherPlayerId;
+                    secondData->m_response = data->m_response;
+                    newEvent.data = secondData;
+                    delete data;
                     break;
                 }
                 default:
