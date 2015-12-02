@@ -367,16 +367,20 @@ void SelectionManager::Attack(Position pos)
 {
     auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     auto unit = map->GetTile(pos)->GetUnit();
+    auto district = map->GetTile(pos)->GetDistrict();
     int actorOwner;
     if (unit != nullptr)
     {
         actorOwner = unit->GetOwnerID();
     }
+    else if (district != nullptr)
+    {
+        actorOwner = district->GetOwnerID();
+    }
     else
     {
-        auto district = map->GetTile(pos)->GetDistrict();
-        assert(district != nullptr && "We should never get this far is there are no district or unit in the tile");
-        actorOwner = district->GetOwnerID();
+        EndAction();
+        return;
     }
 
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
@@ -447,7 +451,7 @@ void SelectionManager::HandleSelection(Position pos)
     TileBase* tile = map->GetTile(pos);
 
     // If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-    if (m_state != m_idle &&  (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
+    if (m_state != m_idle && (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
     {
         Cancel();
     }
@@ -684,7 +688,7 @@ void SelectionManager::DistrictSell()
     auto districtSelected = GetSelectedDistrict();
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
 
-    if (districtSelected != m_districtEmpty 
+    if (districtSelected != m_districtEmpty
         && districtSelected->GetOwnerID() == currentPlayerId
         && districtSelected->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
     {
