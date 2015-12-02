@@ -1,5 +1,6 @@
 #pragma once
 #include "District.h"
+#include "DistrictWarehouse.h"
 
 class DistrictWindMill : public District<DistrictWindMill>
 {
@@ -10,6 +11,7 @@ class DistrictWindMill : public District<DistrictWindMill>
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 0;
     static const int VIEW_RANGE = 5;
+    static const int UPGRADE_TYPE = DistrictWarehouse::DISTRICT_TYPE;
     static constexpr char* NAME = "Windmill";
 
 public:

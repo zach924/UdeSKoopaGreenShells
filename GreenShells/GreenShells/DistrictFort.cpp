@@ -2,9 +2,11 @@
 #include <iostream>
 #include "DistrictFort.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictFortress.h"
 
 DistrictFort::DistrictFort(int owner)
-    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictFort>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -33,7 +35,7 @@ DistrictFort::~DistrictFort()
 bool DistrictFort::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetArmySkillTree().Fortress;
+    return player->GetArmySkillTree().Fortress && player->HasEnoughFood(GetFoodCost());
 }
 
 std::shared_ptr<DistrictFort> DistrictFort::Deserialize(boost::property_tree::ptree node)

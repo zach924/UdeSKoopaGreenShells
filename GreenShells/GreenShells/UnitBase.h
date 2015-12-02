@@ -7,6 +7,7 @@
 
 class DistrictBase;
 class Texture;
+class Map;
 
 class UnitBase
 {
@@ -19,6 +20,7 @@ class UnitBase
     int m_maxHealth;
     int m_defaultActionPoints;
     int m_ownerID;
+    int m_upgradeType;
     std::string m_name;
     Position m_position;
 
@@ -27,12 +29,15 @@ protected:
     int m_actionPointsLeft;
 
 public:
+    static const int NO_FOOD_COST = -1;
+    static const int NO_UPGRADE = -1;
     static const int MELEE_ATTACK_RANGE = 1;
 
-    UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int foodCost);
+    UnitBase(int owner, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost, int upgradeType, int foodCost);
     virtual ~UnitBase();
     virtual std::shared_ptr<UnitBase> Clone() = 0;
-    virtual Texture* GetTexture() = 0;
+    virtual Texture* GetUnitTexture() = 0;
+    virtual Texture* GetBoatTexture() = 0;
     virtual bool CanUpgrade() = 0;
     virtual AttackNotification Attack(std::shared_ptr<UnitBase> target);
     virtual AttackNotification Attack(std::shared_ptr<DistrictBase> target);
@@ -42,6 +47,7 @@ public:
     int GetAttackRange();
     int GetHealth();
     int GetOwnerID();
+    int GetUpgradeType();
     int GetMaxHealth();
     int GetTypeAsInt();
     int GetViewRange();

@@ -18,6 +18,34 @@ void RPCDispatcher::Dispatch(RPCBasicStruct * data)
     }
 }
 
+void RPCDispatcher::Dispatch(RPCBasicOnePositionStruct * data)
+{
+    switch (data->m_RPCClassMethod)
+    {
+    case RPCClassMethodType::Map_SellDistrict:
+        m_worldState->GetMap()->SellDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_SellUnit:
+        m_worldState->GetMap()->SellUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_HealUnit:
+        m_worldState->GetMap()->HealUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_RepairDistrict:
+        m_worldState->GetMap()->RepairDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeDistrict:
+        m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeUnit:
+        m_worldState->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    default:
+        assert(false && "You must add your code here");
+    }
+
+}
+
 void RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
 {
     switch (data->m_RPCClassMethod)
@@ -49,10 +77,10 @@ void RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_CreateDistrict:
-        m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID);
+        m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     case RPCClassMethodType::Map_CreateUnit:
-        m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID);
+        m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     default:
         assert(false && "You must add your code here");
@@ -132,6 +160,9 @@ void RPCDispatcher::Dispatch(RPCEvent event)
         {
         case RPCStructType::RPC_BASIC:
             Dispatch(event.data);
+            break;
+        case RPCStructType::RPC_BASIC_ONE_POSITION:
+            Dispatch(dynamic_cast<RPCBasicOnePositionStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
             Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));

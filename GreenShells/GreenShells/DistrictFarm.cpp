@@ -2,9 +2,11 @@
 #include <iostream>
 #include "DistrictFarm.h"
 #include "Player.h"
+#include "Map.h"
+#include "DistrictWindMill.h"
 
 DistrictFarm::DistrictFarm(int owner)
-    : District<DistrictFarm>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD)
+    : District<DistrictFarm>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, UPGRADE_TYPE)
 {
 }
 
@@ -33,7 +35,7 @@ DistrictFarm::~DistrictFarm()
 bool DistrictFarm::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetEmpireSkillTree().Windmill;
+    return player->GetEmpireSkillTree().Windmill && player->HasEnoughFood(GetFoodCost());
 }
 
 std::shared_ptr<DistrictFarm> DistrictFarm::Deserialize(boost::property_tree::ptree node)

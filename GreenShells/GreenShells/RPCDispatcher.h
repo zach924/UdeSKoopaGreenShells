@@ -11,6 +11,7 @@ class RPCDispatcher
     WorldState* m_worldState;
 
     void Dispatch(RPCBasicStruct* data);
+    void Dispatch(RPCBasicOnePositionStruct* data);
     void Dispatch(RPCBasicTwoPositionsStruct* data);
     void Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
     void Dispatch(RPCBasicActorCreationStruct* data);

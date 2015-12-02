@@ -4,7 +4,7 @@
 #include "Player.h"
 
 DistrictMilitaryTent::DistrictMilitaryTent(int owner)
-    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
+    : District<DistrictMilitaryTent>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, 0, 0, 0, NO_UPGRADE, 0, 0, WEAPON_BONUS)
 {
 }
 

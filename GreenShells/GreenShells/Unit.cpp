@@ -24,28 +24,42 @@
 #include "UnitEmpty.h"
 
 
-Texture UnitSettler::tBase::m_Texture = {};
-Texture UnitBuilder::tBase::m_Texture = {};
+Texture UnitSettler::tBase::m_unitTexture = {};
+Texture UnitSettler::tBase::m_boatTexture = {};
+Texture UnitBuilder::tBase::m_unitTexture = {};
+Texture UnitBuilder::tBase::m_boatTexture = {};
 
-Texture UnitSwordsmanI::tBase::m_Texture = {};
-Texture UnitSwordsmanII::tBase::m_Texture = {};
-Texture UnitSwordsmanIII::tBase::m_Texture = {};
+Texture UnitSwordsmanI::tBase::m_unitTexture = {};
+Texture UnitSwordsmanI::tBase::m_boatTexture = {};
+Texture UnitSwordsmanII::tBase::m_unitTexture = {};
+Texture UnitSwordsmanII::tBase::m_boatTexture = {};
+Texture UnitSwordsmanIII::tBase::m_unitTexture = {};
+Texture UnitSwordsmanIII::tBase::m_boatTexture = {};
 
-Texture UnitArcherI::tBase::m_Texture = {};
-Texture UnitArcherII::tBase::m_Texture = {};
-Texture UnitArcherIII::tBase::m_Texture = {};
+Texture UnitArcherI::tBase::m_unitTexture = {};
+Texture UnitArcherI::tBase::m_boatTexture = {};
+Texture UnitArcherII::tBase::m_unitTexture = {};
+Texture UnitArcherII::tBase::m_boatTexture = {};
+Texture UnitArcherIII::tBase::m_unitTexture = {};
+Texture UnitArcherIII::tBase::m_boatTexture = {};
 
-Texture UnitAxemanI::tBase::m_Texture = {};
-Texture UnitAxemanII::tBase::m_Texture = {};
+Texture UnitAxemanI::tBase::m_unitTexture = {};
+Texture UnitAxemanI::tBase::m_boatTexture = {};
+Texture UnitAxemanII::tBase::m_unitTexture = {};
+Texture UnitAxemanII::tBase::m_boatTexture = {};
 
-Texture UnitMaceI::tBase::m_Texture = {};
-Texture UnitMaceII::tBase::m_Texture = {};
+Texture UnitMaceI::tBase::m_unitTexture = {};
+Texture UnitMaceI::tBase::m_boatTexture = {};
+Texture UnitMaceII::tBase::m_unitTexture = {};
+Texture UnitMaceII::tBase::m_boatTexture = {};
 
-Texture UnitCannon::tBase::m_Texture = {};
-Texture UnitShield::tBase::m_Texture = {};
+Texture UnitCannon::tBase::m_unitTexture = {};
+Texture UnitCannon::tBase::m_boatTexture = {};
+Texture UnitShield::tBase::m_unitTexture = {};
+Texture UnitShield::tBase::m_boatTexture = {};
 
-Texture UnitEmpty::tBase::m_Texture = {};
-
+Texture UnitEmpty::tBase::m_unitTexture = {};
+Texture UnitEmpty::tBase::m_boatTexture = {};
 
 bool UnitSettler::tBase::m_forceLoading = false;
 bool UnitBuilder::tBase::m_forceLoading = false;

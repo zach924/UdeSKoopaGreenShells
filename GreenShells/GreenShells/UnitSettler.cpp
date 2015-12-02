@@ -4,7 +4,7 @@
 #include <iostream>
 
 UnitSettler::UnitSettler(int owner, bool hasBonusActionPoint)
-    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
+    : Unit<UnitSettler>(owner, HEALTH, ACTION_POINTS, MELEE_ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE, FOOD_COST)
 {
     if (hasBonusActionPoint)
     {
@@ -25,7 +25,7 @@ void UnitSettler::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\settler.bmp");
+        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\settler.bmp");
     }
     catch (std::exception e)
     {

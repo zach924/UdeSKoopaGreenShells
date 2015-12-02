@@ -82,14 +82,15 @@ void WorldState::NotifyNewTurn()
     lock_guard<recursive_mutex> lock{ m_mutex };
     m_turn++;
 
-    //Notify map of a new turn
-    m_map->NotifyNewTurn(m_turn);
-
     //Notify players of a new turn
     for (auto player : m_players)
     {
         player->NotifyNewTurn(m_turn, m_map);
     }
+
+    //Notify map of a new turn
+    m_map->NotifyNewTurn(m_turn);
+
 }
 
 int WorldState::AddPlayer(std::string playerName)
@@ -121,8 +122,8 @@ int WorldState::AddPlayer(std::string playerName)
     m_players.push_back(newPlayer);
 
     Position spawnPosition = m_map->GetSpawnPositions()[playerID];
-    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID);
-    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID);
+    m_map->CreateDistrict(DistrictCityCenter::DISTRICT_TYPE, spawnPosition, playerID, false);
+    m_map->CreateUnit(UnitSwordsmanI::UNIT_TYPE, spawnPosition, playerID, false);
     
     return playerID;
 }
@@ -218,13 +219,49 @@ bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetP
 bool WorldState::CreateUnit(int unitType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->CreateUnit(unitType, pos, owner);
+    return m_map->CreateUnit(unitType, pos, owner, false);
 }
 
 bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
-    return m_map->CreateDistrict(districtType, pos, owner);
+    return m_map->CreateDistrict(districtType, pos, owner, false);
+}
+
+bool WorldState::SellUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->SellUnit(pos, ownerId);
+}
+
+bool WorldState::SellDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->SellDistrict(pos, ownerId);
+}
+
+bool WorldState::UpgradeUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->UpgradeUnit(pos, ownerId);
+}
+
+bool WorldState::UpgradeDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->UpgradeDistrict(pos, ownerId);
+}
+
+bool WorldState::HealUnit(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->HealUnit(pos, ownerId);
+}
+
+bool WorldState::RepairDistrict(Position pos, int ownerId)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    return m_map->RepairDistrict(pos, ownerId);
 }
 
 bool WorldState::AreAllPlayerReady()

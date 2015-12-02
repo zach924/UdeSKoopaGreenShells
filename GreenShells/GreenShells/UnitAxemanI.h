@@ -1,5 +1,6 @@
 #pragma once
 #include "Unit.h"
+#include "UnitAxemanII.h"
 
 class UnitAxemanI : public Unit<UnitAxemanI>
 {
@@ -8,6 +9,7 @@ class UnitAxemanI : public Unit<UnitAxemanI>
     static const int HEALTH = 150;
     static const int ACTION_POINTS = 3;
     static const int VIEW_RANGE = 4;
+    static const int UPGRADE_TYPE = UnitAxemanII::UNIT_TYPE;
     static constexpr char* UNIT_NAME = "Axeman MK1";
 
 public:

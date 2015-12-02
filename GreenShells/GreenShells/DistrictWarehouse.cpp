@@ -4,7 +4,7 @@
 #include "Player.h"
 
 DistrictWarehouse::DistrictWarehouse(int owner)
-    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST)
+    : District<DistrictWarehouse>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, 0, 0, 0, NO_UPGRADE, FOOD_BONUS, 0, 0)
 {
 }
 
