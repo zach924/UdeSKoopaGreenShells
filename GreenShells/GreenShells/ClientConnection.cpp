@@ -15,49 +15,91 @@ void ClientConnection::ReadSocket()
                 case RPCStructType::RPC_BASIC:
                 {
                     RPCBasicStruct* data = new RPCBasicStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicStruct)));
+                    int theoreticalSize = sizeof(RPCBasicStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_TWO_POSITIONS:
                 {
                     RPCBasicTwoPositionsStruct* data = new RPCBasicTwoPositionsStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsStruct)));
+                    int theoreticalSize = sizeof(RPCBasicTwoPositionsStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_TWO_POSITIONS_AND_COST:
                 {
                     RPCBasicTwoPositionsAndCostStruct* data = new RPCBasicTwoPositionsAndCostStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicTwoPositionsAndCostStruct)));
+                    int theoreticalSize = sizeof(RPCBasicTwoPositionsAndCostStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_CREATION:
                 {
                     RPCBasicActorCreationStruct* data = new RPCBasicActorCreationStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicActorCreationStruct)));
+                    int theoreticalSize = sizeof(RPCBasicActorCreationStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_DIPLOMACY_REQUEST:
                 {
                     RPCBasicDiplomaticRequestStruct* data = new RPCBasicDiplomaticRequestStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicDiplomaticRequestStruct)));
+                    int theoreticalSize = sizeof(RPCBasicDiplomaticRequestStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_UNLOCK_SKILL:
                 {
                     RPCBasicUnlockSkill* data = new RPCBasicUnlockSkill;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicUnlockSkill)));
+                    int theoreticalSize = sizeof(RPCBasicUnlockSkill);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
                 case RPCStructType::RPC_BASIC_DIPLOMACY_RESPONSE:
                 {
                     RPCBasicDiplomaticResponseStruct* data = new RPCBasicDiplomaticResponseStruct;
-                    m_tcpConnection.GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(RPCBasicDiplomaticResponseStruct)));
+                    int theoreticalSize = sizeof(RPCBasicDiplomaticResponseStruct);
+                    int actualSize = 0;
+                    while (actualSize != theoreticalSize)
+                    {
+                        int receivedSize = static_cast<int>(m_tcpConnection.GetSocket().receive(boost::asio::buffer(data + actualSize, theoreticalSize - actualSize)));
+                        actualSize += receivedSize;
+                    }
                     newEvent.data = data;
                     break;
                 }
