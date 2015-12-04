@@ -19,7 +19,7 @@ void DistrictBlacksmith::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\blacksmith.bmp");
+        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\blacksmith.bmp");
     }
     catch (std::exception e)
     {

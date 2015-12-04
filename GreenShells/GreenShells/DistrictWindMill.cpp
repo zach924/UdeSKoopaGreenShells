@@ -19,7 +19,7 @@ void DistrictWindMill::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\windmill.bmp");
+        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\windmill.bmp");
     }
     catch (std::exception e)
     {

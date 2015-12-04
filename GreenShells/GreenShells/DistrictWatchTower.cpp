@@ -17,7 +17,7 @@ void DistrictWatchTower::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\watchtower.bmp");
+        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\watchtower.bmp");
     }
     catch (std::exception e)
     {

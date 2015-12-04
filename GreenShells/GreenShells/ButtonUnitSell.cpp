@@ -26,7 +26,7 @@ void ButtonUnitSell::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Sell_text.bmp" , rend);
+        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\Sell_text.bmp" , rend);
     }
     catch (std::exception e)
     {

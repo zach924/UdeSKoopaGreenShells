@@ -27,8 +27,8 @@ void ButtonDiplomacy::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Diplomacy_text.bmp", rend);
-        TTF_Font* tempFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 16);
+        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\Diplomacy_text.bmp", rend);
+        TTF_Font* tempFont = TTF_OpenFont("Ressources\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 16);
         m_negociatingTexture.CreateFromText("Negotiating", tempFont);
         TTF_CloseFont(tempFont);
     }

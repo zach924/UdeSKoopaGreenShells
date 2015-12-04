@@ -20,7 +20,7 @@ void ButtonUnitCancel::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Cancel_text.bmp", rend);
+        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\Cancel_text.bmp", rend);
     }
     catch (std::exception e)
     {

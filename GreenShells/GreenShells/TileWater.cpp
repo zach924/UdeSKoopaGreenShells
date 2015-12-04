@@ -61,7 +61,7 @@ void TileWater::LoadTexture()
 {
     try
     {
-        TileWater::tBase::m_Texture.LoadFromFile("..\\Sprite\\Terrain\\64x64\\Water.bmp");
+        TileWater::tBase::m_Texture.LoadFromFile("Ressources\\Sprite\\Terrain\\64x64\\Water.bmp");
     }
     catch (std::exception e)
     {

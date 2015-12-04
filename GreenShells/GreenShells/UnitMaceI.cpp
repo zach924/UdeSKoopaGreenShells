@@ -26,7 +26,7 @@ void UnitMaceI::LoadTexture()
 {
     try
     {
-        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\mace.bmp");
+        m_unitTexture.LoadFromFile("Ressources\\Sprite\\Units\\64x64\\mace.bmp");
     }
     catch (std::exception e)
     {

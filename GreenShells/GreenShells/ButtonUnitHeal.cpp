@@ -20,7 +20,7 @@ void ButtonUnitHeal::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Heal_text.bmp", rend);
+        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\Heal_text.bmp", rend);
     }
     catch (std::exception e)
     {
