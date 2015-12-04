@@ -93,6 +93,7 @@ GameWindow::GameWindow(ScreenResolution res)
     , m_currentlyScrolling(false)
     , m_foodTexture()
     , m_overlayTexture()
+    , m_selectdOverlayTexture()
     , m_scienceTexture()
     , m_weaponTexture()
     , m_doQuit(false)
@@ -146,10 +147,12 @@ GameWindow::~GameWindow()
     delete m_scienceTexture;
     delete m_weaponTexture;
     delete m_overlayTexture;
+    delete m_selectdOverlayTexture;
     m_foodTexture = nullptr;
     m_scienceTexture = nullptr;
     m_weaponTexture = nullptr;
     m_overlayTexture = nullptr;
+    m_selectdOverlayTexture = nullptr;
 
     Close();
 }
@@ -197,6 +200,7 @@ void GameWindow::LoadLocalTextures()
     m_weaponTexture = new Texture();
     m_scienceTexture = new Texture();
     m_overlayTexture = new Texture();
+    m_selectdOverlayTexture = new Texture();
 
     try
     {
@@ -209,6 +213,8 @@ void GameWindow::LoadLocalTextures()
         m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
 
         m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
+
+        m_selectdOverlayTexture->LoadFromFile("..\\Sprite\\selectedOverlay.bmp", m_renderer);
     }
     catch (std::exception e)
     {
@@ -526,7 +532,8 @@ void GameWindow::ShowWindow()
             int columnIndex = m_currentLeftmostColumn;
             for (int column = 0; column <= m_CurrentScreenResolution.NUM_TILE_WIDTH; ++column)
             {
-                TileBase* tile = map->GetTile(Position(columnIndex, rowIndex));
+                Position pos{ columnIndex, rowIndex };
+                TileBase* tile = map->GetTile(pos);
                 Texture* tileTexture = tile->GetTexture();
 
                 bool isDiscovered = tile->IsDiscovered(GameSession::GetInstance().GetCurrentPlayerID());
@@ -590,6 +597,11 @@ void GameWindow::ShowWindow()
                     if (tile->GetOverlayVisible())
                     {
                         SDL_RenderCopy(m_renderer, m_overlayTexture->GetTexture(), NULL, &renderQuad);
+                    }
+
+                    if (SelectionManager::GetInstance().GetSelectedPosition() == pos)
+                    {
+                        SDL_RenderCopy(m_renderer, m_selectdOverlayTexture->GetTexture(), NULL, &renderQuad);
                     }
                 }
                 columnIndex = (columnIndex + 1) % (Map::COLUMNS);

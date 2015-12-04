@@ -356,6 +356,11 @@ void SelectionManager::UpdateButtonState()
     }
 }
 
+Position SelectionManager::GetSelectedPosition()
+{
+    return m_selectedPosition;
+}
+
 
 void SelectionManager::Idle(Position pos)
 {

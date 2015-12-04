@@ -52,6 +52,7 @@ public:
     }
 
     void UpdateButtonState();
+    Position GetSelectedPosition();
     std::shared_ptr<UnitBase> GetSelectedUnit();
     std::shared_ptr<DistrictBase> GetSelectedDistrict();
     std::vector<Position> GetOverlayTiles();
