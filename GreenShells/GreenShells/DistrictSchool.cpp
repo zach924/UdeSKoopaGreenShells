@@ -19,7 +19,7 @@ void DistrictSchool::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\school.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\school.bmp");
     }
     catch (std::exception e)
     {

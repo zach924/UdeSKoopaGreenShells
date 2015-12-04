@@ -19,7 +19,7 @@ void DistrictCathedral::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\cathedral.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\cathedral.bmp");
     }
     catch (std::exception e)
     {

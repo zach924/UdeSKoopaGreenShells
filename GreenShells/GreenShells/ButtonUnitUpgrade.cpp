@@ -20,7 +20,7 @@ void ButtonUnitUpgrade::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\Upgrade_text.bmp", rend);
+        m_textTexture.LoadFromFile("Resources\\Sprite\\Button\\Upgrade_text.bmp", rend);
     }
     catch (std::exception e)
     {

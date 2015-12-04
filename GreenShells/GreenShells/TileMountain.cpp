@@ -60,7 +60,7 @@ void TileMountain::LoadTexture()
 {
     try
     {
-        TileMountain::tBase::m_Texture.LoadFromFile("Ressources\\Sprite\\Terrain\\64x64\\Mountain.bmp");
+        TileMountain::tBase::m_Texture.LoadFromFile("Resources\\Sprite\\Terrain\\64x64\\Mountain.bmp");
     }
     catch (std::exception e)
     {

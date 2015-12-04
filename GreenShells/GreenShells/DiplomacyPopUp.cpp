@@ -16,8 +16,8 @@ DiplomacyPopUp::DiplomacyPopUp()
     , m_buttonFont()
     , m_buttonClose()
 {
-    m_textFont = TTF_OpenFont("Ressources\\Fonts\\roboto\\Roboto-Regular.ttf", m_fontSize);
-    m_buttonFont = TTF_OpenFont("Ressources\\Fonts\\roboto\\Roboto-Light.ttf", 16);
+    m_textFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Regular.ttf", m_fontSize);
+    m_buttonFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     int buttonX = (WINDOW_WIDTH / 2) - BUTTON_WIDTH / 2;
     int buttonY = WINDOW_HEIGHT - (BUTTON_HEIGHT * 2);
     m_buttonClose = new ButtonText(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "Close", []() {}, m_buttonFont);

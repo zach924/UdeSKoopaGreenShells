@@ -20,7 +20,7 @@ void ButtonUnitAttack::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("Ressources\\Sprite\\Button\\attack_text.bmp", rend);
+        m_textTexture.LoadFromFile("Resources\\Sprite\\Button\\attack_text.bmp", rend);
     }
     catch (std::exception e)
     {

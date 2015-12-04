@@ -12,9 +12,9 @@ SkillTreePopUp::SkillTreePopUp(const char * windowName, int width, int height)
     m_colomnWidth((width - COST_WIDTH) / 8), // 3 for army + 3 for empire + 2 for utility
     m_rowHeight((height - HEADER_HEIGHT) / 8) // 8 tiers
 {
-    m_font = TTF_OpenFont("Ressources\\Fonts\\roboto\\Roboto-Light.ttf", 18);
+    m_font = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 18);
     m_scienceTexture = new Texture();
-    m_scienceTexture->LoadFromFile("Ressources\\Sprite\\Resources\\64x64\\science.bmp", m_rend);
+    m_scienceTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\science.bmp", m_rend);
 
     m_heightSpacer = (m_rowHeight - BUTTON_HEIGHT) / 2;
     m_widthSpace = (m_colomnWidth - BUTTON_WIDTH) / 2;

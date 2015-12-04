@@ -19,7 +19,7 @@ void DistrictFort::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\fort.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\fort.bmp");
     }
     catch (std::exception e)
     {

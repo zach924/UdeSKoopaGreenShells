@@ -19,7 +19,7 @@ void DistrictStable::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("Ressources\\Sprite\\Districts\\64x64\\stables.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\stables.bmp");
     }
     catch (std::exception e)
     {
