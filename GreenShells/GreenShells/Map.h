@@ -45,8 +45,8 @@ public:
     virtual bool UpgradeDistrict(Position pos, int owner) = 0;
     virtual bool HealUnit(Position pos, int owner) = 0;
     virtual bool RepairDistrict(Position pos, int owner) = 0;
+    virtual void RemoveFogOfWarForPlayer(int playerID) = 0;
     void NotifyNewTurn(int turn);
-
     virtual boost::property_tree::ptree Serialize();
 
 private:

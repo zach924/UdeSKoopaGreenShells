@@ -9,6 +9,7 @@ public:
     Map* Clone();
 
     void DiscoverArea(Position pos, int range, int playerId);
+    void RemoveFogOfWarForPlayer(int playerID);
 
     virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
     virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);

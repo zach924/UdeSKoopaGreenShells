@@ -304,7 +304,8 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER7;
             m_utilitySkillTree.NoFogOfWar = true;
-            //TODO Set discovered for all tiles of the map
+            ServerSession::GetInstance().GetWorldState()->GetMap()->RemoveFogOfWarForPlayer(m_playerID);
+
         }
         break;
     case Militia:
@@ -312,7 +313,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER2;
             m_armySkillTree.Militia = true;
-            //TODO when building districts is possible
         }
         break;
     case ArcherT1:
@@ -432,7 +432,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER3;
             m_empireSkillTree.Fishery = true;
-            //TODO when building districts is possible
         }
         break;
     case Stable:

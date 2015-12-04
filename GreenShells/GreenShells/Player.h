@@ -138,4 +138,5 @@ public:
 
     bool HasEnoughWeapons(unsigned int WeaponCost);
     bool HasEnoughFood(unsigned int FoodCost);
+
 };

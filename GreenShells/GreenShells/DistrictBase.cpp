@@ -130,13 +130,17 @@ void DistrictBase::Repair(int repairValue)
 }
 
 AttackNotification DistrictBase::ReceiveDamage(int damage)
-{
+{  
     m_health = std::max(m_health - damage, 0);
 
     if (m_health <= 0)
         std::cout << "A district got destroy : Player " << m_ownerID << std::endl;
-
-    return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
+    int attackResponse = m_attackDamage / 2;
+    if (ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID)->GetArmySkillTree().Militia)
+    {
+        attackResponse = static_cast<int>(attackResponse * 1.15);
+    }
+    return AttackNotification{ attackResponse, (m_health <= 0), false };
 }
 
 void DistrictBase::NotifyNewTurn(int turn)

@@ -394,12 +394,12 @@ void GameWindow::ShowWindow()
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
+        auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
         //Render UI
         //Render ressources and turns
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
             /************
                 FOOD
@@ -537,7 +537,7 @@ void GameWindow::ShowWindow()
                 int yPos = m_CurrentScreenResolution.HUD_HEIGHT + (row * m_CurrentScreenResolution.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                if (!isDiscovered)
+                if (!currentPlayer->GetUtilitySkillTree().NoFogOfWar && !isDiscovered)
                 {
                     tileTexture->SetColor(MAP_FOW);
                 }

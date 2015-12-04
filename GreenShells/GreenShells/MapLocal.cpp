@@ -101,6 +101,18 @@ void MapLocal::DiscoverArea(Position pos, int range, int playerId)
     }
 }
 
+
+void MapLocal::RemoveFogOfWarForPlayer(int playerID)
+{
+    for (std::vector<TileBase*>& aRow : m_tiles)
+    {
+        for (TileBase* tile : aRow)
+        {
+            tile->PlayerDiscover(playerID);
+        }
+    }
+}
+
 bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
