@@ -206,8 +206,8 @@ boost::property_tree::ptree Map::Serialize()
 void Map::DeserializeTile(boost::property_tree::ptree tileXml)
 {
     Position pos;
-    //pos.Row = tileXml.get<int>("<xmlattr>.R");
-    //pos.Column = tileXml.get<int>("<xmlattr>.C");
+    pos.Row = tileXml.get<int>("<xmlattr>.R");
+    pos.Column = tileXml.get<int>("<xmlattr>.C");
 
     switch (tileXml.get<int>("<xmlattr>.TT"))
     {

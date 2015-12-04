@@ -24,8 +24,19 @@ MapRemote::~MapRemote()
 }
 
 
-void MapRemote::VisionChange(int playerId)
+void MapRemote::VisionChange(std::shared_ptr<Player> player)
 {
+    set<int> playerIDsCanSee;
+    playerIDsCanSee.insert(player->GetPlayerID());
+    auto relations = player->GetDiplomaticRelations();
+
+    for (auto relation : relations)
+    {
+        if (relation.second.GetRelationStatus() == RelationStatus::Alliance)
+        {
+            playerIDsCanSee.insert(relation.first);
+        }
+    }
     auto utilitySK = GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree();
     int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
 
@@ -33,7 +44,7 @@ void MapRemote::VisionChange(int playerId)
     {
         for (int column = 0; column < COLUMNS; ++column)
         {
-            m_tiles[row][column]->PlayerDontSeeAnymore(playerId);
+            m_tiles[row][column]->PlayerDontSeeAnymore(player->GetPlayerID());
         }
     }
 
@@ -44,22 +55,28 @@ void MapRemote::VisionChange(int playerId)
             auto district = m_tiles[row][column]->GetDistrict();
             auto unit = m_tiles[row][column]->GetUnit();
 
-            if (district && district->GetOwnerID() == playerId)
+            if (district)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
-
-                for (const std::pair<Position, int>& pos : positionGotVision)
+                if (playerIDsCanSee.find(district->GetOwnerID()) != playerIDsCanSee.end())
                 {
-                    m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(playerId);
+                    auto positionGotVision = GetArea(Position{ column, row }, district->GetViewRange() + viewModifier, NO_FILTER);
+
+                    for (const std::pair<Position, int>& pos : positionGotVision)
+                    {
+                        m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(player->GetPlayerID());
+                    }
                 }
             }
-            if (unit && unit->GetOwnerID() == playerId)
+            if (unit)
             {
-                auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
-
-                for (const std::pair<Position, int>& pos : positionGotVision)
+                if (playerIDsCanSee.find(unit->GetOwnerID()) != playerIDsCanSee.end())
                 {
-                    m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(playerId);
+                    auto positionGotVision = GetArea(Position{ column, row }, unit->GetViewRange() + viewModifier, NO_FILTER);
+
+                    for (const std::pair<Position, int>& pos : positionGotVision)
+                    {
+                        m_tiles[pos.first.Row][pos.first.Column]->PlayerSee(player->GetPlayerID());
+                    }
                 }
             }
         }
@@ -89,7 +106,7 @@ Map* MapRemote::Clone()
     return map;
 }
 
-bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+std::vector<Position> MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::stringstream ss;
 
@@ -106,10 +123,11 @@ bool MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocatio
     data.m_actionCost = actionCost;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::vector<Position>{};
 }
 
-bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::vector<Position> MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     std::stringstream ss;
 
@@ -127,7 +145,8 @@ bool MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPo
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::vector<Position>{};
 }
 
 bool MapRemote::CreateUnit(int unitType, Position pos, int owner)
@@ -219,8 +238,5 @@ MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
             row++;
         }
     }
-
-    map->VisionChange(GameSession::GetInstance().GetCurrentPlayerID());
-
     return map;
 }

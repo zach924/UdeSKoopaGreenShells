@@ -39,14 +39,14 @@ public:
     int AddPlayer(std::string playerName);
     void RemovePlayer(int id);
 
-    bool MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
-    bool Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
+    std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
+    std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
     bool CreateUnit(int unitType, Position pos, int owner);
     bool CreateDistrict(int districtType, Position pos, int owner);
 
     bool AreAllPlayerReady();
     boost::property_tree::ptree Serialize();
-    void Deserialize(boost::property_tree::ptree worldStateXml);
-    void DeserializePlayer(boost::property_tree::ptree playerXml);
-    void DeserializeTile(boost::property_tree::ptree playerXml);
+    void Deserialize(boost::property_tree::ptree worldStateXml, int playerID);
+    void DeserializePlayer(boost::property_tree::ptree playerXml, int playerID);
+    void DeserializeTile(boost::property_tree::ptree playerXml, int playerID);
 };

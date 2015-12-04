@@ -293,3 +293,28 @@ boost::property_tree::ptree TileBase::Serialize()
 
     return tileNode;
 }
+
+boost::property_tree::ptree TileBase::SerializeOnlyTile()
+{
+    boost::property_tree::ptree tileXml;
+
+    boost::property_tree::ptree& tileNode = tileXml.add("T", "");
+    tileNode.put("<xmlattr>.R", m_position.Row);
+    tileNode.put("<xmlattr>.C", m_position.Column);
+    tileNode.put("<xmlattr>.TT", GetTypeAsInt());
+    tileNode.put("<xmlattr>.O", m_owner);
+    tileNode.put("<xmlattr>.D", m_playerDiscovered);
+
+    if (m_district)
+    {
+        boost::property_tree::ptree districtNode = m_district->Serialize();
+        tileNode.add_child("D", districtNode);
+    }
+    if (m_unit)
+    {
+        boost::property_tree::ptree unitNode = m_unit->Serialize();
+        tileNode.add_child("U", unitNode);
+    }
+
+    return tileXml;
+}

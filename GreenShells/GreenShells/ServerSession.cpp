@@ -98,8 +98,6 @@ void ServerSession::Replicate()
 
 void ServerSession::Replicate(ReplicationType type, std::string xmlObject)
 {
-    cout << xmlObject << std::endl;
-
     std::stringstream data;
     int size = static_cast<int>(xmlObject.size());
     data.write(reinterpret_cast<char*>(&type), sizeof(ReplicationType));

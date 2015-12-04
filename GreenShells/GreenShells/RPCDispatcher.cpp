@@ -18,7 +18,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     case RPCClassMethodType::Player_SetReady:
         m_worldState->GetPlayer(data->m_requestingPlayerID)->SetPlayerReadyForNextTurn();
 
-        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->SerializeOnlyPlayer());
         toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
         break;
     default:
@@ -40,30 +40,36 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
 
 std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
 {
+    std::vector<Position> posToReplicate;
     std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_Move:
-        m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
+        posToReplicate = m_worldState->GetMap()->MoveUnit(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     case RPCClassMethodType::Map_Attack:
-        m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
+        posToReplicate = m_worldState->GetMap()->Attack(data->m_requestingPlayerID, data->m_firstPosition, data->m_secondPosition, data->m_actionCost);
         break;
     default:
         assert(false && "You must add your code here");
     }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_firstPosition)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_secondPosition)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
 
-    boost::property_tree::ptree& node = m_worldState->GetMap()->GetTile(data->m_firstPosition)->Serialize();
-    boost::property_tree::write_xml(std::cout, node);
-
-
-
-
-    std::stringstream ss;
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
-    ss.clear();
-    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_secondPosition)->Serialize());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    for (auto pos : posToReplicate)
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(pos)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
     return toReplicate;
 }
 
@@ -82,7 +88,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
         assert(false && "You must add your code here");
     }
     std::stringstream ss;
-    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->Serialize());
+    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->SerializeOnlyTile());
     toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
     return toReplicate;
 }
@@ -107,14 +113,16 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     default:
         assert(false && "You must add your code here");
     }
-
-    std::stringstream ss;
-    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->Serialize());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
-    ss.clear();
-    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
-
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->SerializeOnlyPlayer());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->SerializeOnlyPlayer());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    }
     return toReplicate;
 }
 
@@ -151,14 +159,16 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     default:
         assert(false && "You must add your code here");
     }
-
-    std::stringstream ss;
-    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->Serialize());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
-    ss.clear();
-    boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
-
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_otherPlayerId)->SerializeOnlyPlayer());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->SerializeOnlyPlayer());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    }
     return toReplicate;
 }
 
@@ -171,7 +181,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     case RPCClassMethodType::Player_UnlockSkill:
         m_worldState->GetPlayer(data->m_requestingPlayerID)->UnlockSkill(data->m_turn, data->m_Skill);
 
-        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->Serialize());
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->SerializeOnlyPlayer());
         toReplicate.emplace_back(ReplicationType::PLAYER, ss.str());
         break;
     }
@@ -210,6 +220,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     {
         std::cout << "Refused an event because it's on the previous turn." << std::endl << "Current turn : " << m_worldState->GetCurrentTurn() << " Event turn : " << event.data->m_turn << std::endl;
     }
+    return std::vector< std::pair<ReplicationType, std::string> > {};
 }
 
 RPCDispatcher::RPCDispatcher()

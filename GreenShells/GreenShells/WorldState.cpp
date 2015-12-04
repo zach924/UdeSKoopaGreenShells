@@ -89,6 +89,14 @@ void WorldState::NotifyNewTurn()
     for (auto player : m_players)
     {
         player->NotifyNewTurn(m_turn, m_map);
+
+        for (auto relation : player->GetDiplomaticRelations())
+        {
+            if (relation.second.GetRelationStatus() == RelationStatus::Alliance)
+            {
+                dynamic_cast<MapLocal*>(m_map)->ShareVision(player->GetPlayerID(), relation.first);
+            }
+        }
     }
 }
 
@@ -161,7 +169,7 @@ boost::property_tree::ptree WorldState::Serialize()
     return worldStateXml;
 }
 
-void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
+void WorldState::Deserialize(boost::property_tree::ptree worldStateXml, int playerID)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
 
@@ -201,35 +209,53 @@ void WorldState::Deserialize(boost::property_tree::ptree worldStateXml)
             }
         }
     }
-}
 
-void WorldState::DeserializePlayer(boost::property_tree::ptree playerXml)
-{
-    lock_guard<recursive_mutex> lock{ m_mutex };
     if (m_remote)
     {
-        auto player = PlayerRemote::Deserialize(playerXml);
+        dynamic_cast<MapRemote*>(m_map)->VisionChange(m_players[playerID]);
+    }
+}
+
+void WorldState::DeserializePlayer(boost::property_tree::ptree playerXml, int playerID)
+{
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    auto playerNode = playerXml.get_child("P");
+    if (m_remote)
+    {
+        auto player = PlayerRemote::Deserialize(playerNode);
         m_players[player->GetPlayerID()] = player;
     }
     else
     {
-        auto player = PlayerLocal::Deserialize(playerXml);
+        auto player = PlayerLocal::Deserialize(playerNode);
         m_players[player->GetPlayerID()] = player;
+    }
+
+    if (m_remote)
+    {
+        dynamic_cast<MapRemote*>(m_map)->VisionChange(m_players[playerID]);
     }
 }
 
-void WorldState::DeserializeTile(boost::property_tree::ptree tileXml)
+void WorldState::DeserializeTile(boost::property_tree::ptree tileXml, int playerID)
 {
-    m_map->DeserializeTile(tileXml);
+    lock_guard<recursive_mutex> lock{ m_mutex };
+    auto tileNode = tileXml.get_child("T");
+    m_map->DeserializeTile(tileNode);
+
+    if (m_remote)
+    {
+        dynamic_cast<MapRemote*>(m_map)->VisionChange(m_players[playerID]);
+    }
 }
 
-bool WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+std::vector<Position> WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->MoveUnit(ownerID, unitLocation, newLocation, actionCost);
 }
 
-bool WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::vector<Position> WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->Attack(ownerID, attackerPosition, targetPosition, actionCost);

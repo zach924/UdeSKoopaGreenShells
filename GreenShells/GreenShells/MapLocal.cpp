@@ -91,17 +91,24 @@ Map* MapLocal::Clone()
     return map;
 }
 
-void MapLocal::DiscoverArea(Position pos, int range, int playerId)
+std::vector<Position> MapLocal::DiscoverArea(Position pos, int range, int playerId)
 {
+    std::vector<Position> discovered;
     auto positionToDiscover = GetArea(pos, range, NO_FILTER);
 
     for (const std::pair<Position, int>& pos : positionToDiscover)
     {
-        GetTile(pos.first)->PlayerDiscover(playerId);
+        auto tile = GetTile(pos.first);
+        if (!tile->IsDiscovered(playerId))
+        {
+            tile->PlayerDiscover(playerId);
+            discovered.push_back(pos.first);
+        }
     }
+    return discovered;
 }
 
-bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
     auto firstTile = GetTile(unitLocation);
@@ -109,13 +116,13 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
     //No unit to select
     if (!firstTile->GetUnit())
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     //There is a unit be he does not belong to the requester
     if (firstTile->GetUnit()->GetOwnerID() != ownerID)
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     auto secondTile = GetTile(newLocation);
@@ -124,12 +131,12 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
 
     if (secondTile->GetTypeAsInt() == TileWater::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().Embark)
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     if (secondTile->GetTypeAsInt() == TileMountain::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().MountainWalking)
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     //New Location is emtpy or there is a district and it belongs to the player. Move him
@@ -141,15 +148,14 @@ bool MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation
         tempUnit->UseActionPoints(actionCost);
         secondTile->SetUnit(tempUnit);
 
-        DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
-        return true;
+        return DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
     }
 
     //Other cases are all refused
-    return false;
+    return std::vector<Position>{};
 }
 
-bool MapLocal::Attack(int attackerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     std::cout << "Received an attack request by " << attackerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
 
@@ -160,19 +166,19 @@ bool MapLocal::Attack(int attackerID, Position attackerPosition, Position target
     // No unit on the Attacker tile
     if (!attacker)
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     // Unit doesn't belong to the requester
     if (attacker->GetOwnerID() != attackerID)
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     // Nothing to attack on target Tile
     if (targetTile->IsFree())
     {
-        return false;
+        return std::vector<Position>{};
     }
 
     auto unitTargeted = targetTile->GetUnit();
@@ -258,7 +264,7 @@ bool MapLocal::Attack(int attackerID, Position attackerPosition, Position target
         // Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
         if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
         {
-            MoveUnit(attackerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
+            return MoveUnit(attackerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
         }
         else
         {
@@ -266,7 +272,7 @@ bool MapLocal::Attack(int attackerID, Position attackerPosition, Position target
         }
     }
 
-    return true;
+    return std::vector<Position>{};
 }
 
 bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
@@ -419,6 +425,24 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
         DiscoverArea(pos, district->GetViewRange(), owner);
     }
     return true;
+}
+
+void MapLocal::ShareVision(int playerOne, int playerTwo)
+{
+    for (int row = 0; row < ROWS; ++row)
+    {
+        for (int column = 0; column < COLUMNS; ++column)
+        {
+            if (m_tiles[row][column]->IsDiscovered(playerOne))
+            {
+                m_tiles[row][column]->PlayerDiscover(playerTwo);
+            }
+            if (m_tiles[row][column]->IsDiscovered(playerTwo))
+            {
+                m_tiles[row][column]->PlayerDiscover(playerOne);
+            }
+        }
+    }
 }
 
 MapLocal* MapLocal::Deserialize(boost::property_tree::ptree mapNode)

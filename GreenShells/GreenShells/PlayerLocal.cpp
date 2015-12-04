@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "MapFilter.h"
 #include "ServerSession.h"
+#include "MapLocal.h"
 
 void PlayerLocal::RemoveRelation(int otherPlayerId)
 {

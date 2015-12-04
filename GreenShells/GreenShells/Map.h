@@ -35,8 +35,8 @@ public:
 
 
     TileBase* GetTile(Position);
-    virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost) = 0;
-    virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost) = 0;
+    virtual std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost) = 0;
+    virtual std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost) = 0;
     virtual bool CreateUnit(int unitType, Position pos, int owner) = 0;
     virtual bool CreateDistrict(int districtType, Position pos, int owner) = 0;
     void NotifyNewTurn(int turn);

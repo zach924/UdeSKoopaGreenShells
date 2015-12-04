@@ -121,6 +121,7 @@ public:
 
     virtual void UnlockSkill(int turn, Skills skill) = 0;
     virtual boost::property_tree::ptree Serialize();
+    virtual boost::property_tree::ptree SerializeOnlyPlayer();
 
     virtual MapFilter GetMoveRestriction();
 

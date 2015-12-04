@@ -59,4 +59,5 @@ public:
 
     bool IsFree();
     boost::property_tree::ptree Serialize();
+    boost::property_tree::ptree SerializeOnlyTile();
 };
