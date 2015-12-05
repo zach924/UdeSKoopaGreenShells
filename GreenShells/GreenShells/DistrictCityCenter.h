@@ -6,10 +6,10 @@ class DistrictCityCenter : public District<DistrictCityCenter>
     static const int ATTACK_DAMAGE = 50;
     static const int HEALTH = 500;
     static constexpr char* NAME = "City Center";
-    static const int WEAPON_YIELD = 5;
+    static const int WEAPON_YIELD = 3;
     static const int FOOD_YIELD = 5;
     static const int SCIENCE_YIELD = 3;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 3;
 
 public:
     typedef District<DistrictCityCenter> tBase;

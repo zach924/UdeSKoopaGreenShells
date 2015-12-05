@@ -4,7 +4,7 @@
 #include "Player.h"
 
 DistrictUniversity::DistrictUniversity(int owner)
-    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, 0, 0, 0, NO_UPGRADE, 0, SCIENCE_BONUS, 0)
+    : District<DistrictUniversity>(owner, HEALTH, ATTACK_DAMAGE, VIEW_RANGE, NAME, DISTRICT_TYPE, FOOD_COST, WEAPON_YIELD, FOOD_YIELD, SCIENCE_YIELD, NO_UPGRADE, 0, SCIENCE_BONUS, 0)
 {
 }
 

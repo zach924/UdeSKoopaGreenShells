@@ -9,14 +9,14 @@ class DistrictFarm : public District<DistrictFarm>
     static const int FOOD_YIELD = 10;
     static const int WEAPON_YIELD = 0;
     static const int SCIENCE_YIELD = 0;
-    static const int VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 2;
     static const int UPGRADE_TYPE = DistrictWindMill::DISTRICT_TYPE;
     static constexpr char* NAME = "Farm";
 
 public:
     typedef District<DistrictFarm> tBase;
     static const int DISTRICT_TYPE = 2;
-    static const int FOOD_COST = 200;
+    static const int FOOD_COST = 300;
     
     DistrictFarm(int owner);
     ~DistrictFarm();

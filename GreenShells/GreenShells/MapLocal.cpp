@@ -309,7 +309,6 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = 
         break;
     case UnitBuilder::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner, player->GetUtilitySkillTree().MovementUpgrade) };
-        player->ConsumeFood(unit->GetFoodCost());
         break;
     case UnitAxemanI::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitAxemanI(owner, player->GetUtilitySkillTree().MovementUpgrade) };

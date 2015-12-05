@@ -8,15 +8,14 @@ class UnitBuilder : public Unit<UnitBuilder>
     static const int ATTACK_RANGE = 1;
     static const int HEALTH = 200;
     static const int ACTION_POINTS = 2;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 2;
     static const int UPGRADE_TYPE = DistrictWatchTower::DISTRICT_TYPE;
     static constexpr char* UNIT_NAME = "Builder";
 
 public:
     typedef Unit<UnitBuilder> tBase;
     static const int UNIT_TYPE = 13;
-    static const int WEAPON_COST = 0;
-    static const int FOOD_COST = 75;
+    static const int WEAPON_COST = 75;
     
     UnitBuilder(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitBuilder();

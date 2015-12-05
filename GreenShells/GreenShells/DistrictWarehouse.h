@@ -5,7 +5,10 @@ class DistrictWarehouse : public District<DistrictWarehouse>
 {
     static const int ATTACK_DAMAGE = 0;
     static const int HEALTH = 400;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 2;
+    static const int FOOD_YIELD = 10;
+    static const int WEAPON_YIELD = 10;
+    static const int SCIENCE_YIELD =10;
     static constexpr char* NAME = "Warehouse";
 
 public:

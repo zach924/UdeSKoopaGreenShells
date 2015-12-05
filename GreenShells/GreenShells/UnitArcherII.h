@@ -15,7 +15,7 @@ class UnitArcherII : public Unit<UnitArcherII>
 public:
     typedef Unit<UnitArcherII> tBase;
     static const int UNIT_TYPE = 4;
-    static const int WEAPON_COST = 100;
+    static const int WEAPON_COST = 200;
     
     UnitArcherII(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitArcherII();

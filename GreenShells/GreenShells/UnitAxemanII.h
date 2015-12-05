@@ -3,11 +3,11 @@
 
 class UnitAxemanII : public Unit<UnitAxemanII>
 {
-    static const int ATTACK_DAMAGE = 225;
+    static const int ATTACK_DAMAGE = 175;
     static const int ATTACK_RANGE = 1;
     static const int HEALTH = 200;
     static const int ACTION_POINTS = 3;
-    static const int VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 3;
     static constexpr char* UNIT_NAME = "Axeman MK2";
 
 public:

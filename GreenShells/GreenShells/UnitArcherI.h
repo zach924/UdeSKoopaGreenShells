@@ -8,14 +8,14 @@ class UnitArcherI : public Unit<UnitArcherI>
     static const int ATTACK_RANGE = 3;
     static const int HEALTH = 150;
     static const int ACTION_POINTS = 2;
-    static const int VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 3;
     static const int UPGRADE_TYPE = UnitArcherII::UNIT_TYPE;
     static constexpr char* UNIT_NAME = "Archer MK1";
 
 public:
     typedef Unit<UnitArcherI> tBase;
     static const int UNIT_TYPE = 3;
-    static const int WEAPON_COST = 50;
+    static const int WEAPON_COST = 100;
 
     UnitArcherI(int owner, bool hasBonusActionPoint = false);
     virtual ~UnitArcherI();

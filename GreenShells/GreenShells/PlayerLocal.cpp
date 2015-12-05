@@ -399,18 +399,18 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
             m_armySkillTree.Canon = true;
         }
         break;
-    case Settler:
+    case Monastery:
         if (m_science >= SKILL_COST_TIER1)
         {
             m_science -= SKILL_COST_TIER1;
-            m_empireSkillTree.Settler = true;
+            m_empireSkillTree.Monastery = true;
         }
         break;
-    case Monastery:
+    case Settler:
         if (m_science >= SKILL_COST_TIER2)
         {
             m_science -= SKILL_COST_TIER2;
-            m_empireSkillTree.Monastery = true;
+            m_empireSkillTree.Settler = true;
         }
         break;
     case Farm:

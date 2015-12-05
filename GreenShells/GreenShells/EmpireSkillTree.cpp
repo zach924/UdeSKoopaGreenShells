@@ -21,11 +21,11 @@ EmpireSkillTree EmpireSkillTree::GetReadyForResearch()
 {
     EmpireSkillTree canResearch{};
 
-    canResearch.Settler = true;
-    canResearch.Monastery = Settler;
-    canResearch.Farm = Monastery;
-    canResearch.Fishery = Monastery;
-    canResearch.Stable = Monastery;
+    canResearch.Monastery = true;
+    canResearch.Settler = Monastery;
+    canResearch.Farm = Settler;
+    canResearch.Fishery = Settler;
+    canResearch.Stable = Settler;
     canResearch.Windmill = Farm;
     canResearch.Cathedral = Stable || Fishery || Farm;
     canResearch.Fort = Stable;
