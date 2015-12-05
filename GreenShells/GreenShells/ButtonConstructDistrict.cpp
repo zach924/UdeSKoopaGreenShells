@@ -16,7 +16,7 @@ ButtonConstructDistrict::~ButtonConstructDistrict()
 
 void ButtonConstructDistrict::DoAction()
 {
-    ConstructDistrictPopUp* popUp = new ConstructDistrictPopUp("", 500, 550);
+    ConstructDistrictPopUp* popUp = new ConstructDistrictPopUp("", 500, 590);
 
     GameWindow::GetInstance().AddPopUpWindow(popUp);
 }

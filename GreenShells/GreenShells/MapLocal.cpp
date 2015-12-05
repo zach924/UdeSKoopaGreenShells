@@ -419,7 +419,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool up
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddAttackMultiplier(DistrictMilitaryTent::ATTACK_MULTIPLIER);
         break;
     case DistrictFishery::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFishery(owner) };
