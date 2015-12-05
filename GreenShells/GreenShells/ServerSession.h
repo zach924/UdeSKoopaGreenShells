@@ -1,5 +1,6 @@
 #pragma once
 #include <atomic>
+#include "RPCStructs.h"
 #include "RPCManager.h"
 #include "RPCDispatcher.h"
 #include "SynchronizedQueue.h"
@@ -32,6 +33,7 @@ public:
     void StartServer(int port);
     void StopServer();
     void Replicate();
+    void Replicate(ReplicationType type, std::string xmlObject);
     WorldState* GetWorldState();
 
     int AddPlayer(std::string playerName);

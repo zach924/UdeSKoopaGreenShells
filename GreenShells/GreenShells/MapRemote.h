@@ -3,6 +3,8 @@
 #include "Map.h"
 #include "RPCBase.h"
 
+class Player;
+
 class MapRemote : public Map, public RPCBase
 {
 public:
@@ -10,10 +12,10 @@ public:
     ~MapRemote();
     Map* Clone();
 
-    void VisionChange(int playerId);
+    void VisionChange(std::shared_ptr<Player> player);
 
-    virtual bool MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
-    virtual bool Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
+    virtual std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
+    virtual std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
     virtual bool CreateUnit(int unitType, Position pos, int owner, bool upgrade);
     virtual bool CreateDistrict(int districtType, Position pos, int owner, bool upgrade);
     virtual bool SellDistrict(Position pos, int owner);
