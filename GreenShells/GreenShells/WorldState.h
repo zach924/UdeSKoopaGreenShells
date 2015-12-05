@@ -43,6 +43,12 @@ public:
     std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
     bool CreateUnit(int unitType, Position pos, int owner);
     bool CreateDistrict(int districtType, Position pos, int owner);
+    bool SellUnit(Position pos, int ownerId);
+    bool SellDistrict(Position pos, int ownerId);
+    bool UpgradeUnit(Position pos, int ownerId);
+    bool UpgradeDistrict(Position pos, int ownerId);
+    bool HealUnit(Position pos, int ownerId);
+    bool RepairDistrict(Position pos, int ownerId);
 
     bool AreAllPlayerReady();
     boost::property_tree::ptree Serialize();

@@ -51,6 +51,9 @@ Player::Player()
     m_food(100),
     m_science(0),
     m_weapon(0),
+    m_foodPerTurn(0),
+    m_sciencePerTurn(0),
+    m_weaponPerTurn(0),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
@@ -96,6 +99,21 @@ int Player::GetPrintableWeaponQuantity()
     return static_cast<int>(m_weapon);
 }
 
+int Player::GetPrintableFoodPerTurn()
+{
+    return static_cast<int>(m_foodPerTurn);
+}
+
+int Player::GetPrintableSciencePerTurn()
+{
+    return static_cast<int>(m_sciencePerTurn);
+}
+
+int Player::GetPrintableWeaponPerTurn()
+{
+    return static_cast<int>(m_weaponPerTurn);
+}
+
 bool Player::IsAlive()
 {
     return m_isAlive;
@@ -119,23 +137,23 @@ std::set<Position> Player::GetCityCenterTilesOwned(int currentTurn, Map* map, Po
     auto cityCenterTier = currentTurn - m_cityCenterLocations[cityCenterPos];
     if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T4)
     {
-        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T4_BORDER_SIZE, NO_FILTER, false);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T3)
     {
-        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T3_BORDER_SIZE, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T3_BORDER_SIZE, NO_FILTER, false);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T2)
     {
-        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T2_BORDER_SIZE, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T2_BORDER_SIZE, NO_FILTER, false);
     }
     else if (cityCenterTier > DistrictCityCenter::TURN_FOR_BORDER_T1)
     {
-        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T1_BORDER_SIZE, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, DistrictCityCenter::T1_BORDER_SIZE, NO_FILTER, false);
     }
     else
     {
-        ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER);
+        ownedTiles = map->GetArea(cityCenterPos, 0, NO_FILTER, false);
     }
 
     std::set<Position> result;
@@ -161,6 +179,9 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.F", m_food);
     playerNode.put("<xmlattr>.S", m_science);
     playerNode.put("<xmlattr>.W", m_weapon);
+    playerNode.put("<xmlattr>.FP", m_foodPerTurn);
+    playerNode.put("<xmlattr>.SP", m_sciencePerTurn);
+    playerNode.put("<xmlattr>.WP", m_weaponPerTurn);
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
@@ -204,6 +225,9 @@ boost::property_tree::ptree Player::SerializeOnlyPlayer()
     playerNode.put("<xmlattr>.F", m_food);
     playerNode.put("<xmlattr>.S", m_science);
     playerNode.put("<xmlattr>.W", m_weapon);
+    playerNode.put("<xmlattr>.FP", m_foodPerTurn);
+    playerNode.put("<xmlattr>.SP", m_sciencePerTurn);
+    playerNode.put("<xmlattr>.WP", m_weaponPerTurn);
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);

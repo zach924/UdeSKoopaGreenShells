@@ -1,5 +1,6 @@
 #pragma once
 #include "District.h"
+#include "DistrictCathedral.h"
 
 class DistrictMonastery : public District<DistrictMonastery>
 {
@@ -10,6 +11,7 @@ class DistrictMonastery : public District<DistrictMonastery>
     static const int SCIENCE_YIELD = 6;
     static const int WEAPON_YIELD = 0;
     static const int VIEW_RANGE = 3;
+    static const int UPGRADE_TYPE = DistrictCathedral::DISTRICT_TYPE;
     static constexpr char* NAME = "Monastery";
 
 public:

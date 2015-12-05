@@ -27,7 +27,41 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     return toReplicate;
 }
 
-std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct * data)
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicOnePositionStruct* data)
+{
+    std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
+    switch (data->m_RPCClassMethod)
+    {
+    case RPCClassMethodType::Map_SellDistrict:
+        m_worldState->GetMap()->SellDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_SellUnit:
+        m_worldState->GetMap()->SellUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_HealUnit:
+        m_worldState->GetMap()->HealUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_RepairDistrict:
+        m_worldState->GetMap()->RepairDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeDistrict:
+        m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
+        break;
+    case RPCClassMethodType::Map_UpgradeUnit:
+        m_worldState->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
+        break;
+    default:
+        assert(false && "You must add your code here");
+    }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_position)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
+    return toReplicate;
+}
+
+std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsStruct* data)
 {
     std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
@@ -79,10 +113,10 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_CreateDistrict:
-        m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID);
+        m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     case RPCClassMethodType::Map_CreateUnit:
-        m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID);
+        m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     default:
         assert(false && "You must add your code here");
@@ -196,6 +230,9 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
         {
         case RPCStructType::RPC_BASIC:
             return Dispatch(event.data);
+            break;
+        case RPCStructType::RPC_BASIC_ONE_POSITION:
+            return Dispatch(dynamic_cast<RPCBasicOnePositionStruct*>(event.data));
             break;
         case RPCStructType::RPC_BASIC_TWO_POSITIONS:
             return Dispatch(dynamic_cast<RPCBasicTwoPositionsStruct*>(event.data));

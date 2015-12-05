@@ -91,7 +91,7 @@ void GameSession::Save(std::string fileName)
     fileName += ".xml";
     fileStream.open(fileName);
 
-    boost::property_tree::write_xml(fileStream, m_worldState.Serialize(), boost::property_tree::xml_writer_settings<std::string>('\t', 1));
+    boost::property_tree::write_xml(fileStream, m_worldState.Serialize());
 
     fileStream.close();
 }

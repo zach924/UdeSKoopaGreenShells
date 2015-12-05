@@ -5,7 +5,7 @@
 #include "Player.h"
 
 UnitBuilder::UnitBuilder(int owner, bool hasBonusActionPoint)
-    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, FOOD_COST)
+    : Unit<UnitBuilder>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE, FOOD_COST)
 {
     if (hasBonusActionPoint)
     {
@@ -26,7 +26,7 @@ void UnitBuilder::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\builder.bmp");
+        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\builder.bmp");
     }
     catch (std::exception e)
     {

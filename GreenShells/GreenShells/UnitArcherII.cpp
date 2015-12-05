@@ -5,7 +5,7 @@
 #include "Player.h"
 
 UnitArcherII::UnitArcherII(int owner, bool hasBonusActionPoint)
-    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitArcherII>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -26,7 +26,7 @@ void UnitArcherII::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\bow2.bmp");
+        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\bow2.bmp");
     }
     catch (std::exception e)
     {
@@ -38,7 +38,7 @@ void UnitArcherII::LoadTexture()
 bool UnitArcherII::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetArmySkillTree().ArcherT3;
+    return player->GetArmySkillTree().ArcherT3 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 std::shared_ptr<UnitArcherII> UnitArcherII::Deserialize(boost::property_tree::ptree node)

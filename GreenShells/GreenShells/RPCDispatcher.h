@@ -13,6 +13,7 @@ class RPCDispatcher
 
     std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicStruct* data);
     std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicOnePositionStruct* data);
     std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
     std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicActorCreationStruct* data);
     std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicUnlockSkill* data);

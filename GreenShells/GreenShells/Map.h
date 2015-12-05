@@ -31,14 +31,20 @@ public:
     void GenerateTiles();
     std::vector<Position> GetSpawnPositions();
 
-    std::map<Position, int> GetArea(Position position, int distance, MapFilter filter);
+    std::map<Position, int> GetArea(Position position, int distance, MapFilter filter, bool stopIfCannotGoFurther);
 
 
     TileBase* GetTile(Position);
     virtual std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost) = 0;
     virtual std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost) = 0;
-    virtual bool CreateUnit(int unitType, Position pos, int owner) = 0;
-    virtual bool CreateDistrict(int districtType, Position pos, int owner) = 0;
+    virtual bool CreateUnit(int unitType, Position pos, int owner, bool upgrade) = 0;
+    virtual bool CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false) = 0;
+    virtual bool SellDistrict(Position pos, int owner) = 0;
+    virtual bool SellUnit(Position pos, int owner) = 0;
+    virtual bool UpgradeUnit(Position pos, int owner) = 0;
+    virtual bool UpgradeDistrict(Position pos, int owner) = 0;
+    virtual bool HealUnit(Position pos, int owner) = 0;
+    virtual bool RepairDistrict(Position pos, int owner) = 0;
     void NotifyNewTurn(int turn);
 
     virtual boost::property_tree::ptree Serialize();
@@ -46,5 +52,6 @@ public:
 
 private:
     void GetAreaIntern(int distance, std::set<Position>& toVisit, std::map<Position, int>& alreadyVisited, MapFilter filter, const int maxDistance);
+    void GetAreaIntern(int distance, Position position, std::map<Position, int>& areaOut, MapFilter filter);
 
 };

@@ -1,19 +1,21 @@
 #pragma once
 #include "UnitBase.h"
 #include "Texture.h"
+#include <iostream>
 #include <boost\property_tree\ptree.hpp>
 
 template<class T>
 class Unit : public UnitBase
 {
 public:
-    static Texture m_Texture;
+    static Texture m_unitTexture;
+    static Texture m_boatTexture;
     virtual void LoadTexture() {};
     static bool m_forceLoading;
 
 public:
-    Unit(int ownerID, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost = -1, int foodCost = -1)
-        : UnitBase(ownerID, health, actionPoints, attackRange, attackDamage, viewRange, name, typeAsInt, weaponCost, foodCost)
+    Unit(int ownerID, int health, int actionPoints, int attackRange, int attackDamage, int viewRange, const char* name, int typeAsInt, int weaponCost = 0, int upgradeType = NO_UPGRADE, int foodCost = 0)
+        : UnitBase(ownerID, health, actionPoints, attackRange, attackDamage, viewRange, name, typeAsInt, weaponCost, foodCost, upgradeType)
     {
     }
 
@@ -29,18 +31,62 @@ public:
     }
 
     //Every method must be define in header file because of the static polymorphism
-    Texture* GetTexture()
+    Texture* GetUnitTexture()
     {
-        if (!m_Texture.IsLoaded() || m_forceLoading)
+        if (m_forceLoading)
+        {
+            ReloadTextures();
+        }
+        else if (!m_unitTexture.IsLoaded())
         {
             static_cast<T*>(this)->LoadTexture();
-            m_forceLoading = false;
         }
-        return &m_Texture;
+
+        return &m_unitTexture;
+    }
+
+    //Every method must be define in header file because of the static polymorphism
+    Texture* GetBoatTexture()
+    {
+        if (m_forceLoading)
+        {
+            ReloadTextures();
+
+        }
+        else if (!m_boatTexture.IsLoaded())
+        {
+            try
+            {
+                m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+            }
+            catch (std::exception e)
+            {
+                std::string msg{ e.what() };
+                std::cout << msg << std::endl;
+            }
+        }
+        return &m_boatTexture;
     }
 
     static void ForceReload()
     {
         m_forceLoading = true;
+    }
+
+private:
+    void ReloadTextures()
+    {
+        m_forceLoading = false;
+        static_cast<T*>(this)->LoadTexture();
+
+        try
+        {
+            m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+        }
+        catch (std::exception e)
+        {
+            std::string msg{ e.what() };
+            std::cout << msg << std::endl;
+        }
     }
 };

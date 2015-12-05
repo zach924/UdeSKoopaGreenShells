@@ -94,7 +94,7 @@ Map* MapLocal::Clone()
 std::vector<Position> MapLocal::DiscoverArea(Position pos, int range, int playerId)
 {
     std::vector<Position> discovered;
-    auto positionToDiscover = GetArea(pos, range, NO_FILTER);
+    auto positionToDiscover = GetArea(pos, range, NO_FILTER, true);
 
     for (const std::pair<Position, int>& pos : positionToDiscover)
     {
@@ -148,7 +148,11 @@ std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Pos
         tempUnit->UseActionPoints(actionCost);
         secondTile->SetUnit(tempUnit);
 
-        return DiscoverArea(newLocation, tempUnit->GetViewRange(), ownerID);
+        auto player = GameSession::GetInstance().GetCurrentPlayerCopy();
+        auto utilitySK = player->GetUtilitySkillTree();
+        int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
+
+        return DiscoverArea(newLocation, tempUnit->GetViewRange() + viewModifier, ownerID);
     }
 
     //Other cases are all refused
@@ -275,7 +279,7 @@ std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition
     return std::vector<Position>{};
 }
 
-bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
+bool MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
 {
     if (GetTile(pos)->GetUnit() != nullptr)
     {
@@ -339,13 +343,15 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner)
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
-        player->ConsumeWeapon(unit->GetWeaponCost());
+        player->ConsumeWeapon(unit->GetWeaponCost() / (upgrade ? 2 : 1));
+        player->ConsumeFood(unit->GetFoodCost() / (upgrade ? 2 : 1));
+
         DiscoverArea(pos, unit->GetViewRange(), owner);
     }
     return true;
 }
 
-bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
+bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
 {
     if (GetTile(pos)->GetDistrict() != nullptr)
     {
@@ -421,9 +427,121 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner)
     if (district)
     {
         GetTile(pos)->SetDistrict(district);
-        player->ConsumeFood(district->GetFoodCost());
+        player->ConsumeFood(district->GetFoodCost() / (upgrade ? 2 : 1));
         DiscoverArea(pos, district->GetViewRange(), owner);
     }
+    return true;
+}
+
+bool MapLocal::SellDistrict(Position pos, int owner)
+{
+    auto district = GetTile(pos)->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    int refund = district->GetFoodCost() / 3;
+    ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFood(refund);
+
+    GetTile(pos)->SetDistrict(nullptr);
+
+    return true;
+}
+
+bool MapLocal::SellUnit(Position pos, int owner)
+{
+    auto unit = GetTile(pos)->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
+    player->AddWeapon(unit->GetWeaponCost() / 3);
+    player->AddFood(unit->GetFoodCost() / 3);
+
+    GetTile(pos)->SetUnit(nullptr);
+
+    return true;
+}
+
+bool MapLocal::UpgradeUnit(Position pos, int owner)
+{
+    TileBase* tile = GetTile(pos);
+    auto unit = tile->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
+    if (unit->CanUpgrade())
+    {
+        // Upgrade override the unit on the tile by the new one (or override by nullptr (settler/watchTowerUnit)
+        //   So we need to delete the object unit after
+
+        if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE || unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
+        {
+            GetTile(pos)->SetUnit(nullptr);
+            return CreateDistrict(unit->GetUpgradeType(), pos, owner, true);
+        }
+        else
+        {
+            GetTile(pos)->SetUnit(nullptr);
+            return CreateUnit(unit->GetUpgradeType(), pos, owner, true);
+        }
+    }
+
+    return false;
+}
+
+bool MapLocal::UpgradeDistrict(Position pos, int owner)
+{
+    TileBase* tile = GetTile(pos);
+    auto district = tile->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+
+    if (district->CanUpgrade())
+    {
+        GetTile(pos)->SetDistrict(nullptr);
+        CreateDistrict(district->GetUpgradeType(), pos, owner, true);
+
+        return true;
+    }
+
+    return false;
+}
+
+bool MapLocal::HealUnit(Position pos, int owner)
+{
+    TileBase* tile = GetTile(pos);
+    auto unit = tile->GetUnit();
+    if (!unit || unit->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    unit->Heal(15);
+    return true;
+}
+
+bool MapLocal::RepairDistrict(Position pos, int owner)
+{
+    TileBase* tile = GetTile(pos);
+    auto district = tile->GetDistrict();
+    if (!district || district->GetOwnerID() != owner)
+    {
+        return false;
+    }
+
+    district->Repair(15);
     return true;
 }
 

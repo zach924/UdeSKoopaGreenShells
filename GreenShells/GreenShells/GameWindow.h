@@ -123,6 +123,7 @@ private:
     Texture* m_weaponTexture;
     Texture* m_scienceTexture;
     Texture* m_overlayTexture;
+    Texture* m_selectdOverlayTexture;
 
     const Color PLAYER_ACTOR_COLORS[8] =
     {

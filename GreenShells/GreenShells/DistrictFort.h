@@ -1,5 +1,6 @@
 #pragma once
 #include "District.h"
+#include "DistrictFortress.h"
 
 class DistrictFort : public District<DistrictFort>
 {
@@ -9,6 +10,7 @@ class DistrictFort : public District<DistrictFort>
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 15;
     static const int VIEW_RANGE = 5;
+    static const int UPGRADE_TYPE = DistrictFortress::DISTRICT_TYPE;
     static constexpr char* NAME = "Fort";
 
 public:

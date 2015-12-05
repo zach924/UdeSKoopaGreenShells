@@ -5,7 +5,7 @@
 #include "Player.h"
 
 UnitAxemanI::UnitAxemanI(int owner, bool hasBonusActionPoint)
-    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST)
+    : Unit<UnitAxemanI>(owner, HEALTH, ACTION_POINTS, ATTACK_RANGE, ATTACK_DAMAGE, VIEW_RANGE, UNIT_NAME, UNIT_TYPE, WEAPON_COST, UPGRADE_TYPE)
 {
     if (hasBonusActionPoint)
     {
@@ -26,7 +26,7 @@ void UnitAxemanI::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Units\\64x64\\axe.bmp");
+        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\axe.bmp");
     }
     catch (std::exception e)
     {
@@ -38,7 +38,7 @@ void UnitAxemanI::LoadTexture()
 bool UnitAxemanI::CanUpgrade()
 {
     auto player = GameSession::GetInstance().GetWorldState()->GetPlayerCopy(GetOwnerID());
-    return player->GetArmySkillTree().AxeT2;
+    return player->GetArmySkillTree().AxeT2 && player->HasEnoughWeapons(GetWeaponCost());
 }
 
 std::shared_ptr<UnitAxemanI> UnitAxemanI::Deserialize(boost::property_tree::ptree node)

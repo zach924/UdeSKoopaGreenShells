@@ -263,7 +263,8 @@ void SelectionManager::UpdateButtonState()
         else if (dynamic_cast<ButtonDistrictSell*>(btn) != nullptr)
         {
             if (selectedDistrict->GetOwnerID() == GameSession::GetInstance().GetCurrentPlayerID()
-                && selectedDistrict->GetActionPointsRemaining() > 0)
+                && selectedDistrict->GetActionPointsRemaining() > 0
+                && selectedDistrict->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
             {
                 btn->SetButtonState(ButtonState::Unpressed);
             }
@@ -355,6 +356,11 @@ void SelectionManager::UpdateButtonState()
     }
 }
 
+Position SelectionManager::GetSelectedPosition()
+{
+    return m_selectedPosition;
+}
+
 
 void SelectionManager::Idle(Position pos)
 {
@@ -366,16 +372,20 @@ void SelectionManager::Attack(Position pos)
 {
     auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
     auto unit = map->GetTile(pos)->GetUnit();
+    auto district = map->GetTile(pos)->GetDistrict();
     int actorOwner;
     if (unit != nullptr)
     {
         actorOwner = unit->GetOwnerID();
     }
+    else if (district != nullptr)
+    {
+        actorOwner = district->GetOwnerID();
+    }
     else
     {
-        auto district = map->GetTile(pos)->GetDistrict();
-        assert(district != nullptr && "We should never get this far is there are no district or unit in the tile");
-        actorOwner = district->GetOwnerID();
+        EndAction();
+        return;
     }
 
     int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
@@ -446,7 +456,7 @@ void SelectionManager::HandleSelection(Position pos)
     TileBase* tile = map->GetTile(pos);
 
     // If the tile selected is not in our range of action possible, we remove the selected actor and do like no action was waiting
-    if (m_state != m_idle &&  (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
+    if (m_state != m_idle && (m_actionPossibleTiles.find(tile->GetPosition()) == m_actionPossibleTiles.end()))
     {
         Cancel();
     }
@@ -494,7 +504,7 @@ void SelectionManager::HandleRightClickPressed(Position pos)
         return;
     }
 
-    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+    auto allPositionsNear = map->GetArea(m_selectedPosition, selectedTile->GetUnit()->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction(), true);
     m_actionPossibleTiles.clear();
 
     for (std::pair<Position, int> currentPos : allPositionsNear)
@@ -565,11 +575,11 @@ void SelectionManager::CreateDistrictPressed(int districtType)
         std::map<Position, int> allPositionNear;
         if (districtType == DistrictFishery::DISTRICT_TYPE)
         {
-            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, ALLOW_WATER);
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, ALLOW_WATER, false);
         }
         else
         {
-            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : ALLOW_GROUND);
+            allPositionNear = map->GetArea(m_selectedPosition, DistrictCityCenter::T4_BORDER_SIZE, GameSession::GetInstance().GetCurrentPlayerCopy()->GetUtilitySkillTree().MountainConstruction ? ALLOW__GROUND_MOUNTAIN : ALLOW_GROUND, false);
         }
 
         m_actionPossibleTiles.clear();
@@ -602,7 +612,7 @@ void SelectionManager::UnitAttackPressed()
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER);
+        std::map<Position, int> allPositionNear = map->GetArea(m_selectedPosition, unit->GetAttackRange(), NO_FILTER, true);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
         {
@@ -628,7 +638,7 @@ void SelectionManager::UnitMovePressed()
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
         Position unitPosition = m_selectedPosition;
         shared_ptr<UnitBase> unit = GetSelectedUnit();
-        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction());
+        std::map<Position, int> allPositionNear = map->GetArea(unitPosition, unit->GetActionPointsRemaining(), GameSession::GetInstance().GetCurrentPlayerCopy()->GetMoveRestriction(), true);
         m_actionPossibleTiles.clear();
         for (const std::pair<Position, int>& pos : allPositionNear)
         {
@@ -669,30 +679,68 @@ bool SelectionManager::IsADistrictSelected()
 
 void SelectionManager::UnitSell()
 {
-    // TODO: Sell Unit
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->SellUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictSell()
 {
-    // TODO: Sell District
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty
+        && districtSelected->GetOwnerID() == currentPlayerId
+        && districtSelected->GetTypeAsInt() != DistrictCityCenter::DISTRICT_TYPE)
+    {
+        GameSession::GetInstance().GetWorldState()->SellDistrict(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::UnitUpgrade()
 {
-    // TODO: unit upgrade
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictUpgrade()
 {
-    // TODO: unit upgrade
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->UpgradeDistrict(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::UnitHeal()
 {
-    // TODO
+    auto unitSelected = GetSelectedUnit();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (unitSelected != m_unitEmpty && unitSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->HealUnit(m_selectedPosition, currentPlayerId);
+    }
 }
 
 void SelectionManager::DistrictRepair()
 {
-    // TODO
+    auto districtSelected = GetSelectedDistrict();
+    int currentPlayerId = GameSession::GetInstance().GetCurrentPlayerID();
+
+    if (districtSelected != m_districtEmpty && districtSelected->GetOwnerID() == currentPlayerId)
+    {
+        GameSession::GetInstance().GetWorldState()->RepairDistrict(m_selectedPosition, currentPlayerId);
+    }
 }

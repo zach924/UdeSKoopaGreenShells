@@ -45,6 +45,10 @@ protected:
     double m_science;
     double m_weapon;
 
+    double m_foodPerTurn;
+    double m_sciencePerTurn;
+    double m_weaponPerTurn;
+
     double m_foodMultiplier;
     double m_scienceMultiplier;
     double m_weaponMultiplier;
@@ -79,6 +83,10 @@ public:
     int GetPrintableFoodQuantity();
     int GetPrintableScienceQuantity();
     int GetPrintableWeaponQuantity();
+
+    int GetPrintableFoodPerTurn();
+    int GetPrintableSciencePerTurn();
+    int GetPrintableWeaponPerTurn();
 
     virtual void AddFood(unsigned int qty) = 0;
     virtual void AddScience(unsigned int qty) = 0;
