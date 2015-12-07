@@ -37,9 +37,10 @@ void ServerSession::run()
                 m_worldState.GetPlayer(player)->SetIsDisconnected();
             }
 
-            if (m_dispatcher->Dispatch())
+            auto toReplicate = m_dispatcher->Dispatch();
+            for (auto pair : toReplicate)
             {
-                Replicate();
+                Replicate(pair.first, pair.second);
             }
 
             auto after = system_clock::now();
@@ -87,9 +88,21 @@ void ServerSession::Replicate()
     std::stringstream ss;
     boost::property_tree::write_xml(ss, m_worldState.Serialize());
     std::stringstream data;
+    ReplicationType type{ ReplicationType::WORLDSTATE };
+    data.write(reinterpret_cast<char*>(&type), sizeof(ReplicationType));
     auto size = static_cast<int>(ss.str().size());
     data.write(reinterpret_cast<char*>(&size), sizeof(size));
     data.write(ss.str().c_str(), size);
+    m_rpcServerManager->SendToClients(data.str());
+}
+
+void ServerSession::Replicate(ReplicationType type, std::string xmlObject)
+{
+    std::stringstream data;
+    int size = static_cast<int>(xmlObject.size());
+    data.write(reinterpret_cast<char*>(&type), sizeof(ReplicationType));
+    data.write(reinterpret_cast<char*>(&size), sizeof(int));
+    data.write(xmlObject.c_str(), size);
     m_rpcServerManager->SendToClients(data.str());
 }
 

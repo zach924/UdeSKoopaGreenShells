@@ -7,7 +7,7 @@ class UnitArcherIII : public Unit<UnitArcherIII>
     static const int ATTACK_RANGE = 4;
     static const int HEALTH = 250;
     static const int ACTION_POINTS = 2;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 4;
     static constexpr char* UNIT_NAME = "Archer MK3";
 
 public:

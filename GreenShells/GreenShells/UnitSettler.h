@@ -7,14 +7,14 @@ class UnitSettler : public Unit<UnitSettler>
     static const int ATTACK_DAMAGE = 5;
     static const int HEALTH = 50;
     static const int ACTION_POINTS = 2;
-    static const int VIEW_RANGE = 3;
+    static const int VIEW_RANGE = 2;
     static const int UPGRADE_TYPE = DistrictCityCenter::DISTRICT_TYPE;
     static constexpr char* UNIT_NAME = "Settler";
 
 public:
     typedef Unit<UnitSettler> tBase;
     static const int WEAPON_COST = 0;
-    static const int FOOD_COST = 700;
+    static const int FOOD_COST = 500;
     static const int UNIT_TYPE = 12;
 
     UnitSettler(int owner, bool hasBonusActionPoint = false);

@@ -118,7 +118,7 @@ SpawnUnitPopUp::SpawnUnitPopUp(const char* windowName, int width, int height)
 
     currentY += buttonHeight + buffer;  
 
-    state = currentPlayer->HasEnoughFood(UnitBuilder::FOOD_COST) && currentPlayer->GetUtilitySkillTree().Watchtower ? ButtonState::Unpressed : ButtonState::Disabled;
+    state = currentPlayer->HasEnoughWeapons(UnitBuilder::WEAPON_COST) && currentPlayer->GetUtilitySkillTree().Watchtower ? ButtonState::Unpressed : ButtonState::Disabled;
     m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Builder", []() {SelectionManager::GetInstance().CreateUnitPressed(UnitBuilder::UNIT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;

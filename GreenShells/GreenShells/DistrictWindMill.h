@@ -10,7 +10,7 @@ class DistrictWindMill : public District<DistrictWindMill>
     static const int FOOD_YIELD = 15;
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 0;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 2;
     static const int UPGRADE_TYPE = DistrictWarehouse::DISTRICT_TYPE;
     static constexpr char* NAME = "Windmill";
 

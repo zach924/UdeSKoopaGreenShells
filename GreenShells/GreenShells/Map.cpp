@@ -242,3 +242,29 @@ boost::property_tree::ptree Map::Serialize()
 
     return mapNode;
 }
+
+void Map::DeserializeTile(boost::property_tree::ptree tileXml)
+{
+    Position pos;
+    pos.Row = tileXml.get<int>("<xmlattr>.R");
+    pos.Column = tileXml.get<int>("<xmlattr>.C");
+
+    switch (tileXml.get<int>("<xmlattr>.TT"))
+    {
+    case 0:
+        m_tiles[pos.Row][pos.Column] = TileGround::Deserialize(tileXml, pos);
+        break;
+    case 1:
+        m_tiles[pos.Row][pos.Column] = TileMountain::Deserialize(tileXml, pos);
+        break;
+    case 2:
+        m_tiles[pos.Row][pos.Column] = TileWater::Deserialize(tileXml, pos);
+        break;
+
+    case -1:
+    default:
+        std::string msg = ("Error while loading the map, a tile is of type unknown.");
+        throw new std::exception(msg.c_str());
+        break;
+    }
+}

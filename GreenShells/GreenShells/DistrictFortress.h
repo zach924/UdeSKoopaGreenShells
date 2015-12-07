@@ -8,8 +8,8 @@ class DistrictFortress : public District<DistrictFortress>
 
     static const int FOOD_YIELD = 0;
     static const int SCIENCE_YIELD = 0;
-    static const int WEAPON_YIELD = 20;
-    static const int VIEW_RANGE = 5;
+    static const int WEAPON_YIELD = 15;
+    static const int VIEW_RANGE = 3;
     static constexpr char* NAME = "Fortress";
 
 public:

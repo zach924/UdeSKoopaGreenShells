@@ -7,7 +7,7 @@ class UnitMaceII : public Unit<UnitMaceII>
     static const int ATTACK_DAMAGE = 150;
     static const int HEALTH = 350;
     static const int ACTION_POINTS = 2;
-    static const int VIEW_RANGE = 3;
+    static const int VIEW_RANGE = 2;
     static constexpr char* UNIT_NAME = "Mace MK2";
 
 public:

@@ -169,7 +169,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
     {
     case Watchtower:
     case ArcherT1:
-    case Settler:
+    case Monastery:
         if (m_science < SKILL_COST_TIER1)
         {
             return;
@@ -177,7 +177,7 @@ void PlayerRemote::UnlockSkill(int turn, Skills skill)
         break;
     case ScienceUpgrade:
     case Militia:
-    case Monastery:
+    case Settler:
         if (m_science < SKILL_COST_TIER2)
         {
             return;

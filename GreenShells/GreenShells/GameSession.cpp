@@ -5,6 +5,7 @@
 #include "RPCManager.h"
 #include "RPCBase.h"
 #include "RPCDispatcher.h"
+#include "RPCStructs.h"
 #include "SelectionManager.h"
 
 #include <boost\property_tree\ptree.hpp>
@@ -106,7 +107,7 @@ void GameSession::Load(std::string fileName)
         {
             boost::property_tree::ptree pt;
             boost::property_tree::xml_parser::read_xml(fileStream, pt);
-            m_worldState.Deserialize(pt);
+            m_worldState.Deserialize(pt, m_currentPlayerID);
 
             fileStream.close();
         }
@@ -124,6 +125,9 @@ void GameSession::Load(std::string fileName)
 
 void GameSession::FetchReplication()
 {
+    ReplicationType type;
+    RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&type), sizeof(ReplicationType)));
+
     int theoreticalSize{ 0 };
     RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&theoreticalSize), sizeof(int)));
 
@@ -139,8 +143,23 @@ void GameSession::FetchReplication()
     }
     boost::property_tree::ptree pt;
     boost::property_tree::xml_parser::read_xml(dataStream, pt);
-    m_worldState.Deserialize(pt);
-    std::cout << "Replication has occured." << std::endl;
+
+    switch (type)
+    {
+    case WORLDSTATE:
+        m_worldState.Deserialize(pt, m_currentPlayerID);
+        break;
+    case PLAYER:
+        m_worldState.DeserializePlayer(pt, m_currentPlayerID);
+        break;
+    case TILE:
+        m_worldState.DeserializeTile(pt, m_currentPlayerID);
+        break;
+    default:
+        assert(false && "Insert replication type here");
+        break;
+    }
+
     SelectionManager::GetInstance().UpdateButtonState();
 }
 
