@@ -4,11 +4,11 @@
 
 class UnitAxemanI : public Unit<UnitAxemanI>
 {
-    static const int ATTACK_DAMAGE = 200;
+    static const int ATTACK_DAMAGE = 125;
     static const int ATTACK_RANGE = 1;
     static const int HEALTH = 150;
     static const int ACTION_POINTS = 3;
-    static const int VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 3;
     static const int UPGRADE_TYPE = UnitAxemanII::UNIT_TYPE;
     static constexpr char* UNIT_NAME = "Axeman MK1";
 

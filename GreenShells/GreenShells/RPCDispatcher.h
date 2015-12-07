@@ -1,5 +1,6 @@
 #pragma once
-
+#include <vector>
+#include <string>
 #include "SynchronizedQueue.h"
 #include "RPCStructs.h"
 
@@ -10,15 +11,15 @@ class RPCDispatcher
     SynchronizedQueue<RPCEvent>* m_queue;
     WorldState* m_worldState;
 
-    void Dispatch(RPCBasicStruct* data);
-    void Dispatch(RPCBasicOnePositionStruct* data);
-    void Dispatch(RPCBasicTwoPositionsStruct* data);
-    void Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
-    void Dispatch(RPCBasicActorCreationStruct* data);
-    void Dispatch(RPCBasicUnlockSkill* data);
-    void Dispatch(RPCBasicDiplomaticRequestStruct* data);
-    void Dispatch(RPCBasicDiplomaticResponseStruct* data);
-    void Dispatch(RPCEvent event);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicOnePositionStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicTwoPositionsAndCostStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicActorCreationStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicUnlockSkill* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicDiplomaticRequestStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCBasicDiplomaticResponseStruct* data);
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch(RPCEvent);
 
 public:
     RPCDispatcher();
@@ -30,5 +31,5 @@ public:
     void SetEventQueue(SynchronizedQueue<RPCEvent>* queue);
     SynchronizedQueue<RPCEvent>* GetEventQueue();
 
-    bool Dispatch();
+    std::vector< std::pair<ReplicationType, std::string> > Dispatch();
 };

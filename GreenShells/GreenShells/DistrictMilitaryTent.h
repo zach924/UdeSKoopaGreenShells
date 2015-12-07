@@ -5,7 +5,7 @@ class DistrictMilitaryTent : public District<DistrictMilitaryTent>
 {
     static const int ATTACK_DAMAGE = 100;
     static const int HEALTH = 400;
-    static const int VIEW_RANGE = 3;
+    static const int VIEW_RANGE = 2;
     static constexpr char* NAME = "Military Tent";
 
 public:

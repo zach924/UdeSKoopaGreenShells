@@ -9,14 +9,14 @@ class DistrictSchool : public District<DistrictSchool>
     static const int FOOD_YIELD = 0;
     static const int SCIENCE_YIELD = 15;
     static const int WEAPON_YIELD = 0;
-    static const int VIEW_RANGE = 5;
+    static const int VIEW_RANGE = 2;
     static const int UPGRADE_TYPE = DistrictUniversity::DISTRICT_TYPE;
     static constexpr char* NAME = "School";
 
 public:
     typedef District<DistrictSchool> tBase;
     static const int DISTRICT_TYPE = 9;
-    static const int FOOD_COST = 800;
+    static const int FOOD_COST = 1100;
 
     DistrictSchool(int owner);
     ~DistrictSchool();

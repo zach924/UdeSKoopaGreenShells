@@ -7,7 +7,7 @@ class UnitShield : public Unit<UnitShield>
     static const int ATTACK_RANGE = 1;
     static const int HEALTH = 500;
     static const int ACTION_POINTS = 1;
-    static const int VIEW_RANGE = 3;
+    static const int VIEW_RANGE = 2;
     static constexpr char* UNIT_NAME = "Shield";
 
 public:

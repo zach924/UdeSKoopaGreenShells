@@ -8,7 +8,7 @@ class DistrictTavern : public District<DistrictTavern>
     static const int FOOD_YIELD = 10;
     static const int SCIENCE_YIELD = 0;
     static const int WEAPON_YIELD = 10;
-    static const int VIEW_RANGE = 4;
+    static const int VIEW_RANGE = 2;
     static constexpr char* NAME = "Tavern";
 
 public:
