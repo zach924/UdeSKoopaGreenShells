@@ -90,6 +90,7 @@ int main(int argc, char* argv[])
                 {
                     std::cout << "Could not set up a server." << std::endl;
 
+                    system("PAUSE");
                     return 0;
                 }
             }
@@ -97,6 +98,7 @@ int main(int argc, char* argv[])
             {
                 std::cout << "Server usage : GreenShells.exe playerName server port" << std::endl;
 
+                system("PAUSE");
                 return 0;
             }
         }
@@ -113,6 +115,7 @@ int main(int argc, char* argv[])
                 {
                     std::cout << "Could not set up a client" << std::endl;
 
+                    system("PAUSE");
                     return 0;
                 }
             }
@@ -120,10 +123,12 @@ int main(int argc, char* argv[])
             {
                 std::cout << "Client usage : GreenShells.exe playerName client port ip" << std::endl;
 
+                system("PAUSE");
                 return 0;
             }
         }
 
+        system("PAUSE");
         return 0;
     }
 
