@@ -2606,6 +2606,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_82EA52C8CF4846B292B71359900C7B0F"
+            {
+            "Name" = "8:GreenShells - Client"
+            "Arguments" = "8:Player2 client 8008 127.0.0.1"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_9B9F0023E95B42E6B269CC6A2B839A04"
+            "Folder" = "8:_D7216C73B9E44347A1FBE8FB8A8D72A8"
+            "WorkingFolder" = "8:_2ECA9FB2EC6F4829A081ADDC9EFA2099"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_96E17530927F47929BD9A5F606752C27"
+            {
+            "Name" = "8:GreenShells - Server"
+            "Arguments" = "8:Player1 server 8008"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_9B9F0023E95B42E6B269CC6A2B839A04"
+            "Folder" = "8:_D7216C73B9E44347A1FBE8FB8A8D72A8"
+            "WorkingFolder" = "8:_2ECA9FB2EC6F4829A081ADDC9EFA2099"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -3005,34 +3033,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_039690C6891D408DB46286EED2B3D2FE"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2ECA9FB2EC6F4829A081ADDC9EFA2099"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Symbols"
-            "OutputProjectGuid" = "8:{A3463C6B-E524-4667-84DD-D0C761301111}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9B9F0023E95B42E6B269CC6A2B839A04"
             {
             "SourcePath" = "8:..\\x64\\Release\\GreenShells.exe"
