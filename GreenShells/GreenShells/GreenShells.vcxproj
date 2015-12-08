@@ -280,6 +280,7 @@
     <ClInclude Include="DistrictWarehouse.h" />
     <ClInclude Include="DistrictWatchTower.h" />
     <ClInclude Include="DistrictWindMill.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SpawnUnitPopUp.h" />
     <ClInclude Include="UnitArcherII.h" />
     <ClInclude Include="UnitArcherIII.h" />
@@ -366,6 +367,12 @@
     <ClInclude Include="UtilitySkillTree.h" />
     <ClInclude Include="WorldState.h" />
     <ClInclude Include="YesNoPopUp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GreenShells.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Sprite\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
