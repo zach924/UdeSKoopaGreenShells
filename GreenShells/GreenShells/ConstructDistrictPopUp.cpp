@@ -125,7 +125,7 @@ ConstructDistrictPopUp::~ConstructDistrictPopUp()
 
 bool ConstructDistrictPopUp::handleEvent(SDL_Event & e)
 {
-    for (ButtonText button : m_allButtons)
+    for (ButtonText& button : m_allButtons)
     {
         if (button.IsUnpressed() && button.IsInside(e.button.x, e.button.y))
         {
