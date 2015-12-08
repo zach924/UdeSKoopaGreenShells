@@ -97,8 +97,8 @@ static ScreenResolution RES_800_600{ 800,600,520,520,280,80,5,240,425,false };
 static ScreenResolution RES_1280_720{ 1280,720,975,650,305,70,12,292,498,false };
 static ScreenResolution RES_1600_900{ 1600,900,1300,780,300,120,25,362,650,false };
 static ScreenResolution RES_1600_1024{ 1600,1024,1300,910,300,114,35,410,735,false };
-static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,319,664,false };
-static ScreenResolution RES_1920_1080_FullScreen{ 1920,1080,1625,975,295,105,38,319,664,true };
+static ScreenResolution RES_1920_1080{ 1920,1080,1625,975,295,105,38,370,664,false };
+static ScreenResolution RES_1920_1080_FullScreen{ 1920,1080,1625,975,295,105,38,370,664,true };
 
 class GameWindow
 {
@@ -155,7 +155,7 @@ private:
     const Color EMPTY_COLOR = { 255,255,255 };
     const Color MINIMAP_CITY = {155, 155, 155};
 
-    GameWindow(ScreenResolution = RES_1600_1024);
+    GameWindow(ScreenResolution = RES_1920_1080_FullScreen);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -167,7 +167,7 @@ private:
 public:
     static GameWindow& GetInstance()
     {
-        static GameWindow m_instance{ RES_1280_720 };
+        static GameWindow m_instance{ RES_1920_1080_FullScreen };
         return m_instance;
     }
 
