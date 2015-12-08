@@ -101,9 +101,15 @@ ConstructDistrictPopUp::ConstructDistrictPopUp(const char* windowName, int width
 
 
     currentY += buttonHeight + buffer;
+
     
     state = currentPlayer->HasEnoughFood(DistrictTavern::FOOD_COST) && empSkillTree.InnAndTavern ? ButtonState::Unpressed : ButtonState::Disabled;
     m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Tavern", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictTavern::DISTRICT_TYPE); }, nullptr, state);
+
+    currentY += buttonHeight + buffer;
+    
+    state = currentPlayer->HasEnoughFood(DistrictMilitaryTent::FOOD_COST) && empSkillTree.MilitaryTent ? ButtonState::Unpressed : ButtonState::Disabled;
+    m_allButtons.emplace_back(currentX, currentY, buttonWidth, buttonHeight, "Military tent", []() {SelectionManager::GetInstance().CreateDistrictPressed(DistrictMilitaryTent::DISTRICT_TYPE); }, nullptr, state);
 
     currentY += buttonHeight + buffer;
     currentX += buttonWidth + buffer;
@@ -119,7 +125,7 @@ ConstructDistrictPopUp::~ConstructDistrictPopUp()
 
 bool ConstructDistrictPopUp::handleEvent(SDL_Event & e)
 {
-    for (ButtonText button : m_allButtons)
+    for (ButtonText& button : m_allButtons)
     {
         if (button.IsUnpressed() && button.IsInside(e.button.x, e.button.y))
         {

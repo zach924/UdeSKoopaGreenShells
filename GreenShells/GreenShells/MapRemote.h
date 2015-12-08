@@ -24,6 +24,7 @@ public:
     virtual bool UpgradeDistrict(Position pos, int owner);
     virtual bool HealUnit(Position pos, int owner);
     virtual bool RepairDistrict(Position pos, int owner);
+    virtual void RemoveFogOfWarForPlayer(int playerID);
 
     static MapRemote* Deserialize(boost::property_tree::ptree mapNode);
 };

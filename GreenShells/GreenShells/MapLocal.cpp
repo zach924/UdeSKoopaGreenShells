@@ -108,6 +108,17 @@ std::vector<Position> MapLocal::DiscoverArea(Position pos, int range, int player
     return discovered;
 }
 
+void MapLocal::RemoveFogOfWarForPlayer(int playerID)
+{
+    for (std::vector<TileBase*>& aRow : m_tiles)
+    {
+        for (TileBase* tile : aRow)
+        {
+            tile->PlayerDiscover(playerID);
+        }
+    }
+}
+
 std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
@@ -412,7 +423,7 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool up
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddAttackMultiplier(DistrictMilitaryTent::ATTACK_MULTIPLIER);
         break;
     case DistrictFishery::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFishery(owner) };

@@ -44,6 +44,9 @@ public:
     virtual void RespondAllianceProposition(int otherPlayerId, int currentTurn, bool answer);
     virtual void GoToAlliance(int otherPlayerId, int currentTurn);
     virtual void GoToWar(int otherPlayerId, int currentTurn);
+
+    virtual void AddAttackMultiplier(double multiplier);
+    virtual void RemoveAttackMultiplier(double multiplier);
     static std::shared_ptr<PlayerRemote> Deserialize(boost::property_tree::ptree playerNode);
   };
 

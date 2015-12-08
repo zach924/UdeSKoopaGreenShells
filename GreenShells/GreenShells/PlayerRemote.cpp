@@ -40,6 +40,7 @@ std::shared_ptr<Player> PlayerRemote::Clone()
     player->m_foodMultiplier = m_foodMultiplier;
     player->m_scienceMultiplier = m_scienceMultiplier;
     player->m_weaponMultiplier = m_weaponMultiplier;
+    player->m_attackMultiplier = m_attackMultiplier;
     player->m_utilitySkillTree = m_utilitySkillTree;
     player->m_armySkillTree = m_armySkillTree;
     player->m_empireSkillTree = m_empireSkillTree;
@@ -159,6 +160,16 @@ void PlayerRemote::RemoveCityCenter(Position pos)
 }
 
 void PlayerRemote::SetIsDisconnected(bool value)
+{
+    assert(false && "Don't use this with player remote");
+}
+
+void PlayerRemote::AddAttackMultiplier(double multiplier)
+{
+    assert(false && "Don't use this with player remote");
+}
+
+void PlayerRemote::RemoveAttackMultiplier(double multiplier)
 {
     assert(false && "Don't use this with player remote");
 }
@@ -399,6 +410,7 @@ std::shared_ptr<PlayerRemote> PlayerRemote::Deserialize(boost::property_tree::pt
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
+    player->m_attackMultiplier = playerNode.get<double>("<xmlattr>.AM");
     player->m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
     player->m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
     player->m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");

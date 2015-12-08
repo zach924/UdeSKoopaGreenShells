@@ -303,6 +303,11 @@ bool MapRemote::RepairDistrict(Position pos, int owner)
     return SendData(ss.str());
 }
 
+void MapRemote::RemoveFogOfWarForPlayer(int playerID)
+{
+    assert(false && "Remove FOW should not be used on a remote Map");
+}
+
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)
 {
     MapRemote* map = new MapRemote();

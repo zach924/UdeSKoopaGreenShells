@@ -9,6 +9,7 @@ public:
     Map* Clone();
 
     std::vector<Position> DiscoverArea(Position pos, int range, int playerId);
+    void RemoveFogOfWarForPlayer(int playerID);
 
     virtual std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
     virtual std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
