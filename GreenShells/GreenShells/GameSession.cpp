@@ -87,7 +87,7 @@ bool GameSession::ConnectToServer(char* playerName)
 void GameSession::Save(std::string fileName)
 {
     std::ofstream fileStream;
-    fileName.insert(0, "SavedFile\\");
+    fileName.insert(0, "Saves\\");
     fileName += ".xml";
     fileStream.open(fileName);
 

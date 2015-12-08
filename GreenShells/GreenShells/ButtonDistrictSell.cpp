@@ -20,7 +20,7 @@ void ButtonDistrictSell::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\Sell_text.bmp", rend);
+        m_textTexture.LoadFromFile("Resources\\Sprite\\Button\\Sell_text.bmp", rend);
     }
     catch (std::exception e)
     {

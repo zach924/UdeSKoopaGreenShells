@@ -191,8 +191,8 @@ void GameWindow::CreateButtons()
 
 void GameWindow::LoadLocalTextures()
 {
-    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 20);
-    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
+    m_ressourcesFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 20);
+    m_infoFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     assert(m_ressourcesFont != NULL && TTF_GetError());
     assert(m_infoFont != NULL && TTF_GetError());
 
@@ -206,15 +206,15 @@ void GameWindow::LoadLocalTextures()
     {
         // Do not remove the renderer from this call otherwise the Load from file will call
         // GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
-        m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
+        m_foodTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
 
-        m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
+        m_weaponTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
 
-        m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
+        m_scienceTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
 
-        m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
+        m_overlayTexture->LoadFromFile("Resources\\Sprite\\overlay.bmp", m_renderer);
 
-        m_selectdOverlayTexture->LoadFromFile("..\\Sprite\\selectedOverlay.bmp", m_renderer);
+        m_selectdOverlayTexture->LoadFromFile("Resources\\Sprite\\selectedOverlay.bmp", m_renderer);
     }
     catch (std::exception e)
     {

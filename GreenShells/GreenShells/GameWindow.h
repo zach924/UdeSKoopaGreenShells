@@ -67,10 +67,10 @@ struct ScreenResolution
         , FULLSCREEN(fullScreen)
     {};
     ScreenResolution& ScreenResolution::operator =(const ScreenResolution& other)
-    {  
+    {
         MAX_WIDTH = other.MAX_WIDTH;
         MAX_HEIGHT = other.MAX_HEIGHT;
-        MAP_WIDTH =other.MAP_WIDTH;
+        MAP_WIDTH = other.MAP_WIDTH;
         MAP_HEIGHT = other.MAP_HEIGHT;
         SELECTED_UNIT_HEIGHT = other.SELECTED_UNIT_HEIGHT;
         SELECTED_DISTRICT_HEIGHT = other.SELECTED_DISTRICT_HEIGHT;
@@ -140,11 +140,11 @@ private:
     const Color PLAYER_BORDER_COLORS[8] =
     {
         Color{ 255,180,180 },
-        Color{ 205,205,000 },
-        Color{ 102,255,102 },
-        Color{ 102,255,255 },
+        Color{ 215,215,115 },
+        Color{ 150,255,150 },
+        Color{ 050,255,255 },
         Color{ 180,180,255 },
-        Color{ 255,180,255 },
+        Color{ 255,102,255 },
         Color{ 192,192,192 },
         Color{ 255,180,102 }
     };
@@ -153,7 +153,7 @@ private:
     const Color MAP_FOW = { 0,0,0 };
     const Color MAP_NOVISIBILITY = { 155,155,155 };
     const Color EMPTY_COLOR = { 255,255,255 };
-    const Color MINIMAP_CITY = {155, 155, 155};
+    const Color MINIMAP_CITY = { 155, 155, 155 };
 
     GameWindow(ScreenResolution = RES_1920_1080_FullScreen);
     ~GameWindow();

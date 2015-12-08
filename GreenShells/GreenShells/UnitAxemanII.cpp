@@ -26,7 +26,7 @@ void UnitAxemanII::LoadTexture()
 {
     try
     {
-        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\axe2.bmp");
+        m_unitTexture.LoadFromFile("Resources\\Sprite\\Units\\64x64\\axe2.bmp");
     }
     catch (std::exception e)
     {

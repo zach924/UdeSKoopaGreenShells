@@ -30,8 +30,8 @@ void Button::LoadButtonTextures(SDL_Renderer* rend)
 {
     try
     {
-        m_pressedButton.LoadFromFile("..\\Sprite\\Button\\button_pressed.bmp", rend);
-        m_unpressedButton.LoadFromFile("..\\Sprite\\Button\\button_unpressed.bmp", rend);
+        m_pressedButton.LoadFromFile("Resources\\Sprite\\Button\\button_pressed.bmp", rend);
+        m_unpressedButton.LoadFromFile("Resources\\Sprite\\Button\\button_unpressed.bmp", rend);
     }
     catch (std::exception e)
     {

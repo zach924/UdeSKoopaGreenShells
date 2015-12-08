@@ -57,7 +57,7 @@ public:
         {
             try
             {
-                m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+                m_boatTexture.LoadFromFile("Resources\\Sprite\\Units\\64x64\\boat.bmp");
             }
             catch (std::exception e)
             {
@@ -81,7 +81,7 @@ private:
 
         try
         {
-            m_boatTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\boat.bmp");
+            m_boatTexture.LoadFromFile("Resources\\Sprite\\Units\\64x64\\boat.bmp");
         }
         catch (std::exception e)
         {

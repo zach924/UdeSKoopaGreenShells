@@ -26,7 +26,7 @@ void UnitArcherI::LoadTexture()
 {
     try
     {
-        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\bow.bmp");
+        m_unitTexture.LoadFromFile("Resources\\Sprite\\Units\\64x64\\bow.bmp");
     }
     catch (std::exception e)
     {

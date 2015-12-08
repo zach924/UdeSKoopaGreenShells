@@ -19,7 +19,7 @@ void DistrictMonastery::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\monastery.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\monastery.bmp");
     }
     catch (std::exception e)
     {

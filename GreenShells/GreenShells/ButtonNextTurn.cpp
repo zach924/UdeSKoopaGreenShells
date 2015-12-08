@@ -27,7 +27,7 @@ void ButtonNextTurn::LoadTextTexture(SDL_Renderer * rend)
 {
     try
     {
-        TTF_Font* font = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 30);
+        TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 30);
         m_textTexture.CreateFromText("Next Turn", font);
         m_waitingTexture.CreateFromText("Waiting for players");
         TTF_CloseFont(font);

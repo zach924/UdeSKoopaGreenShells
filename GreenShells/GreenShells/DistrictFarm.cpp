@@ -19,7 +19,7 @@ void DistrictFarm::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\farm.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\farm.bmp");
     }
     catch (std::exception e)
     {
