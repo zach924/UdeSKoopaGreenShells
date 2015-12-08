@@ -10,6 +10,7 @@
 
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
+#include <boost\filesystem.hpp>
 #include <iostream>
 #include <fstream>
 #include <exception>
@@ -86,12 +87,27 @@ bool GameSession::ConnectToServer(char* playerName)
 
 void GameSession::Save(std::string fileName)
 {
+    boost::filesystem::path saveDir("Saves");
+   
+    try
+    {
+        boost::filesystem::create_directory(saveDir);
+    }
+    catch (exception e)
+    {
+        std::cout << "Can't create the directory for saved file." << endl;
+        std::cout << e.what() << std::endl;
+    }
+
     std::ofstream fileStream;
     fileName.insert(0, "Saves\\");
     fileName += ".xml";
     fileStream.open(fileName);
 
-    boost::property_tree::write_xml(fileStream, m_worldState.Serialize());
+    if (fileStream.good())
+    {
+        boost::property_tree::write_xml(fileStream, m_worldState.Serialize());
+    }
 
     fileStream.close();
 }
