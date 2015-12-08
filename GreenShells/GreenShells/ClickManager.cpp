@@ -35,7 +35,6 @@ const std::vector<Button*>& ClickManager::GetButtons()
 
 void ClickManager::ManageMapClick(const Position& position)
 {
-    //std::cout << "Map clicked at pos Column: " << position.Column << " Row: " << position.Row << std::endl;
     SelectionManager::GetInstance().HandleSelection(position);
 }
 

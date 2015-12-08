@@ -233,7 +233,7 @@ void PlayerLocal::RemoveCityCenter(Position pos)
 
 void PlayerLocal::SetIsDisconnected(bool value)
 {
-    m_isDisconnected = true;
+    m_isDisconnected = value;
 }
 
 void PlayerLocal::UnlockSkill(int turn, Skills skill)

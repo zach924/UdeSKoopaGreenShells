@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
+#include <set>
 
 #include "RPCDispatcher.h"
 #include "WorldState.h"
@@ -29,6 +30,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
 
 std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicOnePositionStruct* data)
 {
+    std::set<Position> posToReplicate;
     std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
@@ -45,10 +47,10 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
         m_worldState->GetMap()->RepairDistrict(data->m_position, data->m_requestingPlayerID);
         break;
     case RPCClassMethodType::Map_UpgradeDistrict:
-        m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
+        posToReplicate = m_worldState->GetMap()->UpgradeDistrict(data->m_position, data->m_requestingPlayerID);
         break;
     case RPCClassMethodType::Map_UpgradeUnit:
-        m_worldState->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
+        posToReplicate = m_worldState->UpgradeUnit(data->m_position, data->m_requestingPlayerID);
         break;
     default:
         assert(false && "You must add your code here");
@@ -56,6 +58,12 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     {
         std::stringstream ss;
         boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_position)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
+    for (auto pos : posToReplicate)
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(pos)->SerializeOnlyTile());
         toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
     }
     return toReplicate;
@@ -74,7 +82,7 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
 
 std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicTwoPositionsAndCostStruct * data)
 {
-    std::vector<Position> posToReplicate;
+    std::set<Position> posToReplicate;
     std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
@@ -109,14 +117,15 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
 
 std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(RPCBasicActorCreationStruct * data)
 {
+    std::set<Position> posToReplicate;
     std::vector< std::pair<ReplicationType, std::string> > toReplicate{};
     switch (data->m_RPCClassMethod)
     {
     case RPCClassMethodType::Map_CreateDistrict:
-        m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
+        posToReplicate = m_worldState->GetMap()->CreateDistrict(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     case RPCClassMethodType::Map_CreateUnit:
-        m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
+        posToReplicate = m_worldState->GetMap()->CreateUnit(data->m_actorType, data->m_positionToCreate, data->m_requestingPlayerID, false);
         break;
     default:
         assert(false && "You must add your code here");
@@ -124,6 +133,13 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     std::stringstream ss;
     boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->SerializeOnlyTile());
     toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+
+    for (auto pos : posToReplicate)
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(pos)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
     return toReplicate;
 }
 
@@ -255,7 +271,6 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     }
     else
     {
-        std::cout << "Refused an event because it's on the previous turn." << std::endl << "Current turn : " << m_worldState->GetCurrentTurn() << " Event turn : " << event.data->m_turn << std::endl;
     }
     return std::vector< std::pair<ReplicationType, std::string> > {};
 }

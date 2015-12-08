@@ -240,7 +240,6 @@ void GameWindow::ShowWindow()
             {
                 if (e.button.button == SDL_BUTTON_LEFT)
                 {
-                    std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
                     if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
                     {
                         if (IsClickInMap(e.button.x, e.button.y))

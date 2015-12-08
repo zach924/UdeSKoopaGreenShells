@@ -176,7 +176,6 @@ void ClientConnection::ReadSocket()
             }
 
             m_queue->push(newEvent);
-            std::cout << "Received an RPCEvent" << std::endl;
         }
     }
     catch (std::exception)

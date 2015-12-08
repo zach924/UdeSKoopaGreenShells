@@ -75,6 +75,11 @@ bool GameSession::ConnectToServer(char* playerName)
 
     PlayerInfoStruct* data = new PlayerInfoStruct();
     RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(PlayerInfoStruct)));
+    if (data->playerID == -1)
+    {
+        delete data;
+        return false;
+    }
     m_currentPlayerID = data->playerID;
     delete data;
     //First Replication
