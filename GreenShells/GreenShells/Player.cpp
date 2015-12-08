@@ -49,14 +49,15 @@ Player::Player()
     m_cityCenterLocations(),
     m_unitCount(0),
     m_food(120),
-    m_science(0),
-    m_weapon(0),
+    m_science(1000),
+    m_weapon(1000),
     m_foodPerTurn(0),
     m_sciencePerTurn(0),
     m_weaponPerTurn(0),
     m_foodMultiplier(1),
     m_scienceMultiplier(1),
     m_weaponMultiplier(1),
+    m_attackMultiplier(1),
     m_isDisconnected(false),
     m_armySkillTree(),
     m_empireSkillTree(),
@@ -185,6 +186,7 @@ boost::property_tree::ptree Player::Serialize()
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
+    playerNode.put("<xmlattr>.AM", m_attackMultiplier);
     playerNode.put("<xmlattr>.IA", m_isAlive);
     playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
     playerNode.put("<xmlattr>.ID", m_isDisconnected);
@@ -231,6 +233,7 @@ boost::property_tree::ptree Player::SerializeOnlyPlayer()
     playerNode.put("<xmlattr>.FM", m_foodMultiplier);
     playerNode.put("<xmlattr>.SM", m_scienceMultiplier);
     playerNode.put("<xmlattr>.WM", m_weaponMultiplier);
+    playerNode.put("<xmlattr>.AM", m_attackMultiplier);
     playerNode.put("<xmlattr>.IA", m_isAlive);
     playerNode.put("<xmlattr>.IR", m_isReadyForNewTurn);
     playerNode.put("<xmlattr>.ID", m_isDisconnected);
@@ -296,6 +299,11 @@ ArmySkillTree Player::GetArmySkillTree()
 EmpireSkillTree Player::GetEmpireSkillTree()
 {
     return m_empireSkillTree;
+}
+
+double Player::GetAttackMultiplier()
+{
+    return m_attackMultiplier;
 }
 
 bool Player::HasEnoughWeapons(unsigned int WeaponCost)

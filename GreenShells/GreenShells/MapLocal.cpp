@@ -91,9 +91,9 @@ Map* MapLocal::Clone()
     return map;
 }
 
-std::vector<Position> MapLocal::DiscoverArea(Position pos, int range, int playerId)
+std::set<Position> MapLocal::DiscoverArea(Position pos, int range, int playerId)
 {
-    std::vector<Position> discovered;
+    std::set<Position> discovered;
     auto positionToDiscover = GetArea(pos, range, NO_FILTER, true);
 
     for (const std::pair<Position, int>& pos : positionToDiscover)
@@ -102,27 +102,37 @@ std::vector<Position> MapLocal::DiscoverArea(Position pos, int range, int player
         if (!tile->IsDiscovered(playerId))
         {
             tile->PlayerDiscover(playerId);
-            discovered.push_back(pos.first);
+            discovered.insert(pos.first);
         }
     }
     return discovered;
 }
 
-std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+void MapLocal::RemoveFogOfWarForPlayer(int playerID)
 {
-    std::cout << "Received a move request by " << ownerID << " from " << unitLocation << " to " << newLocation << std::endl;
-    auto firstTile = GetTile(unitLocation);
+    for (std::vector<TileBase*>& aRow : m_tiles)
+    {
+        for (TileBase* tile : aRow)
+        {
+            tile->PlayerDiscover(playerID);
+        }
+    }
+}
 
+std::set<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+{
+    auto firstTile = GetTile(unitLocation);
+    std::set<Position> tilesToReplicate{};
     //No unit to select
     if (!firstTile->GetUnit())
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     //There is a unit be he does not belong to the requester
     if (firstTile->GetUnit()->GetOwnerID() != ownerID)
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     auto secondTile = GetTile(newLocation);
@@ -131,12 +141,12 @@ std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Pos
 
     if (secondTile->GetTypeAsInt() == TileWater::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().Embark)
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     if (secondTile->GetTypeAsInt() == TileMountain::TILE_TYPE && !currentPlayer->GetUtilitySkillTree().MountainWalking)
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     //New Location is emtpy or there is a district and it belongs to the player. Move him
@@ -152,17 +162,17 @@ std::vector<Position> MapLocal::MoveUnit(int ownerID, Position unitLocation, Pos
         auto utilitySK = player->GetUtilitySkillTree();
         int viewModifier = utilitySK.VisionUpgrade ? 1 : 0;
 
-        return DiscoverArea(newLocation, tempUnit->GetViewRange() + viewModifier, ownerID);
+        auto unitView = DiscoverArea(newLocation, tempUnit->GetViewRange() + viewModifier, ownerID);
+        tilesToReplicate.insert(unitView.begin(), unitView.end());
     }
 
     //Other cases are all refused
-    return std::vector<Position>{};
+    return tilesToReplicate;
 }
 
-std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::set<Position> MapLocal::Attack(int attackerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
-    std::cout << "Received an attack request by " << attackerID << " from " << attackerPosition << " to " << targetPosition << std::endl;
-
+    std::set<Position> tilesToReplicate;
     auto targetTile = GetTile(targetPosition);
     auto attackerTile = GetTile(attackerPosition);
     auto attacker = attackerTile->GetUnit();
@@ -170,19 +180,19 @@ std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition
     // No unit on the Attacker tile
     if (!attacker)
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     // Unit doesn't belong to the requester
     if (attacker->GetOwnerID() != attackerID)
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     // Nothing to attack on target Tile
     if (targetTile->IsFree())
     {
-        return std::vector<Position>{};
+        return tilesToReplicate;
     }
 
     auto unitTargeted = targetTile->GetUnit();
@@ -237,8 +247,11 @@ std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition
                             ServerSession::GetInstance().GetWorldState()->GetPlayer(attackerID)->AddFoodMultiplier(DistrictUniversity::SCIENCE_BONUS);
                         }
                         district->ChangeOwner(attackerID);
+                        auto districtView = DiscoverArea(tilePos, district->GetViewRange(), attackerID);
+                        tilesToReplicate.insert(districtView.begin(), districtView.end());
                     }
                     tile->SetPlayerOwnerId(attackerID);
+                    tilesToReplicate.insert(tilePos);
                 }
 
                 //Change the owner of the city center
@@ -268,7 +281,8 @@ std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition
         // Attacker is not dead, the tile is empty and attacker can move after combat (is melee?)
         if (!notification.AttackerIsDead && notification.CanMove && targetTile->IsFree())
         {
-            return MoveUnit(attackerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
+            auto tiles = MoveUnit(attackerID, attackerPosition, targetPosition, attacker->GetActionPointsRemaining());
+            tilesToReplicate.insert(tiles.begin(), tiles.end());
         }
         else
         {
@@ -276,14 +290,16 @@ std::vector<Position> MapLocal::Attack(int attackerID, Position attackerPosition
         }
     }
 
-    return std::vector<Position>{};
+    return tilesToReplicate;
 }
 
-bool MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
+
+std::set<Position> MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
 {
+    std::set<Position> tilesToReplicate;
     if (GetTile(pos)->GetUnit() != nullptr)
     {
-        return false;
+        return tilesToReplicate;
     }
 
     auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
@@ -335,26 +351,29 @@ bool MapLocal::CreateUnit(int unitType, Position pos, int owner, bool upgrade = 
         unit = std::shared_ptr<UnitBase>{ new UnitMaceII(owner, player->GetUtilitySkillTree().MovementUpgrade) };
         break;
     default:
-        return false;
+        return tilesToReplicate;
         break;
     }
 
     if (unit)
     {
         GetTile(pos)->SetUnit(unit);
+        unit->UseActionPoints(unit->GetActionPointsRemaining());
         player->ConsumeWeapon(unit->GetWeaponCost() / (upgrade ? 2 : 1));
         player->ConsumeFood(unit->GetFoodCost() / (upgrade ? 2 : 1));
 
-        DiscoverArea(pos, unit->GetViewRange(), owner);
+        auto tiles = DiscoverArea(pos, unit->GetViewRange(), owner);
+        tilesToReplicate.insert(tiles.begin(), tiles.end());
     }
-    return true;
+    return tilesToReplicate;
 }
 
-bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
+std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
 {
+    std::set<Position> tilesToReplicate;
     if (GetTile(pos)->GetDistrict() != nullptr)
     {
-        return false;
+        return tilesToReplicate;
     }
 
     auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
@@ -412,14 +431,14 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool up
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddWeaponMultiplier(DistrictMilitaryTent::WEAPON_BONUS);
+        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddAttackMultiplier(DistrictMilitaryTent::ATTACK_MULTIPLIER);
         break;
     case DistrictFishery::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFishery(owner) };
         break;
     default:
         assert(false && "Add your new district here");
-        return false;
+        return tilesToReplicate;
         break;
     }
 
@@ -427,9 +446,10 @@ bool MapLocal::CreateDistrict(int districtType, Position pos, int owner, bool up
     {
         GetTile(pos)->SetDistrict(district);
         player->ConsumeFood(district->GetFoodCost() / (upgrade ? 2 : 1));
-        DiscoverArea(pos, district->GetViewRange(), owner);
+        auto tiles = DiscoverArea(pos, district->GetViewRange(), owner);
+        tilesToReplicate.insert(tiles.begin(), tiles.end());
     }
-    return true;
+    return tilesToReplicate;
 }
 
 bool MapLocal::SellDistrict(Position pos, int owner)
@@ -465,13 +485,14 @@ bool MapLocal::SellUnit(Position pos, int owner)
     return true;
 }
 
-bool MapLocal::UpgradeUnit(Position pos, int owner)
+std::set<Position> MapLocal::UpgradeUnit(Position pos, int owner)
 {
+    std::set<Position> tilesToReplicate;
     TileBase* tile = GetTile(pos);
     auto unit = tile->GetUnit();
     if (!unit || unit->GetOwnerID() != owner)
     {
-        return false;
+        return tilesToReplicate;
     }
 
     auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
@@ -484,25 +505,28 @@ bool MapLocal::UpgradeUnit(Position pos, int owner)
         if (unit->GetTypeAsInt() == UnitSettler::UNIT_TYPE || unit->GetTypeAsInt() == UnitBuilder::UNIT_TYPE)
         {
             GetTile(pos)->SetUnit(nullptr);
-            return CreateDistrict(unit->GetUpgradeType(), pos, owner, true);
+            auto tiles = CreateDistrict(unit->GetUpgradeType(), pos, owner, true);
+            tilesToReplicate.insert(tiles.begin(), tiles.end());
         }
         else
         {
             GetTile(pos)->SetUnit(nullptr);
-            return CreateUnit(unit->GetUpgradeType(), pos, owner, true);
+            auto tiles = CreateUnit(unit->GetUpgradeType(), pos, owner, true);
+            tilesToReplicate.insert(tiles.begin(), tiles.end());
         }
     }
 
-    return false;
+    return tilesToReplicate;
 }
 
-bool MapLocal::UpgradeDistrict(Position pos, int owner)
+std::set<Position> MapLocal::UpgradeDistrict(Position pos, int owner)
 {
+    std::set<Position> tilesToReplicate;
     TileBase* tile = GetTile(pos);
     auto district = tile->GetDistrict();
     if (!district || district->GetOwnerID() != owner)
     {
-        return false;
+        return tilesToReplicate;
     }
 
     auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
@@ -510,12 +534,11 @@ bool MapLocal::UpgradeDistrict(Position pos, int owner)
     if (district->CanUpgrade())
     {
         GetTile(pos)->SetDistrict(nullptr);
-        CreateDistrict(district->GetUpgradeType(), pos, owner, true);
-
-        return true;
+        auto tiles = CreateDistrict(district->GetUpgradeType(), pos, owner, true);
+        tilesToReplicate.insert(tiles.begin(), tiles.end());
     }
 
-    return false;
+    return tilesToReplicate;
 }
 
 bool MapLocal::HealUnit(Position pos, int owner)

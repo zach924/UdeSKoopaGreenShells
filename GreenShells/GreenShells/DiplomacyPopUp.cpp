@@ -16,8 +16,8 @@ DiplomacyPopUp::DiplomacyPopUp()
     , m_buttonFont()
     , m_buttonClose()
 {
-    m_textFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Regular.ttf", m_fontSize);
-    m_buttonFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
+    m_textFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Regular.ttf", m_fontSize);
+    m_buttonFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     int buttonX = (WINDOW_WIDTH / 2) - BUTTON_WIDTH / 2;
     int buttonY = WINDOW_HEIGHT - (BUTTON_HEIGHT * 2);
     m_buttonClose = new ButtonText(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, "Close", []() {}, m_buttonFont);
@@ -100,6 +100,7 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
         playerNameTexture.CreateFromText(playerName, m_textFont, m_rend);
         SDL_Rect playerNameRect{ horizontalPosition, verticalPosition, playerNameTexture.GetWidth(), playerNameTexture.GetHeight() };
         SDL_RenderCopy(m_rend, playerNameTexture.GetTexture(), NULL, &playerNameRect);
+        std::vector<ButtonText> newButtons;
 
         horizontalPosition += columnSpacer;
 
@@ -113,7 +114,7 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
         case RelationStatus::War:
             status = WAR_TEXT;
             buttonPos = horizontalPosition + columnSpacer;
-            m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Offer Peace", 
+            newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Offer Peace",
                 [otherPlayerId]() {
                 int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                 GameSession::GetInstance().GetCurrentPlayerCopy()->SendPeaceProposition(otherPlayerId, turn); 
@@ -123,14 +124,14 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
             status = PEACE_TEXT;
 
             buttonPos = horizontalPosition + columnSpacer; //we can't change the horizontal position because we need to draw the status first
-            m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Offer Alliance",
+            newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Offer Alliance",
                 [otherPlayerId]() {
                 int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                 GameSession::GetInstance().GetCurrentPlayerCopy()->SendAllianceProposition(otherPlayerId, turn);
             }, m_buttonFont));
 
             buttonPos += buttonSpacer;
-            m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Declare War",
+            newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Declare War",
                 [otherPlayerId]() {
                 int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                 GameSession::GetInstance().GetCurrentPlayerCopy()->GoToWar(otherPlayerId, turn); 
@@ -145,14 +146,14 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
             buttonPos = horizontalPosition + columnSpacer; //we can't change the horizontal position because we need to draw the status first
             if (relation->second.GetMustAnswerPlayerId() != otherPlayerId)
             {
-                m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Accept Peace",
+                newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Accept Peace",
                     [otherPlayerId]() {
                     int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                     GameSession::GetInstance().GetCurrentPlayerCopy()->RespondPeaceProposition(otherPlayerId, turn, true); 
                 }, m_buttonFont));
 
                 buttonPos += buttonSpacer;
-                m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Refuse Peace",
+                newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Refuse Peace",
                     [otherPlayerId]() {
                     int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                     GameSession::GetInstance().GetCurrentPlayerCopy()->RespondPeaceProposition(otherPlayerId, turn, false); 
@@ -171,14 +172,14 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
             buttonPos = horizontalPosition + columnSpacer;//we can't change the horizontal position because we need to draw the status first
             if (relation->second.GetMustAnswerPlayerId() != otherPlayerId)
             {
-                m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Accept Alliance",
+                newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Accept Alliance",
                     [otherPlayerId]() {
                     int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                     GameSession::GetInstance().GetCurrentPlayerCopy()->RespondAllianceProposition(otherPlayerId, turn, true); 
                 }, m_buttonFont));
 
                 buttonPos += buttonSpacer;
-                m_buttons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Refuse Alliance",
+                newButtons.emplace_back(ButtonText(buttonPos, verticalPosition, BUTTON_WIDTH, BUTTON_HEIGHT, "Refuse Alliance",
                     [otherPlayerId]() {
                     int turn = GameSession::GetInstance().GetWorldState()->GetCurrentTurn();
                     GameSession::GetInstance().GetCurrentPlayerCopy()->RespondAllianceProposition(otherPlayerId, turn, false); 
@@ -198,7 +199,7 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
         SDL_RenderCopy(m_rend, statusTexture.GetTexture(), NULL, &statusRect);
         horizontalPosition += horizontalPosition;
 
-        for (auto button : m_buttons)
+        for (auto button : newButtons)
         {
             Texture* buttonTexture = button.GetButtonTexture(m_rend);
             int buttonWidth = button.GetWidth();
@@ -215,7 +216,7 @@ void DiplomacyPopUp::ShowWindow(SDL_Renderer* rend)
             SDL_RenderCopy(m_rend, textTexture->GetTexture(), NULL, &textRect);
             horizontalPosition += buttonSpacer;
         }
-
+        std::move(newButtons.begin(), newButtons.end(), std::back_inserter(m_buttons));
         verticalPosition += verticalSpacer;
         SDL_SetRenderDrawColor(m_rend, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderDrawLine(m_rend, 0, verticalPosition - 3, WINDOW_WIDTH, verticalPosition - 3);

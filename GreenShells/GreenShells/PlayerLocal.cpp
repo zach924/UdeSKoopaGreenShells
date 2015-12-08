@@ -40,6 +40,7 @@ std::shared_ptr<Player> PlayerLocal::Clone()
     player->m_foodMultiplier = m_foodMultiplier;
     player->m_scienceMultiplier = m_scienceMultiplier;
     player->m_weaponMultiplier = m_weaponMultiplier;
+    player->m_attackMultiplier = m_attackMultiplier;
     player->m_utilitySkillTree = m_utilitySkillTree;
     player->m_armySkillTree = m_armySkillTree;
     player->m_empireSkillTree = m_empireSkillTree;
@@ -202,6 +203,16 @@ void PlayerLocal::RemoveWeaponMultiplier(double multiplier)
     m_weaponMultiplier -= multiplier;
 }
 
+void PlayerLocal::AddAttackMultiplier(double multiplier)
+{
+    m_attackMultiplier += multiplier;
+}
+
+void PlayerLocal::RemoveAttackMultiplier(double multiplier)
+{
+    m_attackMultiplier -= multiplier;
+}
+
 void PlayerLocal::AddCityCenter(Position pos, int turn)
 {
     m_cityCenterLocations.insert(map<Position, int>::value_type(pos, turn));
@@ -222,7 +233,7 @@ void PlayerLocal::RemoveCityCenter(Position pos)
 
 void PlayerLocal::SetIsDisconnected(bool value)
 {
-    m_isDisconnected = true;
+    m_isDisconnected = value;
 }
 
 void PlayerLocal::UnlockSkill(int turn, Skills skill)
@@ -305,7 +316,8 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER7;
             m_utilitySkillTree.NoFogOfWar = true;
-            //TODO Set discovered for all tiles of the map
+            ServerSession::GetInstance().GetWorldState()->GetMap()->RemoveFogOfWarForPlayer(m_playerID);
+
         }
         break;
     case Militia:
@@ -313,7 +325,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER2;
             m_armySkillTree.Militia = true;
-            //TODO when building districts is possible
         }
         break;
     case ArcherT1:
@@ -433,7 +444,6 @@ void PlayerLocal::UnlockSkill(int turn, Skills skill)
         {
             m_science -= SKILL_COST_TIER3;
             m_empireSkillTree.Fishery = true;
-            //TODO when building districts is possible
         }
         break;
     case Stable:
@@ -600,6 +610,7 @@ std::shared_ptr<PlayerLocal> PlayerLocal::Deserialize(boost::property_tree::ptre
     player->m_foodMultiplier = playerNode.get<double>("<xmlattr>.FM");
     player->m_scienceMultiplier = playerNode.get<double>("<xmlattr>.SM");
     player->m_weaponMultiplier = playerNode.get<double>("<xmlattr>.WM");
+    player->m_attackMultiplier = playerNode.get<double>("<xmlattr>.AM");
     player->m_isAlive = playerNode.get<bool>("<xmlattr>.IA");
     player->m_isReadyForNewTurn = playerNode.get<bool>("<xmlattr>.IR");
     player->m_isDisconnected = playerNode.get<bool>("<xmlattr>.ID");

@@ -68,7 +68,7 @@ bool Texture::CreateFromText(std::string message, TTF_Font * font, SDL_Renderer 
     SDL_Surface* surface = nullptr;
     if (font == nullptr)
     {
-        TTF_Font* tempFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 20);
+        TTF_Font* tempFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-BlackItalic.ttf", 20);
         surface = TTF_RenderText_Blended(const_cast<TTF_Font*>(tempFont), message.c_str(), Color);
         TTF_CloseFont(font);
     }

@@ -26,7 +26,7 @@ void UnitCannon::LoadTexture()
 {
     try
     {
-        m_unitTexture.LoadFromFile("..\\Sprite\\Units\\64x64\\cannon.bmp");
+        m_unitTexture.LoadFromFile("Resources\\Sprite\\Units\\64x64\\cannon.bmp");
     }
     catch (std::exception e)
     {

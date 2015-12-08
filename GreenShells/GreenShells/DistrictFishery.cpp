@@ -17,7 +17,7 @@ void DistrictFishery::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\fishery.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\fishery.bmp");
     }
     catch (std::exception e)
     {

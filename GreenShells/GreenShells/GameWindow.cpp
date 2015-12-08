@@ -191,8 +191,8 @@ void GameWindow::CreateButtons()
 
 void GameWindow::LoadLocalTextures()
 {
-    m_ressourcesFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 20);
-    m_infoFont = TTF_OpenFont("..\\Fonts\\roboto\\Roboto-Light.ttf", 16);
+    m_ressourcesFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 20);
+    m_infoFont = TTF_OpenFont("Resources\\Fonts\\roboto\\Roboto-Light.ttf", 16);
     assert(m_ressourcesFont != NULL && TTF_GetError());
     assert(m_infoFont != NULL && TTF_GetError());
 
@@ -206,15 +206,15 @@ void GameWindow::LoadLocalTextures()
     {
         // Do not remove the renderer from this call otherwise the Load from file will call
         // GetInstance of game window wich will lead us back here and.... you know the rest INFINITY LOOP
-        m_foodTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
+        m_foodTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\food.bmp", m_renderer);
 
-        m_weaponTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
+        m_weaponTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\weapons.bmp", m_renderer);
 
-        m_scienceTexture->LoadFromFile("..\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
+        m_scienceTexture->LoadFromFile("Resources\\Sprite\\Resources\\64x64\\science.bmp", m_renderer);
 
-        m_overlayTexture->LoadFromFile("..\\Sprite\\overlay.bmp", m_renderer);
+        m_overlayTexture->LoadFromFile("Resources\\Sprite\\overlay.bmp", m_renderer);
 
-        m_selectdOverlayTexture->LoadFromFile("..\\Sprite\\selectedOverlay.bmp", m_renderer);
+        m_selectdOverlayTexture->LoadFromFile("Resources\\Sprite\\selectedOverlay.bmp", m_renderer);
     }
     catch (std::exception e)
     {
@@ -240,7 +240,6 @@ void GameWindow::ShowWindow()
             {
                 if (e.button.button == SDL_BUTTON_LEFT)
                 {
-                    std::cout << "clicked at Column: " << e.button.x << " Row: " << e.button.y << std::endl;
                     if (SDL_GetWindowID(m_window) == e.button.windowID && !IsGameWindowInBackground())
                     {
                         if (IsClickInMap(e.button.x, e.button.y))
@@ -364,48 +363,17 @@ void GameWindow::ShowWindow()
                     break;
                 }
             }
-            /*
-            TODO Remove comment when the speed for scroll is reduced
-
-            else if (e.type == SDL_MOUSEMOTION)
-            {
-                m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
-                    || (e.button.x < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                    || e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
-                    || (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
-            }
-            */
         }
-
-        /*
-        TODO Remove comment when the speed for scroll is reduced
-        //mouse scroll
-        if (m_currentlyScrolling && !IsGameWindowInBackground())
-        {
-            int mouseX = 0;
-            int mouseY = 0;
-            SDL_GetMouseState(&mouseX, &mouseY);
-
-            if (m_currentLeftmostColumn < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
-                m_currentLeftmostColumn++;
-            else if (m_currentLeftmostColumn > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                m_currentLeftmostColumn--;
-
-            if (m_currentLowestRow < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
-                m_currentLowestRow++;
-            else if (m_currentLowestRow > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
-                m_currentLowestRow--;
-        }
-        */
+        
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
+        auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
         //Render UI
         //Render ressources and turns
         {
             SDL_Color textColor = { 255, 255, 255 };
 
-            auto currentPlayer = GameSession::GetInstance().GetCurrentPlayerCopy();
 
             /************
                 FOOD
@@ -544,7 +512,7 @@ void GameWindow::ShowWindow()
                 int yPos = m_CurrentScreenResolution.HUD_HEIGHT + (row * m_CurrentScreenResolution.TILE_SIZE);
                 SDL_Rect renderQuad = { xPos, yPos, tileTexture->GetWidth(), tileTexture->GetHeight() };
 
-                if (!isDiscovered)
+                if (!currentPlayer->GetUtilitySkillTree().NoFogOfWar && !isDiscovered)
                 {
                     tileTexture->SetColor(MAP_FOW);
                 }

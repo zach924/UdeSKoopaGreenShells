@@ -10,7 +10,6 @@ Button::Button(int sectionOffset, int columnIndex, int rowIndex, int buttonHOffs
     , m_pressedButton()
     , m_unpressedButton()
 {
-    std::cout << "Button at : " << m_topLimit << " " << m_botLimit << " and " << m_lefLimit << " " << m_rightLimit << std::endl;
 }
 
 Button::Button(int posX, int posY, int width, int height, ButtonState state)
@@ -30,8 +29,8 @@ void Button::LoadButtonTextures(SDL_Renderer* rend)
 {
     try
     {
-        m_pressedButton.LoadFromFile("..\\Sprite\\Button\\button_pressed.bmp", rend);
-        m_unpressedButton.LoadFromFile("..\\Sprite\\Button\\button_unpressed.bmp", rend);
+        m_pressedButton.LoadFromFile("Resources\\Sprite\\Button\\button_pressed.bmp", rend);
+        m_unpressedButton.LoadFromFile("Resources\\Sprite\\Button\\button_unpressed.bmp", rend);
     }
     catch (std::exception e)
     {

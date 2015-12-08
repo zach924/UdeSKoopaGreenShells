@@ -109,15 +109,25 @@ int WorldState::AddPlayer(std::string playerName)
     {
         if (playerName == player->GetPlayerName())
         {
-            //it's a reconnect
-            std::cout << playerName << " has reconnected!" << endl;
-            player->SetIsDisconnected(false);
-            return player->GetPlayerID();
+            if (player->IsDisconnected())
+            {
+                //it's a reconnect
+                player->SetIsDisconnected(false);
+                return player->GetPlayerID();
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 
+    if (m_players.size() == 8)
+    {
+        return -1;
+    }
+
     int playerID = static_cast<int>(m_players.size());
-    std::cout << playerName << " has joined and his id is " << playerID << endl;
     std::shared_ptr<Player> newPlayer = std::shared_ptr<Player>{ new PlayerLocal() };
     newPlayer->SetPlayerID(playerID);
     newPlayer->SetPlayerName(playerName);
@@ -250,25 +260,25 @@ void WorldState::DeserializeTile(boost::property_tree::ptree tileXml, int player
     }
 }
 
-std::vector<Position> WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+std::set<Position> WorldState::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->MoveUnit(ownerID, unitLocation, newLocation, actionCost);
 }
 
-std::vector<Position> WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::set<Position> WorldState::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->Attack(ownerID, attackerPosition, targetPosition, actionCost);
 }
 
-bool WorldState::CreateUnit(int unitType, Position pos, int owner)
+std::set<Position> WorldState::CreateUnit(int unitType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->CreateUnit(unitType, pos, owner, false);
 }
 
-bool WorldState::CreateDistrict(int districtType, Position pos, int owner)
+std::set<Position> WorldState::CreateDistrict(int districtType, Position pos, int owner)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->CreateDistrict(districtType, pos, owner, false);
@@ -286,13 +296,13 @@ bool WorldState::SellDistrict(Position pos, int ownerId)
     return m_map->SellDistrict(pos, ownerId);
 }
 
-bool WorldState::UpgradeUnit(Position pos, int ownerId)
+std::set<Position> WorldState::UpgradeUnit(Position pos, int ownerId)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->UpgradeUnit(pos, ownerId);
 }
 
-bool WorldState::UpgradeDistrict(Position pos, int ownerId)
+std::set<Position> WorldState::UpgradeDistrict(Position pos, int ownerId)
 {
     lock_guard<recursive_mutex> lock{ m_mutex };
     return m_map->UpgradeDistrict(pos, ownerId);

@@ -118,13 +118,13 @@ AttackNotification UnitBase::ReceiveDamage(int damage)
     }
     m_health -= damage;
 
-    return AttackNotification{ m_attackDamage / 2, (m_health <= 0), false };
+    return AttackNotification{ GetAttackDamage() / 2, (m_health <= 0), false };
 }
 
 AttackNotification UnitBase::Attack(std::shared_ptr<UnitBase> target)
 {
     UseActionPoints(m_actionPointsLeft);
-    AttackNotification targetNotification = target->ReceiveDamage(GetAttackDamage());
+    AttackNotification targetNotification = target->ReceiveDamage(static_cast<int>(GetAttackDamage()  * ServerSession::GetInstance().GetWorldState()->GetPlayerCopy(m_ownerID)->GetAttackMultiplier()));
 
     return targetNotification;
 }

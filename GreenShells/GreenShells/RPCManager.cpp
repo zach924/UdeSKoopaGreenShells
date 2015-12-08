@@ -32,18 +32,33 @@ void RPCManager::StartListening()
                 PlayerInfoStruct playerName;
                 newClient->GetTCPConnection().GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(&playerName), sizeof(PlayerInfoStruct)));
                 newClient->SetPlayerID(ServerSession::GetInstance().AddPlayer(playerName.getPlayerName()));
-                newClient->StartThread();
-                m_clients.push_back(newClient);
 
-                //inform client of his id
-                std::stringstream ss;
-                PlayerInfoStruct data;
-                data.playerID = newClient->GetPlayerID();
-                ss.write(reinterpret_cast<char*>(&data), sizeof(data));
-                newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
+                if (newClient->GetPlayerID() == -1)
+                {
+                    //inform client of his id
+                    std::stringstream ss;
+                    PlayerInfoStruct data;
+                    data.playerID = newClient->GetPlayerID();
+                    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+                    newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
+                    delete newClient;
+                }
+                else
+                {
+                    newClient->StartThread();
+                    m_clients.push_back(newClient);
 
-                //replicate for new client
-                ServerSession::GetInstance().Replicate();
+                    //inform client of his id
+                    std::stringstream ss;
+                    PlayerInfoStruct data;
+                    data.playerID = newClient->GetPlayerID();
+                    ss.write(reinterpret_cast<char*>(&data), sizeof(data));
+                    newClient->GetTCPConnection().GetSocket().send(boost::asio::buffer(ss.str()));
+
+                    //replicate for new client
+                    ServerSession::GetInstance().Replicate();
+                }
+
             }
             catch (std::exception e)
             {
@@ -86,7 +101,6 @@ std::vector<int> RPCManager::GetDisconnectedPlayers()
     {
         if (client->IsSocketClosed())
         {
-            std::cout << "Player " << client->GetPlayerID() << " has disconnected." << std::endl;
             playerIDDisconnected.push_back(client->GetPlayerID());
         }
     }

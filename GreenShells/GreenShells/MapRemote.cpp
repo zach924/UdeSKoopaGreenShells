@@ -106,7 +106,7 @@ Map* MapRemote::Clone()
     return map;
 }
 
-std::vector<Position> MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
+std::set<Position> MapRemote::MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost)
 {
     std::stringstream ss;
 
@@ -124,10 +124,10 @@ std::vector<Position> MapRemote::MoveUnit(int ownerID, Position unitLocation, Po
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
     SendData(ss.str());
-    return std::vector<Position>{};
+    return std::set<Position>{};
 }
 
-std::vector<Position> MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
+std::set<Position> MapRemote::Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost)
 {
     std::stringstream ss;
 
@@ -146,10 +146,10 @@ std::vector<Position> MapRemote::Attack(int ownerID, Position attackerPosition, 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
     SendData(ss.str());
-    return std::vector<Position>{};
+    return std::set<Position>{};
 }
 
-bool MapRemote::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
+std::set<Position> MapRemote::CreateUnit(int unitType, Position pos, int owner, bool upgrade = false)
 {
     std::stringstream ss;
 
@@ -166,10 +166,11 @@ bool MapRemote::CreateUnit(int unitType, Position pos, int owner, bool upgrade =
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::set<Position>{};
 }
 
-bool MapRemote::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
+std::set<Position> MapRemote::CreateDistrict(int districtType, Position pos, int owner, bool upgrade = false)
 {
     std::stringstream ss;
 
@@ -186,7 +187,8 @@ bool MapRemote::CreateDistrict(int districtType, Position pos, int owner, bool u
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::set<Position>{};
 }
 
 bool MapRemote::SellDistrict(Position pos, int owner)
@@ -227,7 +229,7 @@ bool MapRemote::SellUnit(Position pos, int owner)
     return SendData(ss.str());
 }
 
-bool MapRemote::UpgradeUnit(Position pos, int owner)
+std::set<Position> MapRemote::UpgradeUnit(Position pos, int owner)
 {
     std::stringstream ss;
 
@@ -242,11 +244,11 @@ bool MapRemote::UpgradeUnit(Position pos, int owner)
     data.m_position = pos;
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
-
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::set<Position>{};
 }
 
-bool MapRemote::UpgradeDistrict(Position pos, int owner)
+std::set<Position> MapRemote::UpgradeDistrict(Position pos, int owner)
 {
     std::stringstream ss;
 
@@ -262,7 +264,8 @@ bool MapRemote::UpgradeDistrict(Position pos, int owner)
 
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
-    return SendData(ss.str());
+    SendData(ss.str());
+    return std::set<Position>{};
 }
 
 bool MapRemote::HealUnit(Position pos, int owner)
@@ -301,6 +304,11 @@ bool MapRemote::RepairDistrict(Position pos, int owner)
     ss.write(reinterpret_cast<char*>(&data), sizeof(data));
 
     return SendData(ss.str());
+}
+
+void MapRemote::RemoveFogOfWarForPlayer(int playerID)
+{
+    assert(false && "Remove FOW should not be used on a remote Map");
 }
 
 MapRemote* MapRemote::Deserialize(boost::property_tree::ptree mapNode)

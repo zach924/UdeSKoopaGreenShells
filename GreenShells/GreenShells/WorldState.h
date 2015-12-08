@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <set>
 #include <mutex>
 #include <memory>
 #include "Position.h"
@@ -39,14 +40,14 @@ public:
     int AddPlayer(std::string playerName);
     void RemovePlayer(int id);
 
-    std::vector<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
-    std::vector<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
-    bool CreateUnit(int unitType, Position pos, int owner);
-    bool CreateDistrict(int districtType, Position pos, int owner);
+    std::set<Position> MoveUnit(int ownerID, Position unitLocation, Position newLocation, int actionCost);
+    std::set<Position> Attack(int ownerID, Position attackerPosition, Position targetPosition, int actionCost);
+    std::set<Position> CreateUnit(int unitType, Position pos, int owner);
+    std::set<Position> CreateDistrict(int districtType, Position pos, int owner);
     bool SellUnit(Position pos, int ownerId);
     bool SellDistrict(Position pos, int ownerId);
-    bool UpgradeUnit(Position pos, int ownerId);
-    bool UpgradeDistrict(Position pos, int ownerId);
+    std::set<Position> UpgradeUnit(Position pos, int ownerId);
+    std::set<Position> UpgradeDistrict(Position pos, int ownerId);
     bool HealUnit(Position pos, int ownerId);
     bool RepairDistrict(Position pos, int ownerId);
 

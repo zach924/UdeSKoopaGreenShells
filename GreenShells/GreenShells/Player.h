@@ -53,6 +53,8 @@ protected:
     double m_scienceMultiplier;
     double m_weaponMultiplier;
 
+    double m_attackMultiplier;
+
     UtilitySkillTree m_utilitySkillTree;
     ArmySkillTree m_armySkillTree;
     EmpireSkillTree m_empireSkillTree;
@@ -104,6 +106,9 @@ public:
     virtual void RemoveScienceMultiplier(double multiplier) = 0;
     virtual void RemoveWeaponMultiplier(double multiplier) = 0;
 
+    virtual void RemoveAttackMultiplier(double multiplier) = 0;
+    virtual void AddAttackMultiplier(double multiplier) = 0;
+
     virtual void AddCityCenter(Position pos, int turn) = 0;
     virtual void RemoveCityCenter(Position pos) = 0;
     std::map<Position, int> GetCityCenterLocations();
@@ -137,6 +142,9 @@ public:
     virtual ArmySkillTree GetArmySkillTree();
     virtual EmpireSkillTree GetEmpireSkillTree();
 
+    double GetAttackMultiplier();
+
     bool HasEnoughWeapons(unsigned int WeaponCost);
     bool HasEnoughFood(unsigned int FoodCost);
+
 };

@@ -464,19 +464,15 @@ void SelectionManager::HandleSelection(Position pos)
     switch (m_state)
     {
     case m_idle:
-        std::cout << "Selecting Unit and district at pos " << pos.Column << " " << pos.Row << std::endl;
         Idle(pos);
         break;
     case  m_createDistrict:
-        std::cout << "Create a district" << std::endl;
         CreateDistrict(pos);
         break;
     case m_unitMoving:
-        std::cout << "Moving Unit" << std::endl;
         Move(pos);
         break;
     case m_unitAttacking:
-        std::cout << "Attacking Unit" << std::endl;
         Attack(pos);
 
         break;
@@ -550,7 +546,6 @@ void SelectionManager::HandleRightClickUnpressed(Position pos)
         return;
     }
 
-    std::cout << "Right clicking somewhere";
     if (pos != m_selectedPosition &&
         (tile->IsFree() ||
             (tile->GetDistrict() != nullptr &&
@@ -567,7 +562,6 @@ void SelectionManager::CreateDistrictPressed(int districtType)
 {
     if (IsADistrictSelected())
     {
-        std::cout << "Selection Manager create district State" << std::endl;
 
         m_state = m_createDistrict;
         m_districtTypeToConstruct = districtType;
@@ -606,8 +600,6 @@ void SelectionManager::UnitAttackPressed()
 {
     if (IsAUnitSelected())
     {
-        std::cout << "Selection Manager attack State" << std::endl;
-
         m_state = m_unitAttacking;
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();
@@ -631,8 +623,6 @@ void SelectionManager::UnitMovePressed()
 {
     if (IsAUnitSelected())
     {
-        std::cout << "Selection Manager Move State" << std::endl;
-
         m_state = m_unitMoving;
 
         auto map = GameSession::GetInstance().GetWorldState()->GetMapCopy();

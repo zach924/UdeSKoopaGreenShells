@@ -17,7 +17,7 @@ void DistrictTavern::LoadTexture()
 {
     try
     {
-        m_Texture.LoadFromFile("..\\Sprite\\Districts\\64x64\\tavern.bmp");
+        m_Texture.LoadFromFile("Resources\\Sprite\\Districts\\64x64\\tavern.bmp");
     }
     catch (std::exception e)
     {

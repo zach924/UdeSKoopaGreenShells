@@ -10,6 +10,7 @@
 
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
+#include <boost\filesystem.hpp>
 #include <iostream>
 #include <fstream>
 #include <exception>
@@ -75,6 +76,11 @@ bool GameSession::ConnectToServer(char* playerName)
 
     PlayerInfoStruct* data = new PlayerInfoStruct();
     RPCBase::GetConnection()->GetSocket().receive(boost::asio::buffer(reinterpret_cast<char*>(data), sizeof(PlayerInfoStruct)));
+    if (data->playerID == -1)
+    {
+        delete data;
+        return false;
+    }
     m_currentPlayerID = data->playerID;
     delete data;
     //First Replication
@@ -86,12 +92,27 @@ bool GameSession::ConnectToServer(char* playerName)
 
 void GameSession::Save(std::string fileName)
 {
+    boost::filesystem::path saveDir("Saves");
+   
+    try
+    {
+        boost::filesystem::create_directory(saveDir);
+    }
+    catch (exception e)
+    {
+        std::cout << "Can't create the directory for saved file." << endl;
+        std::cout << e.what() << std::endl;
+    }
+
     std::ofstream fileStream;
-    fileName.insert(0, "SavedFile\\");
+    fileName.insert(0, "Saves\\");
     fileName += ".xml";
     fileStream.open(fileName);
 
-    boost::property_tree::write_xml(fileStream, m_worldState.Serialize());
+    if (fileStream.good())
+    {
+        boost::property_tree::write_xml(fileStream, m_worldState.Serialize());
+    }
 
     fileStream.close();
 }

@@ -16,7 +16,7 @@ ButtonConstructDistrict::~ButtonConstructDistrict()
 
 void ButtonConstructDistrict::DoAction()
 {
-    ConstructDistrictPopUp* popUp = new ConstructDistrictPopUp("", 500, 550);
+    ConstructDistrictPopUp* popUp = new ConstructDistrictPopUp("", 500, 590);
 
     GameWindow::GetInstance().AddPopUpWindow(popUp);
 }
@@ -25,7 +25,7 @@ void ButtonConstructDistrict::LoadTextTexture(SDL_Renderer* rend)
 {
     try
     {
-        m_textTexture.LoadFromFile("..\\Sprite\\Button\\ConstructDistrict_text.bmp");
+        m_textTexture.LoadFromFile("Resources\\Sprite\\Button\\ConstructDistrict_text.bmp");
     }
     catch (std::exception e)
     {

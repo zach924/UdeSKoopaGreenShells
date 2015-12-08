@@ -19,12 +19,11 @@ bool SetUpServer(char* playerName, int port)
         GameSession::GetInstance().SetServerIP("127.0.0.1");
         if (GameSession::GetInstance().ConnectToServer(playerName))
         {
-            std::cout << "Connected to server." << std::endl;
             return true;
         }
         else
         {
-            std::cout << "Could not connect to server." << std::endl;
+            std::cout << "Could not connect to server or server refused connection." << std::endl;
         }
     }
 
@@ -43,7 +42,7 @@ bool SetUpClient(char* playerName, char* ip, int port)
         }
         else
         {
-            std::cout << "Could not connect to server." << std::endl;
+            std::cout << "Could not connect to server or server refused connection." << std::endl;
         }
     }
 
@@ -111,8 +110,6 @@ int main(int argc, char* argv[])
                 }
                 else
                 {
-                    std::cout << "Could not set up a client" << std::endl;
-
                     return 0;
                 }
             }
@@ -127,6 +124,5 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    system("PAUSE");
     return 0;
 }
