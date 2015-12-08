@@ -375,6 +375,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C0DE131784E1428681D79546055AE5C3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C3D8A38487914FA4BB9778B81A031DEB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1784,6 +1790,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C0DE131784E1428681D79546055AE5C3"
+            {
+            "SourcePath" = "8:..\\GreenShells\\Resources\\Sprite\\GreenShell.ico"
+            "TargetName" = "8:GreenShell.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_FEBC2A829D344F6DB85D37822D0A14BB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C3D8A38487914FA4BB9778B81A031DEB"
             {
             "SourcePath" = "8:..\\GreenShells\\Resources\\Sprite\\Districts\\64x64\\monastery.bmp"
@@ -2486,7 +2512,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GreenShells"
         "ProductCode" = "8:{EDE4B717-8022-45DB-ABAD-A20C20F45DB2}"
-        "PackageCode" = "8:{198F9CE2-1847-460B-8F45-DF0D005A627C}"
+        "PackageCode" = "8:{5FD558AA-043A-4733-AD48-E49689CFE20F}"
         "UpgradeCode" = "8:{F36F5F48-2583-4B03-854B-9FE88CF8B21D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2617,7 +2643,7 @@
             "Target" = "8:_9B9F0023E95B42E6B269CC6A2B839A04"
             "Folder" = "8:_D7216C73B9E44347A1FBE8FB8A8D72A8"
             "WorkingFolder" = "8:_2ECA9FB2EC6F4829A081ADDC9EFA2099"
-            "Icon" = "8:"
+            "Icon" = "8:_C0DE131784E1428681D79546055AE5C3"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_96E17530927F47929BD9A5F606752C27"
@@ -2631,7 +2657,7 @@
             "Target" = "8:_9B9F0023E95B42E6B269CC6A2B839A04"
             "Folder" = "8:_D7216C73B9E44347A1FBE8FB8A8D72A8"
             "WorkingFolder" = "8:_2ECA9FB2EC6F4829A081ADDC9EFA2099"
-            "Icon" = "8:"
+            "Icon" = "8:_C0DE131784E1428681D79546055AE5C3"
             "Feature" = "8:"
             }
         }

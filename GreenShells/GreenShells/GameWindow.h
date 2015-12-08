@@ -155,7 +155,7 @@ private:
     const Color EMPTY_COLOR = { 255,255,255 };
     const Color MINIMAP_CITY = { 155, 155, 155 };
 
-    GameWindow(ScreenResolution = RES_1920_1080_FullScreen);
+    GameWindow(ScreenResolution = RES_1280_720);
     ~GameWindow();
 
     GameWindow(GameWindow const&) = delete;
@@ -167,7 +167,7 @@ private:
 public:
     static GameWindow& GetInstance()
     {
-        static GameWindow m_instance{ RES_1920_1080_FullScreen };
+        static GameWindow m_instance{ RES_1280_720 };
         return m_instance;
     }
 
