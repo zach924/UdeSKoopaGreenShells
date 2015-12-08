@@ -372,7 +372,7 @@
     <ResourceCompile Include="GreenShells.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Sprite\icon.ico" />
+    <Image Include="Resources\Sprite\GreenShell.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
