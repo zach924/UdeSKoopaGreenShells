@@ -364,39 +364,8 @@ void GameWindow::ShowWindow()
                     break;
                 }
             }
-            /*
-            TODO Remove comment when the speed for scroll is reduced
-
-            else if (e.type == SDL_MOUSEMOTION)
-            {
-                m_currentlyScrolling = e.button.x > m_CurrentScreen.RIGHT_SCROLL_POSITION
-                    || (e.button.x < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                    || e.button.y > m_CurrentScreen.DOWN_SCROLL_POSITION
-                    || (e.button.y < m_CurrentScreen.UP_SCROLL_POSITION && e.button.y > m_CurrentScreen.HUD_HEIGHT);
-            }
-            */
         }
-
-        /*
-        TODO Remove comment when the speed for scroll is reduced
-        //mouse scroll
-        if (m_currentlyScrolling && !IsGameWindowInBackground())
-        {
-            int mouseX = 0;
-            int mouseY = 0;
-            SDL_GetMouseState(&mouseX, &mouseY);
-
-            if (m_currentLeftmostColumn < Map::COLUMNS - m_CurrentScreen.NUM_TILE_WIDTH - 1 && mouseX > m_CurrentScreen.RIGHT_SCROLL_POSITION)
-                m_currentLeftmostColumn++;
-            else if (m_currentLeftmostColumn > 0 && mouseX < m_CurrentScreen.LEFT_SCROLL_POSITION && e.button.x > m_CurrentScreen.HUD_WIDTH)
-                m_currentLeftmostColumn--;
-
-            if (m_currentLowestRow < Map::ROWS - m_CurrentScreen.NUM_TILE_HEIGHT - 1 && mouseY > m_CurrentScreen.DOWN_SCROLL_POSITION)
-                m_currentLowestRow++;
-            else if (m_currentLowestRow > 0 && mouseY < m_CurrentScreen.UP_SCROLL_POSITION && mouseY > m_CurrentScreen.HUD_HEIGHT)
-                m_currentLowestRow--;
-        }
-        */
+        
         //Clear screen
         SDL_SetRenderDrawColor(m_renderer, 32, 32, 32, 0);
         SDL_RenderClear(m_renderer);
