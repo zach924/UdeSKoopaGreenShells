@@ -327,7 +327,6 @@ std::set<Position> MapLocal::CreateUnit(int unitType, Position pos, int owner, b
         break;
     case UnitSettler::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitSettler(owner, player->GetUtilitySkillTree().MovementUpgrade) };
-        player->ConsumeFood(unit->GetFoodCost());
         break;
     case UnitBuilder::UNIT_TYPE:
         unit = std::shared_ptr<UnitBase>{ new UnitBuilder(owner, player->GetUtilitySkillTree().MovementUpgrade) };
@@ -357,13 +356,17 @@ std::set<Position> MapLocal::CreateUnit(int unitType, Position pos, int owner, b
 
     if (unit)
     {
-        GetTile(pos)->SetUnit(unit);
-        unit->UseActionPoints(unit->GetActionPointsRemaining());
-        player->ConsumeWeapon(unit->GetWeaponCost() / (upgrade ? 2 : 1));
-        player->ConsumeFood(unit->GetFoodCost() / (upgrade ? 2 : 1));
-
-        auto tiles = DiscoverArea(pos, unit->GetViewRange(), owner);
-        tilesToReplicate.insert(tiles.begin(), tiles.end());
+        int weaponCost = unit->GetWeaponCost() / (upgrade ? 2 : 1);
+        int foodCost = unit->GetFoodCost() / (upgrade ? 2 : 1);
+        if (player->HasEnoughFood(foodCost) && player->HasEnoughWeapons(weaponCost))
+        {
+            unit->UseActionPoints(unit->GetActionPointsRemaining());
+            GetTile(pos)->SetUnit(unit);
+            player->ConsumeWeapon(weaponCost);
+            player->ConsumeFood(foodCost);
+            auto tiles = DiscoverArea(pos, unit->GetViewRange(), owner);
+            tilesToReplicate.insert(tiles.begin(), tiles.end());
+        }
     }
     return tilesToReplicate;
 }
@@ -376,14 +379,12 @@ std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int 
         return tilesToReplicate;
     }
 
-    auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
     std::shared_ptr<DistrictBase> district;
 
     switch (districtType)
     {
     case DistrictCityCenter::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictCityCenter(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
         break;
     case DistrictHunter::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictHunter(owner) };
@@ -396,7 +397,6 @@ std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int 
         break;
     case DistrictWarehouse::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictWarehouse(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFoodMultiplier(DistrictWarehouse::FOOD_BONUS);
         break;
     case DistrictBlacksmith::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictBlacksmith(owner) };
@@ -418,7 +418,6 @@ std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int 
         break;
     case DistrictUniversity::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictUniversity(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
         break;
     case DistrictWatchTower::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictWatchTower(owner) };
@@ -431,7 +430,6 @@ std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int 
         break;
     case DistrictMilitaryTent::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictMilitaryTent(owner) };
-        ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddAttackMultiplier(DistrictMilitaryTent::ATTACK_MULTIPLIER);
         break;
     case DistrictFishery::DISTRICT_TYPE:
         district = std::shared_ptr<DistrictBase>{ new DistrictFishery(owner) };
@@ -444,10 +442,35 @@ std::set<Position> MapLocal::CreateDistrict(int districtType, Position pos, int 
 
     if (district)
     {
-        GetTile(pos)->SetDistrict(district);
-        player->ConsumeFood(district->GetFoodCost() / (upgrade ? 2 : 1));
-        auto tiles = DiscoverArea(pos, district->GetViewRange(), owner);
-        tilesToReplicate.insert(tiles.begin(), tiles.end());
+        auto player = ServerSession::GetInstance().GetWorldState()->GetPlayer(owner);
+        int foodCost = district->GetFoodCost() / (upgrade ? 2 : 1);
+
+        if (player->HasEnoughFood(foodCost))
+        {
+            GetTile(pos)->SetDistrict(district);
+            player->ConsumeFood(foodCost);
+
+            switch (districtType)
+            {
+            case DistrictCityCenter::DISTRICT_TYPE:
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddCityCenter(pos, ServerSession::GetInstance().GetWorldState()->GetCurrentTurn());
+                break;
+            case DistrictWarehouse::DISTRICT_TYPE:
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddFoodMultiplier(DistrictWarehouse::FOOD_BONUS);
+                break;
+            case DistrictUniversity::DISTRICT_TYPE:
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddScienceMultiplier(DistrictUniversity::SCIENCE_BONUS);
+                break;
+            case DistrictMilitaryTent::DISTRICT_TYPE:
+                ServerSession::GetInstance().GetWorldState()->GetPlayer(owner)->AddAttackMultiplier(DistrictMilitaryTent::ATTACK_MULTIPLIER);
+                break;
+            default:
+                break;
+            }
+
+            auto tiles = DiscoverArea(pos, district->GetViewRange(), owner);
+            tilesToReplicate.insert(tiles.begin(), tiles.end());
+        }
     }
     return tilesToReplicate;
 }

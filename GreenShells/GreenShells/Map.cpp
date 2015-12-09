@@ -12,8 +12,7 @@
 #include <set>
 #include <assert.h>
 #include <boost\property_tree\ptree.hpp>
-
-
+#include <random>
 
 Map::Map()
     :m_tiles()
@@ -56,7 +55,6 @@ void Map::GenerateTiles()
             case '0':
                 m_tiles[row][column] = new TileGround(Position(column, row));
                 break;
-
             case '1':
                 m_tiles[row][column] = new TileMountain(Position(column, row));
                 break;
@@ -73,6 +71,8 @@ void Map::GenerateTiles()
             }
         }
     }
+    auto engine = std::default_random_engine{};
+    std::shuffle(std::begin(m_spawnPositions), std::end(m_spawnPositions), engine);
 }
 
 std::vector<Position> Map::GetSpawnPositions()

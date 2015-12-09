@@ -50,7 +50,7 @@ Player::Player()
     m_unitCount(0),
     m_food(120),
     m_science(0),
-    m_weapon(0),
+    m_weapon(50),
     m_foodPerTurn(0),
     m_sciencePerTurn(0),
     m_weaponPerTurn(0),
