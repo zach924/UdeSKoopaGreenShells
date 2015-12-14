@@ -135,10 +135,17 @@ std::vector< std::pair<ReplicationType, std::string> > RPCDispatcher::Dispatch(R
     default:
         assert(false && "You must add your code here");
     }
-    std::stringstream ss;
-    boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->SerializeOnlyTile());
-    toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
 
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetPlayer(data->m_requestingPlayerID)->SerializeOnlyPlayer());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::PLAYER, ss.str()});
+    }
+    {
+        std::stringstream ss;
+        boost::property_tree::write_xml(ss, m_worldState->GetMap()->GetTile(data->m_positionToCreate)->SerializeOnlyTile());
+        toReplicate.push_back(std::pair<ReplicationType, std::string>{ReplicationType::TILE, ss.str()});
+    }
     for (auto pos : posToReplicate)
     {
         std::stringstream ss;
